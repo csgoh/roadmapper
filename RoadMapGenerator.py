@@ -44,18 +44,18 @@ class RoadmapGenerator():
 
         # create a data structure contains task name, start date, end date, and color
         taskData = [
-            {"group": "Tranche 1", "task": "Feature 1", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2022, 11, 24), "colour": "lightgrey"},
-            {"group": "Tranche 1", "task": "Feature 2", "start": datetime.datetime(2023, 3, 24), "end": datetime.datetime(2023, 12, 24), "colour": "lightgrey"},
-            {"group": "Tranche 1", "task": "Feature 3 blah", "start": datetime.datetime(2022, 12, 24), "end": datetime.datetime(2023, 6, 24), "colour": "lightgrey"},
-            {"group": "Tranche 1", "task": "Task 4", "start": datetime.datetime(2023, 1, 24), "end": datetime.datetime(2023, 2, 24), "colour": "lightgrey"},
-            {"group": "Tranche 2", "task": "Feature 5", "start": datetime.datetime(2022, 4, 24), "end": datetime.datetime(2022, 12, 24), "colour": "lightgrey"},
-            {"group": "Tranche 2", "task": "Feature 6", "start": datetime.datetime(2023, 10, 24), "end": datetime.datetime(2024, 12, 24), "colour": "lightgrey"},
-            {"group": "Tranche 2", "task": "Feature 7 blah", "start": datetime.datetime(2022, 12, 24), "end": datetime.datetime(2023, 6, 24), "colour": "lightgrey"},
-            {"group": "Tranche 2", "task": "Task 8", "start": datetime.datetime(2023, 1, 24), "end": datetime.datetime(2023, 2, 24), "colour": "lightgrey"},
-            {"group": "Tranche 3", "task": "Feature 9", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2022, 11, 24), "colour": "lightgrey"},
-            {"group": "Tranche 3", "task": "Feature 10", "start": datetime.datetime(2023, 8, 24), "end": datetime.datetime(2023, 12, 24), "colour": "lightgrey"},
-            {"group": "Tranche 3", "task": "Feature 11 blah", "start": datetime.datetime(2022, 12, 24), "end": datetime.datetime(2023, 6, 24), "colour": "lightgrey"},
-            {"group": "Tranche 3", "task": "Task 12", "start": datetime.datetime(2023, 1, 24), "end": datetime.datetime(2023, 2, 24), "colour": "lightgrey"},
+            {"group": "Tranche 1", "task": "Feature 1", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2022, 11, 24), "colour": "lightgreen"},
+            {"group": "Tranche 1", "task": "Feature 2", "start": datetime.datetime(2023, 3, 24), "end": datetime.datetime(2023, 12, 24), "colour": "lightgreen"},
+            {"group": "Tranche 1", "task": "Feature 3 blah", "start": datetime.datetime(2022, 12, 24), "end": datetime.datetime(2023, 6, 24), "colour": "lightgreen"},
+            {"group": "Tranche 1", "task": "Task 4", "start": datetime.datetime(2023, 1, 24), "end": datetime.datetime(2023, 2, 24), "colour": "lightgreen"},
+            {"group": "Tranche 2", "task": "Feature 5", "start": datetime.datetime(2022, 4, 24), "end": datetime.datetime(2022, 12, 24), "colour": "lightblue"},
+            {"group": "Tranche 2", "task": "Feature 6", "start": datetime.datetime(2023, 10, 24), "end": datetime.datetime(2024, 12, 24), "colour": "lightblue"},
+            {"group": "Tranche 2", "task": "Feature 7 blah", "start": datetime.datetime(2023, 1, 24), "end": datetime.datetime(2023, 6, 24), "colour": "lightblue"},
+            {"group": "Tranche 2", "task": "Task 8", "start": datetime.datetime(2022, 1, 24), "end": datetime.datetime(2022, 10, 24), "colour": "lightblue"},
+            {"group": "Tranche 3", "task": "Feature 9", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2022, 11, 24), "colour": "yellow"},
+            {"group": "Tranche 3", "task": "Feature 10", "start": datetime.datetime(2023, 8, 24), "end": datetime.datetime(2023, 12, 24), "colour": "yellow"},
+            {"group": "Tranche 3", "task": "Feature 11 blah", "start": datetime.datetime(2022, 12, 24), "end": datetime.datetime(2023, 6, 24), "colour": "yellow"},
+            {"group": "Tranche 3", "task": "Task 12", "start": datetime.datetime(2023, 1, 24), "end": datetime.datetime(2023, 2, 24), "colour": "yellow"},
         ]
 
 
@@ -121,7 +121,7 @@ class RoadmapGenerator():
         groupY = 0
         for x in taskData:
             groupText = x.get("group")
-            #print ("=", groupText, lastGroupText)
+
             if (lastGroupText != groupText):
                 lastGroupText = groupText
                 
@@ -132,15 +132,14 @@ class RoadmapGenerator():
                 else:
                     groupY = nextGroupY + 30
 
-                print ("nextGroupY", nextGroupY, groupY)
-
                 cr.move_to(groupX, groupY)
-                print("Group: ", groupText, str(groupX), str(groupY), str(groupWidth))
+                #print("Group: ", groupText, str(groupX), str(groupY), str(groupWidth))
                 cr.show_text(groupText)
                 
                 ###(4) Set Task
                 taskYPos = groupY + groupHeight + 10
-                nextGroupY += taskYPos 
+
+                nextGroupY = taskYPos 
 
                 j = 0
                 taskX = groupWidth 
@@ -154,7 +153,8 @@ class RoadmapGenerator():
                         
                         cr.set_source_rgb(tltcR, tltcG, tltcB)
                         textXbearing, textYbearing, textWidth, textHeight, dx, dy = cr.text_extents(taskText)
-                        yPos = taskYPos + (textHeight * j) + (VSPACER * j)
+                        yPos = taskYPos + textHeight * j + (VSPACER * j)
+                       
                         cr.move_to(taskX, yPos)
                         
                         cr.show_text(taskText)
@@ -167,11 +167,11 @@ class RoadmapGenerator():
                         #print(taskText, "Task date: " + str(taskData[i]["start"].month) + " - " + str(taskData[i]["end"].month))
                         row = 0
                         
-                        taskStartMonth = taskData[j]["start"].month
-                        taskEndMonth = taskData[j]["end"].month
-                        taskStartDate = datetime.datetime(taskData[j]["start"].year, taskStartMonth, 1)
-                        taskEndDate = datetime.datetime(taskData[j]["end"].year, taskEndMonth, 1)
-                        print ("task : ", taskText, taskStartDate, taskEndDate)
+                        taskStartMonth = y.get("start").month
+                        taskEndMonth = y.get("end").month
+                        taskStartDate = datetime.datetime(y.get("start").year, taskStartMonth, 1)
+                        taskEndDate = datetime.datetime(y.get("end").year, taskEndMonth, 1)
+                        #print ("task : ", j, taskText, taskStartDate, taskEndDate)
 
                         for z in range(timelineItem):
                             thisMonth = (today + relativedelta(months=+z)).month
@@ -179,7 +179,7 @@ class RoadmapGenerator():
                             thisDate = datetime.datetime(thisYear, thisMonth, 1)
 
                             if (taskStartDate <= thisDate and taskEndDate >= thisDate):
-                                print("     Task Position: ", taskText, str(taskX), str(yPos))
+                                #print("     Task Position: ", taskText, str(taskX), str(yPos))
                                 cr.set_source_rgb(taskR, taskG, taskB)
                                 if (row == (timelineItem - 1)):
                                     #print (row, timelineItem)
@@ -188,8 +188,8 @@ class RoadmapGenerator():
                                     cr.rectangle(timelinePositions[z][0],yPos-15, timelinePositions[z][2]+HSPACER+1, textHeight+5)
                                 cr.fill()    
                             row += 1
-                      
-                    j += 1
+                        j += 1
+                    
                 i += 1
                 #if (i == 2): break
 
@@ -200,8 +200,6 @@ class RoadmapGenerator():
         Done (4) Tasks/Functions/Activities/Steps
         (4) Milestone
         """
-        
-
 
         surface.write_to_png("example.png")  # Output to PNG
 
