@@ -13,50 +13,44 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import cairo
 import datetime
-from webcolors import name_to_rgb
 from dateutil.relativedelta import relativedelta
+from painter import Painter
 
 
 class MahereKaihanga():
-    # Default settings
-    Width, Height = 1024, 512 
-    VSPACER, HSPACER = 12, 2
-    BackgroundColour = "White"
-    Title = "This is a sample title"
+    # Private variables
+    __VSPACER, __HSPACER = 12, 2
+    __TODAY = datetime.datetime.today()
     
+    # Constant variables
+    
+    
+    # Default settings
+    TextFont = "Arial"
+    
+    BackgroundColour = "White"
+    Title = "This is a sample title"    
     TitleColour = "Black"
     FooterColour = TitleColour
     TimelineMode = "Month"
     TimelineItem = 12
     TimelineFillColour = "Salmon"
     TimelineTextColour = "Black"
-
-    Today = datetime.datetime.today()
+    
+    TaskTextColour = "Black"
 
     Tasks = []
-
-    def __init__(self) -> None:
-        pass
-
-    def rgb_to_float(self, colour):
-        # Convert RGBS to floats
-        fRGBS = name_to_rgb(colour)
-        return [x / 255 for x in fRGBS]
-        #return fRGBS[0] / 255, fRGBS[1] / 255, fRGBS[2] / 255
+    
+    def __init__(self, width, height) -> None:
+        self.painter = Painter(width, height)
+        self.Width = width
+        self.Height = height
 
     def render(self, fileName):
-        surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, self.Width, self.Height)
-        cr = cairo.Context(surface)
         
-        ### Setup
-        titleR, titleG, titleB = self.rgb_to_float(self.TitleColour)
-        tlfcR, tlfcG, tlfcB = self.rgb_to_float(self.TimelineFillColour)
-        tltcR, tltcG, tltcB = self.rgb_to_float(self.TimelineTextColour)
-        footerR, footerG, footerB = self.rgb_to_float(self.FooterColour)
-
-        # create a default data structure contains task name, start date, end date, and color
+        
+        # create a default data structure if none is provided
         if (len(self.Tasks) == 0):
             taskData = [
                 {"group": "Sample Group 1", "task": "Feature 1", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2022, 11, 24), "colour": "lightgreen"},
@@ -77,29 +71,24 @@ class MahereKaihanga():
 
 
         ###(0) Set backgroud
-        cr.set_source_rgb(*self.rgb_to_float("White"))
-        cr.paint()
+        self.painter.setBackgroundColour(self.BackgroundColour)
 
-        ###(1) Set Title
-        cr.set_source_rgb(titleR, titleG, titleB)
-        cr.select_font_face("Arial", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
-        cr.set_font_size(18)
-        textXbearing, textYbearing, textWidth, textHeight, dx, dy = cr.text_extents(self.Title)
-        cr.move_to((self.Width/2) - textWidth/2, 30)
-        cr.show_text(self.Title)
+        ###(1) Set Title      
+        self.painter.setFont("Arial", 18, self.TitleColour)
+        self.painter.drawTitle(self.Title, self.TitleColour)
         
         ###(2) Set Timeline
         # Determine max task text width
-        taskWidth = 0
+        groupTaskWidth = 0
         for x in taskData:
             groupText = x.get("group")
-            groupTextXbearing, groupTextYbearing, groupTextWidth, groupTextHeight, dx, dy = cr.text_extents(groupText)
-            if groupTextWidth > taskWidth:
-                taskWidth = groupTextWidth 
+            self.painter.setFont("Arial", 12, x.get("colour"))
+            groupTextWidth, groupTextHeight = self.painter.getTextDimension(groupText)
+            if groupTextWidth > groupTaskWidth:
+                groupTaskWidth = groupTextWidth + 20
 
-        #print (taskWidth)
-        timelineWidth = self.Width - taskWidth - (self.HSPACER * self.TimelineItem) - 10
-        
+        timelineWidth = self.Width - groupTaskWidth - (self.__HSPACER * self.TimelineItem) - 10
+      
         timelineYPos = 40
         timelineHeight = 20
         
@@ -107,24 +96,25 @@ class MahereKaihanga():
 
         timelinePositions = []
         for x in range(self.TimelineItem):
-            timelineX = (x * timelineItemWidth) + taskWidth + (self.HSPACER * x)
+            timelineX = (x * timelineItemWidth) + groupTaskWidth + (self.__HSPACER * x)
 
             # Draw timeline item
-            cr.set_source_rgb(tlfcR, tlfcG, tlfcB)
-            cr.rectangle(timelineX,timelineYPos, timelineItemWidth, timelineHeight)
+            self.painter.setColour(self.TimelineFillColour)
+            self.painter.drawBox(timelineX, timelineYPos, timelineItemWidth, timelineHeight)
             timelinePositions.append([timelineX, timelineYPos, timelineItemWidth, timelineHeight])
-            cr.fill()
 
             # Draw timeline text
-            cr.set_source_rgb(tltcR, tltcG, tltcB)
-            cr.set_font_size(12)
-
-            thisMonth = self.Today + relativedelta(months=+x)
+            thisMonth = self.__TODAY + relativedelta(months=+x)
             timelineText = str(thisMonth.strftime("%b")) + " " + str(thisMonth.year)
-            textXbearing, textYbearing, textWidth, textHeight, dx, dy = cr.text_extents(timelineText)
-            cr.move_to(timelineX + timelineItemWidth/2 - (textWidth / 2), timelineYPos + 10 + (textHeight / 2))
-            cr.show_text(timelineText)
-                      
+
+            #self.painter.setColour(self.TimelineTextColour)
+            self.painter.setFont(self.TextFont, 12, self.TimelineTextColour)
+
+            textWidth, textHeight = self.painter.getTextDimension(timelineText)
+            posX, posY = self.painter.getDisplayTextPosision(timelineX, timelineYPos, timelineItemWidth, timelineHeight, timelineText, "centre")
+            #print ("timeline : ", posX, posY, "-", timelineX, timelineYPos, timelineItemWidth, timelineHeight)
+            self.painter.drawText(posX, posY, timelineText)
+        
         ###(3) Set Group
 
         groupYPos = 80
@@ -141,16 +131,16 @@ class MahereKaihanga():
             if (lastGroupText != groupText):
                 lastGroupText = groupText
                 
-                cr.set_source_rgb(tltcR, tltcG, tltcB)
-                groupTextXbearing, groupTextYbearing, groupTextWidth, groupTextHeight, dx, dy = cr.text_extents(groupText)
+                self.painter.setFont("Arial", 12, self.TimelineTextColour)
+                groupTaskWidth, groupTextHeight = self.painter.getTextDimension(groupText)
                 if (nextGroupY == 0):
-                    groupY = groupYPos + (groupTextHeight * i) + (self.VSPACER * i) 
+                    groupY = groupYPos + (groupTextHeight * i) + (self.__VSPACER * i) 
                 else:
                     groupY = nextGroupY + 30
-
-                cr.move_to(groupX, groupY)
-                #print("Group: ", groupText, str(groupX), str(groupY), str(groupWidth))
-                cr.show_text(groupText)
+                
+                self.painter.drawText(groupX, groupY, groupText)  
+                i += 1
+                nextGroupY = groupY
                 
                 ###(4) Set Task
                 taskYPos = groupY + groupHeight + 10
@@ -166,15 +156,12 @@ class MahereKaihanga():
                         tasks = y.get("tasks")
                         for task in tasks:
                             taskText = task.get("task")
-                            #print (">>>>", taskText)
                             
-                            cr.set_source_rgb(tltcR, tltcG, tltcB)
-                            textXbearing, textYbearing, textWidth, textHeight, dx, dy = cr.text_extents(taskText)
-                            yPos = taskYPos + textHeight * j + (self.VSPACER * j)
+                            textWidth, textHeight = self.painter.getTextDimension(taskText)
+                            yPos = taskYPos + textHeight * j + (self.__VSPACER * j)
                             nextGroupY = yPos
 
                             # Draw task bar
-                            taskR, taskG, taskB = self.rgb_to_float(task.get("colour"))
                             row = 0
                             
                             taskStartMonth = task.get("start").month
@@ -186,28 +173,26 @@ class MahereKaihanga():
                             startPos = 0
                             rowMatch = 0
                             for z in range(self.TimelineItem):
-                                thisMonth = (self.Today + relativedelta(months=+z)).month
-                                thisYear = (self.Today + relativedelta(months=+z)).year
+                                thisMonth = (self.__TODAY + relativedelta(months=+z)).month
+                                thisYear = (self.__TODAY + relativedelta(months=+z)).year
                                 thisDate = datetime.datetime(thisYear, thisMonth, 1)
 
                                 if (taskStartDate <= thisDate and taskEndDate >= thisDate):
-                                    cr.set_source_rgb(taskR, taskG, taskB)
+                                    self.painter.setColour(task.get("colour"))
                                     if (row == (self.TimelineItem - 1)):
-                                        cr.rectangle(timelinePositions[z][0],yPos-15, timelinePositions[z][2], textHeight+5)
+                                        self.painter.drawBox(timelinePositions[z][0],yPos-15, timelinePositions[z][2], textHeight+5)
                                     else:
-                                        cr.rectangle(timelinePositions[z][0],yPos-15, timelinePositions[z][2]+self.HSPACER+1, textHeight+5)
-                                    cr.fill()   
+                                        self.painter.drawBox(timelinePositions[z][0],yPos-15, timelinePositions[z][2]+self.__HSPACER+1, textHeight+5)
                                     if (rowMatch == 0):
                                         startPos = timelinePositions[z][0]
                                     rowMatch += 1
                                 row += 1
                             totalBarWidth = timelineItemWidth * rowMatch
-                            cr.set_source_rgb(0,0,1)
+                            
                             barTextX = startPos + (totalBarWidth / 2) - (textWidth / 2)
                             barTextY = yPos-3
-                            cr.move_to(barTextX,barTextY)
-                            cr.set_source_rgb(0,0,1)
-                            cr.show_text(taskText)
+                            self.painter.setColour(self.TimelineTextColour)
+                            self.painter.drawText(barTextX, barTextY, taskText)
                             j += 1
                     
                 i += 1
@@ -218,21 +203,16 @@ class MahereKaihanga():
         (3) Show milestones
         (4) Proporsion task bar according to the start and end date
         """
-        footerText = "Powered by Mahere Kaihanga v0.1"
-        cr.set_source_rgb(footerR, footerG, footerB)
-        cr.set_font_size(10)
-        footerXbearing, footerYbearing, footerWidth, footerHeight, dx, dy = cr.text_extents(footerText)
-        cr.move_to((self.Width/2) - footerWidth/2, self.Height - 10)
-        cr.show_text(footerText)
+        footerText = "Generated by Mahere Kaihanga v0.1"
+        
+        self.painter.drawFooter(footerText, self.FooterColour)
 
-        if (len(fileName) == 0):
-            fileName = "roadmap.png"
-        surface.write_to_png(fileName)  # Output to PNG
+        self.painter.saveSurfaceToPNG(fileName)
 
 
 if __name__ == "__main__":
-    x = MahereKaihanga()
-    x.Title = "This is my roadmap"
+    x = MahereKaihanga(1024, 512)
+    x.Title = "This is my roadmap!!"
 
     x.Tasks = [
                 {"group": "Group 1", "colour": "lightgreen", "tasks": [
@@ -250,5 +230,7 @@ if __name__ == "__main__":
                 ]}              
             ]
     x.render("my_roadmap.png")
+
+
 
 
