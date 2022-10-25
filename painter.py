@@ -16,7 +16,6 @@ import cairo
 import datetime
 from webcolors import name_to_rgb
 from dateutil.relativedelta import relativedelta
-
 class Painter():    
     # initialise code
     def __init__(self, width, height):
