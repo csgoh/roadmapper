@@ -21,16 +21,17 @@ from dateutil.relativedelta import relativedelta
 
 class RoadmapGenerator():
     # Default settings
-    Width, Height = 1024, 2000 
+    Width, Height = 1024, 512 
     VSPACER, HSPACER = 12, 2
     BackgroundColour = "White"
     Title = "This is a sample title"
     
     TitleColour = "Black"
+    FooterColour = TitleColour
     TimelineMode = "Month"
     TimelineItem = 12
     TimelineFillColour = "Salmon"
-    TimelineTextColour = "DarkRed"
+    TimelineTextColour = "Black"
 
     Today = datetime.datetime.today()
 
@@ -46,8 +47,6 @@ class RoadmapGenerator():
         #return fRGBS[0] / 255, fRGBS[1] / 255, fRGBS[2] / 255
 
     def render(self):
-        
- 
         surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, self.Width, self.Height)
         cr = cairo.Context(surface)
         
@@ -55,8 +54,9 @@ class RoadmapGenerator():
         titleR, titleG, titleB = self.rgb_to_float(self.TitleColour)
         tlfcR, tlfcG, tlfcB = self.rgb_to_float(self.TimelineFillColour)
         tltcR, tltcG, tltcB = self.rgb_to_float(self.TimelineTextColour)
+        footerR, footerG, footerB = self.rgb_to_float(self.FooterColour)
 
-        # create a data structure contains task name, start date, end date, and color
+        # create a default data structure contains task name, start date, end date, and color
         if (len(self.Tasks) == 0):
             taskData = [
                 {"group": "Sample Group 1", "task": "Feature 1", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2022, 11, 24), "colour": "lightgreen"},
@@ -99,7 +99,7 @@ class RoadmapGenerator():
                 taskWidth = textWidth + 100
 
         #print (taskWidth)
-        timelineWidth = self.Width - taskWidth - (self.HSPACER * self.TimelineItem)
+        timelineWidth = self.Width - taskWidth - (self.HSPACER * self.TimelineItem) - 10
         
         timelineYPos = 40
         timelineHeight = 20
@@ -208,15 +208,19 @@ class RoadmapGenerator():
                         j += 1
                     
                 i += 1
-                #if (i == 2): break
 
-        """ Elements of roadmap
-        Done (1) Title
-        Done (2) Timeline       
-        (3) Grouping of item (4)
-        Done (4) Tasks/Functions/Activities/Steps
-        (4) Milestone
+        """ To do
+        (1) Display task text on top of bar
+        (2) Display group text as a block
+        (3) Show milestones
+        (4) Proporsion task bar according to the start and end date
         """
+        footerText = "Powered by RoadMapGenerator"
+        cr.set_source_rgb(footerR, footerG, footerB)
+        cr.set_font_size(10)
+        footerXbearing, footerYbearing, footerWidth, footerHeight, dx, dy = cr.text_extents(footerText)
+        cr.move_to((self.Width/2) - footerWidth/2, self.Height - 10)
+        cr.show_text(footerText)
 
         surface.write_to_png("example.png")  # Output to PNG
 
@@ -226,11 +230,11 @@ if __name__ == "__main__":
     x.Title = "This is my roadmap"
     x.Tasks = [
                 {"group": "Sample Group 1", "task": "Feature 1", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2022, 11, 24), "colour": "lightgreen"},
-                {"group": "Sample Group 1", "task": "Feature 2", "start": datetime.datetime(2022, 12, 24), "end": datetime.datetime(2023, 12, 24), "colour": "lightgreen"},
-                {"group": "Sample Group 2", "task": "Feature 5", "start": datetime.datetime(2022, 4, 24), "end": datetime.datetime(2022, 12, 24), "colour": "lightblue"},
-                {"group": "Sample Group 2", "task": "Feature 6", "start": datetime.datetime(2023, 1, 24), "end": datetime.datetime(2024, 12, 24), "colour": "lightblue"},
-                {"group": "Sample Group 3", "task": "Feature 9", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2023, 3, 24), "colour": "yellow"},
-                {"group": "Sample Group 3", "task": "Feature 10", "start": datetime.datetime(2023, 4, 24), "end": datetime.datetime(2023, 7, 24), "colour": "yellow"},
+                {"group": "Sample Group 1", "task": "Feature 2", "start": datetime.datetime(2022, 12, 24), "end": datetime.datetime(2023, 4, 24), "colour": "lightgreen"},
+                {"group": "Sample Group 2", "task": "Feature 3", "start": datetime.datetime(2022, 4, 24), "end": datetime.datetime(2022, 12, 24), "colour": "lightblue"},
+                {"group": "Sample Group 2", "task": "Feature 4", "start": datetime.datetime(2023, 1, 24), "end": datetime.datetime(2024, 12, 24), "colour": "lightblue"},
+                {"group": "Sample Group 3", "task": "Feature 5", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2023, 3, 24), "colour": "yellow"},
+                {"group": "Sample Group 3", "task": "Feature 6", "start": datetime.datetime(2023, 4, 24), "end": datetime.datetime(2023, 7, 24), "colour": "yellow"},
               
             ]
     x.render()
