@@ -1,4 +1,18 @@
-import math
+# RoadMapGenerator
+# Copyright (C) 2022 Cheng Soon Goh
+#
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of  MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import cairo
 import datetime
 from webcolors import name_to_rgb
@@ -6,6 +20,22 @@ from dateutil.relativedelta import relativedelta
 
 
 class RoadmapGenerator():
+    # Default settings
+    Width, Height = 1024, 2000 
+    VSPACER, HSPACER = 12, 2
+    BackgroundColour = "White"
+    Title = "This is a sample title"
+    
+    TitleColour = "Black"
+    TimelineMode = "Month"
+    TimelineItem = 12
+    TimelineFillColour = "Salmon"
+    TimelineTextColour = "DarkRed"
+
+    Today = datetime.datetime.today()
+
+    Tasks = []
+
     def __init__(self) -> None:
         pass
 
@@ -15,48 +45,35 @@ class RoadmapGenerator():
         return [x / 255 for x in fRGBS]
         #return fRGBS[0] / 255, fRGBS[1] / 255, fRGBS[2] / 255
 
-    def paint(self):
-        WIDTH, HEIGHT = 1024 , 3000 
+    def render(self):
+        
  
-        surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, WIDTH, HEIGHT)
+        surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, self.Width, self.Height)
         cr = cairo.Context(surface)
         
         ### Setup
-        VSPACER, HSPACER = 12, 2
-        backgroundColour = "White"
-        title = "This is a very looooooong roadmap title!!!!!"
-        
-        titleColour = "Black"
-        timelineMode = "Month"
-        timelineItem = 12
-        timelineStartDate = datetime.datetime(2022,10, 24)
-        timelineFillColour = "Salmon"
-        timelineTextColour = "DarkRed"
-
-        titleR, titleG, titleB = self.rgb_to_float(titleColour)
-        tlfcR, tlfcG, tlfcB = self.rgb_to_float(timelineFillColour)
-        tltcR, tltcG, tltcB = self.rgb_to_float(timelineTextColour)
-
-        today = datetime.datetime.today()
-
-        # create a list of tasks
-        tasks = ["Tranche 1 - Feature 1", "Tranche 1 - Feature 2", "Task 3sa sad", "Task 4"]
+        titleR, titleG, titleB = self.rgb_to_float(self.TitleColour)
+        tlfcR, tlfcG, tlfcB = self.rgb_to_float(self.TimelineFillColour)
+        tltcR, tltcG, tltcB = self.rgb_to_float(self.TimelineTextColour)
 
         # create a data structure contains task name, start date, end date, and color
-        taskData = [
-            {"group": "Tranche 1", "task": "Feature 1", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2022, 11, 24), "colour": "lightgreen"},
-            {"group": "Tranche 1", "task": "Feature 2", "start": datetime.datetime(2023, 3, 24), "end": datetime.datetime(2023, 12, 24), "colour": "lightgreen"},
-            {"group": "Tranche 1", "task": "Feature 3 blah", "start": datetime.datetime(2022, 12, 24), "end": datetime.datetime(2023, 6, 24), "colour": "lightgreen"},
-            {"group": "Tranche 1", "task": "Task 4", "start": datetime.datetime(2023, 1, 24), "end": datetime.datetime(2023, 2, 24), "colour": "lightgreen"},
-            {"group": "Tranche 2", "task": "Feature 5", "start": datetime.datetime(2022, 4, 24), "end": datetime.datetime(2022, 12, 24), "colour": "lightblue"},
-            {"group": "Tranche 2", "task": "Feature 6", "start": datetime.datetime(2023, 10, 24), "end": datetime.datetime(2024, 12, 24), "colour": "lightblue"},
-            {"group": "Tranche 2", "task": "Feature 7 blah", "start": datetime.datetime(2023, 1, 24), "end": datetime.datetime(2023, 6, 24), "colour": "lightblue"},
-            {"group": "Tranche 2", "task": "Task 8", "start": datetime.datetime(2022, 1, 24), "end": datetime.datetime(2022, 10, 24), "colour": "lightblue"},
-            {"group": "Tranche 3", "task": "Feature 9", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2022, 11, 24), "colour": "yellow"},
-            {"group": "Tranche 3", "task": "Feature 10", "start": datetime.datetime(2023, 8, 24), "end": datetime.datetime(2023, 12, 24), "colour": "yellow"},
-            {"group": "Tranche 3", "task": "Feature 11 blah", "start": datetime.datetime(2022, 12, 24), "end": datetime.datetime(2023, 6, 24), "colour": "yellow"},
-            {"group": "Tranche 3", "task": "Task 12", "start": datetime.datetime(2023, 1, 24), "end": datetime.datetime(2023, 2, 24), "colour": "yellow"},
-        ]
+        if (len(self.Tasks) == 0):
+            taskData = [
+                {"group": "Sample Group 1", "task": "Feature 1", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2022, 11, 24), "colour": "lightgreen"},
+                {"group": "Sample Group 1", "task": "Feature 2", "start": datetime.datetime(2023, 3, 24), "end": datetime.datetime(2023, 12, 24), "colour": "lightgreen"},
+                {"group": "Sample Group 1", "task": "Feature 3", "start": datetime.datetime(2022, 12, 24), "end": datetime.datetime(2023, 6, 24), "colour": "lightgreen"},
+                {"group": "Sample Group 1", "task": "Feature 4", "start": datetime.datetime(2023, 1, 24), "end": datetime.datetime(2023, 2, 24), "colour": "lightgreen"},
+                {"group": "Sample Group 2", "task": "Feature 5", "start": datetime.datetime(2022, 4, 24), "end": datetime.datetime(2022, 12, 24), "colour": "lightblue"},
+                {"group": "Sample Group 2", "task": "Feature 6", "start": datetime.datetime(2023, 10, 24), "end": datetime.datetime(2024, 12, 24), "colour": "lightblue"},
+                {"group": "Sample Group 2", "task": "Feature 7", "start": datetime.datetime(2023, 1, 24), "end": datetime.datetime(2023, 6, 24), "colour": "lightblue"},
+                {"group": "Sample Group 2", "task": "Feature 8", "start": datetime.datetime(2022, 1, 24), "end": datetime.datetime(2022, 10, 24), "colour": "lightblue"},
+                {"group": "Sample Group 3", "task": "Feature 9", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2022, 11, 24), "colour": "yellow"},
+                {"group": "Sample Group 3", "task": "Feature 10", "start": datetime.datetime(2023, 8, 24), "end": datetime.datetime(2023, 12, 24), "colour": "yellow"},
+                {"group": "Sample Group 3", "task": "Feature 11", "start": datetime.datetime(2022, 12, 24), "end": datetime.datetime(2023, 6, 24), "colour": "yellow"},
+                {"group": "Sample Group 3", "task": "Feature 12", "start": datetime.datetime(2023, 1, 24), "end": datetime.datetime(2023, 2, 24), "colour": "yellow"},
+            ]
+        else:
+            taskData = self.Tasks
 
 
         ###(0) Set backgroud
@@ -67,31 +84,31 @@ class RoadmapGenerator():
         cr.set_source_rgb(titleR, titleG, titleB)
         cr.select_font_face("Arial", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
         cr.set_font_size(18)
-        textXbearing, textYbearing, textWidth, textHeight, dx, dy = cr.text_extents(title)
-        cr.move_to((WIDTH/2) - textWidth/2, 30)
-        cr.show_text(title)
+        textXbearing, textYbearing, textWidth, textHeight, dx, dy = cr.text_extents(self.Title)
+        cr.move_to((self.Width/2) - textWidth/2, 30)
+        cr.show_text(self.Title)
         
         ###(2) Set Timeline
         # Determine max task text width
         taskWidth = 0
-        for x in tasks:
-            taskText = x
+        for x in taskData:
+            taskText = x.get("task")
             textXbearing, textYbearing, textWidth, textHeight, dx, dy = cr.text_extents(taskText)
             #print (">" + x + ":" + str(textWidth))
             if textWidth > taskWidth:
-                taskWidth = textWidth
+                taskWidth = textWidth + 100
 
         #print (taskWidth)
-        timelineWidth = WIDTH - taskWidth - (HSPACER * timelineItem)
+        timelineWidth = self.Width - taskWidth - (self.HSPACER * self.TimelineItem)
         
         timelineYPos = 40
         timelineHeight = 20
         
-        timelineItemWidth = timelineWidth / timelineItem
+        timelineItemWidth = timelineWidth / self.TimelineItem
 
         timelinePositions = []
-        for x in range(timelineItem):
-            timelineX = (x * timelineItemWidth) + taskWidth + (HSPACER * x)
+        for x in range(self.TimelineItem):
+            timelineX = (x * timelineItemWidth) + taskWidth + (self.HSPACER * x)
 
             # Draw timeline item
             cr.set_source_rgb(tlfcR, tlfcG, tlfcB)
@@ -103,7 +120,7 @@ class RoadmapGenerator():
             cr.set_source_rgb(tltcR, tltcG, tltcB)
             cr.set_font_size(12)
 
-            thisMonth = today + relativedelta(months=+x)
+            thisMonth = self.Today + relativedelta(months=+x)
             timelineText = str(thisMonth.strftime("%b")) + " " + str(thisMonth.year)
             textXbearing, textYbearing, textWidth, textHeight, dx, dy = cr.text_extents(timelineText)
             cr.move_to(timelineX + timelineItemWidth/2 - (textWidth / 2), timelineYPos + 10 + (textHeight / 2))
@@ -128,7 +145,7 @@ class RoadmapGenerator():
                 cr.set_source_rgb(tltcR, tltcG, tltcB)
                 textXbearing, textYbearing, groupWidth, groupHeight, dx, dy = cr.text_extents(groupText)
                 if (nextGroupY == 0):
-                    groupY = groupYPos + (groupHeight * i) + (VSPACER * i) 
+                    groupY = groupYPos + (groupHeight * i) + (self.VSPACER * i) 
                 else:
                     groupY = nextGroupY + 30
 
@@ -153,7 +170,7 @@ class RoadmapGenerator():
                         
                         cr.set_source_rgb(tltcR, tltcG, tltcB)
                         textXbearing, textYbearing, textWidth, textHeight, dx, dy = cr.text_extents(taskText)
-                        yPos = taskYPos + textHeight * j + (VSPACER * j)
+                        yPos = taskYPos + textHeight * j + (self.VSPACER * j)
                        
                         cr.move_to(taskX, yPos)
                         
@@ -173,19 +190,19 @@ class RoadmapGenerator():
                         taskEndDate = datetime.datetime(y.get("end").year, taskEndMonth, 1)
                         #print ("task : ", j, taskText, taskStartDate, taskEndDate)
 
-                        for z in range(timelineItem):
-                            thisMonth = (today + relativedelta(months=+z)).month
-                            thisYear = (today + relativedelta(months=+z)).year
+                        for z in range(self.TimelineItem):
+                            thisMonth = (self.Today + relativedelta(months=+z)).month
+                            thisYear = (self.Today + relativedelta(months=+z)).year
                             thisDate = datetime.datetime(thisYear, thisMonth, 1)
 
                             if (taskStartDate <= thisDate and taskEndDate >= thisDate):
                                 #print("     Task Position: ", taskText, str(taskX), str(yPos))
                                 cr.set_source_rgb(taskR, taskG, taskB)
-                                if (row == (timelineItem - 1)):
+                                if (row == (self.TimelineItem - 1)):
                                     #print (row, timelineItem)
                                     cr.rectangle(timelinePositions[z][0],yPos-15, timelinePositions[z][2], textHeight+5)
                                 else:
-                                    cr.rectangle(timelinePositions[z][0],yPos-15, timelinePositions[z][2]+HSPACER+1, textHeight+5)
+                                    cr.rectangle(timelinePositions[z][0],yPos-15, timelinePositions[z][2]+self.HSPACER+1, textHeight+5)
                                 cr.fill()    
                             row += 1
                         j += 1
@@ -206,6 +223,16 @@ class RoadmapGenerator():
 
 if __name__ == "__main__":
     x = RoadmapGenerator()
-    x.paint()
+    x.Title = "This is my roadmap"
+    x.Tasks = [
+                {"group": "Sample Group 1", "task": "Feature 1", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2022, 11, 24), "colour": "lightgreen"},
+                {"group": "Sample Group 1", "task": "Feature 2", "start": datetime.datetime(2022, 12, 24), "end": datetime.datetime(2023, 12, 24), "colour": "lightgreen"},
+                {"group": "Sample Group 2", "task": "Feature 5", "start": datetime.datetime(2022, 4, 24), "end": datetime.datetime(2022, 12, 24), "colour": "lightblue"},
+                {"group": "Sample Group 2", "task": "Feature 6", "start": datetime.datetime(2023, 1, 24), "end": datetime.datetime(2024, 12, 24), "colour": "lightblue"},
+                {"group": "Sample Group 3", "task": "Feature 9", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2023, 3, 24), "colour": "yellow"},
+                {"group": "Sample Group 3", "task": "Feature 10", "start": datetime.datetime(2023, 4, 24), "end": datetime.datetime(2023, 7, 24), "colour": "yellow"},
+              
+            ]
+    x.render()
     #print(x.rgb_to_float("Pink"))
 
