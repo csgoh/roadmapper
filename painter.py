@@ -30,58 +30,58 @@ class Painter():
         fRGBS = name_to_rgb(colour)
         return [x / 255 for x in fRGBS]
         
-    def setColour(self, colour):
+    def set_colour(self, colour):
         self.cr.set_source_rgb(*self.rgb_to_float(colour))
         
-    def setFont(self, font, fontSize, fontColour):
+    def set_font(self, font, fontSize, fontColour):
         self.cr.select_font_face(font)
         self.cr.set_font_size(fontSize)
-        self.setColour(fontColour)
+        self.set_colour(fontColour)
         
-    def drawTitle(self, title, titleColour):
-        textWidth, textHeight = self.getTextDimension(title)
-        self.drawText((self.Width/2) - textWidth/2, 30, title)
+    def draw_title(self, title, titleColour):
+        textWidth, textHeight = self.get_text_dimension(title)
+        self.draw_text((self.Width/2) - textWidth/2, 30, title)
         
-    def drawFooter(self, footer, footerColour):
-        footerWidth, footerHeight = self.getTextDimension(footer)
-        self.drawText((self.Width/2) - footerWidth/2, self.Height - 10, footer)
+    def draw_footer(self, footer, footerColour):
+        footerWidth, footerHeight = self.get_text_dimension(footer)
+        self.draw_text((self.Width/2) - footerWidth/2, self.Height - 10, footer)
         
-    def drawBox(self, x, y, width, height):
+    def draw_box(self, x, y, width, height):
         self.cr.rectangle(x, y, width, height)
         self.cr.fill()
         
-    def drawText(self, x, y, text):
+    def draw_text(self, x, y, text):
         self.cr.move_to(x, y)
         self.cr.show_text(text)
         
         
-    def drawGroup(self, x, y, maxWidth, group):
+    def draw_group(self, x, y, maxWidth, group):
         groupText = group.get("group")
         lastYPos = 0        
-        groupTaskWidth, groupTextHeight = self.getTextDimension(groupText)
+        groupTaskWidth, groupTextHeight = self.get_text_dimension(groupText)
         
         # Calc group height
         taskCount = len(group.get("tasks"))
         groupTotalHeight = 20 * taskCount
         groupTotalWidth = maxWidth + 20
             
-        self.setColour(group.get("colour"))
-        self.drawBox(x, y, groupTotalWidth, groupTotalHeight)
-        self.setColour("White")
-        XPos, YPos = self.getDisplayTextPosision(x, y, groupTotalWidth, groupTotalHeight, groupText, "left")
-        self.drawText(XPos, YPos, groupText)
+        self.set_colour(group.get("colour"))
+        self.draw_box(x, y, groupTotalWidth, groupTotalHeight)
+        self.set_colour("White")
+        XPos, YPos = self.get_display_text_position(x, y, groupTotalWidth, groupTotalHeight, groupText, "left")
+        self.draw_text(XPos, YPos, groupText)
         return lastYPos
         
-    def getTextDimension(self, text):
+    def get_text_dimension(self, text):
         textXbearing, textYbearing, textWidth, textHeight, dx, dy = self.cr.text_extents(text)
         return textWidth, textHeight
         
-    def setBackgroundColour(self, colour):
-        self.setColour(colour)
+    def set_background_colour(self, colour):
+        self.set_colour(colour)
         self.cr.paint()
         
-    def getDisplayTextPosision(self, x, y, width, height, text, alignment):
-        textWidth, textHeight = self.getTextDimension(text)
+    def get_display_text_position(self, x, y, width, height, text, alignment):
+        textWidth, textHeight = self.get_text_dimension(text)
         if alignment == "centre":
             textPosX = (width / 2) - (textWidth / 2)
         elif alignment == "right":
@@ -93,7 +93,7 @@ class Painter():
             
         return x+textPosX, y+textPosY
     
-    def saveSurfaceToPNG(self, fileName):
+    def save_surface_to_png(self, fileName):
         if (len(fileName) == 0):
             fileName = "roadmap.png"
         self.surface.write_to_png(fileName)  # Output to PNG
