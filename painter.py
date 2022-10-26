@@ -68,7 +68,7 @@ class Painter():
         self.setColour(group.get("colour"))
         self.drawBox(x, y, groupTotalWidth, groupTotalHeight)
         self.setColour("White")
-        XPos, YPos = self.getDisplayTextPosision(x, y, groupTotalWidth, groupTotalHeight, groupText, "centre")
+        XPos, YPos = self.getDisplayTextPosision(x, y, groupTotalWidth, groupTotalHeight, groupText, "left")
         self.drawText(XPos, YPos, groupText)
         return lastYPos
         
@@ -86,6 +86,8 @@ class Painter():
             textPosX = (width / 2) - (textWidth / 2)
         elif alignment == "right":
             textPosX = width - textWidth
+        elif alignment == "left":
+            textPosX = x + 10
         
         textPosY = (height / 2) + (textHeight / 2)
             
