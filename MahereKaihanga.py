@@ -50,21 +50,22 @@ class MahereKaihanga():
     def render(self, fileName):
         
         
-        # create a default data structure if none is provided
+        # create a sample data structure if none is provided
         if (len(self.Tasks) == 0):
             taskData = [
-                {"group": "Sample Group 1", "task": "Feature 1", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2022, 11, 24), "colour": "lightgreen"},
-                {"group": "Sample Group 1", "task": "Feature 2", "start": datetime.datetime(2023, 3, 24), "end": datetime.datetime(2023, 12, 24), "colour": "lightgreen"},
-                {"group": "Sample Group 1", "task": "Feature 3", "start": datetime.datetime(2022, 12, 24), "end": datetime.datetime(2023, 6, 24), "colour": "lightgreen"},
-                {"group": "Sample Group 1", "task": "Feature 4", "start": datetime.datetime(2023, 1, 24), "end": datetime.datetime(2023, 2, 24), "colour": "lightgreen"},
-                {"group": "Sample Group 2", "task": "Feature 5", "start": datetime.datetime(2022, 4, 24), "end": datetime.datetime(2022, 12, 24), "colour": "lightblue"},
-                {"group": "Sample Group 2", "task": "Feature 6", "start": datetime.datetime(2023, 10, 24), "end": datetime.datetime(2024, 12, 24), "colour": "lightblue"},
-                {"group": "Sample Group 2", "task": "Feature 7", "start": datetime.datetime(2023, 1, 24), "end": datetime.datetime(2023, 6, 24), "colour": "lightblue"},
-                {"group": "Sample Group 2", "task": "Feature 8", "start": datetime.datetime(2022, 1, 24), "end": datetime.datetime(2022, 10, 24), "colour": "lightblue"},
-                {"group": "Sample Group 3", "task": "Feature 9", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2022, 11, 24), "colour": "yellow"},
-                {"group": "Sample Group 3", "task": "Feature 10", "start": datetime.datetime(2023, 8, 24), "end": datetime.datetime(2023, 12, 24), "colour": "yellow"},
-                {"group": "Sample Group 3", "task": "Feature 11", "start": datetime.datetime(2022, 12, 24), "end": datetime.datetime(2023, 6, 24), "colour": "yellow"},
-                {"group": "Sample Group 3", "task": "Feature 12", "start": datetime.datetime(2023, 1, 24), "end": datetime.datetime(2023, 2, 24), "colour": "yellow"},
+                {"group": "Sprint 1", "colour": "green", "tasks": [
+                    {"task": "Feature 1", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2022, 11, 24), "colour": "lightgreen"},
+                    {"task": "Feature 2", "start": datetime.datetime(2022, 12, 24), "end": datetime.datetime(2023, 4, 24), "colour": "lightgreen"}
+                    ]},
+                {"group": "Sprint 2", "colour": "blue", "tasks": [
+                    {"task": "Feature 3", "start": datetime.datetime(2022, 4, 24), "end": datetime.datetime(2022, 12, 24), "colour": "lightblue"},
+                    {"task": "Feature 4", "start": datetime.datetime(2023, 1, 24), "end": datetime.datetime(2024, 12, 24), "colour": "lightblue"}
+                    ]},
+                {"group": "Sprint 3", "colour": "grey", "tasks": [
+                    {"task": "Feature 5", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2023, 3, 24), "colour": "lightgrey"},
+                    {"task": "Feature 6", "start": datetime.datetime(2023, 4, 24), "end": datetime.datetime(2023, 7, 24), "colour": "lightgrey"},
+                    {"task": "Feature 7", "start": datetime.datetime(2023, 8, 24), "end": datetime.datetime(2023, 8, 24), "colour": "lightgrey"}
+                ]}              
             ]
         else:
             taskData = self.Tasks
@@ -78,16 +79,17 @@ class MahereKaihanga():
         self.painter.drawTitle(self.Title, self.TitleColour)
         
         ###(2) Set Timeline
-        # Determine max task text width
-        groupTaskWidth = 0
+        # Determine max group text width
+        maxGroupTextWidth = 0
         for x in taskData:
             groupText = x.get("group")
             self.painter.setFont("Arial", 12, x.get("colour"))
             groupTextWidth, groupTextHeight = self.painter.getTextDimension(groupText)
-            if groupTextWidth > groupTaskWidth:
-                groupTaskWidth = groupTextWidth + 20
+            if groupTextWidth > maxGroupTextWidth:
+                maxGroupTextWidth = groupTextWidth + 20
 
-        timelineWidth = self.Width - groupTaskWidth - (self.__HSPACER * self.TimelineItem) - 10
+        # 20px is for right margin
+        timelineWidth = self.Width - maxGroupTextWidth - (self.__HSPACER * self.TimelineItem) - 20 - 20
       
         timelineYPos = 40
         timelineHeight = 20
@@ -96,104 +98,91 @@ class MahereKaihanga():
 
         timelinePositions = []
         for x in range(self.TimelineItem):
-            timelineX = (x * timelineItemWidth) + groupTaskWidth + (self.__HSPACER * x)
+            timelineXPos = (x * timelineItemWidth) + maxGroupTextWidth + (self.__HSPACER * x) + 30
 
             # Draw timeline item
             self.painter.setColour(self.TimelineFillColour)
-            self.painter.drawBox(timelineX, timelineYPos, timelineItemWidth, timelineHeight)
-            timelinePositions.append([timelineX, timelineYPos, timelineItemWidth, timelineHeight])
+            self.painter.drawBox(timelineXPos, timelineYPos, timelineItemWidth, timelineHeight)
+            timelinePositions.append([timelineXPos, timelineYPos, timelineItemWidth, timelineHeight])
 
             # Draw timeline text
             thisMonth = self.__TODAY + relativedelta(months=+x)
-            timelineText = str(thisMonth.strftime("%b")) + " " + str(thisMonth.year)
-
-            #self.painter.setColour(self.TimelineTextColour)
+            timelineText = f"{thisMonth.strftime('%b')} {thisMonth.year}"
             self.painter.setFont(self.TextFont, 12, self.TimelineTextColour)
-
-            textWidth, textHeight = self.painter.getTextDimension(timelineText)
-            posX, posY = self.painter.getDisplayTextPosision(timelineX, timelineYPos, timelineItemWidth, timelineHeight, timelineText, "centre")
-            #print ("timeline : ", posX, posY, "-", timelineX, timelineYPos, timelineItemWidth, timelineHeight)
-            self.painter.drawText(posX, posY, timelineText)
+            xPos, yPos = self.painter.getDisplayTextPosision(timelineXPos, timelineYPos, timelineItemWidth, timelineHeight, timelineText, "centre")
+            self.painter.drawText(xPos, yPos, timelineText)
         
         ###(3) Set Group
-
-        groupYPos = 80
-        groupHeight = 20
+        groupYStartPos = 70
+        groupHeight = 0
 
         i = 0
         lastGroupText = ""
-        nextGroupY = 0
-        groupX = 10
-        groupY = 0
+        nextGroupYPos = 0
+        groupXPos = 10
+        groupYPos = 0
         for x in taskData:
             groupText = x.get("group")
-
-            if (lastGroupText != groupText):
-                lastGroupText = groupText
                 
-                self.painter.setFont("Arial", 12, self.TimelineTextColour)
-                groupTaskWidth, groupTextHeight = self.painter.getTextDimension(groupText)
-                if (nextGroupY == 0):
-                    groupY = groupYPos + (groupTextHeight * i) + (self.__VSPACER * i) 
-                else:
-                    groupY = nextGroupY + 30
-                
-                self.painter.drawText(groupX, groupY, groupText)  
-                i += 1
-                nextGroupY = groupY
-                
-                ###(4) Set Task
-                taskYPos = groupY + groupHeight + 10
+            self.painter.setFont("Arial", 12, self.TimelineTextColour)
+            groupTaskWidth, groupTextHeight = self.painter.getTextDimension(groupText)
+            if (nextGroupYPos == 0):
+                groupYPos = groupYStartPos + (groupTextHeight * i) + (self.__VSPACER * i) 
+            else:
+                groupYPos = nextGroupYPos + 30
+            
+            self.painter.drawGroup(groupXPos, groupYPos, maxGroupTextWidth, x)
+            nextGroupYPos = groupYPos
+            
+            ###(4) Set Task
+            taskYPos = groupYPos 
+            nextGroupYPos = taskYPos 
 
-                nextGroupY = taskYPos 
+            j = 0
+            taskXPos = groupTextWidth 
+            for task in x.get("tasks"):
+                taskText = task.get("task")
+                textWidth, textHeight = self.painter.getTextDimension(taskText)
+                yPos = taskYPos + textHeight * j + (self.__VSPACER * j)
+                nextGroupYPos = yPos
+                textHeight = 20
 
-                j = 0
-                taskX = groupTextWidth 
-                for y in taskData:
-                    # Draw task item
-                    if (groupText == y.get("group")):
+                # Draw task bar
+                row = 0
+                
+                taskStartDate = datetime.datetime(task.get("start").year, task.get("start").month, 1)
+                taskEndDate = datetime.datetime(task.get("end").year, task.get("end").month, 1)
+                
+                barStartXPos = 0
+                totalBarWidth = 0
+                startXPos = 0
+                rowMatch = 0
+                for z in range(self.TimelineItem):
+                    thisMonth = (self.__TODAY + relativedelta(months=+z)).month
+                    thisYear = (self.__TODAY + relativedelta(months=+z)).year
+                    thisDate = datetime.datetime(thisYear, thisMonth, 1)
+
+                    if (taskStartDate <= thisDate and taskEndDate >= thisDate):
+                        taskBoxXPos = timelinePositions[z][0]
+                        taskBoxWidth = timelinePositions[z][2]
+                        if (barStartXPos == 0):
+                            barStartXPos = taskBoxXPos
                         
-                        tasks = y.get("tasks")
-                        for task in tasks:
-                            taskText = task.get("task")
-                            
-                            textWidth, textHeight = self.painter.getTextDimension(taskText)
-                            yPos = taskYPos + textHeight * j + (self.__VSPACER * j)
-                            nextGroupY = yPos
+                        rowMatch += 1
+                    row += 1
 
-                            # Draw task bar
-                            row = 0
-                            
-                            taskStartMonth = task.get("start").month
-                            taskEndMonth = task.get("end").month
-                            taskStartDate = datetime.datetime(task.get("start").year, taskStartMonth, 1)
-                            taskEndDate = datetime.datetime(task.get("end").year, taskEndMonth, 1)
-                            
-                            totalBarWidth = 0
-                            startPos = 0
-                            rowMatch = 0
-                            for z in range(self.TimelineItem):
-                                thisMonth = (self.__TODAY + relativedelta(months=+z)).month
-                                thisYear = (self.__TODAY + relativedelta(months=+z)).year
-                                thisDate = datetime.datetime(thisYear, thisMonth, 1)
+                taskBoxYPos = yPos
+                taskBoxHeight = textHeight
+                totalBarWidth = taskBoxWidth * rowMatch + (self.__HSPACER * rowMatch - 1)
+                
+                self.painter.setColour(task.get("colour"))
+                self.painter.drawBox(barStartXPos,taskBoxYPos, totalBarWidth, taskBoxHeight)
+                
+                self.painter.setFont(self.TextFont, 12, self.TimelineTextColour)
+                xPos, yPos = self.painter.getDisplayTextPosision(barStartXPos, taskBoxYPos, totalBarWidth, textHeight, taskText, "centre")
+                self.painter.drawText(xPos, yPos, taskText)
 
-                                if (taskStartDate <= thisDate and taskEndDate >= thisDate):
-                                    self.painter.setColour(task.get("colour"))
-                                    if (row == (self.TimelineItem - 1)):
-                                        self.painter.drawBox(timelinePositions[z][0],yPos-15, timelinePositions[z][2], textHeight+5)
-                                    else:
-                                        self.painter.drawBox(timelinePositions[z][0],yPos-15, timelinePositions[z][2]+self.__HSPACER+1, textHeight+5)
-                                    if (rowMatch == 0):
-                                        startPos = timelinePositions[z][0]
-                                    rowMatch += 1
-                                row += 1
-                            totalBarWidth = timelineItemWidth * rowMatch
-                            
-                            barTextX = startPos + (totalBarWidth / 2) - (textWidth / 2)
-                            barTextY = yPos-3
-                            self.painter.setColour(self.TimelineTextColour)
-                            self.painter.drawText(barTextX, barTextY, taskText)
-                            j += 1
+                j += 1
                     
                 i += 1
 
@@ -204,10 +193,10 @@ class MahereKaihanga():
         (4) Proporsion task bar according to the start and end date
         """
         footerText = "Generated by Mahere Kaihanga v0.1"
-        
         self.painter.drawFooter(footerText, self.FooterColour)
 
         self.painter.saveSurfaceToPNG(fileName)
+        
 
 
 if __name__ == "__main__":
@@ -215,18 +204,18 @@ if __name__ == "__main__":
     x.Title = "This is my roadmap!!"
 
     x.Tasks = [
-                {"group": "Group 1", "colour": "lightgreen", "tasks": [
+                {"group": "Phase 1: Develop base", "colour": "green", "tasks": [
                     {"task": "Feature 1", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2022, 11, 24), "colour": "lightgreen"},
                     {"task": "Feature 2", "start": datetime.datetime(2022, 12, 24), "end": datetime.datetime(2023, 4, 24), "colour": "lightgreen"}
                     ]},
-                {"group": "Group 2", "colour": "lightgreen", "tasks": [
+                {"group": "Phase 2: Enable monitoring", "colour": "blue", "tasks": [
                     {"task": "Feature 3", "start": datetime.datetime(2022, 4, 24), "end": datetime.datetime(2022, 12, 24), "colour": "lightblue"},
                     {"task": "Feature 4", "start": datetime.datetime(2023, 1, 24), "end": datetime.datetime(2024, 12, 24), "colour": "lightblue"}
                     ]},
-                {"group": "Group 3", "colour": "lightgreen", "tasks": [
-                    {"task": "Feature 5", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2023, 3, 24), "colour": "yellow"},
-                    {"task": "Feature 6", "start": datetime.datetime(2023, 4, 24), "end": datetime.datetime(2023, 7, 24), "colour": "yellow"},
-                    {"task": "Feature 7", "start": datetime.datetime(2023, 8, 24), "end": datetime.datetime(2023, 8, 24), "colour": "yellow"}
+                {"group": "Phase 3: Support reporting", "colour": "grey", "tasks": [
+                    {"task": "Feature 5", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2023, 3, 24), "colour": "lightgrey"},
+                    {"task": "Feature 6", "start": datetime.datetime(2023, 4, 24), "end": datetime.datetime(2023, 7, 24), "colour": "lightgrey"},
+                    {"task": "Feature 7", "start": datetime.datetime(2023, 8, 24), "end": datetime.datetime(2023, 8, 24), "colour": "lightgrey"}
                 ]}              
             ]
     x.render("my_roadmap.png")

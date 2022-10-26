@@ -13,10 +13,11 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 import cairo
-import datetime
 from webcolors import name_to_rgb
-from dateutil.relativedelta import relativedelta
+
 class Painter():    
+    __VSPACER, __HSPACER = 12, 2
+    
     # initialise code
     def __init__(self, width, height):
         self.surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
@@ -53,6 +54,24 @@ class Painter():
         self.cr.move_to(x, y)
         self.cr.show_text(text)
         
+        
+    def drawGroup(self, x, y, maxWidth, group):
+        groupText = group.get("group")
+        lastYPos = 0        
+        groupTaskWidth, groupTextHeight = self.getTextDimension(groupText)
+        
+        # Calc group height
+        taskCount = len(group.get("tasks"))
+        groupTotalHeight = 20 * taskCount
+        groupTotalWidth = maxWidth + 20
+            
+        self.setColour(group.get("colour"))
+        self.drawBox(x, y, groupTotalWidth, groupTotalHeight)
+        self.setColour("White")
+        XPos, YPos = self.getDisplayTextPosision(x, y, groupTotalWidth, groupTotalHeight, groupText, "centre")
+        self.drawText(XPos, YPos, groupText)
+        return lastYPos
+        
     def getTextDimension(self, text):
         textXbearing, textYbearing, textWidth, textHeight, dx, dy = self.cr.text_extents(text)
         return textWidth, textHeight
@@ -76,4 +95,5 @@ class Painter():
         if (len(fileName) == 0):
             fileName = "roadmap.png"
         self.surface.write_to_png(fileName)  # Output to PNG
+
 
