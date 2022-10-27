@@ -24,19 +24,23 @@ class MahereKaihanga():
     __TODAY = datetime.datetime.today()
     
     # Constant variables
+    WEEKLY = "W"
+    MONTHLY = "M"
+    QUARTERLY = "Q"
+    HALF_YEARLY = "H"
+    YEARLY = "Y"
     
-    # Default settings
-    text_font = "Arial"
-    background_colour = "White"
-    title = "This is a sample title"    
-    title_colour = "Black"
-    footer_colour = title_colour
-    timeline_mode = "Month"
-    timeline_item = 12
-    timeline_fill_colour = "Salmon"
-    timeline_text_colour = "Black"
-    task_text_colour = "Black"
-
+    # Initialise settings
+    text_front = ""
+    background_colour = ""
+    title = ""    
+    title_colour = ""
+    footer_colour = ""
+    timeline_mode = ""
+    timeline_item = 0
+    timeline_fill_colour = ""
+    timeline_text_colour = ""
+    task_text_colour = ""
     tasks = []
     
     def __init__(self, width, height) -> None:
@@ -44,7 +48,19 @@ class MahereKaihanga():
         self.width = width
         self.height = height
 
-    def render(self, file_name):
+    def render(self):
+        # default settings
+        if self.text_front == "": self.text_font = "Arial" 
+        if self.background_colour == "": self.background_colour = "White"
+        if self.title == "": self.title = "This is a sample title"    
+        if self.title_colour == "": self.title_colour = "Black"
+        if self.footer_colour == "": self.footer_colour = self.title_colour
+        if self.timeline_mode == "": self.timeline_mode = self.MONTHLY
+        if self.timeline_item == 0: self.timeline_item = 12
+        if self.timeline_fill_colour == "": self.timeline_fill_colour = "Salmon"
+        if self.timeline_text_colour == "": self.timeline_text_colour = "Black"
+        if self.task_text_colour == "": self.task_text_colour = "Black"
+        
         # create a sample data structure if none is provided
         if (len(self.tasks) == 0):
             task_data = [
@@ -71,9 +87,9 @@ class MahereKaihanga():
 
         ###(1) Set Title      
         self.painter.set_font("Arial", 18, self.title_colour)
-        self.painter.draw_title(self.title, self.title_colour)
+        self.painter.draw_title(self.title)
         
-        ###(2) Set Timeline
+        ###(2) Draw Timeline
         # Determine max group text width
         max_group_text_width = 0
         for x in task_data:
@@ -95,14 +111,44 @@ class MahereKaihanga():
         for x in range(self.timeline_item):
             timeline_x_pos = (x * timeline_item_width) + max_group_text_width + (self.__HSPACER * x) + 30
 
-            # Draw timeline item
+            # Draw timeline box
             self.painter.set_colour(self.timeline_fill_colour)
             self.painter.draw_box(timeline_x_pos, timeline_y_pos, timeline_item_width, timeline_height)
-            timeline_positions.append([timeline_x_pos, timeline_y_pos, timeline_item_width, timeline_height])
+            
 
             # Draw timeline text
-            this_month = self.__TODAY + relativedelta(months=+x)
-            timeline_text = f"{this_month.strftime('%b')} {this_month.year}"
+            timeline_text = ""
+            if self.timeline_mode == self.WEEKLY:
+                this_week = self.__TODAY + relativedelta(weeks=+x)
+                timeline_text = f"Week {this_week.strftime('%W')}"
+                timeline_text_with_year = f"{this_week.year}{this_week.strftime('%W')}"
+                
+            if self.timeline_mode == self.MONTHLY:
+                this_month = self.__TODAY + relativedelta(months=+x)
+                timeline_text = f"{this_month.strftime('%b')} {this_month.year}"
+                timeline_text_with_year = f"{this_month.year}{this_month.strftime('%m')}"
+                
+            if self.timeline_mode == self.QUARTERLY:
+                this_month = self.__TODAY + relativedelta(months=+(x*3))
+                this_quarter = (this_month.month-1)//3 + 1
+                timeline_text = f"Q{this_quarter} {this_month.year}"
+                timeline_text_with_year = f"{this_month.year}{this_quarter}"
+                
+            if self.timeline_mode == self.HALF_YEARLY:
+                this_month = self.__TODAY + relativedelta(months=+(x*6))
+                this_halfyear = (this_month.month-1)//6 + 1
+                timeline_text = f"H{this_halfyear} {this_month.year}"
+                timeline_text_with_year = f"{this_month.year}{this_halfyear}"
+                
+            if self.timeline_mode == self.YEARLY:
+                this_month = self.__TODAY + relativedelta(months=+(x*12))
+                timeline_text = f"{this_month.year}"
+                timeline_text_with_year = f"{this_month.year}"
+                
+            timeline_positions.append([timeline_x_pos, timeline_y_pos, timeline_item_width, timeline_height, timeline_text_with_year,timeline_text_with_year])
+                
+            
+            
             self.painter.set_font(self.text_font, 12, self.timeline_text_colour)
             x_pos, y_pos = self.painter.get_display_text_position(timeline_x_pos, timeline_y_pos, timeline_item_width, timeline_height, timeline_text, "centre")
             self.painter.draw_text(x_pos, y_pos, timeline_text)
@@ -132,7 +178,6 @@ class MahereKaihanga():
             next_group_y_pos = task_y_pos 
 
             j = 0
-            task_x_pos = group_text_width 
             for task in x.get("tasks"):
                 task_text = task.get("task")
                 text_width, text_height = self.painter.get_text_dimension(task_text)
@@ -141,18 +186,52 @@ class MahereKaihanga():
                 text_height = 20
 
                 # Draw task bar
-                task_start_date = datetime.datetime(task.get("start").year, task.get("start").month, 1)
-                task_end_date = datetime.datetime(task.get("end").year, task.get("end").month, 1)
                 
                 bar_start_x_pos = 0
                 total_bar_width = 0
                 row_match = 0
                 for z in range(self.timeline_item):
-                    this_month = (self.__TODAY + relativedelta(months=+z)).month
-                    this_year = (self.__TODAY + relativedelta(months=+z)).year
-                    this_date = datetime.datetime(this_year, this_month, 1)
+                    if self.timeline_mode == self.WEEKLY:
+                        task_start_date = datetime.datetime(task.get("start").year, task.get("start").month, task.get("start").day)
+                        task_end_date = datetime.datetime(task.get("end").year, task.get("end").month, task.get("end").day)
+                        task_start_period = f"{task_start_date.year}{task_start_date.strftime('%W')}"
+                        task_end_period = f"{task_end_date.year}{task_end_date.strftime('%W')}"
+                    
+                        this_period = timeline_positions[z][4]
+                                              
+                    if self.timeline_mode == self.MONTHLY:
+                        task_start_period = datetime.datetime(task.get("start").year, task.get("start").month, 1)
+                        task_end_period = datetime.datetime(task.get("end").year, task.get("end").month, 1)
+                        
+                        this_month = (self.__TODAY + relativedelta(months=+z)).month
+                        this_year = (self.__TODAY + relativedelta(months=+z)).year
+                        this_period = datetime.datetime(this_year, this_month, 1)
+                            
+                    if self.timeline_mode == self.QUARTERLY:
+                        task_start_date = datetime.datetime(task.get("start").year, task.get("start").month, task.get("start").day)
+                        task_end_date = datetime.datetime(task.get("end").year, task.get("end").month, task.get("end").day)
+                        task_start_period = f"{task_start_date.year}{task_start_date.month//3 + 1}"
+                        task_end_period = f"{task_end_date.year}{task_end_date.month//3 + 1}"
+                        
+                        this_period = timeline_positions[z][4]
+                    
+                    if self.timeline_mode == self.HALF_YEARLY:
+                        task_start_date = datetime.datetime(task.get("start").year, task.get("start").month, task.get("start").day)
+                        task_end_date = datetime.datetime(task.get("end").year, task.get("end").month, task.get("end").day)
+                        task_start_period = f"{task_start_date.year}{task_start_date.month//6 + 1}"
+                        task_end_period = f"{task_end_date.year}{task_start_date.month//6 + 1}"
+                        
+                        this_period = timeline_positions[z][4]
+                        
+                    if self.timeline_mode == self.YEARLY:
+                        task_start_date = datetime.datetime(task.get("start").year, task.get("start").month, task.get("start").day)
+                        task_end_date = datetime.datetime(task.get("end").year, task.get("end").month, task.get("end").day)
+                        task_start_period = f"{task_start_date.year}"
+                        task_end_period = f"{task_end_date.year}"
+                        
+                        this_period = timeline_positions[z][4]
 
-                    if (task_start_date <= this_date and task_end_date >= this_date):
+                    if (task_start_period <= this_period and task_end_period >= this_period):
                         task_box_x_pos = timeline_positions[z][0]
                         task_box_width = timeline_positions[z][2]
                         if (bar_start_x_pos == 0):
@@ -160,18 +239,23 @@ class MahereKaihanga():
                         
                         row_match += 1
 
-                task_box_y_pos = y_pos
-                task_box_height = text_height
-                total_bar_width = task_box_width * row_match + (self.__HSPACER * row_match - 1)
+                if (row_match > 0):
+                    task_box_y_pos = y_pos
+                    task_box_height = text_height
+                    total_bar_width = task_box_width * row_match + (self.__HSPACER * row_match - 1)
+                    
+                    self.painter.set_colour(task.get("colour"))
+                    self.painter.draw_box(bar_start_x_pos,task_box_y_pos, total_bar_width, task_box_height)
+                    print (f"{task_text} {bar_start_x_pos} {task_box_y_pos} {total_bar_width} {task_box_height}, {task_box_y_pos + task_box_height}")
+                    
+                    self.painter.set_font(self.text_font, 12, self.timeline_text_colour)
+                    x_pos, y_pos = self.painter.get_display_text_position(bar_start_x_pos, task_box_y_pos, total_bar_width, text_height, task_text, "centre")
+                    #self.painter.draw_text(x_pos, y_pos, f"{task_text} ({task.get('start').strftime('%d/%m/%Y')} - {task.get('end').strftime('%d/%m/%Y')})")
+                    self.painter.draw_text(x_pos, y_pos, f"{task_text}")
                 
-                self.painter.set_colour(task.get("colour"))
-                self.painter.draw_box(bar_start_x_pos,task_box_y_pos, total_bar_width, task_box_height)
-                
-                self.painter.set_font(self.text_font, 12, self.timeline_text_colour)
-                x_pos, y_pos = self.painter.get_display_text_position(bar_start_x_pos, task_box_y_pos, total_bar_width, text_height, task_text, "centre")
-                self.painter.draw_text(x_pos, y_pos, task_text)
-
                 j += 1
+
+
                     
 
         """ To do
@@ -179,17 +263,23 @@ class MahereKaihanga():
         Done (2) Display group text as a block
         (3) Show milestones
         (4) Proporsion task bar according to the start and end date
+        Done (5) Week, Quarter, Half Year, Year timeline mode support
         """
         footer_text = "Generated by Mahere Kaihanga v0.1"
-        self.painter.draw_footer(footer_text, self.footer_colour)
-
-        self.painter.save_surface_to_png(file_name)
+        self.painter.set_font(self.text_font, 10, self.footer_colour)
+        self.painter.draw_footer(footer_text)
         
-
+    def save_to_png(self, file_name):
+        self.painter.save_surface_to_png(file_name)
 
 if __name__ == "__main__":
-    x = MahereKaihanga(1024, 512)
-    x.title = "This is my roadmap!!!"
+    x = MahereKaihanga(1024, 800)
+    x.title = "This is my roadmap!"
+    #x.timeline_mode = MahereKaihanga.MONTHLY
+    #x.timeline_mode = MahereKaihanga.QUARTERLY
+    x.timeline_mode = MahereKaihanga.HALF_YEARLY
+    #x.timeline_mode = MahereKaihanga.YEARLY
+    x.timeline_item = 6
 
     x.tasks = [
                 {"group": "Stream 1: Develop base", "colour": "green", "tasks": [
@@ -206,17 +296,21 @@ if __name__ == "__main__":
                     {"task": "Feature 7", "start": datetime.datetime(2023, 8, 24), "end": datetime.datetime(2023, 8, 24), "colour": "lightgrey"}
                 ]},
                 {"group": "Stream 4: Implement ML analytics", "colour": "Purple", "tasks": [
-                    {"task": "Feature 8", "start": datetime.datetime(2023, 5, 24), "end": datetime.datetime(2023, 11, 24), "colour": "Orchid"},
-                    {"task": "Feature 9", "start": datetime.datetime(2023, 6, 24), "end": datetime.datetime(2023, 7, 24), "colour": "Orchid"},
-                    {"task": "Feature 10", "start": datetime.datetime(2023, 8, 24), "end": datetime.datetime(2023, 8, 24), "colour": "Orchid"}
+                    {"task": "Feature 8", "start": datetime.datetime(2022, 5, 24), "end": datetime.datetime(2023, 11, 24), "colour": "Orchid"},
+                    {"task": "Feature 9", "start": datetime.datetime(2022, 6, 24), "end": datetime.datetime(2023, 7, 24), "colour": "Orchid"},
+                    {"task": "Feature 10", "start": datetime.datetime(2022, 8, 24), "end": datetime.datetime(2023, 8, 24), "colour": "Orchid"}
                 ]},
                 {"group": "Stream 5: Build Mobile App", "colour": "OrangeRed", "tasks": [
-                    {"task": "Feature 11", "start": datetime.datetime(2022, 12, 24), "end": datetime.datetime(2023, 3, 24), "colour": "Coral"},
-                    {"task": "Feature 12", "start": datetime.datetime(2023, 4, 24), "end": datetime.datetime(2023, 6, 24), "colour": "Coral"},
-                    {"task": "Feature 13", "start": datetime.datetime(2023, 7, 24), "end": datetime.datetime(2023, 8, 24), "colour": "Coral"}
+                    {"task": "Feature 11", "start": datetime.datetime(2023, 12, 24), "end": datetime.datetime(2024, 3, 24), "colour": "Coral"},
+                    {"task": "Feature 12", "start": datetime.datetime(2024, 4, 24), "end": datetime.datetime(2024, 6, 24), "colour": "Coral"},
+                    {"task": "Feature 13", "start": datetime.datetime(2024, 7, 24), "end": datetime.datetime(2024, 8, 24), "colour": "Coral"}
                 ]}              
             ]
-    x.render("my_roadmap.png")
+    x.render()
+    x.save_to_png("my_roadmap.png")
+
+
+    
 
 
 

@@ -27,24 +27,24 @@ class Painter():
 
     def rgb_to_float(self, colour):
         # Convert RGBS to floats
-        fRGBS = name_to_rgb(colour)
-        return [x / 255 for x in fRGBS]
+        f_rgbs = name_to_rgb(colour)
+        return [x / 255 for x in f_rgbs]
         
     def set_colour(self, colour):
         self.cr.set_source_rgb(*self.rgb_to_float(colour))
         
-    def set_font(self, font, fontSize, fontColour):
+    def set_font(self, font, font_size, font_colour):
         self.cr.select_font_face(font)
-        self.cr.set_font_size(fontSize)
-        self.set_colour(fontColour)
+        self.cr.set_font_size(font_size)
+        self.set_colour(font_colour)
         
-    def draw_title(self, title, titleColour):
-        textWidth, textHeight = self.get_text_dimension(title)
-        self.draw_text((self.Width/2) - textWidth/2, 30, title)
+    def draw_title(self, title):
+        text_width, text_height = self.get_text_dimension(title)
+        self.draw_text((self.Width/2) - text_width/2, 30, title)
         
-    def draw_footer(self, footer, footerColour):
-        footerWidth, footerHeight = self.get_text_dimension(footer)
-        self.draw_text((self.Width/2) - footerWidth/2, self.Height - 10, footer)
+    def draw_footer(self, footer):
+        footer_width, footer_height = self.get_text_dimension(footer)
+        self.draw_text((self.Width/2) - footer_width/2, self.Height - 10, footer)
         
     def draw_box(self, x, y, width, height):
         self.cr.rectangle(x, y, width, height)
@@ -55,47 +55,48 @@ class Painter():
         self.cr.show_text(text)
         
         
-    def draw_group(self, x, y, maxWidth, group):
-        groupText = group.get("group")
-        lastYPos = 0        
-        groupTaskWidth, groupTextHeight = self.get_text_dimension(groupText)
+    def draw_group(self, x, y, max_width, group):
+        group_text = group.get("group")
+        last_y_pos = 0        
+        group_task_width, group_text_height = self.get_text_dimension(group_text)
         
         # Calc group height
-        taskCount = len(group.get("tasks"))
-        groupTotalHeight = 20 * taskCount
-        groupTotalWidth = maxWidth + 20
+        task_count = len(group.get("tasks"))
+        group_total_height = (20 * task_count) + (2 * (task_count-1))
+        group_total_width = max_width + 20
             
         self.set_colour(group.get("colour"))
-        self.draw_box(x, y, groupTotalWidth, groupTotalHeight)
+        self.draw_box(x, y, group_total_width, group_total_height)
+        print (f"Drawing group {group_text} y:{y}, h:{group_total_height}, total={y+group_total_height}")
         self.set_colour("White")
-        XPos, YPos = self.get_display_text_position(x, y, groupTotalWidth, groupTotalHeight, groupText, "left")
-        self.draw_text(XPos, YPos, groupText)
-        return lastYPos
+        x_pos, y_pos = self.get_display_text_position(x, y, group_total_width, group_total_height, group_text, "left")
+        self.draw_text(x_pos, y_pos, group_text)
+        return last_y_pos
         
     def get_text_dimension(self, text):
-        textXbearing, textYbearing, textWidth, textHeight, dx, dy = self.cr.text_extents(text)
-        return textWidth, textHeight
+        text_x_bearing, text_y_bearing, text_width, text_height, dx, dy = self.cr.text_extents(text)
+        return text_width, text_height
         
     def set_background_colour(self, colour):
         self.set_colour(colour)
         self.cr.paint()
         
     def get_display_text_position(self, x, y, width, height, text, alignment):
-        textWidth, textHeight = self.get_text_dimension(text)
+        text_width, text_height = self.get_text_dimension(text)
         if alignment == "centre":
-            textPosX = (width / 2) - (textWidth / 2)
+            text_x_pos = (width / 2) - (text_width / 2)
         elif alignment == "right":
-            textPosX = width - textWidth
+            text_x_pos = width - text_width
         elif alignment == "left":
-            textPosX = x + 10
+            text_x_pos = x + 10
         
-        textPosY = (height / 2) + (textHeight / 2)
+        text_y_pos = (height / 2) + (text_height / 2)
             
-        return x+textPosX, y+textPosY
+        return x+text_x_pos, y+text_y_pos
     
-    def save_surface_to_png(self, fileName):
-        if (len(fileName) == 0):
-            fileName = "roadmap.png"
-        self.surface.write_to_png(fileName)  # Output to PNG
+    def save_surface_to_png(self, file_name):
+        if (len(file_name) == 0):
+            file_name = "roadmap.png"
+        self.surface.write_to_png(file_name)  # Output to PNG
 
 
