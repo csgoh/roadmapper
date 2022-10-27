@@ -13,17 +13,25 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 import cairo
+from cairo import PDFSurface
 from webcolors import name_to_rgb
 
 class Painter():    
     __VSPACER, __HSPACER = 12, 2
     
     # initialise code
-    def __init__(self, width, height):
-        self.surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
+    def __init__(self, width, height, output_type, output_file_name):
+        if output_type == "PNG": 
+            if output_file_name == "": output_file_name = "roadmap.png"
+            self.surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
+        if output_type == "PDF": 
+            if output_file_name == "": output_file_name = "roadmap.pdf"
+            self.surface = cairo.PDFSurface(output_file_name, width, height)
         self.cr = cairo.Context(self.surface)
         self.Width = width
         self.Height = height
+        self.output_type = output_type
+        self.output_file_name = output_file_name
 
     def rgb_to_float(self, colour):
         # Convert RGBS to floats
@@ -58,7 +66,6 @@ class Painter():
     def draw_group(self, x, y, max_width, group):
         group_text = group.get("group")
         last_y_pos = 0        
-        group_task_width, group_text_height = self.get_text_dimension(group_text)
         
         # Calc group height
         task_count = len(group.get("tasks"))
@@ -67,7 +74,7 @@ class Painter():
             
         self.set_colour(group.get("colour"))
         self.draw_box(x, y, group_total_width, group_total_height)
-        print (f"Drawing group {group_text} y:{y}, h:{group_total_height}, total={y+group_total_height}")
+        #print (f"Drawing group {group_text} y:{y}, h:{group_total_height}, total={y+group_total_height}")
         self.set_colour("White")
         x_pos, y_pos = self.get_display_text_position(x, y, group_total_width, group_total_height, group_text, "left")
         self.draw_text(x_pos, y_pos, group_text)
@@ -94,9 +101,11 @@ class Painter():
             
         return x+text_x_pos, y+text_y_pos
     
-    def save_surface_to_png(self, file_name):
-        if (len(file_name) == 0):
-            file_name = "roadmap.png"
-        self.surface.write_to_png(file_name)  # Output to PNG
+    def save_surface(self):
+        if self.output_type == "PNG": 
+            self.surface.write_to_png(self.output_file_name)  # Output to PNG
+        if self.output_type == "PDF": 
+            self.surface.show_page()
+        
 
 
