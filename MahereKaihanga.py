@@ -22,18 +22,19 @@
         (6) Display current date marker
         (7) Allow task text to wrap around multiple lines, hence auto enlarge the task bar height
         (8) Auto expand surface canvas size if the task bar is too long
-        (9) Save as PDF
+        Done (9) Save as PDF
+        (10) Make 'colour' element optional
+        (11) Implement logging
 """
 
-import datetime
+from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from painter import Painter
-
 
 class MahereKaihanga():
     # Private variables
     __VSPACER, __HSPACER = 12, 2
-    __TODAY = datetime.datetime.today()
+    __TODAY = datetime.today()
     
     # Constant variables
     WEEKLY = "W"
@@ -79,17 +80,17 @@ class MahereKaihanga():
         if (len(self.tasks) == 0):
             task_data = [
                 {"group": "Sprint 1", "colour": "green", "tasks": [
-                    {"task": "Feature 1", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2022, 11, 24), "colour": "lightgreen"},
-                    {"task": "Feature 2", "start": datetime.datetime(2022, 12, 24), "end": datetime.datetime(2023, 4, 24), "colour": "lightgreen"}
+                    {"task": "Feature 1", "start": datetime(2022, 10, 24), "end": datetime(2022, 11, 24), "colour": "lightgreen"},
+                    {"task": "Feature 2", "start": datetime(2022, 12, 24), "end": datetime(2023, 4, 24), "colour": "lightgreen"}
                     ]},
                 {"group": "Sprint 2", "colour": "blue", "tasks": [
-                    {"task": "Feature 3", "start": datetime.datetime(2022, 4, 24), "end": datetime.datetime(2022, 12, 24), "colour": "lightblue"},
-                    {"task": "Feature 4", "start": datetime.datetime(2023, 1, 24), "end": datetime.datetime(2024, 12, 24), "colour": "lightblue"}
+                    {"task": "Feature 3", "start": datetime(2022, 4, 24), "end": datetime(2022, 12, 24), "colour": "lightblue"},
+                    {"task": "Feature 4", "start": datetime(2023, 1, 24), "end": datetime(2024, 12, 24), "colour": "lightblue"}
                     ]},
                 {"group": "Sprint 3", "colour": "grey", "tasks": [
-                    {"task": "Feature 5", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2023, 3, 24), "colour": "lightgrey"},
-                    {"task": "Feature 6", "start": datetime.datetime(2023, 4, 24), "end": datetime.datetime(2023, 7, 24), "colour": "lightgrey"},
-                    {"task": "Feature 7", "start": datetime.datetime(2023, 8, 24), "end": datetime.datetime(2023, 8, 24), "colour": "lightgrey"}
+                    {"task": "Feature 5", "start": datetime(2022, 10, 24), "end": datetime(2023, 3, 24), "colour": "lightgrey"},
+                    {"task": "Feature 6", "start": datetime(2023, 4, 24), "end": datetime(2023, 7, 24), "colour": "lightgrey"},
+                    {"task": "Feature 7", "start": datetime(2023, 8, 24), "end": datetime(2023, 8, 24), "colour": "lightgrey"}
                 ]}              
             ]
         else:
@@ -206,40 +207,40 @@ class MahereKaihanga():
                 row_match = 0
                 for z in range(self.timeline_item):
                     if self.timeline_mode == self.WEEKLY:
-                        task_start_date = datetime.datetime(task.get("start").year, task.get("start").month, task.get("start").day)
-                        task_end_date = datetime.datetime(task.get("end").year, task.get("end").month, task.get("end").day)
+                        task_start_date = datetime(task.get("start").year, task.get("start").month, task.get("start").day)
+                        task_end_date = datetime(task.get("end").year, task.get("end").month, task.get("end").day)
                         task_start_period = f"{task_start_date.year}{task_start_date.strftime('%W')}"
                         task_end_period = f"{task_end_date.year}{task_end_date.strftime('%W')}"
                     
                         this_period = timeline_positions[z][4]
                                               
                     if self.timeline_mode == self.MONTHLY:
-                        task_start_period = datetime.datetime(task.get("start").year, task.get("start").month, 1)
-                        task_end_period = datetime.datetime(task.get("end").year, task.get("end").month, 1)
+                        task_start_period = datetime(task.get("start").year, task.get("start").month, 1)
+                        task_end_period = datetime(task.get("end").year, task.get("end").month, 1)
                         
                         this_month = (self.__TODAY + relativedelta(months=+z)).month
                         this_year = (self.__TODAY + relativedelta(months=+z)).year
-                        this_period = datetime.datetime(this_year, this_month, 1)
+                        this_period = datetime(this_year, this_month, 1)
                             
                     if self.timeline_mode == self.QUARTERLY:
-                        task_start_date = datetime.datetime(task.get("start").year, task.get("start").month, task.get("start").day)
-                        task_end_date = datetime.datetime(task.get("end").year, task.get("end").month, task.get("end").day)
+                        task_start_date = datetime(task.get("start").year, task.get("start").month, task.get("start").day)
+                        task_end_date = datetime(task.get("end").year, task.get("end").month, task.get("end").day)
                         task_start_period = f"{task_start_date.year}{task_start_date.month//3 + 1}"
                         task_end_period = f"{task_end_date.year}{task_end_date.month//3 + 1}"
                         
                         this_period = timeline_positions[z][4]
                     
                     if self.timeline_mode == self.HALF_YEARLY:
-                        task_start_date = datetime.datetime(task.get("start").year, task.get("start").month, task.get("start").day)
-                        task_end_date = datetime.datetime(task.get("end").year, task.get("end").month, task.get("end").day)
+                        task_start_date = datetime(task.get("start").year, task.get("start").month, task.get("start").day)
+                        task_end_date = datetime(task.get("end").year, task.get("end").month, task.get("end").day)
                         task_start_period = f"{task_start_date.year}{task_start_date.month//6 + 1}"
                         task_end_period = f"{task_end_date.year}{task_start_date.month//6 + 1}"
                         
                         this_period = timeline_positions[z][4]
                         
                     if self.timeline_mode == self.YEARLY:
-                        task_start_date = datetime.datetime(task.get("start").year, task.get("start").month, task.get("start").day)
-                        task_end_date = datetime.datetime(task.get("end").year, task.get("end").month, task.get("end").day)
+                        task_start_date = datetime(task.get("start").year, task.get("start").month, task.get("start").day)
+                        task_end_date = datetime(task.get("end").year, task.get("end").month, task.get("end").day)
                         task_start_period = f"{task_start_date.year}"
                         task_end_period = f"{task_end_date.year}"
                         
@@ -277,7 +278,7 @@ class MahereKaihanga():
 
 if __name__ == "__main__":
     x = MahereKaihanga(1024, 800, "PNG", "my_roadmap.png")
-    x.title = "This is my roadmap!"
+    x.title = "This is my roadmap!!"
     #x.timeline_mode = MahereKaihanga.WEEKLY
     #x.timeline_mode = MahereKaihanga.MONTHLY
     x.timeline_mode = MahereKaihanga.QUARTERLY
@@ -287,27 +288,27 @@ if __name__ == "__main__":
 
     x.tasks = [
                 {"group": "Stream 1: Develop base", "colour": "green", "tasks": [
-                    {"task": "Feature 1", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2022, 11, 24), "colour": "lightgreen"},
-                    {"task": "Feature 2", "start": datetime.datetime(2022, 12, 24), "end": datetime.datetime(2023, 4, 24), "colour": "lightgreen"}
+                    {"task": "Feature 1", "start": datetime(2022, 10, 24), "end": datetime(2022, 11, 24), "colour": "lightgreen"},
+                    {"task": "Feature 2", "start": datetime(2022, 12, 24), "end": datetime(2023, 4, 24), "colour": "lightgreen"}
                     ]},
                 {"group": "Stream 2: Enable monitoring", "colour": "blue", "tasks": [
-                    {"task": "Feature 3", "start": datetime.datetime(2022, 4, 24), "end": datetime.datetime(2022, 12, 24), "colour": "lightblue"},
-                    {"task": "Feature 4", "start": datetime.datetime(2023, 1, 24), "end": datetime.datetime(2024, 12, 24), "colour": "lightblue"}
+                    {"task": "Feature 3", "start": datetime(2022, 4, 24), "end": datetime(2022, 12, 24), "colour": "lightblue"},
+                    {"task": "Feature 4", "start": datetime(2023, 1, 24), "end": datetime(2024, 12, 24), "colour": "lightblue"}
                     ]},
                 {"group": "Stream 3: Support reporting", "colour": "grey", "tasks": [
-                    {"task": "Feature 5", "start": datetime.datetime(2022, 10, 24), "end": datetime.datetime(2023, 3, 24), "colour": "lightgrey"},
-                    {"task": "Feature 6", "start": datetime.datetime(2023, 4, 24), "end": datetime.datetime(2023, 7, 24), "colour": "lightgrey"},
-                    {"task": "Feature 7", "start": datetime.datetime(2023, 8, 24), "end": datetime.datetime(2023, 8, 24), "colour": "lightgrey"}
+                    {"task": "Feature 5", "start": datetime(2022, 10, 24), "end": datetime(2023, 3, 24), "colour": "lightgrey"},
+                    {"task": "Feature 6", "start": datetime(2023, 4, 24), "end": datetime(2023, 7, 24), "colour": "lightgrey"},
+                    {"task": "Feature 7", "start": datetime(2023, 8, 24), "end": datetime(2023, 8, 24), "colour": "lightgrey"}
                 ]},
                 {"group": "Stream 4: Implement ML analytics", "colour": "Purple", "tasks": [
-                    {"task": "Feature 8", "start": datetime.datetime(2022, 5, 24), "end": datetime.datetime(2023, 11, 24), "colour": "Orchid"},
-                    {"task": "Feature 9", "start": datetime.datetime(2022, 6, 24), "end": datetime.datetime(2023, 7, 24), "colour": "Orchid"},
-                    {"task": "Feature 10", "start": datetime.datetime(2022, 8, 24), "end": datetime.datetime(2023, 8, 24), "colour": "Orchid"}
+                    {"task": "Feature 8", "start": datetime(2022, 5, 24), "end": datetime(2023, 11, 24), "colour": "Orchid"},
+                    {"task": "Feature 9", "start": datetime(2022, 6, 24), "end": datetime(2023, 7, 24), "colour": "Orchid"},
+                    {"task": "Feature 10", "start": datetime(2022, 8, 24), "end": datetime(2023, 8, 24), "colour": "Orchid"}
                 ]},
                 {"group": "Stream 5: Build Mobile App", "colour": "OrangeRed", "tasks": [
-                    {"task": "Feature 11", "start": datetime.datetime(2023, 12, 24), "end": datetime.datetime(2024, 3, 24), "colour": "Coral"},
-                    {"task": "Feature 12", "start": datetime.datetime(2024, 4, 24), "end": datetime.datetime(2024, 6, 24), "colour": "Coral"},
-                    {"task": "Feature 13", "start": datetime.datetime(2024, 7, 24), "end": datetime.datetime(2024, 8, 24), "colour": "Coral"}
+                    {"task": "Feature 11", "start": datetime(2023, 12, 24), "end": datetime(2024, 3, 24), "colour": "Coral"},
+                    {"task": "Feature 12", "start": datetime(2024, 4, 24), "end": datetime(2024, 6, 24), "colour": "Coral"},
+                    {"task": "Feature 13", "start": datetime(2024, 7, 24), "end": datetime(2024, 8, 24), "colour": "Coral"}
                 ]}              
             ]
     x.render()
