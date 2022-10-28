@@ -28,6 +28,8 @@ Latest commit 8e67b94 on 20 Feb
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
+.vscode/
+sandpit.py
 *.py[cod]
 *$py.class
 
