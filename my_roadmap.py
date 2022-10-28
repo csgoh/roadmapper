@@ -1,16 +1,9 @@
-# roadmap_generator
-
-Purpose: This application is used to generate graphical roadmap using code. 
-
-Mahere means roadmap and Kaihanga means generator in Maori language.
-
-## Example  
-```python
 from kaihanga import Mahere
 
-my_roadmap = Mahere(800, 400, "roadmap.png")
+my_roadmap = Mahere(800, 420, "my_roadmap.png")
 
 my_roadmap.title_text = "This is my roadmap!!!"
+    
 my_roadmap.timeline_mode = Mahere.HALF_YEARLY
 my_roadmap.timeline_item = 6
 
@@ -38,7 +31,3 @@ my_roadmap.add_task(group5, "Feature 12", "2024-04-24", "2024-06-24", "Coral")
 my_roadmap.add_task(group5, "Feature 13", "2024-07-24", "2024-08-24", "Coral")
 
 my_roadmap.render()
-```
-## Output
-
-![name](my_roadmap.png)
