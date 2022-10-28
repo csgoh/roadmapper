@@ -19,12 +19,14 @@
         * Display current date marker
         * Allow task text to wrap around multiple lines, hence auto enlarge the task bar height
         * Auto expand surface canvas size if the task bar is too long
-        * Make 'colour' element optional
         * Implement logging
         * Implement class methods to allow user to add task, group, milestone, etc
         * Custom timeline start date
-        * Option to turn off footer
-        
+
+        Done * Make timeline 'colour' element optional
+        Done * Make group 'colour' element optional
+        Done * Make timeline 'colour' element optional
+        Done * Option to turn off footer
         Done * Modularise method lines
         Done * Display task text on top of bar
         Done * Display group text as a block
@@ -40,6 +42,18 @@ class Mahere():
     # Private variables
     __VSPACER = 12
     __HSPACER = 2
+    __DEFAULT_TITLE_TEXT_COLOUR = "Black"
+
+    __DEFAULT_TIMELINE_FILL_COLOUR = "#006699"
+    __DEFAULT_TIMELINE_TEXT_COLOUR = "White"
+
+    __DEFAULT_GROUP_FILL_COLOUR = "#4dc3ff"
+    __DEFAULT_GROUP_TEXT_COLOUR = "Black"
+
+    __DEFAULT_TASK_FILL_COLOUR = "#b3e6ff"
+    __DEFAULT_TASK_TEXT_COLOUR = "Black"
+
+    __DEFAULT_FOOTER_TEXT_COLOUR = "Black"
     
     # Constant variables
     VERSION = "0.1"
@@ -48,7 +62,8 @@ class Mahere():
     QUARTERLY = "Q"
     HALF_YEARLY = "H"
     YEARLY = "Y"
-    
+
+
     def __init__(self, width, height, output_file_name) -> None:
         self.__painter = Painter(width, height, output_file_name)
         self.__width = width
@@ -62,6 +77,7 @@ class Mahere():
         self.title_font = ""
         self.title_font_size = 0
         self.title_colour = ""
+        self.show_footer = True
         self.footer_text = ""    
         self.footer_font = ""
         self.footer_font_size = 0
@@ -70,6 +86,7 @@ class Mahere():
         self.timeline_item = 0
         self.timeline_fill_colour = ""
         self.timeline_text_colour = ""
+        self.group_text_colour = ""
         self.task_text_colour = ""
         self.__tasks = []
         self.__today = datetime.today()
@@ -90,8 +107,9 @@ class Mahere():
         if self.footer_colour == "":        self.footer_colour = self.title_colour
         if self.timeline_mode == "":        self.timeline_mode = self.MONTHLY
         if self.timeline_item == 0:         self.timeline_item = 12
-        if self.timeline_fill_colour == "": self.timeline_fill_colour = "Salmon"
-        if self.timeline_text_colour == "": self.timeline_text_colour = "Black"
+        if self.timeline_fill_colour == "": self.timeline_fill_colour = self.__DEFAULT_TIMELINE_FILL_COLOUR
+        if self.timeline_text_colour == "": self.timeline_text_colour = self.__DEFAULT_TIMELINE_TEXT_COLOUR
+        if self.group_text_colour == "":    self.group_text_colour = self.__DEFAULT_GROUP_TEXT_COLOUR
         if self.task_text_colour == "":     self.task_text_colour = "Black"
         
     def __generate_sample_data(self):
@@ -146,36 +164,37 @@ class Mahere():
 
             # Draw timeline box
             self.__painter.set_colour(self.timeline_fill_colour)
+            print(self.timeline_fill_colour)
             self.__painter.draw_box(timeline_x_pos, timeline_y_pos, timeline_item_width, timeline_height)
             
 
             # Draw timeline text
             timeline_text = ""
             if self.timeline_mode == self.WEEKLY:
-                this_week = self.__today + relativedelta(weeks=+x)
+                this_week = self.__today + relativedelta(weeks = +x)
                 timeline_text = f"W{this_week.strftime('%W')} {this_week.year}"
                 timeline_text_with_year = f"{this_week.year}{this_week.strftime('%W')}"
                 
             if self.timeline_mode == self.MONTHLY:
-                this_month = self.__today + relativedelta(months=+x)
+                this_month = self.__today + relativedelta(months= +x)
                 timeline_text = f"{this_month.strftime('%b')} {this_month.year}"
                 timeline_text_with_year = f"{this_month.year}{this_month.strftime('%m')}"
                 
             if self.timeline_mode == self.QUARTERLY:
-                this_month = self.__today + relativedelta(months=+(x*3))
-                this_quarter = (this_month.month-1)//3 + 1
+                this_month = self.__today + relativedelta(months = +(x * 3))
+                this_quarter = (this_month.month-1) // 3 + 1
                 timeline_text = f"Q{this_quarter} {this_month.year}"
                 timeline_text_with_year = f"{this_month.year}{this_quarter}"
                 
             if self.timeline_mode == self.HALF_YEARLY:
-                this_month = self.__today + relativedelta(months=+(x*6))
-                this_halfyear = (this_month.month-1)//6 + 1
+                this_month = self.__today + relativedelta(months = +(x * 6))
+                this_halfyear = (this_month.month-1) // 6 + 1
                 timeline_text = f"H{this_halfyear} {this_month.year}"
                 timeline_text_with_year = f"{this_month.year}{this_halfyear}"
                 print (f"{this_month.year}{this_halfyear}")
                 
             if self.timeline_mode == self.YEARLY:
-                this_month = self.__today + relativedelta(months=+(x*12))
+                this_month = self.__today + relativedelta(months = +(x * 12))
                 timeline_text = f"{this_month.year}"
                 timeline_text_with_year = f"{this_month.year}"
                 
@@ -187,9 +206,10 @@ class Mahere():
         return max_group_text_width,timeline_positions
         
     def __draw_footer(self):
-        self.__painter.set_font(self.footer_font, self.footer_font_size, self.footer_colour)
-        footer_width, footer_height = self.__painter.get_text_dimension(self.footer_text)
-        self.__painter.draw_text((self.__width/2) - footer_width/2, self.__height - 10, self.footer_text)
+        if (self.show_footer):
+            self.__painter.set_font(self.footer_font, self.footer_font_size, self.footer_colour)
+            footer_width, footer_height = self.__painter.get_text_dimension(self.footer_text)
+            self.__painter.draw_text((self.__width / 2) - footer_width / 2, self.__height - 10, self.footer_text)
         
     def __draw_group(self, x, y, max_width, group):
         group_text = group.get("group")
@@ -197,13 +217,13 @@ class Mahere():
         
         # Calc group height
         task_count = len(group.get("tasks"))
-        group_total_height = (20 * task_count) + (2 * (task_count-1))
+        group_total_height = (20 * task_count) + (2 * (task_count - 1))
         group_total_width = max_width + 20
             
         self.__painter.set_colour(group.get("colour"))
         self.__painter.draw_box(x, y, group_total_width, group_total_height)
         
-        self.__painter.set_colour("White")
+        self.__painter.set_colour(self.group_text_colour)
         x_pos, y_pos = self.__painter.get_display_text_position(x, y, group_total_width, group_total_height, group_text, "left")
         self.__painter.draw_text(x_pos, y_pos, group_text)
         return last_y_pos
@@ -265,16 +285,16 @@ class Mahere():
                     if self.timeline_mode == self.QUARTERLY:
                         task_start_date = datetime(task.get("start").year, task.get("start").month, task.get("start").day)
                         task_end_date = datetime(task.get("end").year, task.get("end").month, task.get("end").day)
-                        task_start_period = f"{task_start_date.year}{task_start_date.month//3 + 1}"
-                        task_end_period = f"{task_end_date.year}{task_end_date.month//3 + 1}"
+                        task_start_period = f"{task_start_date.year}{task_start_date.month // 3 + 1}"
+                        task_end_period = f"{task_end_date.year}{task_end_date.month // 3 + 1}"
                         
                         this_period = timeline_positions[z][4]
                     
                     if self.timeline_mode == self.HALF_YEARLY:
                         task_start_date = datetime(task.get("start").year, task.get("start").month, task.get("start").day)
                         task_end_date = datetime(task.get("end").year, task.get("end").month, task.get("end").day)
-                        task_start_period = f"{task_start_date.year}{task_start_date.month//6 + 1}"
-                        task_end_period = f"{task_end_date.year}{task_end_date.month//6 + 1}"
+                        task_start_period = f"{task_start_date.year}{task_start_date.month // 6 + 1}"
+                        task_end_period = f"{task_end_date.year}{task_end_date.month // 6 + 1}"
                         
                         this_period = timeline_positions[z][4]
                         
@@ -286,11 +306,10 @@ class Mahere():
                         
                         this_period = timeline_positions[z][4]
 
-                    print (f"{task_text},{task_start_date}-{task_end_date} = this_period: {this_period}, task_start_period: {task_start_period}, task_end_period: {task_end_period}")
+                    #print (f"{task_text},{task_start_date}-{task_end_date} = this_period: {this_period}, task_start_period: {task_start_period}, task_end_period: {task_end_period}")
                     if (task_start_period <= this_period and task_end_period >= this_period):
                         task_box_x_pos = timeline_positions[z][0]
                         task_box_width = timeline_positions[z][2]
-                        print ("Match")
                         if (bar_start_x_pos == 0):
                             bar_start_x_pos = task_box_x_pos
                         
@@ -304,29 +323,33 @@ class Mahere():
                     self.__painter.set_colour(task.get("colour"))
                     self.__painter.draw_box(bar_start_x_pos,task_box_y_pos, total_bar_width, task_box_height)
                     
-                    self.__painter.set_font(self.text_font, 12, self.timeline_text_colour)
+                    self.__painter.set_font(self.text_font, 12, self.task_text_colour)
                     x_pos, y_pos = self.__painter.get_display_text_position(bar_start_x_pos, task_box_y_pos, total_bar_width, text_height, task_text, "centre")
                     self.__painter.draw_text(x_pos, y_pos, f"{task_text}")
                 
                 j += 1
     
-    def add_group(self, group_text, colour) -> str:
+    def add_group(self, group_text, colour=None) -> str:
         tasks = []
+        if colour is None:
+            colour = self.__DEFAULT_GROUP_FILL_COLOUR
         group = {"group": group_text, "colour": colour, "tasks": tasks}
         self.__tasks.append(group)
         return group_text
         
-    def add_task(self, group_text, task_text, start_date, end_date, colour):
+    def add_task(self, group_text, task_text, start_date, end_date, colour=None) -> None:
         # Expecting YYYY-MM-DD format. E.g 2022-08-29
         start_date_object = datetime.strptime(start_date, "%Y-%m-%d")
         end_date_object = datetime.strptime(end_date, "%Y-%m-%d")
 
+        if colour is None:
+            colour = self.__DEFAULT_TASK_FILL_COLOUR
         task = {"task": task_text, "start": start_date_object, "end": end_date_object, "colour": colour}
         for group in self.__tasks:
             if group.get("group") == group_text:
                 group.get("tasks").append(task)
     
-    def render(self):
+    def render(self) -> None:
         # Default settings
         self.__set_default_settings()
         

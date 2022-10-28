@@ -13,7 +13,8 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 import cairo
-from webcolors import name_to_rgb
+#from webcolors import name_to_rgb, hex_to_rgb
+from colour import Color
 
 class Painter():    
     __VSPACER, __HSPACER = 12, 2
@@ -49,7 +50,9 @@ class Painter():
         return [x / 255 for x in f_rgbs]
         
     def set_colour(self, colour):
-        self.__cr.set_source_rgb(*self.__rgb_to_float(colour))
+        #self.__cr.set_source_rgb(*self.__rgb_to_float(colour))
+        c = Color(colour)
+        self.__cr.set_source_rgb(*c.get_rgb())
         
     def set_font(self, font, font_size, font_colour):
         self.__cr.select_font_face(font)
