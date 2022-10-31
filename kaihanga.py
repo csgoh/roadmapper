@@ -151,7 +151,7 @@ class Mahere:
                 "y": y,
                 "width": width,
                 "height": height,
-                "text": title_text
+                "text": title_text,
             }
             self.add_to_recommended_height(y + height)
 
@@ -162,7 +162,7 @@ class Mahere:
                     "y": y,
                     "width": width,
                     "height": height,
-                    "timeline_items": {}
+                    "timeline_items": {},
                 }
             self.add_to_recommended_height(y + height)
 
@@ -194,11 +194,25 @@ class Mahere:
             self.roadmap_dict["timeline"]["timeline_items"][item_id] = item
             self.add_to_recommended_height(y + height)
 
+        def get_timeline_item_text(self, item_id):
+            return self.roadmap_dict["timeline"]["timeline_items"][item_id]["text"]
+
         def set_timeline_item_text(self, item_id, text):
             self.roadmap_dict["timeline"]["timeline_items"][item_id]["text"] = text
 
+        def get_timeline_item_value(self, item_id):
+            return self.roadmap_dict["timeline"]["timeline_items"][item_id]["value"]
+
         def set_timeline_item_value(self, item_id, value):
             self.roadmap_dict["timeline"]["timeline_items"][item_id]["value"] = value
+
+        def get_timeline_item_position(self, item_id):
+            return (
+                self.roadmap_dict["timeline"]["timeline_items"][item_id]["x"],
+                self.roadmap_dict["timeline"]["timeline_items"][item_id]["y"],
+                self.roadmap_dict["timeline"]["timeline_items"][item_id]["width"],
+                self.roadmap_dict["timeline"]["timeline_items"][item_id]["height"],
+            )
 
         def set_groups_coordinates(self, x, y, width, height):
             if self.roadmap_dict.get("groups", {}).get("x", 0) == 0:
@@ -231,15 +245,24 @@ class Mahere:
             self.set_groups_coordinates(
                 current_x, current_y, current_width, current_height
             )
+            if self.roadmap_dict["groups"]["group_items"].get(item_id, None) == None:
+                self.roadmap_dict["groups"]["group_items"][item_id] = {
+                    "x": x,
+                    "y": y,
+                    "width": width,
+                    "height": height,
+                    "tasks": {},
+                }
+            # self.roadmap_dict["groups"]["group_items"][item_id] = {"x": x, "y": y, "width": width, "height": height, "tasks": {}}
 
-            self.roadmap_dict["groups"]["group_items"][item_id] = {"x": x, "y": y, "width": width, "height": height, "tasks": {}}
-
-        def set_groups_item_task_coordinates(self, item_id, task_id, x, y, width, height, task_text):
+        def set_groups_item_task_coordinates(
+            self, item_id, task_id, x, y, width, height, task_text
+        ):
             current_x = 0
             current_y = 0
             current_width = 0
             current_height = 0
-            if (item_id > 0):
+            if item_id > 0:
                 (
                     current_x,
                     current_y,
@@ -259,23 +282,17 @@ class Mahere:
                 item_id, current_x, current_y, current_width, current_height
             )
 
-            task_id -= 1
+            # task_id -= 1
 
-            #pd(self.roadmap_dict["groups"]["group_items"][item_id])          
-            previous_task = None
-            
-            if (len(self.roadmap_dict["groups"]["group_items"][item_id]["tasks"]) > 0):
-                previous_task = self.roadmap_dict["groups"]["group_items"][item_id]["tasks"][task_id - 1]
-              
-
-            if previous_task:
-                print ("exists")
-                self.roadmap_dict["groups"]["group_items"][item_id]["tasks"][task_id] = {previous_task},{"x": x, "y": y, "width": width, "height": height, "text": task_text}
-            else:
-                self.roadmap_dict["groups"]["group_items"][item_id]["tasks"][task_id] = {"x": x, "y": y, "width": width, "height": height, "text": task_text}
-            #print(len(self.roadmap_dict["groups"]["group_items"][item_id]["tasks"]))
-            print("exiting", item_id, task_id, (self.roadmap_dict["groups"]["group_items"][item_id]["tasks"]) )
-                        
+            # print(f"item_id {item_id}, task_id {task_id}, {task_text}")
+            self.roadmap_dict["groups"]["group_items"][item_id]["tasks"][task_id] = {
+                "x": x,
+                "y": y,
+                "width": width,
+                "height": height,
+                "text": task_text,
+            }
+            # print(">>", self.roadmap_dict["groups"]["group_items"][item_id]["tasks"])
 
         def set_footer_coordinates(self, x, y, width, height):
             self.roadmap_dict["footer"] = {
@@ -354,10 +371,30 @@ class Mahere:
 
         def get_groups_item_coordinates(self, item_id):
             x, y, width, height = 0, 0, 0, 0
-            x = self.roadmap_dict.get("groups", {}).get("group_items",{}).get(item_id, {}).get("x", 0)
-            y = self.roadmap_dict.get("groups", {}).get("group_items",{}).get(item_id, {}).get("y", 0)
-            width = self.roadmap_dict.get("groups", {}).get("group_items",{}).get(item_id, {}).get("width", 0)
-            height = self.roadmap_dict.get("groups", {}).get("group_items",{}).get(item_id, {}).get("height", 0)
+            x = (
+                self.roadmap_dict.get("groups", {})
+                .get("group_items", {})
+                .get(item_id, {})
+                .get("x", 0)
+            )
+            y = (
+                self.roadmap_dict.get("groups", {})
+                .get("group_items", {})
+                .get(item_id, {})
+                .get("y", 0)
+            )
+            width = (
+                self.roadmap_dict.get("groups", {})
+                .get("group_items", {})
+                .get(item_id, {})
+                .get("width", 0)
+            )
+            height = (
+                self.roadmap_dict.get("groups", {})
+                .get("group_items", {})
+                .get(item_id, {})
+                .get("height", 0)
+            )
             return (x, y, width, height)
 
         def get_groups_item_task_coordinates(self, item, task):
@@ -541,7 +578,11 @@ class Mahere:
             (self.__width / 2) - text_width / 2, 30, self.title_text
         )
         self.__roadmap_dict.set_title_coordinates(
-            (self.__width / 2) - text_width / 2, 30, text_width, text_height, self.title_text
+            (self.__width / 2) - text_width / 2,
+            30,
+            text_width,
+            text_height,
+            self.title_text,
         )
 
     def __draw_timeline(self, task_data):
@@ -617,16 +658,16 @@ class Mahere:
                 timeline_text = f"{this_month.year}"
                 timeline_text_with_year = f"{this_month.year}"
 
-            timeline_positions.append(
-                [
-                    timeline_x_pos,
-                    timeline_y_pos,
-                    timeline_item_width,
-                    timeline_height,
-                    timeline_text_with_year,
-                    timeline_text_with_year,
-                ]
-            )
+            # timeline_positions.append(
+            #     [
+            #         timeline_x_pos,
+            #         timeline_y_pos,
+            #         timeline_item_width,
+            #         timeline_height,
+            #         timeline_text,
+            #         timeline_text_with_year,
+            #     ]
+            # )
 
             self.__painter.set_font(self.text_font, 12, self.timeline_text_colour)
             x_pos, y_pos = self.__painter.get_display_text_position(
@@ -639,6 +680,7 @@ class Mahere:
             )
             self.__painter.draw_text(x_pos, y_pos, timeline_text)
             self.__roadmap_dict.set_timeline_item_text(x, timeline_text)
+            self.__roadmap_dict.set_timeline_item_value(x, timeline_text_with_year)
 
         return max_group_text_width, timeline_positions
 
@@ -693,10 +735,8 @@ class Mahere:
         for x in task_data:
             group_text = x.get("group")
 
-            self.__painter.set_font("Arial", 12, self.timeline_text_colour)
-            group_task_width, group_text_height = self.__painter.get_text_dimension(
-                group_text
-            )
+            self.__painter.set_font(self.text_font, 12, self.timeline_text_colour)
+
             if next_group_y_pos == 0:
                 group_y_pos = group_y_start_pos
             else:
@@ -718,106 +758,58 @@ class Mahere:
                 text_height = 20
 
                 # Draw task bar
-
                 bar_start_x_pos = 0
                 total_bar_width = 0
                 row_match = 0
                 for z in range(self.timeline_item):
                     if self.timeline_mode == self.WEEKLY:
-                        task_start_date = datetime(
-                            task.get("start").year,
-                            task.get("start").month,
-                            task.get("start").day,
-                        )
-                        task_end_date = datetime(
-                            task.get("end").year,
-                            task.get("end").month,
-                            task.get("end").day,
-                        )
-                        task_start_period = (
-                            f"{task_start_date.year}{task_start_date.strftime('%W')}"
-                        )
-                        task_end_period = (
-                            f"{task_end_date.year}{task_end_date.strftime('%W')}"
-                        )
-
-                        this_period = timeline_positions[z][4]
+                        (
+                            task_start_period,
+                            task_end_period,
+                            this_period,
+                        ) = self.__get_weekly_dates(timeline_positions, task, z)
 
                     if self.timeline_mode == self.MONTHLY:
-                        task_start_period = datetime(
-                            task.get("start").year, task.get("start").month, 1
-                        )
-                        task_end_period = datetime(
-                            task.get("end").year, task.get("end").month, 1
-                        )
-
-                        this_month = (self.__today + relativedelta(months=+z)).month
-                        this_year = (self.__today + relativedelta(months=+z)).year
-                        this_period = datetime(this_year, this_month, 1)
+                        (
+                            task_start_period,
+                            task_end_period,
+                            this_period,
+                        ) = self.__get_monthly_dates(task, z)
 
                     if self.timeline_mode == self.QUARTERLY:
-                        task_start_date = datetime(
-                            task.get("start").year,
-                            task.get("start").month,
-                            task.get("start").day,
-                        )
-                        task_end_date = datetime(
-                            task.get("end").year,
-                            task.get("end").month,
-                            task.get("end").day,
-                        )
-                        task_start_period = (
-                            f"{task_start_date.year}{task_start_date.month // 3 + 1}"
-                        )
-                        task_end_period = (
-                            f"{task_end_date.year}{task_end_date.month // 3 + 1}"
-                        )
-
-                        this_period = timeline_positions[z][4]
+                        (
+                            task_start_period,
+                            task_end_period,
+                            this_period,
+                        ) = self.__get_quarterly_dates(timeline_positions, task, z)
 
                     if self.timeline_mode == self.HALF_YEARLY:
-                        task_start_date = datetime(
-                            task.get("start").year,
-                            task.get("start").month,
-                            task.get("start").day,
-                        )
-                        task_end_date = datetime(
-                            task.get("end").year,
-                            task.get("end").month,
-                            task.get("end").day,
-                        )
-                        task_start_period = (
-                            f"{task_start_date.year}{task_start_date.month // 6 + 1}"
-                        )
-                        task_end_period = (
-                            f"{task_end_date.year}{task_end_date.month // 6 + 1}"
-                        )
-
-                        this_period = timeline_positions[z][4]
+                        (
+                            task_start_period,
+                            task_end_period,
+                            this_period,
+                        ) = self.__get_half_yearly_dates(timeline_positions, task, z)
 
                     if self.timeline_mode == self.YEARLY:
-                        task_start_date = datetime(
-                            task.get("start").year,
-                            task.get("start").month,
-                            task.get("start").day,
-                        )
-                        task_end_date = datetime(
-                            task.get("end").year,
-                            task.get("end").month,
-                            task.get("end").day,
-                        )
-                        task_start_period = f"{task_start_date.year}"
-                        task_end_period = f"{task_end_date.year}"
-
-                        this_period = timeline_positions[z][4]
+                        (
+                            task_start_period,
+                            task_end_period,
+                            this_period,
+                        ) = self.__get_yearly_dates(timeline_positions, task, z)
 
                     # print (f"{task_text},{task_start_date}-{task_end_date} = this_period: {this_period}, task_start_period: {task_start_period}, task_end_period: {task_end_period}")
                     if (
                         task_start_period <= this_period
                         and task_end_period >= this_period
                     ):
-                        task_box_x_pos = timeline_positions[z][0]
-                        task_box_width = timeline_positions[z][2]
+                        (
+                            task_box_x_pos,
+                            task_box_y_pos,
+                            task_box_width,
+                            task_box_height,
+                        ) = self.__roadmap_dict.get_timeline_item_position(z)
+                        # task_box_x_pos = timeline_positions[z][0]
+                        # task_box_width = timeline_positions[z][2]
                         if bar_start_x_pos == 0:
                             bar_start_x_pos = task_box_x_pos
 
@@ -837,16 +829,16 @@ class Mahere:
                         total_bar_width,
                         task_box_height,
                     )
+
                     self.__roadmap_dict.set_groups_item_task_coordinates(
                         i,
-                        row_match,
+                        j,
                         bar_start_x_pos,
                         task_box_y_pos,
                         total_bar_width,
                         task_box_height,
-                        task_text
+                        task_text,
                     )
-                    print (self__roadmap_dict["groups"][i]["tasks"][j]["coordinates"])
 
                     self.__painter.set_font(self.text_font, 12, self.task_text_colour)
                     x_pos, y_pos = self.__painter.get_display_text_position(
@@ -861,6 +853,88 @@ class Mahere:
 
                 j += 1
             i += 1
+
+    def __get_yearly_dates(self, timeline_positions, task, z):
+        task_start_date = datetime(
+            task.get("start").year,
+            task.get("start").month,
+            task.get("start").day,
+        )
+        task_end_date = datetime(
+            task.get("end").year,
+            task.get("end").month,
+            task.get("end").day,
+        )
+        task_start_period = f"{task_start_date.year}"
+        task_end_period = f"{task_end_date.year}"
+
+        this_period = timeline_positions[z][5]
+        return task_start_period, task_end_period, this_period
+
+    def __get_half_yearly_dates(self, timeline_positions, task, z):
+        task_start_date = datetime(
+            task.get("start").year,
+            task.get("start").month,
+            task.get("start").day,
+        )
+        task_end_date = datetime(
+            task.get("end").year,
+            task.get("end").month,
+            task.get("end").day,
+        )
+        task_start_period = f"{task_start_date.year}{task_start_date.month // 6 + 1}"
+        task_end_period = f"{task_end_date.year}{task_end_date.month // 6 + 1}"
+
+        # this_period = timeline_positions[z][5]
+        this_period = self.__roadmap_dict.get_timeline_item_value(z)
+        return task_start_period, task_end_period, this_period
+
+    def __get_quarterly_dates(self, timeline_positions, task, z):
+        task_start_date = datetime(
+            task.get("start").year,
+            task.get("start").month,
+            task.get("start").day,
+        )
+        task_end_date = datetime(
+            task.get("end").year,
+            task.get("end").month,
+            task.get("end").day,
+        )
+        task_start_period = f"{task_start_date.year}{task_start_date.month // 3 + 1}"
+        task_end_period = f"{task_end_date.year}{task_end_date.month // 3 + 1}"
+
+        # this_period = timeline_positions[z][5]
+        this_period = self.__roadmap_dict.get_timeline_item_value(z)
+        return task_start_period, task_end_period, this_period
+
+    def __get_monthly_dates(self, task, z):
+        task_start_period = datetime(task.get("start").year, task.get("start").month, 1)
+        task_end_period = datetime(task.get("end").year, task.get("end").month, 1)
+
+        this_month = (self.__today + relativedelta(months=+z)).month
+        this_year = (self.__today + relativedelta(months=+z)).year
+        this_period = datetime(this_year, this_month, 1)
+
+        return task_start_period, task_end_period, this_period
+
+    def __get_weekly_dates(self, timeline_positions, task, z):
+        task_start_date = datetime(
+            task.get("start").year,
+            task.get("start").month,
+            task.get("start").day,
+        )
+        task_end_date = datetime(
+            task.get("end").year,
+            task.get("end").month,
+            task.get("end").day,
+        )
+        task_start_period = f"{task_start_date.year}{task_start_date.strftime('%W')}"
+        task_end_period = f"{task_end_date.year}{task_end_date.strftime('%W')}"
+
+        # this_period = timeline_positions[z][4]
+        this_period = self.__roadmap_dict.get_timeline_item_value(z)
+
+        return task_start_period, task_end_period, this_period
 
     def add_group(self, group_text, colour=None) -> str:
         tasks = []
@@ -902,18 +976,15 @@ class Mahere:
         # Set Title
         self.__draw_title()
 
-        # print("1")
-        # pd(self.__roadmap_dict.roadmap_dict)
-
         # Draw Timeline
         max_group_text_width, timeline_positions = self.__draw_timeline(task_data)
 
         # Draw Group
         self.__draw_groups(task_data, max_group_text_width, timeline_positions)
-        #pd(self.__roadmap_dict.roadmap_dict)
 
         # Draw footer
         self.__draw_footer()
+        pd(self.__roadmap_dict.roadmap_dict)
 
         # Save
         self.__painter.save_surface()
