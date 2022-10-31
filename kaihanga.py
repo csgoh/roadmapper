@@ -20,9 +20,10 @@
         * Allow task text to wrap around multiple lines, hence auto enlarge the task bar height
         * Auto expand surface canvas size if the task bar is too long
         * Implement logging
-        * Implement class methods to allow user to add task, group, milestone, etc
+        * Implement class methods to allow user to milestone
         * Custom timeline start date
 
+        Done * Implement class methods to allow user to add task & group.
         Done * Make timeline 'colour' element optional
         Done * Make group 'colour' element optional
         Done * Make timeline 'colour' element optional
