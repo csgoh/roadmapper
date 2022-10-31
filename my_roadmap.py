@@ -1,6 +1,6 @@
 from kaihanga import Mahere
 
-my_roadmap = Mahere(1024, 420, "my_roadmap.png")
+my_roadmap = Mahere(1024, 421, "my_roadmap.png")
 
 my_roadmap.title_text = "This is my roadmap!!!"
 # my_roadmap.timeline_fill_colour = "#527a7a"
@@ -59,4 +59,4 @@ my_roadmap.add_task(group5, "Feature 13", "2024-07-24", "2024-08-24")
 # my_roadmap.add_task(group5, "Feature 12", "2024-04-24", "2024-06-24", "#ffcccc")
 # my_roadmap.add_task(group5, "Feature 13", "2024-07-24", "2024-08-24", "#ffcccc")
 
-my_roadmap.render()
+print(f"Recommended height: {my_roadmap.render()}")

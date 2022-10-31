@@ -622,14 +622,17 @@ class Mahere:
             footer_width, footer_height = self.__painter.get_text_dimension(
                 self.footer_text
             )
+            footer_y_pos = self.__roadmap_dict.get_recommended_height()
             self.__painter.draw_text(
                 (self.__width / 2) - footer_width / 2,
-                self.__height - 10,
+                # self.__height - 10,
+                footer_y_pos,
                 self.footer_text,
             )
             self.__roadmap_dict.set_footer_coordinates(
                 (self.__width / 2) - footer_width / 2,
-                self.__height - 10,
+                # self.__height - 10,
+                footer_y_pos,
                 footer_width,
                 footer_height,
             )
@@ -645,7 +648,6 @@ class Mahere:
 
         self.__painter.set_colour(group.get("colour"))
         self.__painter.draw_box(x, y, group_total_width, group_total_height)
-        # self.__roadmap_dict.__set_group_coordinates(x, y, group_total_width, group_total_height)
 
         self.__painter.set_colour(self.group_text_colour)
         x_pos, y_pos = self.__painter.get_display_text_position(
@@ -727,7 +729,6 @@ class Mahere:
                             this_period,
                         ) = self.__get_yearly_dates(timeline_positions, task, z)
 
-                    # print (f"{task_text},{task_start_date}-{task_end_date} = this_period: {this_period}, task_start_period: {task_start_period}, task_end_period: {task_end_period}")
                     if (
                         task_start_period <= this_period
                         and task_end_period >= this_period
@@ -738,8 +739,6 @@ class Mahere:
                             task_box_width,
                             task_box_height,
                         ) = self.__roadmap_dict.get_timeline_item_position(z)
-                        # task_box_x_pos = timeline_positions[z][0]
-                        # task_box_width = timeline_positions[z][2]
                         if bar_start_x_pos == 0:
                             bar_start_x_pos = task_box_x_pos
 
@@ -918,3 +917,5 @@ class Mahere:
 
         # Save
         self.__painter.save_surface()
+
+        return self.__roadmap_dict.get_recommended_height()
