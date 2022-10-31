@@ -38,6 +38,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from painter import Painter
 import glom
+import json
 from print_dict import pd
 
 
@@ -72,8 +73,12 @@ class Mahere:
         def __init__(self) -> None:
             self.roadmap_dict["recommended_height"] = 0
 
-        def add_to_recommended_height(self, height):
+        def update_recommended_height(self, height):
+            # print(
+            #     f"    recommended_height (1): {self.roadmap_dict['recommended_height']}"
+            # )
             self.roadmap_dict["recommended_height"] = height
+            # print(f"    recommended_height (2): {height}")
 
         def set_title_coordinates(self, x, y, width, height, title_text):
             self.roadmap_dict["title"] = {
@@ -83,46 +88,45 @@ class Mahere:
                 "height": height,
                 "text": title_text,
             }
-            self.add_to_recommended_height(y + height)
+            self.update_recommended_height(y + height)
 
         def set_timeline_coordinates(self, x, y, width, height):
-            if self.roadmap_dict.get("timeline", {}).get("x", 0) == 0:
-                self.roadmap_dict["timeline"] = {
-                    "x": x,
-                    "y": y,
-                    "width": width,
-                    "height": height,
-                    "timeline_items": {},
-                }
-            self.add_to_recommended_height(y + height)
-
-        def set_timeline_item_coordinates(self, item_id, x, y, width, height):
-            # print (f"item: {item}, x: {x}, y: {y}, width: {width}, height: {height}")
-
             (
-                current_x,
-                current_y,
+                current_x_pos,
+                current_y_pos,
                 current_width,
                 current_height,
             ) = self.get_timeline_coordinates()
 
-            if current_x == 0:
-                current_x = x
-            if current_y == 0:
-                current_y = y
-            if current_width < width:
+            if current_x_pos < x:
+                current_x_pos = x
+            if current_y_pos < y:
+                current_y_pos = y
+            if current_width < x + width:
                 current_width = x + width
             if current_height < height:
-                current_height = y + height
+                current_height = height
 
-            self.set_timeline_coordinates(
-                current_x, current_y, current_width, current_height
-            )
+            if self.roadmap_dict.get("timeline", None) == None:
+                self.roadmap_dict["timeline"] = {
+                    "x": current_x_pos,
+                    "y": current_y_pos,
+                    "width": current_width,
+                    "height": current_height,
+                    "timeline_items": {},
+                }
+            else:
+                self.roadmap_dict["timeline"]["width"] = current_width
+                self.roadmap_dict["timeline"]["height"] = current_height
+
+            self.update_recommended_height(current_y_pos + current_height)
+
+        def set_timeline_item_coordinates(self, item_id, x, y, width, height):
+            self.set_timeline_coordinates(x, y, width, height)
 
             item = {"x": x, "y": y, "width": width, "height": height}
 
             self.roadmap_dict["timeline"]["timeline_items"][item_id] = item
-            self.add_to_recommended_height(y + height)
 
         def get_timeline_item_text(self, item_id):
             return self.roadmap_dict["timeline"]["timeline_items"][item_id]["text"]
@@ -136,7 +140,7 @@ class Mahere:
         def set_timeline_item_value(self, item_id, value):
             self.roadmap_dict["timeline"]["timeline_items"][item_id]["value"] = value
 
-        def get_timeline_item_position(self, item_id):
+        def get_timeline_item_coordinates(self, item_id):
             return (
                 self.roadmap_dict["timeline"]["timeline_items"][item_id]["x"],
                 self.roadmap_dict["timeline"]["timeline_items"][item_id]["y"],
@@ -145,36 +149,51 @@ class Mahere:
             )
 
         def set_groups_coordinates(self, x, y, width, height):
+            (
+                current_x_pos,
+                current_y_pos,
+                current_width,
+                current_height,
+            ) = self.get_groups_coordinates()
+            if current_x_pos < x:
+                current_x_pos = x
+            if current_y_pos < y:
+                current_y_pos = y
+            if current_width < x + width:
+                current_width = x + width
+            if current_height < height:
+                current_height = height
+
             if self.roadmap_dict.get("groups", {}).get("x", 0) == 0:
                 self.roadmap_dict["groups"] = {
                     "x": x,
                     "y": y,
-                    "width": width,
-                    "height": height,
                     "group_items": {},
                 }
-            self.add_to_recommended_height(y + height)
+
+            self.update_recommended_height(y + height)
 
         def set_groups_item_coordinates(self, item_id, x, y, width, height):
-
+            self.set_groups_coordinates(x, y, width, height)
+            current_x = 0
+            current_y = 0
+            current_width = 0
+            current_height = 0
             (
                 current_x,
                 current_y,
                 current_width,
                 current_height,
-            ) = self.get_groups_coordinates()
-            if current_x == 0:
+            ) = self.get_groups_item_coordinates(item_id)
+            if current_x < x:
                 current_x = x
-            if current_y == 0:
+            if current_y < y:
                 current_y = y
-            if current_width < width:
+            if current_width < x + width:
                 current_width = x + width
             if current_height < height:
                 current_height = y + height
 
-            self.set_groups_coordinates(
-                current_x, current_y, current_width, current_height
-            )
             if self.roadmap_dict["groups"]["group_items"].get(item_id, None) == None:
                 self.roadmap_dict["groups"]["group_items"][item_id] = {
                     "x": x,
@@ -183,38 +202,18 @@ class Mahere:
                     "height": height,
                     "tasks": {},
                 }
-            # self.roadmap_dict["groups"]["group_items"][item_id] = {"x": x, "y": y, "width": width, "height": height, "tasks": {}}
+            else:
+                self.roadmap_dict["groups"]["group_items"][item_id]["width"] = x + width
+                self.roadmap_dict["groups"]["group_items"][item_id]["height"] = (
+                    y + height
+                )
 
         def set_groups_item_task_coordinates(
             self, item_id, task_id, x, y, width, height, task_text
         ):
-            current_x = 0
-            current_y = 0
-            current_width = 0
-            current_height = 0
-            if item_id > 0:
-                (
-                    current_x,
-                    current_y,
-                    current_width,
-                    current_height,
-                ) = self.get_groups_item_coordinates(item_id)
-            if current_x == 0:
-                current_x = x
-            if current_y == 0:
-                current_y = y
-            if current_width < width:
-                current_width = x + width
-            if current_height < height:
-                current_height = y + height
 
-            self.set_groups_item_coordinates(
-                item_id, current_x, current_y, current_width, current_height
-            )
+            self.set_groups_item_coordinates(item_id, x, y, width, height)
 
-            # task_id -= 1
-
-            # print(f"item_id {item_id}, task_id {task_id}, {task_text}")
             self.roadmap_dict["groups"]["group_items"][item_id]["tasks"][task_id] = {
                 "x": x,
                 "y": y,
@@ -222,7 +221,6 @@ class Mahere:
                 "height": height,
                 "text": task_text,
             }
-            # print(">>", self.roadmap_dict["groups"]["group_items"][item_id]["tasks"])
 
         def set_footer_coordinates(self, x, y, width, height):
             self.roadmap_dict["footer"] = {
@@ -588,17 +586,6 @@ class Mahere:
                 timeline_text = f"{this_month.year}"
                 timeline_text_with_year = f"{this_month.year}"
 
-            # timeline_positions.append(
-            #     [
-            #         timeline_x_pos,
-            #         timeline_y_pos,
-            #         timeline_item_width,
-            #         timeline_height,
-            #         timeline_text,
-            #         timeline_text_with_year,
-            #     ]
-            # )
-
             self.__painter.set_font(self.text_font, 12, self.timeline_text_colour)
             x_pos, y_pos = self.__painter.get_display_text_position(
                 timeline_x_pos,
@@ -622,7 +609,7 @@ class Mahere:
             footer_width, footer_height = self.__painter.get_text_dimension(
                 self.footer_text
             )
-            footer_y_pos = self.__roadmap_dict.get_recommended_height()
+            footer_y_pos = self.__roadmap_dict.get_recommended_height() + 40
             self.__painter.draw_text(
                 (self.__width / 2) - footer_width / 2,
                 # self.__height - 10,
@@ -738,7 +725,7 @@ class Mahere:
                             task_box_y_pos,
                             task_box_width,
                             task_box_height,
-                        ) = self.__roadmap_dict.get_timeline_item_position(z)
+                        ) = self.__roadmap_dict.get_timeline_item_coordinates(z)
                         if bar_start_x_pos == 0:
                             bar_start_x_pos = task_box_x_pos
 
@@ -913,7 +900,9 @@ class Mahere:
 
         # Draw footer
         self.__draw_footer()
-        pd(self.__roadmap_dict.roadmap_dict)
+        # pd(self.__roadmap_dict.roadmap_dict)
+        with open("output.json", "w") as write_file:
+            json.dump(self.__roadmap_dict.roadmap_dict, write_file, indent=4)
 
         # Save
         self.__painter.save_surface()

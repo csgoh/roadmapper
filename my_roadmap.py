@@ -1,6 +1,6 @@
 from kaihanga import Mahere
 
-my_roadmap = Mahere(1024, 421, "my_roadmap.png")
+my_roadmap = Mahere(1024, 417, "my_roadmap.png")
 
 my_roadmap.title_text = "This is my roadmap!!!"
 # my_roadmap.timeline_fill_colour = "#527a7a"
