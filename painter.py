@@ -58,7 +58,7 @@ class Painter:
         self.__cr.fill()
 
     def draw_diamond(self, x, y, width, height):
-        self.__cr.set_source_rgb(1, 1, 1)
+        self.__cr.set_source_rgb(1, 0, 0)
         self.__cr.move_to(x + width / 2, y)
         self.__cr.line_to(x + width, y + height / 2)
         self.__cr.line_to(x + width / 2, y + height)

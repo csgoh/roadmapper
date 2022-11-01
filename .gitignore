@@ -33,6 +33,8 @@ sandpit.py
 test.ipynb
 *.py[cod]
 *$py.class
+reference/
+*.json
 
 # C extensions
 *.so

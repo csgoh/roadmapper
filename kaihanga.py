@@ -22,6 +22,8 @@
         * Implement logging
         * Implement class methods to allow user to milestone
         * Custom timeline start date
+        * Support multiple tasks on the same line/lane
+
 
         Done * Implement class methods to allow user to add task & group.
         Done * Make timeline 'colour' element optional
@@ -58,6 +60,9 @@ class Mahere:
     __DEFAULT_TASK_FILL_COLOUR = "#b3e6ff"
     __DEFAULT_TASK_TEXT_COLOUR = "Black"
 
+    __DEFAULT_MILESTONE_FILL_COLOUR = "Red"
+    __DEFAULT_MILESTONE_TEXT_COLOUR = "Red"
+
     __DEFAULT_FOOTER_TEXT_COLOUR = "Black"
 
     # Constant variables
@@ -93,7 +98,7 @@ class Mahere:
         self.timeline_text_colour = ""
         self.group_text_colour = ""
         self.task_text_colour = ""
-        self.__tasks = []
+        self.__roadmap_input = {}
         self.__today = datetime.today()
 
     def __repr__(self):
@@ -137,7 +142,7 @@ class Mahere:
             self.task_text_colour = self.__DEFAULT_TASK_TEXT_COLOUR
 
     def __generate_sample_data(self):
-        if len(self.__tasks) == 0:
+        if len(self.__roadmap_input) == 0:
             task_data = [
                 {
                     "group": "Stream 1",
@@ -148,12 +153,31 @@ class Mahere:
                             "start": datetime(2022, 10, 24),
                             "end": datetime(2022, 11, 24),
                             "colour": "lightgreen",
+                            "milestones": [
+                                {
+                                    "milestone_text": "Milestone 1",
+                                    "milestone_date": datetime(2022, 11, 24),
+                                    "milestone_colour": "red",
+                                }
+                            ],
                         },
                         {
                             "task": "Feature 2",
                             "start": datetime(2022, 12, 24),
                             "end": datetime(2023, 4, 24),
                             "colour": "lightgreen",
+                            "milestones": [
+                                {
+                                    "milestone_text": "Milestone 2",
+                                    "milestone_date": datetime(2023, 2, 24),
+                                    "milestone_colour": "red",
+                                },
+                                {
+                                    "milestone_text": "Milestone 4",
+                                    "milestone_date": datetime(2023, 4, 24),
+                                    "milestone_colour": "red",
+                                },
+                            ],
                         },
                     ],
                 },
@@ -201,7 +225,7 @@ class Mahere:
                 },
             ]
         else:
-            task_data = self.__tasks
+            task_data = self.__roadmap_input
         return task_data
 
     def __set_background(self):
@@ -225,9 +249,9 @@ class Mahere:
 
     def __draw_timeline(self, task_data):
         max_group_text_width = 0
-        for x in task_data:
-            group_text = x.get("group")
-            self.__painter.set_font("Arial", 12, x.get("colour"))
+        for x in task_data.keys():
+            group_text = x
+            self.__painter.set_font("Arial", 12, self.__roadmap_input[x].get("colour"))
             group_text_width, group_text_height = self.__painter.get_text_dimension(
                 group_text
             )
@@ -334,16 +358,16 @@ class Mahere:
                 footer_height,
             )
 
-    def __draw_group(self, x, y, max_width, group):
-        group_text = group.get("group")
+    def __draw_group(self, x, y, max_width, group_text):
+
         last_y_pos = 0
 
         # Calc group height
-        task_count = len(group.get("tasks"))
+        task_count = len(self.__roadmap_input[group_text].get("tasks"))
         group_total_height = (20 * task_count) + (2 * (task_count - 1))
         group_total_width = max_width + 20
 
-        self.__painter.set_colour(group.get("colour"))
+        self.__painter.set_colour(self.__roadmap_input[group_text].get("colour"))
         self.__painter.draw_box(x, y, group_total_width, group_total_height)
 
         self.__painter.set_colour(self.group_text_colour)
@@ -354,15 +378,14 @@ class Mahere:
         return last_y_pos
 
     def __draw_groups(self, task_data, max_group_text_width, timeline_positions):
-        group_y_start_pos = 70
+        group_y_start_pos = 80
         group_height = 0
 
         next_group_y_pos = 0
         group_x_pos = 10
         group_y_pos = 0
         i = 0
-        for x in task_data:
-            group_text = x.get("group")
+        for group_item in task_data.keys():
 
             self.__painter.set_font(self.text_font, 12, self.timeline_text_colour)
 
@@ -371,7 +394,9 @@ class Mahere:
             else:
                 group_y_pos = next_group_y_pos + 25
 
-            self.__draw_group(group_x_pos, group_y_pos, max_group_text_width, x)
+            self.__draw_group(
+                group_x_pos, group_y_pos, max_group_text_width, group_item
+            )
             next_group_y_pos = group_y_pos
 
             ###(4) Set Task
@@ -379,8 +404,8 @@ class Mahere:
             next_group_y_pos = task_y_pos
 
             j = 0
-            for task in x.get("tasks"):
-                task_text = task.get("task")
+            for task in self.__roadmap_input[group_item].get("tasks"):
+                task_text = task
                 text_width, text_height = self.__painter.get_text_dimension(task_text)
                 y_pos = task_y_pos + text_height * j + (self.__VSPACER * j)
                 next_group_y_pos = y_pos
@@ -390,41 +415,15 @@ class Mahere:
                 bar_start_x_pos = 0
                 total_bar_width = 0
                 row_match = 0
-                for z in range(self.timeline_item):
-                    if self.timeline_mode == self.WEEKLY:
-                        (
-                            task_start_period,
-                            task_end_period,
-                            this_period,
-                        ) = self.__get_weekly_dates(timeline_positions, task, z)
 
-                    if self.timeline_mode == self.MONTHLY:
-                        (
-                            task_start_period,
-                            task_end_period,
-                            this_period,
-                        ) = self.__get_monthly_dates(task, z)
+                (task_start_period, task_end_period) = self.__get_task_period(
+                    group_item, task
+                )
 
-                    if self.timeline_mode == self.QUARTERLY:
-                        (
-                            task_start_period,
-                            task_end_period,
-                            this_period,
-                        ) = self.__get_quarterly_dates(timeline_positions, task, z)
+                milestones = self.__get_milestones(group_item, task)
 
-                    if self.timeline_mode == self.HALF_YEARLY:
-                        (
-                            task_start_period,
-                            task_end_period,
-                            this_period,
-                        ) = self.__get_half_yearly_dates(timeline_positions, task, z)
-
-                    if self.timeline_mode == self.YEARLY:
-                        (
-                            task_start_period,
-                            task_end_period,
-                            this_period,
-                        ) = self.__get_yearly_dates(timeline_positions, task, z)
+                for timeline_index in range(self.timeline_item):
+                    this_period = self.__get_timeline_period(timeline_index)
 
                     if (
                         task_start_period <= this_period
@@ -435,7 +434,9 @@ class Mahere:
                             task_box_y_pos,
                             task_box_width,
                             task_box_height,
-                        ) = self.__roadmap_dict.get_timeline_item_coordinates(z)
+                        ) = self.__roadmap_dict.get_timeline_item_coordinates(
+                            timeline_index
+                        )
                         if bar_start_x_pos == 0:
                             bar_start_x_pos = task_box_x_pos
 
@@ -448,7 +449,11 @@ class Mahere:
                         self.__HSPACER * row_match - 1
                     )
 
-                    self.__painter.set_colour(task.get("colour"))
+                    self.__painter.set_colour(
+                        self.__roadmap_input[group_item]
+                        .get("tasks")[task]
+                        .get("colour")
+                    )
                     self.__painter.draw_box(
                         bar_start_x_pos,
                         task_box_y_pos,
@@ -467,7 +472,7 @@ class Mahere:
                     )
 
                     self.__painter.set_font(self.text_font, 12, self.task_text_colour)
-                    x_pos, y_pos = self.__painter.get_display_text_position(
+                    text_x_pos, text_y_pos = self.__painter.get_display_text_position(
                         bar_start_x_pos,
                         task_box_y_pos,
                         total_bar_width,
@@ -475,12 +480,112 @@ class Mahere:
                         task_text,
                         "centre",
                     )
-                    self.__painter.draw_text(x_pos, y_pos, f"{task_text}")
+                    self.__painter.draw_text(text_x_pos, text_y_pos, f"{task_text}")
 
+                # Loop one more time to draw milestones
+                milestones = self.__get_milestones(group_item, task)
+
+                for timeline_index in range(self.timeline_item):
+                    this_period = self.__get_timeline_period(timeline_index)
+
+                    if (
+                        task_start_period <= this_period
+                        and task_end_period >= this_period
+                    ):
+                        (
+                            task_box_x_pos,
+                            task_box_y_pos,
+                            task_box_width,
+                            task_box_height,
+                        ) = self.__roadmap_dict.get_timeline_item_coordinates(
+                            timeline_index
+                        )
+                        if bar_start_x_pos == 0:
+                            bar_start_x_pos = task_box_x_pos
+
+                        ## Milestone loop
+                        for milestone_text in milestones:
+                            milestone_date = milestones[milestone_text].get("date")
+                            if self.timeline_mode == self.MONTHLY:
+                                if (milestone_date.year == this_period.year) and (
+                                    milestone_date.month == this_period.month
+                                ):
+                                    # Draw milestone diamond
+                                    self.__painter.draw_diamond(
+                                        bar_start_x_pos - 3, y_pos - 3, 26, 26
+                                    )
+
+                                    self.__painter.set_font(
+                                        self.text_font,
+                                        10,
+                                        self.__DEFAULT_MILESTONE_TEXT_COLOUR,
+                                    )
+                                    width, _ = self.__painter.get_text_dimension(
+                                        milestone_text
+                                    )
+                                    # Draw milestone text
+                                    self.__painter.draw_text(
+                                        bar_start_x_pos - (width / 3),
+                                        y_pos - 6,
+                                        milestone_text,
+                                    )
                 j += 1
             i += 1
 
-    def __get_yearly_dates(self, timeline_positions, task, z):
+    def __get_timeline_period(self, timeline_index):
+        if self.timeline_mode == self.WEEKLY:
+            this_period = self.__roadmap_dict.get_timeline_item_value(timeline_index)
+
+        if self.timeline_mode == self.MONTHLY:
+            this_month = (self.__today + relativedelta(months=+timeline_index)).month
+            this_year = (self.__today + relativedelta(months=+timeline_index)).year
+            this_period = datetime(this_year, this_month, 1)
+
+        if self.timeline_mode == self.QUARTERLY:
+            this_period = self.__roadmap_dict.get_timeline_item_value(timeline_index)
+
+        if self.timeline_mode == self.HALF_YEARLY:
+            this_period = self.__roadmap_dict.get_timeline_item_value(timeline_index)
+
+        if self.timeline_mode == self.YEARLY:
+            this_period = self.__roadmap_dict.get_timeline_item_value(timeline_index)
+
+        return this_period
+
+    def __get_task_period(self, group, task):
+        if self.timeline_mode == self.WEEKLY:
+            (
+                task_start_period,
+                task_end_period,
+            ) = self.__get_weekly_dates(group, task)
+
+        if self.timeline_mode == self.MONTHLY:
+            (
+                task_start_period,
+                task_end_period,
+            ) = self.__get_monthly_dates(group, task)
+
+        if self.timeline_mode == self.QUARTERLY:
+            (
+                task_start_period,
+                task_end_period,
+            ) = self.__get_quarterly_dates(group, task)
+
+        if self.timeline_mode == self.HALF_YEARLY:
+            (
+                task_start_period,
+                task_end_period,
+            ) = self.__get_half_yearly_dates(group, task)
+
+        if self.timeline_mode == self.YEARLY:
+            (
+                task_start_period,
+                task_end_period,
+            ) = self.__get_yearly_dates(group, task)
+
+        return task_start_period, task_end_period
+
+    def __get_yearly_dates(self, group, task):
         task_start_date = datetime(
             task.get("start").year,
             task.get("start").month,
@@ -494,10 +599,9 @@ class Mahere:
         task_start_period = f"{task_start_date.year}"
         task_end_period = f"{task_end_date.year}"
 
-        this_period = timeline_positions[z][5]
-        return task_start_period, task_end_period, this_period
+        return task_start_period, task_end_period
 
-    def __get_half_yearly_dates(self, timeline_positions, task, z):
+    def __get_half_yearly_dates(self, group, task):
         task_start_date = datetime(
             task.get("start").year,
             task.get("start").month,
@@ -511,11 +615,9 @@ class Mahere:
         task_start_period = f"{task_start_date.year}{task_start_date.month // 6 + 1}"
         task_end_period = f"{task_end_date.year}{task_end_date.month // 6 + 1}"
 
-        # this_period = timeline_positions[z][5]
-        this_period = self.__roadmap_dict.get_timeline_item_value(z)
-        return task_start_period, task_end_period, this_period
+        return task_start_period, task_end_period
 
-    def __get_quarterly_dates(self, timeline_positions, task, z):
+    def __get_quarterly_dates(self, group, task):
         task_start_date = datetime(
             task.get("start").year,
             task.get("start").month,
@@ -529,19 +631,24 @@ class Mahere:
         task_start_period = f"{task_start_date.year}{task_start_date.month // 3 + 1}"
         task_end_period = f"{task_end_date.year}{task_end_date.month // 3 + 1}"
 
-        # this_period = timeline_positions[z][5]
-        this_period = self.__roadmap_dict.get_timeline_item_value(z)
-        return task_start_period, task_end_period, this_period
+        return task_start_period, task_end_period
 
-    def __get_monthly_dates(self, task, z):
-        task_start_period = datetime(task.get("start").year, task.get("start").month, 1)
-        task_end_period = datetime(task.get("end").year, task.get("end").month, 1)
+    def __get_monthly_dates(self, group, task):
+        task_start_period = datetime(
+            self.__roadmap_input[group].get("tasks")[task].get("start").year,
+            self.__roadmap_input[group].get("tasks")[task].get("start").month,
+            1,
+        )
+        task_end_period = datetime(
+            self.__roadmap_input[group].get("tasks")[task].get("end").year,
+            self.__roadmap_input[group].get("tasks")[task].get("end").month,
+            1,
+        )
+        # return task_start_period, task_end_period, milestone_dates, this_period
+        return task_start_period, task_end_period
 
-        this_month = (self.__today + relativedelta(months=+z)).month
-        this_year = (self.__today + relativedelta(months=+z)).year
-        this_period = datetime(this_year, this_month, 1)
-
-        return task_start_period, task_end_period, this_period
+    def __get_milestones(self, group, task):
+        return self.__roadmap_input[group].get("tasks", {})[task].get("milestones", {})
 
     def __get_weekly_dates(self, timeline_positions, task, z):
         task_start_date = datetime(
@@ -563,11 +670,11 @@ class Mahere:
         return task_start_period, task_end_period, this_period
 
     def add_group(self, group_text, colour=None) -> str:
-        tasks = []
+        tasks = {}
         if colour is None:
             colour = self.__DEFAULT_GROUP_FILL_COLOUR
         group = {"group": group_text, "colour": colour, "tasks": tasks}
-        self.__tasks.append(group)
+        self.__roadmap_input[group_text] = {"colour": colour, "tasks": {}}
         return group_text
 
     def add_task(
@@ -580,21 +687,42 @@ class Mahere:
         if colour is None:
             colour = self.__DEFAULT_TASK_FILL_COLOUR
         task = {
-            "task": task_text,
             "start": start_date_object,
             "end": end_date_object,
             "colour": colour,
+            "milestones": {},
         }
-        for group in self.__tasks:
-            if group.get("group") == group_text:
-                group.get("tasks").append(task)
+
+        self.__roadmap_input[group_text]["tasks"][task_text] = task
+
+        # for group in self.__roadmap_input:
+        #     if group.get("group") == group_text:
+        #         group.get("tasks").append(task)
+
+        return task_text
+
+    def add_milestone(
+        self, group_text, task_text, milestone_text, milestone_date, colour=None
+    ):
+        # Expecting YYYY-MM-DD format. E.g 2022-08-29
+        milestone_date_object = datetime.strptime(milestone_date, "%Y-%m-%d")
+        if colour is None:
+            colour = self.__DEFAULT_MILESTONE_FILL_COLOUR
+        milestone = {
+            "date": milestone_date_object,
+            "colour": colour,
+        }
+        self.__roadmap_input[group_text]["tasks"][task_text]["milestones"][
+            milestone_text
+        ] = milestone
+        return milestone_text
 
     def render(self) -> None:
         # Default settings
         self.__set_default_settings()
 
         # Create a sample data structure if none is provided
-        task_data = self.__generate_sample_data()
+        roadmap_input = self.__generate_sample_data()
 
         # Set backgroud
         self.__set_background()
@@ -603,16 +731,18 @@ class Mahere:
         self.__draw_title()
 
         # Draw Timeline
-        max_group_text_width, timeline_positions = self.__draw_timeline(task_data)
+        max_group_text_width, timeline_positions = self.__draw_timeline(roadmap_input)
 
         # Draw Group
-        self.__draw_groups(task_data, max_group_text_width, timeline_positions)
+        self.__draw_groups(roadmap_input, max_group_text_width, timeline_positions)
 
         # Draw footer
         self.__draw_footer()
         # pd(self.__roadmap_dict.roadmap_dict)
         # with open("output.json", "w") as write_file:
         #     json.dump(self.__roadmap_dict.roadmap_dict, write_file, indent=4)
+
+        pd(self.__roadmap_input)
 
         # Save
         self.__painter.save_surface()
