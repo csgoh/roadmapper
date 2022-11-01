@@ -13,8 +13,6 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 import cairo
-
-# from webcolors import name_to_rgb, hex_to_rgb
 from colour import Color
 
 
@@ -57,6 +55,15 @@ class Painter:
 
     def draw_box(self, x, y, width, height):
         self.__cr.rectangle(x, y, width, height)
+        self.__cr.fill()
+
+    def draw_diamond(self, x, y, width, height):
+        self.__cr.set_source_rgb(1, 1, 1)
+        self.__cr.move_to(x + width / 2, y)
+        self.__cr.line_to(x + width, y + height / 2)
+        self.__cr.line_to(x + width / 2, y + height)
+        self.__cr.line_to(x, y + height / 2)
+        self.__cr.close_path()
         self.__cr.fill()
 
     def draw_text(self, x, y, text):

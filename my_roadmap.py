@@ -59,4 +59,5 @@ my_roadmap.add_task(group5, "Feature 13", "2024-07-24", "2024-08-24")
 # my_roadmap.add_task(group5, "Feature 12", "2024-04-24", "2024-06-24", "#ffcccc")
 # my_roadmap.add_task(group5, "Feature 13", "2024-07-24", "2024-08-24", "#ffcccc")
 
-print(f"Recommended height: {my_roadmap.render()}")
+my_roadmap.render()
+print(f"{my_roadmap.__repr__()}")
