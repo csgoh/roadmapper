@@ -13,35 +13,12 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 
-""" To do
-        * Show milestones
-        * Proporsion task bar according to the start and end date
-        * Display current date marker
-        * Allow task text to wrap around multiple lines, hence auto enlarge the task bar height
-        * Auto expand surface canvas size if the task bar is too long
-        * Implement logging
-        * Implement class methods to allow user to milestone
-        * Custom timeline start date
-        * Support multiple tasks on the same line/lane
-
-
-        Done * Implement class methods to allow user to add task & group.
-        Done * Make timeline 'colour' element optional
-        Done * Make group 'colour' element optional
-        Done * Make timeline 'colour' element optional
-        Done * Option to turn off footer
-        Done * Modularise method lines
-        Done * Display task text on top of bar
-        Done * Display group text as a block
-        Done * Week, Quarter, Half Year, Year timeline mode support
-        Done * Save as PDF
-"""
-
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from painter import Painter
 from print_dict import pd
 import json
+import calendar
 from roadmapdict import RoadMapDict
 
 
@@ -263,7 +240,7 @@ class Mahere:
             self.__width
             - max_group_text_width
             - (self.__HSPACER * self.timeline_item)
-            - 40
+            - 100
         )
 
         timeline_y_pos = 40
@@ -277,7 +254,7 @@ class Mahere:
                 (x * timeline_item_width)
                 + max_group_text_width
                 + (self.__HSPACER * x)
-                + 30
+                + 50
             )
 
             # Draw timeline box
@@ -382,13 +359,14 @@ class Mahere:
         group_height = 0
 
         next_group_y_pos = 0
-        group_x_pos = 10
+        group_x_pos = 30
         group_y_pos = 0
         i = 0
         for group_item in task_data.keys():
 
             self.__painter.set_font(self.text_font, 12, self.timeline_text_colour)
 
+            ## Determine group y (vertical) position
             if next_group_y_pos == 0:
                 group_y_pos = group_y_start_pos
             else:
@@ -399,16 +377,17 @@ class Mahere:
             )
             next_group_y_pos = group_y_pos
 
-            ###(4) Set Task
+            ## Set Task
             task_y_pos = group_y_pos
             next_group_y_pos = task_y_pos
 
             j = 0
             for task in self.__roadmap_input[group_item].get("tasks"):
                 task_text = task
-                text_width, text_height = self.__painter.get_text_dimension(task_text)
-                y_pos = task_y_pos + text_height * j + (self.__VSPACER * j)
-                next_group_y_pos = y_pos
+                ## Determine task y (vertical) position
+                _, text_height = self.__painter.get_text_dimension(task_text)
+                next_task_y_pos = task_y_pos + text_height * j + (self.__VSPACER * j)
+                next_group_y_pos = next_task_y_pos
                 text_height = 20
 
                 # Draw task bar
@@ -443,7 +422,7 @@ class Mahere:
                         row_match += 1
 
                 if row_match > 0:
-                    task_box_y_pos = y_pos
+                    task_box_y_pos = next_task_y_pos
                     task_box_height = text_height
                     total_bar_width = task_box_width * row_match + (
                         self.__HSPACER * row_match - 1
@@ -483,6 +462,8 @@ class Mahere:
                     self.__painter.draw_text(text_x_pos, text_y_pos, f"{task_text}")
 
                 # Loop one more time to draw milestones
+                bar_start_x_pos = 0
+                total_bar_width = 0
                 milestones = self.__get_milestones(group_item, task)
 
                 for timeline_index in range(self.timeline_item):
@@ -500,19 +481,42 @@ class Mahere:
                         ) = self.__roadmap_dict.get_timeline_item_coordinates(
                             timeline_index
                         )
-                        if bar_start_x_pos == 0:
-                            bar_start_x_pos = task_box_x_pos
+                        # if bar_start_x_pos == 0:
+                        bar_start_x_pos = task_box_x_pos
 
                         ## Milestone loop
                         for milestone_text in milestones:
                             milestone_date = milestones[milestone_text].get("date")
+                            # Determine timeline item x position
+                            (
+                                _,
+                                _,
+                                timeline_item_width,
+                                _,
+                            ) = self.__roadmap_dict.get_timeline_item_coordinates(
+                                timeline_index
+                            )
                             if self.timeline_mode == self.MONTHLY:
+                                print(
+                                    f"{task_text}-{milestone_text} :{milestone_date.year}=={this_period.year}, {milestone_date.month}=={this_period.month}"
+                                )
                                 if (milestone_date.year == this_period.year) and (
                                     milestone_date.month == this_period.month
                                 ):
+                                    _, last_day = calendar.monthrange(
+                                        this_period.year, this_period.month
+                                    )
+                                    pos_percentage = milestone_date.day / last_day
+
                                     # Draw milestone diamond
                                     self.__painter.draw_diamond(
-                                        bar_start_x_pos - 3, y_pos - 3, 26, 26
+                                        bar_start_x_pos
+                                        + (timeline_item_width * pos_percentage)
+                                        - 8
+                                        - 3,
+                                        next_task_y_pos - 3,
+                                        26,
+                                        26,
                                     )
 
                                     self.__painter.set_font(
@@ -525,8 +529,10 @@ class Mahere:
                                     )
                                     # Draw milestone text
                                     self.__painter.draw_text(
-                                        bar_start_x_pos - (width / 3),
-                                        y_pos - 6,
+                                        bar_start_x_pos
+                                        + (timeline_item_width * pos_percentage)
+                                        - (width / 3),
+                                        next_task_y_pos - 6,
                                         milestone_text,
                                     )
                 j += 1
@@ -742,7 +748,7 @@ class Mahere:
         # with open("output.json", "w") as write_file:
         #     json.dump(self.__roadmap_dict.roadmap_dict, write_file, indent=4)
 
-        pd(self.__roadmap_input)
+        # pd(self.__roadmap_input)
 
         # Save
         self.__painter.save_surface()

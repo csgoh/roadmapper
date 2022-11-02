@@ -1,6 +1,6 @@
 from kaihanga import Mahere
 
-my_roadmap = Mahere(1024, 417, "my_roadmap.png")
+my_roadmap = Mahere(1200, 417, "my_roadmap.png")
 
 my_roadmap.title_text = "This is my roadmap!!!"
 # my_roadmap.timeline_fill_colour = "#527a7a"
@@ -14,14 +14,17 @@ my_roadmap.show_footer = True
 group1 = my_roadmap.add_group("Stream 1: Develop base")
 task1 = my_roadmap.add_task(group1, "Feature 1", "2022-10-24", "2022-11-24")
 task2 = my_roadmap.add_task(group1, "Feature 2", "2022-12-24", "2023-04-24")
-my_roadmap.add_milestone(group1, task1, "Milestone 1", "2022-11-24")
-my_roadmap.add_milestone(group1, task2, "Milestone 2", "2023-02-24")
-my_roadmap.add_milestone(group1, task2, "Milestone 3", "2023-04-24")
+my_roadmap.add_milestone(group1, task1, "v1.0 MVP", "2022-11-30")
+my_roadmap.add_milestone(group1, task2, "v1.1", "2023-02-28")
+my_roadmap.add_milestone(group1, task2, "v1.2", "2023-04-30")
 
 
 group2 = my_roadmap.add_group("Stream 2: Enable monitoring")
-my_roadmap.add_task(group2, "Feature 3", "2022-04-24", "2022-12-24")
-my_roadmap.add_task(group2, "Feature 4", "2023-01-24", "2024-12-24")
+task3 = my_roadmap.add_task(group2, "Feature 3", "2022-04-24", "2022-12-24")
+my_roadmap.add_milestone(group2, task3, "Monitoring Portal", "2022-12-30")
+
+task4 = my_roadmap.add_task(group2, "Feature 4", "2023-01-24", "2024-12-24")
+my_roadmap.add_milestone(group2, task4, "Monitoring Portal", "2023-06-30")
 
 group3 = my_roadmap.add_group("Stream 3: Support reporting")
 my_roadmap.add_task(group3, "Feature 5", "2022-10-24", "2023-03-24")
