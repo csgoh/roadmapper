@@ -39,8 +39,6 @@ class Painter:
             self.__surface = cairo.PDFSurface(output_file_name, width, height)
 
         self.__cr = cairo.Context(self.__surface)
-        self.__width = width
-        self.__height = height
         self.__output_type = output_type
         self.__output_file_name = output_file_name
 
@@ -72,12 +70,12 @@ class Painter:
 
     def get_text_dimension(self, text):
         (
-            text_x_bearing,
-            text_y_bearing,
+            _,
+            _,
             text_width,
             text_height,
-            dx,
-            dy,
+            _,
+            _,
         ) = self.__cr.text_extents(text)
         return text_width, text_height
 
@@ -100,6 +98,6 @@ class Painter:
 
     def save_surface(self):
         if self.__output_type == "PNG":
-            self.__surface.write_to_png(self.__output_file_name)  # Output to PNG
+            self.__surface.write_to_png(self.__output_file_name)
         if self.__output_type == "PDF":
             self.__surface.show_page()
