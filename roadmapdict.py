@@ -5,11 +5,7 @@ class RoadMapDict:
         self.roadmap_dict["recommended_height"] = 0
 
     def update_recommended_height(self, height):
-        # print(
-        #     f"    recommended_height (1): {self.roadmap_dict['recommended_height']}"
-        # )
         self.roadmap_dict["recommended_height"] = height
-        # print(f"    recommended_height (2): {height}")
 
     def set_title_coordinates(self, x, y, width, height, title_text):
         self.roadmap_dict["title"] = {

@@ -52,6 +52,7 @@ class Painter:
         self.set_colour(font_colour)
 
     def draw_box(self, x, y, width, height):
+        # print(f"Drawing box at {x}, {y} with width {width} and height {height}")
         self.__cr.rectangle(x, y, width, height)
         self.__cr.fill()
 
