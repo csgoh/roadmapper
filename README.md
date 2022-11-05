@@ -2,11 +2,11 @@
 
 Purpose: This application is used to generate graphical roadmap using code. 
 
-Mahere means roadmap and Kaihanga means generator in Maori language.
+
 
 ## Example  
 ```python
-from kaihanga import Mahere
+from generator import Roadmap
 
 my_roadmap = Mahere(1024, 420, "my_roadmap.png")
 
