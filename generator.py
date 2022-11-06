@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from datetime import datetime
+from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
 from painter import Painter
 from print_dict import pd
@@ -78,7 +78,7 @@ class Roadmap:
         self.task_text_colour = ""
         self.__roadmap_input = {}
         self.__today = datetime.today()
-        self.timeline_start_date = self.__today
+        self.timeline_start_date = datetime.strftime(self.__today, "%Y-%m-%d")
 
     def __repr__(self):
         return json.dumps(self.__roadmap_dict.roadmap_dict, indent=4)
@@ -210,9 +210,6 @@ class Roadmap:
     def __set_background(self):
         self.__painter.set_background_colour(self.background_colour)
 
-    def set_timeline_start_date(self, start_date):
-        self.timeline_start_date = datetime.strptime(start_date, "%Y-%m-%d")
-
     def __draw_title(self):
         self.__painter.set_font(
             self.title_font, self.title_font_size, self.title_colour
@@ -236,7 +233,9 @@ class Roadmap:
             self.__painter.set_font("Arial", 12, self.__roadmap_input[x].get("colour"))
             group_text_width, _ = self.__painter.get_text_dimension(group_text)
             if group_text_width > max_group_text_width:
-                max_group_text_width = group_text_width + 20
+                max_group_text_width = group_text_width + (
+                    25 * 2
+                )  # added 25px to both sides of the text
 
         # 130px is for right margin
         timeline_width = (
@@ -252,6 +251,7 @@ class Roadmap:
         timeline_item_width = timeline_width / self.timeline_item
 
         start_date = datetime.strptime(self.timeline_start_date, "%Y-%m-%d")
+
         timeline_positions = []
         for x in range(self.timeline_item):
             timeline_x_pos = (
@@ -325,7 +325,7 @@ class Roadmap:
             footer_width, footer_height = self.__painter.get_text_dimension(
                 self.footer_text
             )
-            footer_y_pos = self.__roadmap_dict.get_recommended_height() + 40
+            footer_y_pos = self.__roadmap_dict.get_recommended_height() + 80
             self.__painter.draw_text(
                 (self.__width / 2) - footer_width / 2,
                 # self.__height - 10,
@@ -358,7 +358,7 @@ class Roadmap:
             + (additional_height_for_milestone * milestone_count)
             + (2 * (task_count - 1))
         )
-        group_total_width = max_width + 20
+        group_total_width = max_width + 10
 
         self.__painter.set_colour(self.__roadmap_input[group_text].get("colour"))
         # self.__painter.draw_box(x, y, group_total_width, group_total_height)
@@ -371,11 +371,15 @@ class Roadmap:
 
         self.__painter.set_colour(self.group_text_colour)
         x_pos, y_pos = self.__painter.get_display_text_position(
-            x, y, group_total_width, max_height, group_text, "left"
+            x, y, group_total_width, max_height, group_text, "centre"
         )
+        # print(
+        #     f"{x=}, {y=}, {group_total_width=}, {max_height=}, {x_pos=} {y_pos=} {group_text=}"
+        # )
         if max_height > 0:
             self.__painter.set_font(self.text_font, 12, self.group_text_colour)
             self.__painter.draw_text(x_pos, y_pos, group_text)
+            text_width, text_height = self.__painter.get_text_dimension(group_text)
         return y + max_height
 
     def __draw_groups(self, task_data, max_group_text_width, timeline_positions):
@@ -436,8 +440,8 @@ class Roadmap:
                 text_height = 20
 
                 # Draw task bar
-                bar_start_x_pos = 0
-                total_bar_width = 0
+                bar_x_pos = 0
+                task_timeline_width = 0
                 row_match = 0
 
                 (task_start_period, task_end_period) = self.__get_task_period(
@@ -446,12 +450,32 @@ class Roadmap:
 
                 milestones = self.__get_milestones(group_item, task)
 
+                bar_start_x_pos = 0
+                bar_width = 0
+
                 for timeline_index in range(self.timeline_item):
 
-                    this_period = self.__get_timeline_period(timeline_index)
+                    (
+                        timeline_start_period,
+                        timeline_end_period,
+                    ) = self.__get_timeline_period(timeline_index)
+                    # print(
+                    #     f"{timeline_start_period=}, {timeline_end_period=}, {task_start_period=}, {task_end_period=}"
+                    # )
+
                     if (
-                        task_start_period <= this_period
-                        and task_end_period >= this_period
+                        (
+                            task_start_period >= timeline_start_period
+                            and task_start_period <= timeline_end_period
+                        )
+                        or (
+                            task_end_period >= timeline_start_period
+                            and task_end_period <= timeline_end_period
+                        )
+                        or (
+                            task_start_period <= timeline_start_period
+                            and task_end_period >= timeline_end_period
+                        )
                     ):
                         (
                             task_box_x_pos,
@@ -461,39 +485,82 @@ class Roadmap:
                         ) = self.__roadmap_dict.get_timeline_item_coordinates(
                             timeline_index
                         )
-                        if bar_start_x_pos == 0:
-                            bar_start_x_pos = task_box_x_pos
 
+                        # print(
+                        #     f"{task}-{task_start_period=}, {task_end_period=}, {timeline_start_period=}, {timeline_end_period=}{task_box_x_pos=}, {task_box_y_pos=}, {task_box_width=}, {task_box_height=}"
+                        # )
+
+                        (_, start_pos_percentage,) = self.__get_timeline_pos_percentage(
+                            timeline_index, task_start_period
+                        )
+                        (_, end_pos_percentage,) = self.__get_timeline_pos_percentage(
+                            timeline_index, task_end_period
+                        )
+                        # print(f"   {start_pos_percentage=}, {end_pos_percentage=}")
                         row_match += 1
+                        if bar_x_pos == 0:
+                            # Check if task starts before timeline
+                            if task_start_period < timeline_start_period:
+                                bar_x_pos = task_box_x_pos
+                            else:
+                                bar_x_pos = task_box_x_pos + (
+                                    task_box_width * start_pos_percentage
+                                )
+                            bar_start_x_pos = bar_x_pos
+                        else:
+                            bar_x_pos = task_box_x_pos
+
+                        # If this is the last period, calculate the width of the bar
+                        print(
+                            f"{task=}-{task_end_period=} >= {timeline_start_period=}, {task_end_period=} <= {timeline_end_period=}"
+                        )
+                        if (
+                            task_end_period >= timeline_start_period
+                            and task_end_period <= timeline_end_period
+                        ):
+                            print("indeed last period")
+                            task_timeline_width = task_box_width * end_pos_percentage
+                            print(f"{task_timeline_width=}, {task_box_width=}")
+                        elif (
+                            task_start_period >= timeline_start_period
+                            and task_start_period <= timeline_end_period
+                        ):
+                            print("first period")
+                            task_timeline_width = task_box_width * end_pos_percentage
+                        else:
+                            task_timeline_width = task_box_width
+
+                        task_timeline_width += self.__HSPACER * (row_match)
+                        # print(f"bar {bar_x_pos=}, {task_timeline_width=}")
+
+                        self.__painter.set_colour(
+                            self.__roadmap_input[group_item]
+                            .get("tasks")[task]
+                            .get("colour")
+                        )
+                        task_box_y_pos = next_task_y_pos
+                        task_box_height = text_height
+                        self.__painter.draw_box(
+                            bar_x_pos,
+                            task_box_y_pos,
+                            task_timeline_width,
+                            task_box_height,
+                        )
+                        print(
+                            f"Drawing box {bar_x_pos=}, {task_box_y_pos=}, {task_timeline_width=}, {task_box_height=}"
+                        )
+                        bar_width = bar_x_pos + task_timeline_width - bar_start_x_pos
 
                 if row_match > 0:
-                    task_box_y_pos = next_task_y_pos
-                    task_box_height = text_height
-                    total_bar_width = task_box_width * row_match + (
-                        self.__HSPACER * row_match - 1
-                    )
-
-                    self.__painter.set_colour(
-                        self.__roadmap_input[group_item]
-                        .get("tasks")[task]
-                        .get("colour")
-                    )
-                    self.__painter.draw_box(
-                        bar_start_x_pos,
-                        task_box_y_pos,
-                        total_bar_width,
-                        task_box_height,
-                    )
-
                     last_task_height = task_box_height
                     group_height = task_box_y_pos + task_box_height - group_y_start_pos
 
                     self.__roadmap_dict.set_groups_item_task_coordinates(
                         i,
                         j,
-                        bar_start_x_pos,
+                        bar_x_pos,
                         task_box_y_pos,
-                        total_bar_width,
+                        task_timeline_width,
                         task_box_height,
                         task_text,
                     )
@@ -502,23 +569,36 @@ class Roadmap:
                     text_x_pos, text_y_pos = self.__painter.get_display_text_position(
                         bar_start_x_pos,
                         task_box_y_pos,
-                        total_bar_width,
+                        bar_width,
                         text_height,
                         task_text,
                         "centre",
                     )
-                    self.__painter.draw_text(text_x_pos, text_y_pos, f"{task_text}")
+                    self.__painter.draw_text(text_x_pos, text_y_pos, task_text)
 
                 # Loop one more time to draw milestones
-                bar_start_x_pos = 0
-                total_bar_width = 0
+                bar_x_pos = 0
+                task_timeline_width = 0
                 milestones = self.__get_milestones(group_item, task)
                 for timeline_index in range(self.timeline_item):
-                    this_period = self.__get_timeline_period(timeline_index)
+                    (
+                        timeline_start_period,
+                        timeline_end_period,
+                    ) = self.__get_timeline_period(timeline_index)
 
                     if (
-                        task_start_period <= this_period
-                        and task_end_period >= this_period
+                        (
+                            task_start_period >= timeline_start_period
+                            and task_start_period <= timeline_end_period
+                        )
+                        or (
+                            task_end_period >= timeline_start_period
+                            and task_end_period <= timeline_end_period
+                        )
+                        or (
+                            task_start_period <= timeline_start_period
+                            and task_end_period >= timeline_end_period
+                        )
                     ):
                         (
                             task_box_x_pos,
@@ -529,7 +609,7 @@ class Roadmap:
                             timeline_index
                         )
                         # if bar_start_x_pos == 0:
-                        bar_start_x_pos = task_box_x_pos
+                        bar_x_pos = task_box_x_pos
 
                         ## Milestone loop
                         for milestone_text in milestones:
@@ -553,7 +633,7 @@ class Roadmap:
                             if correct_timeline == True:
                                 # Draw milestone diamond
                                 self.__painter.draw_diamond(
-                                    bar_start_x_pos
+                                    bar_x_pos
                                     + (timeline_item_width * pos_percentage)
                                     - 8
                                     - 3,
@@ -572,7 +652,7 @@ class Roadmap:
                                 )
                                 # Draw milestone text
                                 self.__painter.draw_text(
-                                    bar_start_x_pos
+                                    bar_x_pos
                                     + (timeline_item_width * pos_percentage)
                                     - (width / 3),
                                     next_task_y_pos - 6,
@@ -593,23 +673,32 @@ class Roadmap:
     def __get_timeline_pos_percentage(self, timeline_index, milestone_date):
         correct_timeline = False
         pos_percentage = 0
-        this_period = self.__get_timeline_period(timeline_index)
+        timeline_start_period, timeline_end_period = self.__get_timeline_period(
+            timeline_index
+        )
 
         if self.timeline_mode == self.WEEKLY:
             pos_percentage = milestone_date.weekday() / 7
             milestone_period = f"{milestone_date.year}{milestone_date.strftime('%W')}"
+            this_period = (
+                f"{timeline_start_period.year}{timeline_start_period.strftime('%W')}"
+            )
             if milestone_period == this_period:
                 correct_timeline = True
 
         if self.timeline_mode == self.MONTHLY:
-            _, last_day = calendar.monthrange(this_period.year, this_period.month)
+            _, last_day = calendar.monthrange(
+                timeline_start_period.year, timeline_start_period.month
+            )
             pos_percentage = milestone_date.day / last_day
-            if (milestone_date.year == this_period.year) and (
-                milestone_date.month == this_period.month
+            if (
+                milestone_date.year == timeline_start_period.year
+                and milestone_date.month == timeline_start_period.month
             ):
                 correct_timeline = True
 
         if self.timeline_mode == self.QUARTERLY:
+            this_period = self.__roadmap_dict.get_timeline_item_value(timeline_index)
             if this_period[-1] == "1":
                 pos_percentage = milestone_date.month / 3
             elif this_period[-1] == "2":
@@ -626,6 +715,7 @@ class Roadmap:
                 correct_timeline = True
 
         if self.timeline_mode == self.HALF_YEARLY:
+            this_period = self.__roadmap_dict.get_timeline_item_value(timeline_index)
             if this_period[-1] == "1":
                 pos_percentage = milestone_date.month / 6
             else:
@@ -633,13 +723,17 @@ class Roadmap:
             milestone_period = (
                 f"{milestone_date.year}{self.__get_halfyear_from_date(milestone_date)}"
             )
-            print(f"Matching >> {milestone_period=} == {this_period=}")
+            # print(f"Matching >> {milestone_period=} == {this_period=}")
             if milestone_period == this_period:
                 correct_timeline = True
 
         if self.timeline_mode == self.YEARLY:
+            this_period = self.__roadmap_dict.get_timeline_item_value(timeline_index)
             pos_percentage = milestone_date.month / 12
             milestone_period = f"{milestone_date.year}"
+            print(
+                f"{this_period=}, {milestone_date=}, {pos_percentage=}, {milestone_period=}"
+            )
             if milestone_period == this_period:
                 correct_timeline = True
 
@@ -648,23 +742,72 @@ class Roadmap:
     def __get_timeline_period(self, timeline_index):
         start_date = datetime.strptime(self.timeline_start_date, "%Y-%m-%d")
         if self.timeline_mode == self.WEEKLY:
-            this_period = self.__roadmap_dict.get_timeline_item_value(timeline_index)
+            timeline_period = self.__roadmap_dict.get_timeline_item_value(
+                timeline_index
+            )
+            this_year = timeline_period[0:4]
+            this_week = timeline_period[4:]
+            # print(f"{timeline_period=}, this_year={this_year} this_week={this_week}")
+            timeline_start_period = date.fromisocalendar(
+                int(this_year), int(this_week) + 1, 1
+            )
+            timeline_end_period = date.fromisocalendar(
+                int(this_year), int(this_week) + 1, 7
+            )
 
         if self.timeline_mode == self.MONTHLY:
             this_month = (start_date + relativedelta(months=+timeline_index)).month
             this_year = (start_date + relativedelta(months=+timeline_index)).year
-            this_period = datetime(this_year, this_month, 1)
+            _, month_end_day = calendar.monthrange(this_year, this_month)
+            timeline_start_period = datetime(this_year, this_month, 1)
+            timeline_end_period = datetime(this_year, this_month, month_end_day)
 
         if self.timeline_mode == self.QUARTERLY:
-            this_period = self.__roadmap_dict.get_timeline_item_value(timeline_index)
+            timeline_period = self.__roadmap_dict.get_timeline_item_value(
+                timeline_index
+            )
+            # print(f"timeline_period={timeline_period}")
+            this_year = int(timeline_period[0:4])
+            this_quarter = int(timeline_period[4:])
+            # print(f"{this_year=}, {this_quarter=}")
+            if this_quarter == 1:
+                this_month = 1
+            elif this_quarter == 2:
+                this_month = 4
+            elif this_quarter == 3:
+                this_month = 7
+            elif this_quarter == 4:
+                this_month = 10
+
+            timeline_start_period = datetime(
+                this_year, 3 * ((this_month - 1) // 3) + 1, 1
+            )
+            timeline_end_period = datetime(
+                this_year + 3 * this_quarter // 12, 3 * this_quarter % 12 + 1, 1
+            ) + timedelta(days=-1)
 
         if self.timeline_mode == self.HALF_YEARLY:
-            this_period = self.__roadmap_dict.get_timeline_item_value(timeline_index)
+            timeline_period = self.__roadmap_dict.get_timeline_item_value(
+                timeline_index
+            )
+            this_year = int(timeline_period[0:4])
+            this_half = int(timeline_period[4:])
+            if this_half == 1:
+                timeline_start_period = datetime(this_year, 1, 1)
+                timeline_end_period = datetime(this_year, 6, 30)
+            elif this_half == 2:
+                timeline_start_period = datetime(this_year, 7, 1)
+                timeline_end_period = datetime(this_year, 12, 31)
 
         if self.timeline_mode == self.YEARLY:
-            this_period = self.__roadmap_dict.get_timeline_item_value(timeline_index)
+            timeline_period = self.__roadmap_dict.get_timeline_item_value(
+                timeline_index
+            )
 
-        return this_period
+            timeline_start_period = datetime(int(timeline_period), 1, 1)
+            timeline_end_period = datetime(int(timeline_period), 12, 31)
+
+        return timeline_start_period, timeline_end_period
 
     def __get_task_period(self, group, task):
         if self.timeline_mode == self.WEEKLY:
@@ -700,34 +843,30 @@ class Roadmap:
         return task_start_period, task_end_period
 
     def __get_yearly_dates(self, group, task):
-        task_start_date = datetime(
+        task_start_period = datetime(
             self.__roadmap_input[group].get("tasks")[task].get("start").year,
             self.__roadmap_input[group].get("tasks")[task].get("start").month,
             self.__roadmap_input[group].get("tasks")[task].get("start").day,
         )
-        task_end_date = datetime(
+        task_end_period = datetime(
             self.__roadmap_input[group].get("tasks")[task].get("end").year,
             self.__roadmap_input[group].get("tasks")[task].get("end").month,
             self.__roadmap_input[group].get("tasks")[task].get("end").day,
         )
-        task_start_period = f"{task_start_date.year}"
-        task_end_period = f"{task_end_date.year}"
 
         return task_start_period, task_end_period
 
     def __get_half_yearly_dates(self, group, task):
-        task_start_date = datetime(
+        task_start_period = datetime(
             self.__roadmap_input[group].get("tasks")[task].get("start").year,
             self.__roadmap_input[group].get("tasks")[task].get("start").month,
             self.__roadmap_input[group].get("tasks")[task].get("start").day,
         )
-        task_end_date = datetime(
+        task_end_period = datetime(
             self.__roadmap_input[group].get("tasks")[task].get("end").year,
             self.__roadmap_input[group].get("tasks")[task].get("end").month,
             self.__roadmap_input[group].get("tasks")[task].get("end").day,
         )
-        task_start_period = f"{task_start_date.year}{task_start_date.month // 6 + 1}"
-        task_end_period = f"{task_end_date.year}{task_end_date.month // 6 + 1}"
 
         return task_start_period, task_end_period
 
@@ -738,22 +877,22 @@ class Roadmap:
         return (date.month - 1) // 6 + 1
 
     def __get_quarterly_dates(self, group, task):
-        task_start_date = datetime(
+        task_start_period = datetime(
             self.__roadmap_input[group].get("tasks")[task].get("start").year,
             self.__roadmap_input[group].get("tasks")[task].get("start").month,
             self.__roadmap_input[group].get("tasks")[task].get("start").day,
         )
-        task_end_date = datetime(
+        task_end_period = datetime(
             self.__roadmap_input[group].get("tasks")[task].get("end").year,
             self.__roadmap_input[group].get("tasks")[task].get("end").month,
             self.__roadmap_input[group].get("tasks")[task].get("end").day,
         )
-        task_start_period = (
-            f"{task_start_date.year}{self.__get_quarter_from_date(task_start_date)}"
-        )
-        task_end_period = (
-            f"{task_end_date.year}{self.__get_quarter_from_date(task_end_date)}"
-        )
+        # task_start_period = (
+        #     f"{task_start_date.year}{self.__get_quarter_from_date(task_start_date)}"
+        # )
+        # task_end_period = (
+        #     f"{task_end_date.year}{self.__get_quarter_from_date(task_end_date)}"
+        # )
 
         return task_start_period, task_end_period
 
@@ -761,12 +900,12 @@ class Roadmap:
         task_start_period = datetime(
             self.__roadmap_input[group].get("tasks")[task].get("start").year,
             self.__roadmap_input[group].get("tasks")[task].get("start").month,
-            1,
+            self.__roadmap_input[group].get("tasks")[task].get("start").day,
         )
         task_end_period = datetime(
             self.__roadmap_input[group].get("tasks")[task].get("end").year,
             self.__roadmap_input[group].get("tasks")[task].get("end").month,
-            1,
+            self.__roadmap_input[group].get("tasks")[task].get("end").day,
         )
         # return task_start_period, task_end_period, milestone_dates, this_period
         return task_start_period, task_end_period
@@ -787,6 +926,12 @@ class Roadmap:
         )
         task_start_period = f"{task_start_date.year}{task_start_date.strftime('%W')}"
         task_end_period = f"{task_end_date.year}{task_end_date.strftime('%W')}"
+        task_start_period = date.fromisocalendar(
+            task_start_date.year, int(task_start_date.strftime("%W")), 1
+        )
+        task_end_period = date.fromisocalendar(
+            task_end_date.year, int(task_start_date.strftime("%W")), 7
+        )
 
         return task_start_period, task_end_period
 

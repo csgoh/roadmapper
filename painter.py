@@ -85,7 +85,12 @@ class Painter:
         self.__cr.paint()
 
     def get_display_text_position(self, x, y, width, height, text, alignment):
+        ### to remove
+        # self.set_colour("yellow")
+        # self.draw_box(x, y, width, height)
+
         text_width, text_height = self.get_text_dimension(text)
+
         if alignment == "centre":
             text_x_pos = (width / 2) - (text_width / 2)
         elif alignment == "right":
