@@ -18,9 +18,22 @@ from colour import Color
 
 class Painter:
     __VSPACER, __HSPACER = 12, 2
+    width = 0
+    height = 0
+    last_drawn_y_pos = 0
+
+    left_margin = 20
+    right_margin = 20
+    group_box_width_percentage = 0.2
+    timeline_width_percentage = 1 - group_box_width_percentage
+    gap_between_group_box_and_timeline = 20
+    gap_between_timeline_and_title = 20
 
     # initialise code
     def __init__(self, width, height, output_file_name):
+        self.width = width
+        self.height = height
+        self.last_drawn_y_pos = 0
         if output_file_name == "":
             output_file_name = "roadmap"
 
@@ -55,6 +68,14 @@ class Painter:
         # print(f"Drawing box at {x}, {y} with width {width} and height {height}")
         self.__cr.rectangle(x, y, width, height)
         self.__cr.fill()
+
+    def draw_box_with_text(self, x, y, width, height, text, text_alignment="centre"):
+        # print(f"Drawing box at {x}, {y} with width {width} and height {height}")
+        self.__cr.rectangle(x, y, width, height)
+        self.__cr.fill()
+        text_x, text_y = self.get_display_text_position(
+            x, y, width, height, text, text_alignment
+        )
 
     def draw_diamond(self, x, y, width, height):
         self.__cr.set_source_rgb(1, 0, 0)
