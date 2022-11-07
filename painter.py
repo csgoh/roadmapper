@@ -29,6 +29,8 @@ class Painter:
     gap_between_group_box_and_timeline = 20
     gap_between_timeline_and_title = 20
 
+    timeline_height = 20
+
     # initialise code
     def __init__(self, width, height, output_file_name):
         self.width = width

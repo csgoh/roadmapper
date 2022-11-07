@@ -1,5 +1,7 @@
-from datetime import datetime
+from datetime import datetime, date, timedelta
+from dateutil.relativedelta import relativedelta
 from dataclasses import dataclass
+import calendar
 from painter import Painter
 
 
@@ -88,6 +90,9 @@ class TimelineItem:
     text_y: int
     text_width: int
     text_height: int
+    font: str
+    font_size: int
+    font_colour: str
 
     def __init__(
         self,
@@ -95,6 +100,10 @@ class TimelineItem:
         value: str,
         start: datetime,
         end: datetime,
+        font: str,
+        font_size: int,
+        font_colour: str,
+        fill_colour: str,
     ):
         self.text = text
         self.value = value
@@ -110,10 +119,15 @@ class TimelineItem:
         self.text_width = 0
         self.text_height = 0
 
+        self.font = font
+        self.font_colour = font_colour
+        self.font_size = font_size
+        self.fill_colour = fill_colour
+
     def __calculate_text_draw_position(self, painter: Painter):
         self.box_width, self.box_height = painter.get_text_dimension(self.text)
         return painter.get_display_text_position(
-            self.box_x, self.box_y, self.box_width, self.box_height
+            self.box_x, self.box_y, self.box_width, self.box_height, self.text, "centre"
         )
 
     def set_draw_position(
@@ -134,7 +148,9 @@ class TimelineItem:
     def draw(self, painter: Painter):
         painter.set_font(self.font, self.font_size, self.font_colour)
         # print(f"Drawing box with text {self.text} at {self.box_x}, {self.box_y}")
-        painter.draw_box_with_text(self.box_x, self.box_y, self.text)
+        painter.draw_box_with_text(
+            self.box_x, self.box_y, self.box_width, self.box_height, self.text
+        )
 
 
 @dataclass
@@ -221,14 +237,24 @@ class Timeline:
         timelineitem_y = self.y + painter.timeline_height
         timelineitem_height = self.__timeline_height
 
-        for i in range((1.0).self.number_of_items):
-            timelineitem_x = self.x + ((i - 1) * timelineitem_width)
-            (
+        for i in range(0, self.number_of_items):
+            timelineitem_x = self.x + (i * timelineitem_width)
+            timelineitem_text = self.__get_timeline_item_text(i)
+            timelineitem_value = self.__get_timeline_item_value(i)
+            timelineitem_start, timelineitem_end = self.__get_timeline_item_dates(i)
+
+            timelineitem = TimelineItem(
                 timelineitem_text,
                 timelineitem_value,
-            ) = self.__get_timeline_item_text_value()
-            self.timeline_items[i] = TimelineItem(timelineitem_text, timelineitem_value)
-            self.timeline_items[i].set_draw_position(
+                timelineitem_start,
+                timelineitem_end,
+                self.font,
+                self.font_size,
+                self.font_colour,
+                self.fill_colour,
+            )
+
+            timelineitem.set_draw_position(
                 painter,
                 timelineitem_x,
                 timelineitem_y,
@@ -236,25 +262,119 @@ class Timeline:
                 timelineitem_height,
             )
 
-    def __get_timeline_item_text_value():
+            self.timeline_items.append(timelineitem)
+
+    def __get_timeline_item_text(self, index: int):
+        timeline_text = ""
         if self.mode == TimelineMode.WEEKLY:
-            return self.start.strftime("%d %b %Y"), self.start.strftime("%d")
+            this_week = self.start + relativedelta(weeks=+index)
+            timeline_text = f"W{this_week.strftime('%W')} {this_week.year}"
         elif self.mode == TimelineMode.MONTHLY:
-            return self.start.strftime("%b %Y"), self.start.strftime("%m")
+            this_month = self.start + relativedelta(months=+index)
+            timeline_text = f"{this_month.strftime('%b')} {this_month.year}"
         elif self.mode == TimelineMode.QUARTERLY:
-            return self.start.strftime("%b %Y"), self.start.strftime("%m")
+            this_month = self.start + relativedelta(months=+(index * 3))
+            this_quarter = (this_month.month - 1) // 3 + 1
+            timeline_text = f"Q{this_quarter} {this_month.year}"
         elif self.mode == TimelineMode.HALF_YEARLY:
-            return self.start.strftime("%b %Y"), self.start.strftime("%m")
+            this_month = self.start + relativedelta(months=+(index * 6))
+            this_halfyear = (this_month.month - 1) // 6 + 1
+            timeline_text = f"H{this_halfyear} {this_month.year}"
         elif self.mode == TimelineMode.YEARLY:
-            return self.start.strftime("%Y"), self.start.strftime("%Y")
+            this_month = self.start + relativedelta(months=+(index * 12))
+            timeline_text = f"{this_month.year}"
+            timeline_value = f"{this_month.year}"
+
+        return timeline_text
+
+    def __get_timeline_item_value(self, index: int):
+        timeline_value = ""
+        if self.mode == TimelineMode.WEEKLY:
+            this_week = self.start + relativedelta(weeks=+index)
+            timeline_value = f"{this_week.year}{this_week.strftime('%W')}"
+        elif self.mode == TimelineMode.MONTHLY:
+            this_month = self.start + relativedelta(months=+index)
+            timeline_value = f"{this_month.year}{this_month.strftime('%m')}"
+        elif self.mode == TimelineMode.QUARTERLY:
+            this_month = self.start + relativedelta(months=+(index * 3))
+            this_quarter = (this_month.month - 1) // 3 + 1
+            timeline_value = f"{this_month.year}{this_quarter}"
+        elif self.mode == TimelineMode.HALF_YEARLY:
+            this_month = self.start + relativedelta(months=+(index * 6))
+            this_halfyear = (this_month.month - 1) // 6 + 1
+            timeline_value = f"{this_month.year}{this_halfyear}"
+        elif self.mode == TimelineMode.YEARLY:
+            this_month = self.start + relativedelta(months=+(index * 12))
+            timeline_value = f"{this_month.year}"
+
+        return timeline_value
+
+    def __get_timeline_item_dates(self, index: int):
+        timeline_start_period = ""
+        timeline_end_period = ""
+        if self.mode == TimelineMode.WEEKLY:
+            timeline_period = self.__get_timeline_item_value(index)
+            this_year = timeline_period[0:4]
+            this_week = timeline_period[4:]
+            # print(f"{timeline_period=}, this_year={this_year} this_week={this_week}")
+            timeline_start_period = date.fromisocalendar(
+                int(this_year), int(this_week) + 1, 1
+            )
+            timeline_end_period = date.fromisocalendar(
+                int(this_year), int(this_week) + 1, 7
+            )
+        elif self.mode == TimelineMode.MONTHLY:
+            this_month = (self.start + relativedelta(months=+index)).month
+            this_year = (self.start + relativedelta(months=+index)).year
+            _, month_end_day = calendar.monthrange(this_year, this_month)
+            timeline_start_period = datetime(this_year, this_month, 1)
+            timeline_end_period = datetime(this_year, this_month, month_end_day)
+        elif self.mode == TimelineMode.QUARTERLY:
+            timeline_period = self.__get_timeline_item_value(index)
+            # print(f"timeline_period={timeline_period}")
+            this_year = int(timeline_period[0:4])
+            this_quarter = int(timeline_period[4:])
+            # print(f"{this_year=}, {this_quarter=}")
+            if this_quarter == 1:
+                this_month = 1
+            elif this_quarter == 2:
+                this_month = 4
+            elif this_quarter == 3:
+                this_month = 7
+            elif this_quarter == 4:
+                this_month = 10
+
+            timeline_start_period = datetime(
+                this_year, 3 * ((this_month - 1) // 3) + 1, 1
+            )
+            timeline_end_period = datetime(
+                this_year + 3 * this_quarter // 12, 3 * this_quarter % 12 + 1, 1
+            ) + timedelta(days=-1)
+        elif self.mode == TimelineMode.HALF_YEARLY:
+            timeline_period = self.__get_timeline_item_value(index)
+            this_year = int(timeline_period[0:4])
+            this_half = int(timeline_period[4:])
+            if this_half == 1:  # First Half
+                timeline_start_period = datetime(this_year, 1, 1)
+                timeline_end_period = datetime(this_year, 6, 30)
+            elif this_half == 2:  # Second Half
+                timeline_start_period = datetime(this_year, 7, 1)
+                timeline_end_period = datetime(this_year, 12, 31)
+        elif self.mode == TimelineMode.YEARLY:
+            timeline_period = self.__get_timeline_item_value(index)
+            timeline_start_period = datetime(int(timeline_period), 1, 1)
+            timeline_end_period = datetime(int(timeline_period), 12, 31)
+        return timeline_start_period, timeline_end_period
 
     def draw(self, painter: Painter):
         painter.set_font(self.font, self.font_size, self.font_colour)
         # print(f"Drawing text {self.text} at {self.x}, {self.y}")
-        for i in range((1.0).self.number_of_items):
-            self.timeline_items[i] = TimelineItem()
-            self.timeline_items[i].set_draw_position(painter)
-            self.timeline_items[i].draw(painter)
+        for i in range(0, self.number_of_items):
+            timelineitem = self.timeline_items[i]
+            timelineitem.set_draw_position(
+                painter, self.x, self.y, self.width, self.height
+            )
+            timelineitem.draw(painter)
 
 
 @dataclass
@@ -356,23 +476,23 @@ class Roadmap:
     def set_timeline(self):
         timeline_dict = {}
         self.timeline = Timeline(timeline_dict)
+        self.timeline.set_draw_position(self.__painter)
         return None
 
     def draw(self):
         self.title.draw(self.__painter)
+        self.timeline.draw(self.__painter)
         self.footer.draw(self.__painter)
 
     def save(self):
         self.__painter.save_surface()
 
 
-x = Roadmap(1000, 512)
-x.set_title("this is header", font_size=18)
-x.set_timeline()
-x.set_footer("this is footer", font_size=18)
-x.draw()
-x.save()
-# print(x.title)
-print(x.timeline)
-# print(x.footer)
-# print(x)
+if __name__ == "__main__":
+    index = Roadmap(1000, 512)
+    index.set_title("this is header", font_size=18)
+    index.set_timeline()
+    index.set_footer("this is footer", font_size=18)
+    index.draw()
+    index.save()
+    print(index.timeline)
