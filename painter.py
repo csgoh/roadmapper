@@ -71,13 +71,25 @@ class Painter:
         self.__cr.rectangle(x, y, width, height)
         self.__cr.fill()
 
-    def draw_box_with_text(self, x, y, width, height, text, text_alignment="centre"):
-        # print(f"Drawing box at {x}, {y} with width {width} and height {height}")
+    def draw_box_with_text(
+        self,
+        x,
+        y,
+        width,
+        height,
+        text,
+        text_alignment: str,
+        font_colour: str,
+        fill_colour: str,
+    ):
+        self.set_colour(fill_colour)
         self.__cr.rectangle(x, y, width, height)
         self.__cr.fill()
+        self.set_colour(font_colour)
         text_x, text_y = self.get_display_text_position(
             x, y, width, height, text, text_alignment
         )
+        self.draw_text(text_x, text_y, text)
 
     def draw_diamond(self, x, y, width, height):
         self.__cr.set_source_rgb(1, 0, 0)
@@ -111,7 +123,6 @@ class Painter:
         ### to remove
         # self.set_colour("yellow")
         # self.draw_box(x, y, width, height)
-
         text_width, text_height = self.get_text_dimension(text)
 
         if alignment == "centre":

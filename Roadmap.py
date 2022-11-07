@@ -3,6 +3,8 @@ from dateutil.relativedelta import relativedelta
 from dataclasses import dataclass
 import calendar
 from painter import Painter
+from print_dict import pd
+from contextlib import contextmanager
 
 
 @dataclass
@@ -50,8 +52,6 @@ class Footer:
     font_size: int
     font_colour: str
 
-    # CONSTANT
-
     def __init__(self, text: str, font="Arial", font_size=12, font_colour="Black"):
         self.text = text
         self.font = font
@@ -72,7 +72,6 @@ class Footer:
 
     def draw(self, painter: Painter):
         painter.set_font(self.font, self.font_size, self.font_colour)
-        print(f"Drawing text {self.text} at {self.x}, {self.y}")
         painter.draw_text(self.x, self.y, self.text)
 
 
@@ -125,7 +124,7 @@ class TimelineItem:
         self.fill_colour = fill_colour
 
     def __calculate_text_draw_position(self, painter: Painter):
-        self.box_width, self.box_height = painter.get_text_dimension(self.text)
+        painter.set_font(self.font, self.font_size, self.font_colour)
         return painter.get_display_text_position(
             self.box_x, self.box_y, self.box_width, self.box_height, self.text, "centre"
         )
@@ -138,19 +137,18 @@ class TimelineItem:
         width: int,
         height: int,
     ):
-        painter.set_font(self.font, self.font_size, self.font_colour)
         self.box_x = x
         self.box_y = y
         self.box_width = width
         self.box_height = height
         self.text_x, self.text_y = self.__calculate_text_draw_position(painter)
+        painter.last_drawn_y_pos = self.box_y
 
     def draw(self, painter: Painter):
-        painter.set_font(self.font, self.font_size, self.font_colour)
-        # print(f"Drawing box with text {self.text} at {self.box_x}, {self.box_y}")
-        painter.draw_box_with_text(
-            self.box_x, self.box_y, self.box_width, self.box_height, self.text
-        )
+        painter.set_colour(self.fill_colour)
+        painter.draw_box(self.box_x, self.box_y, self.box_width, self.box_height)
+        painter.set_colour(self.font_colour)
+        painter.draw_text(self.text_x, self.text_y, self.text)
 
 
 @dataclass
@@ -189,7 +187,7 @@ class Timeline:
         font="Arial",
         font_size=10,
         font_colour="Black",
-        fill_colour="Black",
+        fill_colour="lightgrey",
     ):
         self.mode = mode
         self.start = start
@@ -208,12 +206,12 @@ class Timeline:
     def __calculate_draw_position(self, painter: Painter):
         # Determine group box width
         group_box_width = (
-            self.width - (painter.left_margin + painter.right_margin)
+            painter.width - (painter.left_margin + painter.right_margin)
         ) * painter.group_box_width_percentage
 
         # Determine timeline total width
         timeline_width = (
-            self.width
+            painter.width
             - (painter.left_margin + painter.right_margin)
             - painter.gap_between_group_box_and_timeline
         ) * painter.timeline_width_percentage
@@ -231,7 +229,7 @@ class Timeline:
         return timeline_x, timeline_y, timeline_width
 
     def set_draw_position(self, painter: Painter):
-        painter.set_font(self.font, self.font_size, self.font_colour)
+        # painter.set_font(self.font, self.font_size, self.font_colour)
         self.x, self.y, self.width = self.__calculate_draw_position(painter)
         timelineitem_width = self.width / self.number_of_items
         timelineitem_y = self.y + painter.timeline_height
@@ -263,6 +261,7 @@ class Timeline:
             )
 
             self.timeline_items.append(timelineitem)
+        painter.last_drawn_y_pos = self.y + timelineitem_height
 
     def __get_timeline_item_text(self, index: int):
         timeline_text = ""
@@ -368,12 +367,9 @@ class Timeline:
 
     def draw(self, painter: Painter):
         painter.set_font(self.font, self.font_size, self.font_colour)
-        # print(f"Drawing text {self.text} at {self.x}, {self.y}")
         for i in range(0, self.number_of_items):
+
             timelineitem = self.timeline_items[i]
-            timelineitem.set_draw_position(
-                painter, self.x, self.y, self.width, self.height
-            )
             timelineitem.draw(painter)
 
 
@@ -383,12 +379,24 @@ class Milestone:
     date: datetime
     x: int
     y: int
-    weight: int
+    width: int
     height: int
     font: str
     font_size: int
     font_colour: str
     fill_colour: str
+
+    def __init__(self, text, date, font, font_size, font_colour, fill_colour) -> None:
+        self.text = text
+        self.date = date
+        self.x = 0
+        self.y = 0
+        self.width = 0
+        self.height = 0
+        self.font = font
+        self.font_size = font_size
+        self.font_colour = font_colour
+        self.fill_colour = fill_colour
 
 
 @dataclass
@@ -398,13 +406,59 @@ class Task:
     end: datetime
     x: int
     y: int
-    weight: int
+    width: int
     height: int
     font: str
     font_size: int
     font_colour: str
     fill_colour: str
-    milestone: list[Milestone]
+    milestones: list[Milestone]
+
+    def __init__(
+        self,
+        text,
+        start,
+        end,
+        font="Arial",
+        font_size=12,
+        font_colour="black",
+        fill_colour="lightgreen",
+    ) -> None:
+        self.text = text
+        self.start = start
+        self.end = end
+        self.x = 0
+        self.y = 0
+        self.width = 0
+        self.height = 0
+        self.font = font
+        self.font_size = font_size
+        self.font_colour = font_colour
+        self.fill_colour = fill_colour
+        self.milestones = []
+
+    def __enter__(self):
+        print(f"Entering {self.text}")
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        print(f"Exiting {self.text}")
+        pass
+
+    def add_milestone(
+        self,
+        text,
+        date,
+        font="Arial",
+        font_size=12,
+        font_colour="Red",
+        fill_colour="Red",
+    ):
+        # print(f"Adding milestone {text}")
+        self.milestones.append(
+            Milestone(text, date, font, font_size, font_colour, fill_colour)
+        )
+        # pd(self.milestones)
 
 
 @dataclass
@@ -418,7 +472,30 @@ class Group:
     font_size: int
     font_colour: str
     fill_colour: str
-    tasks: list[Task]
+    tasks = list[Task]
+
+    def __init__(self, text, font, font_size, font_colour, fill_colour) -> None:
+        self.text = text
+        self.font = font
+        self.font_size = font_size
+        self.font_colour = font_colour
+        self.fill_colour = fill_colour
+
+        self.x = 0
+        self.y = 0
+        self.weight = 0
+        self.height = 0
+        self.tasks = []
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        pass
+
+    def add_task(self, task: Task):
+        self.tasks.append(task)
+        # pd(self.tasks)
 
 
 @dataclass
@@ -487,12 +564,42 @@ class Roadmap:
     def save(self):
         self.__painter.save_surface()
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        pass
+
+    def add_group(self, group: Group):
+        # pd(group.tasks)
+        self.groups.append(group)
+        # pd(self.groups)
+
 
 if __name__ == "__main__":
-    index = Roadmap(1000, 512)
-    index.set_title("this is header", font_size=18)
-    index.set_timeline()
-    index.set_footer("this is footer", font_size=18)
-    index.draw()
-    index.save()
-    print(index.timeline)
+    my_roadmap = Roadmap(1000, 512)
+    my_roadmap.set_title("My Three Year Roadmap 2023~2025", font_size=18)
+    my_roadmap.set_timeline()
+
+    with Task("Task1", "2023-01-01", "2023-10-31") as task1:
+        task1.add_milestone("Milestone 1", "2023-01-01", "Red")
+        task1.add_milestone("Milestone 2", "2023-02-01", "Green")
+        task1.add_milestone("Milestone 3", "2023-03-01", "Blue")
+
+    with Task("Task2", "2023-01-01", "2023-10-31") as task2:
+        task2.add_milestone("Milestone 4", "2023-01-01", "Red")
+        task2.add_milestone("Milestone 5", "2023-02-01", "Green")
+        task2.add_milestone("Milestone 6", "2023-03-01", "Blue")
+    with Group("Group 1", "Arial", 18, "Black", "White") as group1:
+        group1.add_task(task1)
+        group1.add_task(task2)
+    # pd(group1.tasks)
+    my_roadmap.add_group(group1)
+
+    my_roadmap.set_footer("this is footer", font_size=10)
+    my_roadmap.draw()
+    my_roadmap.save()
+    pd(my_roadmap.groups[0].tasks[1].milestones)
+    # pd(my_roadmap.timeline.timeline_items[0].__dict__["box_y"])
+
+    # print(json.dumps(my_roadmap.__dict__))
