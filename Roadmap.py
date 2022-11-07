@@ -576,6 +576,28 @@ class Roadmap:
         # pd(self.groups)
 
 
+def obj_to_string(obj, extra="    "):
+    return (
+        str(obj.__class__)
+        + "\n"
+        + "\n".join(
+            (
+                extra
+                + (
+                    str(item)
+                    + " = "
+                    + (
+                        obj_to_string(obj.__dict__[item], extra + "    ")
+                        if hasattr(obj.__dict__[item], "__dict__")
+                        else str(obj.__dict__[item])
+                    )
+                )
+                for item in sorted(obj.__dict__)
+            )
+        )
+    )
+
+
 if __name__ == "__main__":
     my_roadmap = Roadmap(1000, 512)
     my_roadmap.set_title("My Three Year Roadmap 2023~2025", font_size=18)
@@ -599,7 +621,8 @@ if __name__ == "__main__":
     my_roadmap.set_footer("this is footer", font_size=10)
     my_roadmap.draw()
     my_roadmap.save()
-    pd(my_roadmap.groups[0].tasks[1].milestones)
+    # print(obj_to_string(my_roadmap.groups[0]))
+    print(obj_to_string(my_roadmap.timeline))
     # pd(my_roadmap.timeline.timeline_items[0].__dict__["box_y"])
 
     # print(json.dumps(my_roadmap.__dict__))
