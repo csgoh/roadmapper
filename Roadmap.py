@@ -22,6 +22,10 @@ class Title:
         self.font = font
         self.font_size = font_size
         self.font_colour = font_colour
+        self.x = 0
+        self.y = 0
+        self.width = 0
+        self.height = 0
 
     def __calculate_draw_position(self, painter: Painter):
         self.width, self.height = painter.get_text_dimension(self.text)
@@ -39,6 +43,10 @@ class Title:
 
 @dataclass
 class Footer:
+    text: str
+    font: str
+    font_size: int
+    font_colour: str
 
     # CONSTANT
 
@@ -93,6 +101,15 @@ class TimelineItem:
         self.start = start
         self.end = end
 
+        self.box_x = 0
+        self.box_y = 0
+        self.box_width = 0
+        self.box_height = 0
+        self.text_x = 0
+        self.text_y = 0
+        self.text_width = 0
+        self.text_height = 0
+
     def __calculate_text_draw_position(self, painter: Painter):
         self.box_width, self.box_height = painter.get_text_dimension(self.text)
         return painter.get_display_text_position(
@@ -116,7 +133,7 @@ class TimelineItem:
 
     def draw(self, painter: Painter):
         painter.set_font(self.font, self.font_size, self.font_colour)
-        print(f"Drawing box with text {self.text} at {self.box_x}, {self.box_y}")
+        # print(f"Drawing box with text {self.text} at {self.box_x}, {self.box_y}")
         painter.draw_box_with_text(self.box_x, self.box_y, self.text)
 
 
@@ -165,6 +182,12 @@ class Timeline:
         self.font_size = font_size
         self.font_colour = font_colour
         self.fill_colour = fill_colour
+
+        self.x = 0
+        self.y = 0
+        self.width = 0
+        self.height = 0
+        self.timeline_items = []
 
     def __calculate_draw_position(self, painter: Painter):
         # Determine group box width
@@ -227,7 +250,7 @@ class Timeline:
 
     def draw(self, painter: Painter):
         painter.set_font(self.font, self.font_size, self.font_colour)
-        print(f"Drawing text {self.text} at {self.x}, {self.y}")
+        # print(f"Drawing text {self.text} at {self.x}, {self.y}")
         for i in range((1.0).self.number_of_items):
             self.timeline_items[i] = TimelineItem()
             self.timeline_items[i].set_draw_position(painter)
@@ -305,6 +328,9 @@ class Roadmap:
         self.__painter = Painter(width, height, "test.png")
         self.__painter.set_background_colour("White")
 
+        self.timeline = []
+        self.groups = []
+
     def set_title(
         self,
         text: str,
@@ -327,7 +353,9 @@ class Roadmap:
         self.footer.text = text
         self.footer.set_draw_position(self.__painter, self.__last_y_pos)
 
-    def set_timeline():
+    def set_timeline(self):
+        timeline_dict = {}
+        self.timeline = Timeline(timeline_dict)
         return None
 
     def draw(self):
@@ -340,7 +368,11 @@ class Roadmap:
 
 x = Roadmap(1000, 512)
 x.set_title("this is header", font_size=18)
-# x.set_timeline("this is timeline")
+x.set_timeline()
 x.set_footer("this is footer", font_size=18)
 x.draw()
 x.save()
+# print(x.title)
+print(x.timeline)
+# print(x.footer)
+# print(x)
