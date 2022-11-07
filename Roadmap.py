@@ -612,10 +612,11 @@ if __name__ == "__main__":
         task2.add_milestone("Milestone 4", "2023-01-01", "Red")
         task2.add_milestone("Milestone 5", "2023-02-01", "Green")
         task2.add_milestone("Milestone 6", "2023-03-01", "Blue")
+
     with Group("Group 1", "Arial", 18, "Black", "White") as group1:
         group1.add_task(task1)
         group1.add_task(task2)
-    # pd(group1.tasks)
+
     my_roadmap.add_group(group1)
 
     my_roadmap.set_footer("this is footer", font_size=10)
