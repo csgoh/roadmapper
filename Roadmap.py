@@ -1,3 +1,25 @@
+# MIT License
+
+# Copyright (c) 2022 Cheng Soon Goh
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
 from dataclasses import dataclass, field
@@ -9,26 +31,16 @@ import pprint
 @dataclass(kw_only=True)
 class Title:
     text: str
-    x: int
-    y: int
-    width: int
-    height: int
-    font: str
-    font_size: int
-    font_colour: str
+    x: int = field(init=False)
+    y: int = field(init=False)
+    width: int = field(init=False)
+    height: int = field(init=False)
+    font: str = field(default="Arial")
+    font_size: int = 12
+    font_colour: str = "Black"
 
     # CONSTANT
     __TITLE_Y_POS = 30
-
-    def __init__(self, text: str, font="Arial", font_size=12, font_colour="Black"):
-        self.text = text
-        self.font = font
-        self.font_size = font_size
-        self.font_colour = font_colour
-        self.x = 0
-        self.y = 0
-        self.width = 0
-        self.height = 0
 
     def __calculate_draw_position(self, painter: Painter):
         self.width, self.height = painter.get_text_dimension(self.text)
@@ -47,15 +59,11 @@ class Title:
 @dataclass(kw_only=True)
 class Footer:
     text: str
-    font: str
-    font_size: int
-    font_colour: str
-
-    def __init__(self, text: str, font="Arial", font_size=12, font_colour="Black"):
-        self.text = text
-        self.font = font
-        self.font_size = font_size
-        self.font_colour = font_colour
+    font: str = "Arial"
+    font_size: int = 12
+    font_colour: str = "Black"
+    x: int = field(init=False)
+    y: int = field(init=False)
 
     def __calculate_draw_position(self, painter: Painter):
         self.width, self.height = painter.get_text_dimension(self.text)
@@ -80,47 +88,16 @@ class TimelineItem:
     value: str
     start: datetime
     end: datetime
-    box_x: int
-    box_y: int
-    box_width: int
-    box_height: int
-    text_x: int
-    text_y: int
-    text_width: int
-    text_height: int
+    box_x: int = field(init=False)
+    box_y: int = field(init=False)
+    box_width: int = field(init=False)
+    box_height: int = field(init=False)
+    text_x: int = field(init=False)
+    text_y: int = field(init=False)
     font: str
     font_size: int
     font_colour: str
-
-    def __init__(
-        self,
-        text: str,
-        value: str,
-        start: datetime,
-        end: datetime,
-        font: str,
-        font_size: int,
-        font_colour: str,
-        fill_colour: str,
-    ):
-        self.text = text
-        self.value = value
-        self.start = start
-        self.end = end
-
-        self.box_x = 0
-        self.box_y = 0
-        self.box_width = 0
-        self.box_height = 0
-        self.text_x = 0
-        self.text_y = 0
-        self.text_width = 0
-        self.text_height = 0
-
-        self.font = font
-        self.font_colour = font_colour
-        self.font_size = font_size
-        self.fill_colour = fill_colour
+    fill_colour: str
 
     def __calculate_text_draw_position(self, painter: Painter):
         painter.set_font(self.font, self.font_size, self.font_colour)
@@ -161,45 +138,21 @@ class TimelineMode:
 
 @dataclass(kw_only=True)
 class Timeline:
-    mode: str
-    start: datetime
-    number_of_items: int
-    x: int
-    y: int
-    width: int
-    height: int
-    font: str
-    font_size: int
-    font_colour: str
-    fill_colour: str
-    timeline_items: list[TimelineItem]
+    mode: str = TimelineMode.MONTHLY
+    start: datetime = datetime.today()
+    number_of_items: int = 12
+    x: int = field(init=False)
+    y: int = field(init=False)
+    width: int = field(init=False)
+    # height: int = field(init=False)
+    font: str = "Arial"
+    font_size: int = 12
+    font_colour: str = "Black"
+    fill_colour: str = "LightGray"
+    timeline_items: list[TimelineItem] = field(default_factory=list)
 
     # Constant Variables
     __timeline_height = 20
-
-    def __init__(
-        self,
-        mode=TimelineMode.MONTHLY,
-        start=datetime.today(),
-        number_of_items=12,
-        font="Arial",
-        font_size=10,
-        font_colour="Black",
-        fill_colour="lightgrey"
-    ):
-        self.mode = mode
-        self.start = start
-        self.number_of_items = number_of_items
-        self.font = font
-        self.font_size = font_size
-        self.font_colour = font_colour
-        self.fill_colour = fill_colour
-
-        self.x = 0
-        self.y = 0
-        self.width = 0
-        self.height = 0
-        self.timeline_items = []
 
     def __calculate_draw_position(self, painter: Painter):
         # Determine group box width
@@ -240,14 +193,14 @@ class Timeline:
             timelineitem_start, timelineitem_end = self.__get_timeline_item_dates(i)
 
             timelineitem = TimelineItem(
-                timelineitem_text,
-                timelineitem_value,
-                timelineitem_start,
-                timelineitem_end,
-                self.font,
-                self.font_size,
-                self.font_colour,
-                self.fill_colour,
+                text=timelineitem_text,
+                value=timelineitem_value,
+                start=timelineitem_start,
+                end=timelineitem_end,
+                font=self.font,
+                font_size=self.font_size,
+                font_colour=self.font_colour,
+                fill_colour=self.fill_colour,
             )
 
             timelineitem.set_draw_position(
@@ -371,7 +324,7 @@ class Timeline:
             timelineitem.draw(painter)
 
 
-@dataclass (kw_only=True)
+@dataclass(kw_only=True)
 class Milestone:
     text: str
     date: datetime
@@ -412,20 +365,6 @@ class Task:
     fill_colour: str = "LightGreen"
     milestones: list[Milestone] = field(default_factory=list)
 
-    # def __init__(
-    #     self,
-    #     text,
-    #     start,
-    #     end,
-    # ) -> None:
-    #     self.text = text
-    #     self.start = start
-    #     self.end = end
-    #     self.x = 0
-    #     self.y = 0
-    #     self.width = 0
-    #     self.height = 0
-
     def __enter__(self):
         print(f"Entering {self.text}")
         return self
@@ -449,6 +388,9 @@ class Task:
         )
         # pd(self.milestones)
 
+    def draw(self, painter: Painter):
+        pass
+
 
 @dataclass
 class Group:
@@ -463,25 +405,6 @@ class Group:
     fill_colour: str = "lightgrey"
     tasks: list[Task] = field(default_factory=list)
 
-    # def __init__(
-    #     self, 
-    #     text, 
-    #     font="Arial",
-    #     font_size=10,
-    #     font_colour="Black",
-    #     fill_colour="lightgrey"):
-    #     self.text = text
-    #     self.font = font
-    #     self.font_size = font_size
-    #     self.font_colour = font_colour
-    #     self.fill_colour = fill_colour
-
-    #     self.x = 0
-    #     self.y = 0
-    #     self.weight = 0
-    #     self.height = 0
-    #     self.tasks = []
-
     def __enter__(self):
         return self
 
@@ -491,97 +414,104 @@ class Group:
     def add_task(self, task: Task):
         self.tasks.append(task)
 
+    def draw(self, painter: Painter):
+        # Step 1: draw tasks
+        for tasks in self.tasks:
+            tasks.draw(painter)
 
-@dataclass (kw_only=True)
+        # Step 2: draw group box
+
+
+@dataclass()
 class Roadmap:
-    width: int = 1200
-    height: int = 600
-    title: Title = field(default_factory=Title)
-    timeline: Timeline = field(default_factory=Timeline)
-    groups: list[Group] = field(default_factory=Group)
-    footer: Footer = field(default_factory=Footer)
+    width: int = field(default=1200)
+    height: int = field(default=600)
+    title: Title = field(default=None, init=False)
+    timeline: Timeline = field(default=None, init=False)
+    groups: list[Group] = field(default_factory=list, init=False)
+    footer: Footer = field(default=None, init=False)
 
-    # Private Variables
-    __last_y_pos = 0
-
-    # DEFAULT SETTINGS
-    __TITLE_FONT = "Arial"
-    __TITLE_FONT_SIZE = 18
-    __TITLE_FONT_COLOUR = "Black"
-
-    __FOOTER_FONT = "Arial"
-    __FOOTER_FONT_SIZE = 18
-    __FOOTER_FONT_COLOUR = "Black"
-
-    def __init__(self, width, height) -> None:
-        self.width = width
-        self.height = height
-        self.__painter = Painter(width, height, "test.png")
+    def __post_init__(self):
+        self.__painter = Painter(self.width, self.height, "test.png")
         self.__painter.set_background_colour("White")
-
-        self.groups = []
+        self.__last_y_pos = 0
 
     def set_title(
         self,
         text: str,
-        font=__TITLE_FONT,
-        font_size=__TITLE_FONT_SIZE,
-        font_colour=__TITLE_FONT_COLOUR,
+        font: str = "Arial",
+        font_size: int = 18,
+        font_colour: str = "Black",
     ):
-        self.title = Title(text, font, font_size, font_colour)
+        self.title = Title(
+            text=text, font=font, font_size=font_size, font_colour=font_colour
+        )
         self.title.text = text
+
         self.title.set_draw_position(self.__painter)
 
     def set_footer(
         self,
         text: str,
-        font=__FOOTER_FONT,
-        font_size=__FOOTER_FONT_SIZE,
-        font_colour=__FOOTER_FONT_COLOUR,
+        font: str = "Arial",
+        font_size: int = 18,
+        font_colour: str = "Black",
     ):
-        self.footer = Footer(text, font, font_size, font_colour)
+        self.footer = Footer(
+            text=text, font=font, font_size=font_size, font_colour=font_colour
+        )
         self.footer.text = text
         self.footer.set_draw_position(self.__painter, self.__last_y_pos)
 
-    def set_timeline(self):
-        self.timeline = Timeline()
+    def set_timeline(
+        self,
+        mode=TimelineMode.MONTHLY,
+        start=datetime.strptime(
+            datetime.strftime(datetime.today(), "%Y-%m-%d"), "%Y-%m-%d"
+        ),
+        number_of_items=12,
+        font="Arial",
+        font_size=10,
+        font_colour="Black",
+        fill_colour="lightgrey",
+    ):
+        start_date = datetime.strptime(start, "%Y-%m-%d")
+        self.timeline = Timeline(
+            mode=mode, start=start_date, number_of_items=number_of_items
+        )
+        (mode, start_date, number_of_items, font, font_size, font_colour, fill_colour)
         self.timeline.set_draw_position(self.__painter)
         return None
+
+    def add_group(self, group: Group):
+        self.groups.append(group)
 
     def draw(self):
         self.title.draw(self.__painter)
         self.timeline.draw(self.__painter)
-        #self.groups.draw(self.__painter)
+        for group in self.groups:
+            group.draw(self.__painter)
         self.footer.draw(self.__painter)
 
     def save(self):
         self.__painter.save_surface()
 
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        pass
-
-    def add_group(self, group: Group):
-        self.groups.append(group)
-        
 
 if __name__ == "__main__":
-    pp =  pprint.PrettyPrinter(indent=4, compact=True)
-    my_roadmap = Roadmap(1000, 512)
+    pp = pprint.PrettyPrinter(indent=4, compact=True)
+    my_roadmap = Roadmap(width=1000, height=512)
     my_roadmap.set_title("My Three Year Roadmap 2023-2025", font_size=18)
-    my_roadmap.set_timeline()
+    my_roadmap.set_timeline(TimelineMode.MONTHLY, "2023-01-01", 12)
 
     with Task(text="Task1", start="2023-01-01", end="2023-10-31") as task1:
-        task1.add_milestone(text="Milestone 1", date="2023-01-01", "Red")
-        task1.add_milestone("Milestone 2", "2023-02-01", "Green")
-        task1.add_milestone("Milestone 3", "2023-03-01", "Blue")
+        task1.add_milestone(text="Milestone 1", date="2023-01-01", fill_colour="Red")
+        task1.add_milestone("Milestone 2", "2023-02-01", fill_colour="Green")
+        task1.add_milestone("Milestone 3", "2023-03-01", fill_colour="Blue")
 
     with Task(text="Task2", start="2023-01-01", end="2023-10-31") as task2:
-        task2.add_milestone("Milestone 4", "2023-01-01", "Red")
-        task2.add_milestone("Milestone 5", "2023-02-01", "Green")
-        task2.add_milestone("Milestone 6", "2023-03-01", "Blue")
+        task2.add_milestone("Milestone 4", "2023-01-01")
+        task2.add_milestone("Milestone 5", "2023-02-01")
+        task2.add_milestone("Milestone 6", "2023-03-01")
 
     with Group("Group 1", "Arial", 18, "Black", "White") as group1:
         group1.add_task(task1)
@@ -589,8 +519,7 @@ if __name__ == "__main__":
 
     my_roadmap.add_group(group1)
 
-    my_roadmap.set_footer("this is footer!!", font_size=10)
+    my_roadmap.set_footer("this is footer!!!!!", font_size=10)
     my_roadmap.draw()
     my_roadmap.save()
     pp.pprint(my_roadmap)
-    
