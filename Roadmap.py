@@ -1,13 +1,12 @@
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
-from dataclasses import dataclass
-import calendar
+from dataclasses import dataclass, field
 from painter import Painter
-from print_dict import pd
-from contextlib import contextmanager
+import calendar
+import pprint
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Title:
     text: str
     x: int
@@ -45,7 +44,7 @@ class Title:
         painter.draw_text(self.x, self.y, self.text)
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Footer:
     text: str
     font: str
@@ -75,7 +74,7 @@ class Footer:
         painter.draw_text(self.x, self.y, self.text)
 
 
-@dataclass
+@dataclass(kw_only=True)
 class TimelineItem:
     text: str
     value: str
@@ -160,7 +159,7 @@ class TimelineMode:
     YEARLY = "Y"
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Timeline:
     mode: str
     start: datetime
@@ -180,14 +179,13 @@ class Timeline:
 
     def __init__(
         self,
-        timeline_dict: dict,
         mode=TimelineMode.MONTHLY,
         start=datetime.today(),
         number_of_items=12,
         font="Arial",
         font_size=10,
         font_colour="Black",
-        fill_colour="lightgrey",
+        fill_colour="lightgrey"
     ):
         self.mode = mode
         self.start = start
@@ -373,7 +371,7 @@ class Timeline:
             timelineitem.draw(painter)
 
 
-@dataclass
+@dataclass (kw_only=True)
 class Milestone:
     text: str
     date: datetime
@@ -399,43 +397,34 @@ class Milestone:
         self.fill_colour = fill_colour
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Task:
     text: str
     start: datetime
     end: datetime
-    x: int
-    y: int
-    width: int
-    height: int
-    font: str
-    font_size: int
-    font_colour: str
-    fill_colour: str
-    milestones: list[Milestone]
+    x: int = 0
+    y: int = 0
+    width: int = 0
+    height: int = 0
+    font: str = "Arial"
+    font_size: int = 12
+    font_colour: str = "Black"
+    fill_colour: str = "LightGreen"
+    milestones: list[Milestone] = field(default_factory=list)
 
-    def __init__(
-        self,
-        text,
-        start,
-        end,
-        font="Arial",
-        font_size=12,
-        font_colour="black",
-        fill_colour="lightgreen",
-    ) -> None:
-        self.text = text
-        self.start = start
-        self.end = end
-        self.x = 0
-        self.y = 0
-        self.width = 0
-        self.height = 0
-        self.font = font
-        self.font_size = font_size
-        self.font_colour = font_colour
-        self.fill_colour = fill_colour
-        self.milestones = []
+    # def __init__(
+    #     self,
+    #     text,
+    #     start,
+    #     end,
+    # ) -> None:
+    #     self.text = text
+    #     self.start = start
+    #     self.end = end
+    #     self.x = 0
+    #     self.y = 0
+    #     self.width = 0
+    #     self.height = 0
 
     def __enter__(self):
         print(f"Entering {self.text}")
@@ -464,28 +453,34 @@ class Task:
 @dataclass
 class Group:
     text: str
-    x: int
-    y: int
-    weight: int
-    height: int
-    font: str
-    font_size: int
-    font_colour: str
-    fill_colour: str
-    tasks = list[Task]
+    x: int = 0
+    y: int = 0
+    width: int = 0
+    height: int = 0
+    font: str = "Arial"
+    font_size: int = 10
+    font_colour: str = "black"
+    fill_colour: str = "lightgrey"
+    tasks: list[Task] = field(default_factory=list)
 
-    def __init__(self, text, font, font_size, font_colour, fill_colour) -> None:
-        self.text = text
-        self.font = font
-        self.font_size = font_size
-        self.font_colour = font_colour
-        self.fill_colour = fill_colour
+    # def __init__(
+    #     self, 
+    #     text, 
+    #     font="Arial",
+    #     font_size=10,
+    #     font_colour="Black",
+    #     fill_colour="lightgrey"):
+    #     self.text = text
+    #     self.font = font
+    #     self.font_size = font_size
+    #     self.font_colour = font_colour
+    #     self.fill_colour = fill_colour
 
-        self.x = 0
-        self.y = 0
-        self.weight = 0
-        self.height = 0
-        self.tasks = []
+    #     self.x = 0
+    #     self.y = 0
+    #     self.weight = 0
+    #     self.height = 0
+    #     self.tasks = []
 
     def __enter__(self):
         return self
@@ -495,17 +490,16 @@ class Group:
 
     def add_task(self, task: Task):
         self.tasks.append(task)
-        # pd(self.tasks)
 
 
-@dataclass
+@dataclass (kw_only=True)
 class Roadmap:
-    width: int
-    height: int
-    title: Title
-    timeline: Timeline
-    groups: list[Group]
-    footer: Footer
+    width: int = 1200
+    height: int = 600
+    title: Title = field(default_factory=Title)
+    timeline: Timeline = field(default_factory=Timeline)
+    groups: list[Group] = field(default_factory=Group)
+    footer: Footer = field(default_factory=Footer)
 
     # Private Variables
     __last_y_pos = 0
@@ -525,7 +519,6 @@ class Roadmap:
         self.__painter = Painter(width, height, "test.png")
         self.__painter.set_background_colour("White")
 
-        self.timeline = []
         self.groups = []
 
     def set_title(
@@ -551,14 +544,14 @@ class Roadmap:
         self.footer.set_draw_position(self.__painter, self.__last_y_pos)
 
     def set_timeline(self):
-        timeline_dict = {}
-        self.timeline = Timeline(timeline_dict)
+        self.timeline = Timeline()
         self.timeline.set_draw_position(self.__painter)
         return None
 
     def draw(self):
         self.title.draw(self.__painter)
         self.timeline.draw(self.__painter)
+        #self.groups.draw(self.__painter)
         self.footer.draw(self.__painter)
 
     def save(self):
@@ -571,44 +564,21 @@ class Roadmap:
         pass
 
     def add_group(self, group: Group):
-        # pd(group.tasks)
         self.groups.append(group)
-        # pd(self.groups)
-
-
-def obj_to_string(obj, extra="    "):
-    return (
-        str(obj.__class__)
-        + "\n"
-        + "\n".join(
-            (
-                extra
-                + (
-                    str(item)
-                    + " = "
-                    + (
-                        obj_to_string(obj.__dict__[item], extra + "    ")
-                        if hasattr(obj.__dict__[item], "__dict__")
-                        else str(obj.__dict__[item])
-                    )
-                )
-                for item in sorted(obj.__dict__)
-            )
-        )
-    )
-
+        
 
 if __name__ == "__main__":
+    pp =  pprint.PrettyPrinter(indent=4, compact=True)
     my_roadmap = Roadmap(1000, 512)
-    my_roadmap.set_title("My Three Year Roadmap 2023~2025", font_size=18)
+    my_roadmap.set_title("My Three Year Roadmap 2023-2025", font_size=18)
     my_roadmap.set_timeline()
 
-    with Task("Task1", "2023-01-01", "2023-10-31") as task1:
-        task1.add_milestone("Milestone 1", "2023-01-01", "Red")
+    with Task(text="Task1", start="2023-01-01", end="2023-10-31") as task1:
+        task1.add_milestone(text="Milestone 1", date="2023-01-01", "Red")
         task1.add_milestone("Milestone 2", "2023-02-01", "Green")
         task1.add_milestone("Milestone 3", "2023-03-01", "Blue")
 
-    with Task("Task2", "2023-01-01", "2023-10-31") as task2:
+    with Task(text="Task2", start="2023-01-01", end="2023-10-31") as task2:
         task2.add_milestone("Milestone 4", "2023-01-01", "Red")
         task2.add_milestone("Milestone 5", "2023-02-01", "Green")
         task2.add_milestone("Milestone 6", "2023-03-01", "Blue")
@@ -619,11 +589,8 @@ if __name__ == "__main__":
 
     my_roadmap.add_group(group1)
 
-    my_roadmap.set_footer("this is footer", font_size=10)
+    my_roadmap.set_footer("this is footer!!", font_size=10)
     my_roadmap.draw()
     my_roadmap.save()
-    # print(obj_to_string(my_roadmap.groups[0]))
-    print(obj_to_string(my_roadmap.timeline))
-    # pd(my_roadmap.timeline.timeline_items[0].__dict__["box_y"])
-
-    # print(json.dumps(my_roadmap.__dict__))
+    pp.pprint(my_roadmap)
+    
