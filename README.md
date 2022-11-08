@@ -1,42 +1,59 @@
 # roadmap_generator
 
-Purpose: This application is used to generate graphical roadmap using code. 
+Purpose: This application is used to generate graphical roadmap using code.
 
+## SDK Example
 
-
-## Example  
 ```python
-from generator import Roadmap
+my_roadmap = Roadmap(1000, 512)
+my_roadmap.set_title("My Three Year Roadmap 2023~2025", font_size=18)
+my_roadmap.set_timeline()
 
-my_roadmap = Mahere(1024, 420, "my_roadmap.png")
+with Task("Task1", "2023-01-01", "2023-10-31") as task1:
+    task1.add_milestone("Milestone 1", "2023-01-01", "Red")
+    task1.add_milestone("Milestone 2", "2023-02-01", "Green")
+    task1.add_milestone("Milestone 3", "2023-03-01", "Blue")
 
-my_roadmap.title_text = "This is my roadmap!!"
-my_roadmap.timeline_mode = Mahere.QUARTERLY
-my_roadmap.timeline_item = 9
+with Task("Task2", "2023-01-01", "2023-10-31") as task2:
+    task2.add_milestone("Milestone 4", "2023-01-01", "Red")
+    task2.add_milestone("Milestone 5", "2023-02-01", "Green")
+    task2.add_milestone("Milestone 6", "2023-03-01", "Blue")
 
-group1 = my_roadmap.add_group("Stream 1: Develop base")
-my_roadmap.add_task(group1, "Feature 1", "2022-10-24", "2022-11-24")
-my_roadmap.add_task(group1, "Feature 2", "2022-12-24", "2023-04-24")
-    
-group2 = my_roadmap.add_group("Stream 2: Enable monitoring")
-my_roadmap.add_task(group2, "Feature 3", "2022-04-24", "2022-12-24")
-my_roadmap.add_task(group2, "Feature 4", "2023-01-24", "2024-12-24")
+with Group("Group 1", "Arial", 18, "Black", "White") as group1:
+    group1.add_task(task1)
+    group1.add_task(task2)
 
-group3 = my_roadmap.add_group("Stream 3: Support reporting")
-my_roadmap.add_task(group3, "Feature 5", "2022-10-24", "2023-03-24")
-my_roadmap.add_task(group3, "Feature 6", "2023-04-24", "2023-07-24")
-my_roadmap.add_task(group3, "Feature 7", "2023-08-24", "2023-08-24")
-    
-group4 = my_roadmap.add_group("Stream 4: Implement ML analytics")
-my_roadmap.add_task(group4, "Feature 8", "2022-05-24", "2023-11-24")
-my_roadmap.add_task(group4, "Feature 9", "2022-06-24", "2023-07-24")
-my_roadmap.add_task(group4, "Feature 10", "2022-08-24", "2023-08-24")
+my_roadmap.add_group(group1)
 
-group5 = my_roadmap.add_group("Stream 5: Build Mobile App")
-my_roadmap.add_task(group5, "Feature 11", "2023-12-24", "2024-03-24")
-my_roadmap.add_task(group5, "Feature 12", "2024-04-24", "2024-06-24")
-my_roadmap.add_task(group5, "Feature 13", "2024-07-24", "2024-08-24")
+my_roadmap.set_footer("this is footer", font_size=10)
+my_roadmap.draw()
+my_roadmap.save()
 ```
+
 ## Output
 
 ![name](my_roadmap.png)
+
+## Plain english example
+
+```txt
+Title This is my title
+Footer This is my footer
+Timescale is Monthly
+Roadmap starts 2022-11-13
+Timescale has 12 items
+task font colour is black
+
+(group 1) is coloured in green
+	[task 1] starts 2022-12-01 ends 2023-06-30 coloured in lightgreen
+		<v1.0 Go Live> happens 2022-06-30 coloured in red
+	[task 2] starts 2023-03-01 ends 2023-08-30 coloured in lightgreen
+		<v1.1 release> happens 2022-06-30 coloured in red
+
+(group 2) is coloured in blue
+	[task 1] starts 2022-12-01 ends 2023-06-30 coloured in lightgreen
+	[task 2] starts 2023-03-01 ends 2023-08-30 coloured in lightgreen
+	[task 3] starts 2023-03-01 ends 2023-08-30 coloured in lightgreen
+		<v1.0 Go Live> happens 2022-06-30 coloured in red
+
+```
