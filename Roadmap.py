@@ -498,7 +498,8 @@ class Roadmap:
 
 
 if __name__ == "__main__":
-    pp = pprint.PrettyPrinter(indent=4, compact=True)
+    pp = pprint.PrettyPrinter(indent=1, width=120, compact=True)
+
     my_roadmap = Roadmap(width=1000, height=512)
     my_roadmap.set_title("My Three Year Roadmap 2023-2025", font_size=18)
     my_roadmap.set_timeline(TimelineMode.MONTHLY, "2023-01-01", 12)
@@ -522,4 +523,4 @@ if __name__ == "__main__":
     my_roadmap.set_footer("this is footer!!!!!", font_size=10)
     my_roadmap.draw()
     my_roadmap.save()
-    pp.pprint(my_roadmap)
+    pp.pprint(my_roadmap.groups)
