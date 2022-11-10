@@ -36,62 +36,78 @@ class Group:
     font_size: int = 10
     font_colour: str = "black"
     fill_colour: str = "lightgrey"
-    
 
     def __post_init__(self):
         self.tasks = []
-        
+
     @contextmanager
-    def add_task(self, text, start, end, font="Arial", font_size=12, font_colour="Black", fill_colour="LightGreen"):
+    def add_task(
+        self,
+        text,
+        start,
+        end,
+        font="Arial",
+        font_size=12,
+        font_colour="Black",
+        fill_colour="LightGreen",
+    ):
         try:
-            task = Task(text=text, start=start, end=end, font=font, font_size=font_size, font_colour=font_colour, fill_colour=fill_colour)
+            task = Task(
+                text=text,
+                start=start,
+                end=end,
+                font=font,
+                font_size=font_size,
+                font_colour=font_colour,
+                fill_colour=fill_colour,
+            )
             self.tasks.append(task)
             yield task
         finally:
             task = None
 
     def set_draw_position(self, painter: Painter):
-        additional_height_for_milestone = 6
-        # Calculate number of milestones in group
-        milestone_count = 0
-        tasks = self.__roadmap_input[group_text].get("tasks", {})
-        for task in tasks:
-            for milestone in tasks[task].get("milestones", {}):
-                if milestone != {}:
-                    milestone_count += 1
-                    break
+        pass
+        # additional_height_for_milestone = 6
+        # # Calculate number of milestones in group
+        # milestone_count = 0
+        # tasks = self.__roadmap_input[group_text].get("tasks", {})
+        # for task in tasks:
+        #     for milestone in tasks[task].get("milestones", {}):
+        #         if milestone != {}:
+        #             milestone_count += 1
+        #             break
 
-        # Calc group height
-        task_count = len(self.__roadmap_input[group_text].get("tasks"))
-        group_total_height = (
-            (20 * task_count)
-            + (additional_height_for_milestone * milestone_count)
-            + (2 * (task_count - 1))
-        )
-        group_total_width = max_width + 10
-
-        self.__painter.set_colour(self.__roadmap_input[group_text].get("colour"))
-        # self.__painter.draw_box(x, y, group_total_width, group_total_height)
-
-        # print(
-        #     f"-->draw_group {group_text} {x=} {y=} {group_total_width=} {max_height=}"
+        # # Calc group height
+        # task_count = len(self.__roadmap_input[group_text].get("tasks"))
+        # group_total_height = (
+        #     (20 * task_count)
+        #     + (additional_height_for_milestone * milestone_count)
+        #     + (2 * (task_count - 1))
         # )
+        # group_total_width = max_width + 10
 
-        self.__painter.draw_box(x, y, group_total_width, max_height)
+        # self.__painter.set_colour(self.__roadmap_input[group_text].get("colour"))
+        # # self.__painter.draw_box(x, y, group_total_width, group_total_height)
 
-        self.__painter.set_colour(self.group_text_colour)
-        x_pos, y_pos = self.__painter.get_display_text_position(
-            x, y, group_total_width, max_height, group_text, "centre"
-        )
-        # print(
-        #     f"{x=}, {y=}, {group_total_width=}, {max_height=}, {x_pos=} {y_pos=} {group_text=}"
+        # # print(
+        # #     f"-->draw_group {group_text} {x=} {y=} {group_total_width=} {max_height=}"
+        # # )
+
+        # self.__painter.draw_box(x, y, group_total_width, max_height)
+
+        # self.__painter.set_colour(self.group_text_colour)
+        # x_pos, y_pos = self.__painter.get_display_text_position(
+        #     x, y, group_total_width, max_height, group_text, "centre"
         # )
-        if max_height > 0:
-            self.__painter.set_font(self.text_font, 12, self.group_text_colour)
-            self.__painter.draw_text(x_pos, y_pos, group_text)
-            text_width, text_height = self.__painter.get_text_dimension(group_text)
-        return y + max_height
-        
+        # # print(
+        # #     f"{x=}, {y=}, {group_total_width=}, {max_height=}, {x_pos=} {y_pos=} {group_text=}"
+        # # )
+        # if max_height > 0:
+        #     self.__painter.set_font(self.text_font, 12, self.group_text_colour)
+        #     self.__painter.draw_text(x_pos, y_pos, group_text)
+        #     text_width, text_height = self.__painter.get_text_dimension(group_text)
+        # return y + max_height
 
     def draw(self, painter: Painter):
         # Step 1: draw tasks
@@ -99,4 +115,3 @@ class Group:
             tasks.draw(painter)
 
         # Step 2: draw group box
-

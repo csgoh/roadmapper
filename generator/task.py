@@ -22,9 +22,11 @@
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
 from dataclasses import dataclass, field
+from contextlib import contextmanager
 
 from painter import Painter
 from milestone import Milestone
+
 
 @dataclass(kw_only=True)
 class Task:
@@ -42,7 +44,34 @@ class Task:
 
     def __post_init__(self):
         self.milestones = []
-        
+        self.tasks = []
+
+    @contextmanager
+    def add_parellel_task(
+        self,
+        text,
+        start,
+        end,
+        font="Arial",
+        font_size=12,
+        font_colour="Black",
+        fill_colour="LightGreen",
+    ):
+        try:
+            task = Task(
+                text=text,
+                start=start,
+                end=end,
+                font=font,
+                font_size=font_size,
+                font_colour=font_colour,
+                fill_colour=fill_colour,
+            )
+            self.tasks.append(task)
+            yield task
+        finally:
+            task = None
+
     def add_milestone(
         self,
         text,
