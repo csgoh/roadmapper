@@ -30,6 +30,7 @@ from milestone import Milestone
 
 @dataclass(kw_only=True)
 class Task:
+
     text: str
     start: datetime
     end: datetime
@@ -57,6 +58,20 @@ class Task:
         font_colour="Black",
         fill_colour="LightGreen",
     ):
+        """Add a parallel task to this task
+
+        Args:
+            text ([type]): [description]
+            start ([type]): [description]
+            end ([type]): [description]
+            font (str, optional): [description]. Defaults to "Arial".
+            font_size (int, optional): [description]. Defaults to 12.
+            font_colour (str, optional): [description]. Defaults to "Black".
+            fill_colour (str, optional): [description]. Defaults to "LightGreen".
+
+        Yields:
+            [type]: [description]
+        """
         try:
             task = Task(
                 text=text,

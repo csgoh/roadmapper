@@ -177,6 +177,7 @@ if __name__ == "__main__":
             task1.add_milestone("Milestone 1", "2023-01-15", "Arial", 12, "Red", "Red")
             task1.add_milestone("Milestone 2", "2023-02-15", "Arial", 12, "Red", "Red")
             task1.add_milestone("Milestone 3", "2023-03-01", "Arial", 12, "Red", "Red")
+            with task1.add_parellel_task()
             with task1.add_parellel_task(
                 "Task 1a", "2023-01-01", "2023-03-01", "Arial", 12, "Black", "LightBlue"
             ) as task1a:
