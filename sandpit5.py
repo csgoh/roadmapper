@@ -5,113 +5,54 @@ from dataclasses import dataclass
 
 @dataclass
 class Umbrella:
-    groups = []
 
     def __init__(self) -> None:
+        self.groups = []
         pass
-
-    def __enter__(self):
-        print("Umbrella", "1 - Entering")
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        print("Umbrella", "2 - Exiting")
 
     @contextmanager
     def add_group(self, group_text: str):
         try:
-            print("Umbrella", "3 - Adding group")
-            found = False
             group = Group(group_text)
-            for g in self.groups:
-                if g == group:
-                    found = True
-                    break
-            if not found:
-                self.groups.append(group)
-            print(group.__dict__)
+            self.groups.append(group)
+            #yield self.groups[len(self.groups) - 1]
             yield group
         finally:
-            pass
+            group = None
 
 
 @dataclass
 class Group:
-    tasks = []
 
     def __init__(self, group_text) -> None:
         self.uid = uuid.uuid4()
         self.text = group_text
-
-    def __enter__(self):
-        print(self.text, "1 - Entering")
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        print(self.text, "2 - Exiting")
-
-    def do_something(self):
-        try:
-            print(type(self).__name__, self.uid, "I'm doing something")
-            yield Task()
-        finally:
-            print(type(self).__name__, self.uid, "I'm done!")
+        self.tasks = []
 
     @contextmanager
     def add_task(self, task_text: str):
         try:
-            print(self.text, "3 - Adding task")
-            found = False
             task = Task(task_text)
-            for t in self.tasks:
-                if t == task:
-                    found = True
-                    break
-            if not found:
-                self.tasks.append(task)
+            self.tasks.append(task)
 
+            #yield self.tasks[len(self.tasks) - 1]
             yield task
         finally:
-            pass
+            task = None
 
 
 @dataclass
 class Task:
-    milestones = []
 
     def __init__(self, text) -> None:
         self.uid = uuid.uuid4()
         self.text = text
-
-    def __enter__(self):
-        print(self.text, "1 - Entering")
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        print(self.text, "2 - Exiting")
-
-    def do_something(self):
-        try:
-            print("     ", type(self).__name__, self.uid, "I'm doing something")
-            yield Milestone()
-        finally:
-            print("     ", type(self).__name__, self.uid, "I'm done!")
+        self.milestones = []
 
     def add_milestone(self, milestone_text: str):
-        try:
-            print(self.text, "3 - Adding milestone")
-            found = False
-            milestone = Milestone(milestone_text)
-            for m in self.milestones:
-                if m == milestone:
-                    found = True
-                    break
-            if not found:
-                self.milestones.append(milestone)
+        milestone = Milestone(milestone_text)
+        self.milestones.append(milestone)
 
-            yield milestone
-        finally:
-            pass
 
 
 @dataclass
@@ -124,11 +65,38 @@ class Milestone:
 my_umbrella = Umbrella()
 
 with my_umbrella.add_group("Group 1") as group:
-    with group.add_task("Task 1") as task:
-        task.add_milestone("M1-1")
-        task.add_milestone("M2-2")
-    with group.add_task("Task 2") as task:
-        task.add_milestone("M2-1")
-        task.add_milestone("M2-2")
+    with group.add_task("Task 1") as task1:
+        task1.add_milestone("M1-1")
+        task1.add_milestone("M2-2")
+    with group.add_task("Task 2") as task2:
+        task2.add_milestone("M2-1")
+        task2.add_milestone("M2-2")
+        
+with my_umbrella.add_group("Group 2") as group2:
+    with group2.add_task("Task 3") as task3:
+        task3.add_milestone("M4-1")
+        task3.add_milestone("M4-2")
+        task3.add_milestone("M4-3")
+        task3.add_milestone("M4-4")
+        task3.add_milestone("M4-5")
+        task3.add_milestone("M4-6")
+        task3.add_milestone("M4-7")
 
-print(group.__dict__)
+#print(my_umbrella.groups[0].tasks[0].milestones[0].text)
+
+def print_umbrella(umbrella: Umbrella):
+    for group in umbrella.groups:
+        print(group.text)
+        for task in group.tasks:
+            print(f"  {task.text}")
+            for milestone in task.milestones:
+                print(f"    {milestone.text}")            
+# for group in my_umbrella.groups:
+#     print (f"Group: {group.text}")
+#     for task in group.tasks:
+#         print (f"     Task: {task.text}")
+#         for milestone in task.milestones:
+#             print (f"          Milestone: {milestone.text}")
+
+print_umbrella(my_umbrella)
+            

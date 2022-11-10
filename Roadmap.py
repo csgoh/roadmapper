@@ -23,6 +23,7 @@
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
 from dataclasses import dataclass, field
+from contextlib import contextmanager
 from painter import Painter
 import calendar
 import pprint
@@ -363,16 +364,10 @@ class Task:
     font_size: int = 12
     font_colour: str = "Black"
     fill_colour: str = "LightGreen"
-    milestones: list[Milestone] = field(default_factory=list)
 
-    def __enter__(self):
-        print(f"Entering {self.text}")
-        return self
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        print(f"Exiting {self.text}")
-        pass
-
+    def __post_init__(self):
+        self.milestones = []
+        
     def add_milestone(
         self,
         text,
@@ -403,16 +398,19 @@ class Group:
     font_size: int = 10
     font_colour: str = "black"
     fill_colour: str = "lightgrey"
-    tasks: list[Task] = field(default_factory=list)
+    
 
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        pass
-
-    def add_task(self, task: Task):
-        self.tasks.append(task)
+    def __post_init__(self):
+        self.tasks = []
+        
+    @contextmanager
+    def add_task(self, text, start, end, font="Arial", font_size=12, font_colour="Black", fill_colour="LightGreen"):
+        try:
+            task = Task(text=text, start=start, end=end, font=font, font_size=font_size, font_colour=font_colour, fill_colour=fill_colour)
+            self.tasks.append(task)
+            yield task
+        finally:
+            task = None
 
     def draw(self, painter: Painter):
         # Step 1: draw tasks
@@ -428,12 +426,13 @@ class Roadmap:
     height: int = field(default=600)
     title: Title = field(default=None, init=False)
     timeline: Timeline = field(default=None, init=False)
-    groups: list[Group] = field(default_factory=list, init=False)
+    #groups: list[Group] = field(default_factory=list, init=False)
     footer: Footer = field(default=None, init=False)
 
     def __post_init__(self):
         self.__painter = Painter(self.width, self.height, "test.png")
         self.__painter.set_background_colour("White")
+        self.groups = []
         self.__last_y_pos = 0
 
     def set_title(
@@ -483,8 +482,14 @@ class Roadmap:
         self.timeline.set_draw_position(self.__painter)
         return None
 
-    def add_group(self, group: Group):
-        self.groups.append(group)
+    @contextmanager
+    def add_group(self, text : str, font="Arial", font_size=10, font_colour="Black", fill_colour="lightgrey"):
+        try:
+            group = Group(text=text, font=font, font_size=font_size, font_colour=font_colour)
+            self.groups.append(group)
+            yield group
+        finally:
+            group = None
 
     def draw(self):
         self.title.draw(self.__painter)
@@ -495,32 +500,44 @@ class Roadmap:
 
     def save(self):
         self.__painter.save_surface()
+        
+    def print_roadmap(self):
+        print(f"Title={self.title.text}")
+        print("Timeline:")
+        for timeline_item in self.timeline.timeline_items:
+            print (f"       text={timeline_item.text}, value={timeline_item.value}, box_x={round(timeline_item.box_x,2)}, box_y={timeline_item.box_y}, box_w={round(timeline_item.box_width,2)}, box_h={timeline_item.box_height}, text_x={round(timeline_item.text_x,2)}, text_y={timeline_item.text_y}")
+        
+        for group in self.groups:
+            print(f"Group: text={group.text}, x={round(group.x,2)}, y={group.y}, w={group.width}, h={group.height}")
+            for task in group.tasks:
+                print(f"        {task.text}, start={task.start}, end={task.end}, x={task.x}, y={task.y}, w={task.width}, h={task.height}")
+                for milestone in task.milestones:
+                    print(f"                {milestone.text}, date={milestone.date}, x={milestone.x}, y={milestone.y}, w={milestone.width}, h={milestone.height}")
+        print(f"Footer: {self.footer.text} x={self.footer.x} y={self.footer.y} w={self.footer.width} h={self.footer.height}")
 
 
 if __name__ == "__main__":
-    pp = pprint.PrettyPrinter(indent=1, width=120, compact=True)
+    pp = pprint.PrettyPrinter(indent=5, width=120, compact=True)
 
     my_roadmap = Roadmap(width=1000, height=512)
     my_roadmap.set_title("My Three Year Roadmap 2023-2025", font_size=18)
     my_roadmap.set_timeline(TimelineMode.MONTHLY, "2023-01-01", 12)
+    
+    with my_roadmap.add_group("Group 1", "Arial", 18, "Black", "White") as group1:
+        with group1.add_task("Task 1", "2023-01-01", "2023-03-01", "Arial", 12, "Black", "LightGreen") as task1:
+            task1.add_milestone("Milestone 1", "2023-01-15", "Arial", 12, "Red", "Red")
+            task1.add_milestone("Milestone 2", "2023-02-15", "Arial", 12, "Red", "Red")
+            task1.add_milestone("Milestone 3", "2023-03-01", "Arial", 12, "Red", "Red")
+        with group1.add_task("Task 2", "2023-03-01", "2023-04-01", "Arial", 12, "Black", "LightGreen") as task2:
+            task2.add_milestone("Milestone 4", "2023-03-15", "Arial", 12, "Red", "Red")
+            task2.add_milestone("Milestone 5", "2023-04-01", "Arial", 12, "Red", "Red")
 
-    with Task(text="Task1", start="2023-01-01", end="2023-10-31") as task1:
-        task1.add_milestone(text="Milestone 1", date="2023-01-01", fill_colour="Red")
-        task1.add_milestone("Milestone 2", "2023-02-01", fill_colour="Green")
-        task1.add_milestone("Milestone 3", "2023-03-01", fill_colour="Blue")
-
-    with Task(text="Task2", start="2023-01-01", end="2023-10-31") as task2:
-        task2.add_milestone("Milestone 4", "2023-01-01")
-        task2.add_milestone("Milestone 5", "2023-02-01")
-        task2.add_milestone("Milestone 6", "2023-03-01")
-
-    with Group("Group 1", "Arial", 18, "Black", "White") as group1:
-        group1.add_task(task1)
-        group1.add_task(task2)
-
-    my_roadmap.add_group(group1)
 
     my_roadmap.set_footer("this is footer!!!!!", font_size=10)
     my_roadmap.draw()
     my_roadmap.save()
-    pp.pprint(my_roadmap.groups)
+    #pp.pprint(my_roadmap.groups[0].tasks[0].milestones[0])
+    my_roadmap.print_roadmap()
+
+
+    
