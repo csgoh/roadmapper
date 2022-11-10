@@ -1,9 +1,9 @@
-from generator import Roadmap
+from generator import roadmap
 
-my_roadmap = Roadmap(1400, 512, "my_roadmap.png")
+my_roadmap = roadmap(1400, 512, "my_roadmap.png")
 
 my_roadmap.title_text = "Product Development Roadmap"
-my_roadmap.timeline_mode = Roadmap.QUARTERLY
+my_roadmap.timeline_mode = roadmap.QUARTERLY
 my_roadmap.timeline_item = 3
 my_roadmap.show_footer = True
 

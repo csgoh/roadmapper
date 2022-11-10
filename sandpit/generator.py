@@ -23,7 +23,7 @@
 
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
-from painter import Painter
+from generator.painter import Painter
 from print_dict import pd
 import json
 import calendar
