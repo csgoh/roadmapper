@@ -29,10 +29,10 @@ from task import Task
 @dataclass
 class Group:
     text: str
-    x: int = 0
-    y: int = 0
-    width: int = 0
-    height: int = 0
+    box_x: int = 0
+    box_y: int = 0
+    box_width: int = 0
+    box_height: int = 0
     font: str = "Arial"
     font_size: int = 10
     font_colour: str = "black"
@@ -40,6 +40,8 @@ class Group:
 
     def __post_init__(self):
         self.tasks = []
+        self.text_x = 0
+        self.text_y = 0
 
     @contextmanager
     def add_task(
@@ -78,39 +80,46 @@ class Group:
         # Calc group height
         task_count = len(self.tasks)
         # print(f"task count {task_count}")
-        self.height = (
+        self.box_height = (
             (20 * task_count)
             + (additional_height_for_milestone * milestone_count)
             + (2 * (task_count - 1))
         )
-        self.width = (
+        self.box_width = (
             painter.width - (painter.left_margin + painter.right_margin)
         ) * painter.group_box_width_percentage
 
         painter.set_colour(self.fill_colour)
-        self.x = painter.left_margin
+        self.box_x = painter.left_margin
 
-        self.y = painter.last_drawn_y_pos + additional_height_for_milestone
-        painter.draw_box(self.x, self.y, self.width, self.height)
+        self.box_y = painter.last_drawn_y_pos + additional_height_for_milestone
+        painter.draw_box(self.box_x, self.box_y, self.box_width, self.box_height)
 
         painter.set_colour(self.font_colour)
-        x_pos, y_pos = painter.get_display_text_position(
-            self.x,
-            self.y,
-            self.width,
-            self.height,
+        self.text_x, self.text_y = painter.get_display_text_position(
+            self.box_x,
+            self.box_y,
+            self.box_width,
+            self.box_height,
             self.text,
             "centre",
         )
-        painter.draw_text(x_pos, y_pos, self.text)
+        # painter.draw_text(x_pos, y_pos, self.text)
 
-        painter.last_drawn_y_pos = self.y
+        painter.last_drawn_y_pos = self.box_y
         for task in self.tasks:
-            task.set_draw_position(painter, self.x, painter.last_drawn_y_pos, timeline)
+            task.set_draw_position(
+                painter, self.box_x, painter.last_drawn_y_pos, timeline
+            )
 
     def draw(self, painter: Painter):
-        # Step 1: draw tasks
+        # Step 1: draw group
+        painter.set_colour(self.fill_colour)
+        painter.draw_box(self.box_x, self.box_y, self.box_width, self.box_height)
+        painter.set_colour(self.font_colour)
+        painter.set_font(self.font, self.font_size, self.font_colour)
+        painter.draw_text(self.text_x, self.text_y, self.text)
+
+        # Step 2: draw tasks
         for tasks in self.tasks:
             tasks.draw(painter)
-
-        # Step 2: draw group box

@@ -140,7 +140,7 @@ class TimelineItem:
                 timeline_start_period.year, timeline_start_period.month
             )
             pos_percentage = round(milestone_date.day / last_day, 1)
-            print(f"{pos_percentage} = {milestone_date.day} / {last_day}")
+            # print(f"{pos_percentage} = {milestone_date.day} / {last_day}")
             if (
                 milestone_date.year == timeline_start_period.year
                 and milestone_date.month == timeline_start_period.month

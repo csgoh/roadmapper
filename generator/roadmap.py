@@ -147,19 +147,19 @@ class Roadmap:
         if print_area == "all" or print_area == "groups":
             for group in self.groups:
                 print(
-                    f"Group: text={group.text}, x={round(group.x,2)}, y={group.y}, w={group.width}, h={group.height}"
+                    f"Group: text={group.text}, x={round(group.box_x,2)}, y={group.box_y}, w={group.box_width}, h={group.box_height}"
                 )
                 for task in group.tasks:
                     print(
-                        f"        {task.text}, start={task.start}, end={task.end}, x={task.x}, y={task.y}, w={task.width}, h={task.height}"
+                        f"        {task.text}, start={task.start}, end={task.end}, x={task.box_x}, y={task.box_y}, w={task.box_width}, h={task.box_height}"
                     )
                     for milestone in task.milestones:
                         print(
-                            f"                {milestone.text}, date={milestone.date}, x={milestone.x}, y={milestone.y}, w={milestone.width}, h={milestone.height}"
+                            f"                {milestone.text}, date={milestone.date}, x={milestone.x}, y={milestone.y}, w={milestone.width}, h={milestone.height}, font_colour={milestone.font_colour}, fill_colour={milestone.fill_colour}"
                         )
                     for parellel_task in task.tasks:
                         print(
-                            f"             Parellel Task: {parellel_task.text}, start={parellel_task.start}, end={parellel_task.end}, x={parellel_task.x}, y={parellel_task.y}, w={parellel_task.width}, h={parellel_task.height}"
+                            f"             Parellel Task: {parellel_task.text}, start={parellel_task.start}, end={parellel_task.end}, x={parellel_task.box_x}, y={parellel_task.box_y}, w={parellel_task.box_width}, h={parellel_task.box_height}"
                         )
                         for parellel_task_milestone in parellel_task.milestones:
                             print(
@@ -172,40 +172,56 @@ class Roadmap:
 
 
 if __name__ == "__main__":
-    my_roadmap = Roadmap(width=1000, height=512)
+    my_roadmap = Roadmap(width=1000, height=612)
     my_roadmap.set_title("My Three Year Roadmap 2023-2025", font_size=18)
     my_roadmap.set_timeline(TimelineMode.MONTHLY, "2023-01-01", 12, font_size=11)
 
     with my_roadmap.add_group(
-        "Group 1 something long", "Arial", 18, "Black", "White"
+        "Group 1 something long", "Arial", 12, "Black", "White"
     ) as group1:
         with group1.add_task(
-            "Task 1", "2023-01-01", "2023-03-01", "Arial", 12, "Black", "LightGreen"
+            "Task 1", "2023-01-01", "2023-06-01", "Arial", 10, "Black", "LightGreen"
         ) as task1:
-            task1.add_milestone("Milestone 1", "2023-01-15", "Arial", 12, "Red", "Red")
-            task1.add_milestone("Milestone 2", "2023-02-15", "Arial", 12, "Red", "Red")
-            task1.add_milestone("Milestone 3", "2023-03-01", "Arial", 12, "Red", "Red")
-            # with task1.add_parellel_task(
-            #     "Task 1a", "2023-05-01", "2023-08-31", "Arial", 12, "Black", "LightBlue"
-            # ) as task1a:
-            #     task1a.add_milestone(
-            #         "Milestone 1a", "2023-06-30", "Arial", 12, "Red", "Red"
-            #     )
-            #     task1a.add_milestone(
-            #         "Milestone 2a", "2023-08-30", "Arial", 12, "Red", "Red"
-            #     )
+            task1.add_milestone("Milestone 1", "2023-01-15", "Arial", 10, "Red", "Red")
+            task1.add_milestone("Milestone 2", "2023-03-01", "Arial", 10, "Red", "Red")
+            task1.add_milestone("Milestone 3", "2023-05-31", "Arial", 10, "Red", "Red")
+            with task1.add_parellel_task(
+                "Task 1a",
+                "2023-07-01",
+                "2023-10-31",
+                "Arial",
+                10,
+                "Black",
+                "LightBlue",
+            ) as task1a:
+                task1a.add_milestone(
+                    "Milestone 1a", "2023-07-30", "Arial", 10, "Red", "Red"
+                )
+                task1a.add_milestone(
+                    "Milestone 2a", "2023-10-30", "Arial", 10, "Red", "Red"
+                )
         with group1.add_task(
-            "Task 2", "2023-03-01", "2023-04-30", "Arial", 12, "Black", "LightGreen"
+            "Task 2", "2023-03-01", "2023-05-07", "Arial", 10, "Black", "LightGreen"
         ) as task2:
-            task2.add_milestone("Milestone 4", "2023-03-15", "Arial", 12, "Red", "Red")
-            task2.add_milestone("Milestone 5", "2023-04-01", "Arial", 12, "Red", "Red")
+            task2.add_milestone("Milestone 4", "2023-03-15", "Arial", 10, "Red", "Red")
+            task2.add_milestone("Milestone 5", "2023-05-07", "Arial", 10, "Red", "Red")
 
-    with my_roadmap.add_group("Stream 2", "Arial", 18, "Black", "White") as group2:
+    with my_roadmap.add_group("Stream 2", "Arial", 12, "Black", "White") as group2:
         with group2.add_task(
-            "Task 3", "2023-04-01", "2023-08-30", "Arial", 12, "Black", "LightGreen"
+            "Task 3", "2023-04-01", "2023-08-30", "Arial", 10, "Black", "LightGreen"
         ) as task3:
-            task3.add_milestone("Milestone 6", "2023-05-15", "Arial", 12, "Red", "Red")
-            task3.add_milestone("Milestone 7", "2023-08-01", "Arial", 12, "Red", "Red")
+            task3.add_milestone("Milestone 6", "2023-05-15", "Arial", 10, "Red", "Red")
+            task3.add_milestone("Milestone 7", "2023-08-01", "Arial", 10, "Red", "Red")
+
+    with my_roadmap.add_group("Stream 3", "Arial", 12, "Black", "White") as group3:
+        with group3.add_task(
+            "Task 4", "2023-04-01", "2023-08-30", "Arial", 10, "Black", "LightGreen"
+        ) as task3:
+            pass
+        with group3.add_task(
+            "Task 5", "2023-04-01", "2023-08-30", "Arial", 10, "Black", "LightGreen"
+        ):
+            pass
 
     my_roadmap.set_footer("this is footer!!", font_size=10)
     my_roadmap.draw()
