@@ -25,6 +25,8 @@ from dataclasses import dataclass, field
 from contextlib import contextmanager
 
 from painter import Painter
+from timeline import Timeline
+from group import Group
 from milestone import Milestone
 
 
@@ -82,6 +84,7 @@ class Task:
                 font_colour=font_colour,
                 fill_colour=fill_colour,
             )
+            print(f"Parellel task {text} added")
             self.tasks.append(task)
             yield task
         finally:
@@ -96,11 +99,51 @@ class Task:
         font_colour="Red",
         fill_colour="Red",
     ):
-        # print(f"Adding milestone {text}")
         self.milestones.append(
             Milestone(text, date, font, font_size, font_colour, fill_colour)
         )
         # pd(self.milestones)
+
+    def set_draw_position(self, painter: Painter, group: Group, timeline: Timeline):
+        if len(self.milestone) > 0:
+            self.y = group.y + 80
+        else:
+            self.y = group.y
+
+        # task_x = group_x + group_width + painter.gap_between_group_box_and_timeline
+
+        task_start_period = self.start
+        task_end_period = self.end
+
+        for timeline_item in timeline.timeline_items:
+            (
+                timeline_start_period,
+                timeline_end_period,
+            ) = timeline_item.get_timeline_period()
+            if (
+                (
+                    task_start_period >= timeline_start_period
+                    and task_start_period <= timeline_end_period
+                )
+                or (
+                    task_end_period >= timeline_start_period
+                    and task_end_period <= timeline_end_period
+                )
+                or (
+                    task_start_period <= timeline_start_period
+                    and task_end_period >= timeline_end_period
+                )
+            ):
+                (
+                    _,
+                    start_pos_percentage,
+                ) = timeline_item.get_timeline_pos_percentage(task_start_period)
+                (
+                    _,
+                    end_pos_percentage,
+                ) = timeline_item.get_timeline_pos_percentage(task_end_period)
+
+        # painter.draw_box(task_x, task_y, task_width, task_height)
 
     def draw(self, painter: Painter):
         pass

@@ -22,6 +22,7 @@
 from dataclasses import dataclass, field
 from contextlib import contextmanager
 from painter import Painter
+from timeline import Timeline
 from task import Task
 
 
@@ -66,48 +67,48 @@ class Group:
         finally:
             task = None
 
-    def set_draw_position(self, painter: Painter):
-        pass
-        # additional_height_for_milestone = 6
-        # # Calculate number of milestones in group
-        # milestone_count = 0
-        # tasks = self.__roadmap_input[group_text].get("tasks", {})
-        # for task in tasks:
-        #     for milestone in tasks[task].get("milestones", {}):
-        #         if milestone != {}:
-        #             milestone_count += 1
-        #             break
+    def set_draw_position(self, painter: Painter, timeline: Timeline):
+        additional_height_for_milestone = 6
 
-        # # Calc group height
-        # task_count = len(self.__roadmap_input[group_text].get("tasks"))
-        # group_total_height = (
-        #     (20 * task_count)
-        #     + (additional_height_for_milestone * milestone_count)
-        #     + (2 * (task_count - 1))
-        # )
-        # group_total_width = max_width + 10
+        # Calculate number of milestones in group
+        milestone_count = 0
+        for task in self.tasks:
+            milestone_count += len(task.milestones)
 
-        # self.__painter.set_colour(self.__roadmap_input[group_text].get("colour"))
-        # # self.__painter.draw_box(x, y, group_total_width, group_total_height)
+        # Calc group height
+        task_count = len(self.tasks)
+        # print(f"task count {task_count}")
+        self.height = (
+            (20 * task_count)
+            + (additional_height_for_milestone * milestone_count)
+            + (2 * (task_count - 1))
+        )
+        self.width = (
+            painter.width - (painter.left_margin + painter.right_margin)
+        ) * painter.group_box_width_percentage
 
-        # # print(
-        # #     f"-->draw_group {group_text} {x=} {y=} {group_total_width=} {max_height=}"
-        # # )
+        print(f"{self.fill_colour}, {self.font_colour}")
+        painter.set_colour(self.fill_colour)
+        self.x = painter.left_margin
 
-        # self.__painter.draw_box(x, y, group_total_width, max_height)
+        self.y = painter.last_drawn_y_pos + additional_height_for_milestone
+        painter.draw_box(self.x, self.y, self.width, self.height)
 
-        # self.__painter.set_colour(self.group_text_colour)
-        # x_pos, y_pos = self.__painter.get_display_text_position(
-        #     x, y, group_total_width, max_height, group_text, "centre"
-        # )
-        # # print(
-        # #     f"{x=}, {y=}, {group_total_width=}, {max_height=}, {x_pos=} {y_pos=} {group_text=}"
-        # # )
-        # if max_height > 0:
-        #     self.__painter.set_font(self.text_font, 12, self.group_text_colour)
-        #     self.__painter.draw_text(x_pos, y_pos, group_text)
-        #     text_width, text_height = self.__painter.get_text_dimension(group_text)
-        # return y + max_height
+        painter.set_colour(self.font_colour)
+        x_pos, y_pos = painter.get_display_text_position(
+            self.x,
+            self.y,
+            self.width,
+            self.height,
+            self.text,
+            "centre",
+        )
+        painter.draw_text(x_pos, y_pos, self.text)
+
+        for task in self.tasks:
+            task.set_draw_position(painter, self, timeline)
+
+        painter.last_drawn_y_pos = group_y_pos + group_total_height
 
     def draw(self, painter: Painter):
         # Step 1: draw tasks

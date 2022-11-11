@@ -29,7 +29,6 @@ from timelineitem import TimelineItem
 from timelinemode import TimelineMode
 
 
-
 @dataclass(kw_only=True)
 class Timeline:
     mode: str = TimelineMode.MONTHLY
@@ -106,7 +105,8 @@ class Timeline:
             )
 
             self.timeline_items.append(timelineitem)
-        painter.last_drawn_y_pos = self.y + timelineitem_height
+        painter.last_drawn_y_pos = timelineitem_y + timelineitem_height
+        print(f"timeline last drawn y: {painter.last_drawn_y_pos}")
 
     def __get_timeline_item_text(self, index: int):
         timeline_text = ""
@@ -127,7 +127,6 @@ class Timeline:
         elif self.mode == TimelineMode.YEARLY:
             this_month = self.start + relativedelta(months=+(index * 12))
             timeline_text = f"{this_month.year}"
-            timeline_value = f"{this_month.year}"
 
         return timeline_text
 
@@ -216,4 +215,3 @@ class Timeline:
 
             timelineitem = self.timeline_items[i]
             timelineitem.draw(painter)
-
