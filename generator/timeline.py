@@ -106,7 +106,6 @@ class Timeline:
 
             self.timeline_items.append(timelineitem)
         painter.last_drawn_y_pos = timelineitem_y + timelineitem_height
-        print(f"timeline last drawn y: {painter.last_drawn_y_pos}")
 
     def __get_timeline_item_text(self, index: int):
         timeline_text = ""

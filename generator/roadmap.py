@@ -50,6 +50,7 @@ class Roadmap:
         self.__painter.set_background_colour("White")
         self.groups = []
         self.__last_y_pos = 0
+        self.__mode = TimelineMode.MONTHLY
 
     def set_title(
         self,
@@ -132,41 +133,46 @@ class Roadmap:
     def save(self):
         self.__painter.save_surface()
 
-    def print_roadmap(self):
-        print(f"Title={self.title.text}")
-        print("Timeline:")
-        for timeline_item in self.timeline.timeline_items:
-            print(
-                f"       text={timeline_item.text}, value={timeline_item.value}, box_x={round(timeline_item.box_x,2)}, box_y={timeline_item.box_y}, box_w={round(timeline_item.box_width,2)}, box_h={timeline_item.box_height}, text_x={round(timeline_item.text_x,2)}, text_y={timeline_item.text_y}"
-            )
+    def print_roadmap(self, print_area: str = "all"):
+        if print_area == "all" or print_area == "title":
+            print(f"Title={self.title.text}")
 
-        for group in self.groups:
-            print(
-                f"Group: text={group.text}, x={round(group.x,2)}, y={group.y}, w={group.width}, h={group.height}"
-            )
-            for task in group.tasks:
+        if print_area == "all" or print_area == "timeline":
+            print("Timeline:")
+            for timeline_item in self.timeline.timeline_items:
                 print(
-                    f"        {task.text}, start={task.start}, end={task.end}, x={task.x}, y={task.y}, w={task.width}, h={task.height}"
+                    f"       text={timeline_item.text}, value={timeline_item.value}, box_x={round(timeline_item.box_x,2)}, box_y={timeline_item.box_y}, box_w={round(timeline_item.box_width,2)}, box_h={timeline_item.box_height}, text_x={round(timeline_item.text_x,2)}, text_y={timeline_item.text_y}"
                 )
-                for milestone in task.milestones:
+
+        if print_area == "all" or print_area == "groups":
+            for group in self.groups:
+                print(
+                    f"Group: text={group.text}, x={round(group.x,2)}, y={group.y}, w={group.width}, h={group.height}"
+                )
+                for task in group.tasks:
                     print(
-                        f"                {milestone.text}, date={milestone.date}, x={milestone.x}, y={milestone.y}, w={milestone.width}, h={milestone.height}"
+                        f"        {task.text}, start={task.start}, end={task.end}, x={task.x}, y={task.y}, w={task.width}, h={task.height}"
                     )
-                for parellel_task in task.tasks:
-                    print(
-                        f"             Parellel Task: {parellel_task.text}, start={parellel_task.start}, end={parellel_task.end}, x={parellel_task.x}, y={parellel_task.y}, w={parellel_task.width}, h={parellel_task.height}"
-                    )
-                    for parellel_task_milestone in parellel_task.milestones:
+                    for milestone in task.milestones:
                         print(
-                            f"                        {parellel_task_milestone.text}, date={parellel_task_milestone.date}, x={parellel_task_milestone.x}, y={parellel_task_milestone.y}, w={parellel_task_milestone.width}, h={parellel_task_milestone.height}"
+                            f"                {milestone.text}, date={milestone.date}, x={milestone.x}, y={milestone.y}, w={milestone.width}, h={milestone.height}"
                         )
-        print(
-            f"Footer: {self.footer.text} x={self.footer.x} y={self.footer.y} w={self.footer.width} h={self.footer.height}"
-        )
+                    for parellel_task in task.tasks:
+                        print(
+                            f"             Parellel Task: {parellel_task.text}, start={parellel_task.start}, end={parellel_task.end}, x={parellel_task.x}, y={parellel_task.y}, w={parellel_task.width}, h={parellel_task.height}"
+                        )
+                        for parellel_task_milestone in parellel_task.milestones:
+                            print(
+                                f"                        {parellel_task_milestone.text}, date={parellel_task_milestone.date}, x={parellel_task_milestone.x}, y={parellel_task_milestone.y}, w={parellel_task_milestone.width}, h={parellel_task_milestone.height}"
+                            )
+        if print_area == "all" or print_area == "footer":
+            print(
+                f"Footer: {self.footer.text} x={self.footer.x} y={self.footer.y} w={self.footer.width} h={self.footer.height}"
+            )
 
 
 if __name__ == "__main__":
-    my_roadmap = Roadmap(width=1000, height=212)
+    my_roadmap = Roadmap(width=1000, height=512)
     my_roadmap.set_title("My Three Year Roadmap 2023-2025", font_size=18)
     my_roadmap.set_timeline(TimelineMode.MONTHLY, "2023-01-01", 12, font_size=11)
 
@@ -189,12 +195,19 @@ if __name__ == "__main__":
             #         "Milestone 2a", "2023-08-30", "Arial", 12, "Red", "Red"
             #     )
         with group1.add_task(
-            "Task 2", "2023-03-01", "2023-04-01", "Arial", 12, "Black", "LightGreen"
+            "Task 2", "2023-03-01", "2023-04-30", "Arial", 12, "Black", "LightGreen"
         ) as task2:
             task2.add_milestone("Milestone 4", "2023-03-15", "Arial", 12, "Red", "Red")
             task2.add_milestone("Milestone 5", "2023-04-01", "Arial", 12, "Red", "Red")
 
+    with my_roadmap.add_group("Stream 2", "Arial", 18, "Black", "White") as group2:
+        with group2.add_task(
+            "Task 3", "2023-04-01", "2023-08-30", "Arial", 12, "Black", "LightGreen"
+        ) as task3:
+            task3.add_milestone("Milestone 6", "2023-05-15", "Arial", 12, "Red", "Red")
+            task3.add_milestone("Milestone 7", "2023-08-01", "Arial", 12, "Red", "Red")
+
     my_roadmap.set_footer("this is footer!!", font_size=10)
     my_roadmap.draw()
     my_roadmap.save()
-    # my_roadmap.print_roadmap()
+    my_roadmap.print_roadmap("groups")

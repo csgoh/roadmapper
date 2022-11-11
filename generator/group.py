@@ -87,7 +87,6 @@ class Group:
             painter.width - (painter.left_margin + painter.right_margin)
         ) * painter.group_box_width_percentage
 
-        print(f"{self.fill_colour}, {self.font_colour}")
         painter.set_colour(self.fill_colour)
         self.x = painter.left_margin
 
@@ -105,10 +104,9 @@ class Group:
         )
         painter.draw_text(x_pos, y_pos, self.text)
 
+        painter.last_drawn_y_pos = self.y
         for task in self.tasks:
-            task.set_draw_position(painter, self, timeline)
-
-        painter.last_drawn_y_pos = group_y_pos + group_total_height
+            task.set_draw_position(painter, self.x, painter.last_drawn_y_pos, timeline)
 
     def draw(self, painter: Painter):
         # Step 1: draw tasks

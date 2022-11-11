@@ -25,6 +25,7 @@ from dataclasses import dataclass, field
 import calendar
 
 from painter import Painter
+from timelinemode import TimelineMode
 
 
 @dataclass(kw_only=True)
@@ -65,9 +66,9 @@ class TimelineItem:
         self.text_x, self.text_y = self.__calculate_text_draw_position(painter)
         painter.last_drawn_y_pos = self.box_y
 
-    def get_timeline_period(self):
+    def get_timeline_period(self, mode: TimelineMode):
         start_date = self.start
-        if self.timeline_mode == self.WEEKLY:
+        if mode == TimelineMode.WEEKLY:
             this_year = self.value[0:4]
             this_week = self.value[4:]
             timeline_start_period = date.fromisocalendar(
@@ -77,15 +78,15 @@ class TimelineItem:
                 int(this_year), int(this_week) + 1, 7
             )
 
-        if self.timeline_mode == self.MONTHLY:
+        if mode == TimelineMode.MONTHLY:
 
-            this_year = self.value[0:4]
-            this_month = self.value[4:]
+            this_year = int(self.value[0:4])
+            this_month = int(self.value[4:])
             _, month_end_day = calendar.monthrange(this_year, this_month)
             timeline_start_period = datetime(this_year, this_month, 1)
             timeline_end_period = datetime(this_year, this_month, month_end_day)
 
-        if self.timeline_mode == self.QUARTERLY:
+        if mode == TimelineMode.QUARTERLY:
             this_year = self.value[0:4]
             this_quarter = self.value[4:]
             if this_quarter == 1:
@@ -104,7 +105,7 @@ class TimelineItem:
                 this_year + 3 * this_quarter // 12, 3 * this_quarter % 12 + 1, 1
             ) + timedelta(days=-1)
 
-        if self.timeline_mode == self.HALF_YEARLY:
+        if mode == TimelineMode.HALF_YEARLY:
             this_year = self.value[0:4]
             this_half = self.value[4:]
             if this_half == 1:
@@ -114,21 +115,89 @@ class TimelineItem:
                 timeline_start_period = datetime(this_year, 7, 1)
                 timeline_end_period = datetime(this_year, 12, 31)
 
-        if self.timeline_mode == self.YEARLY:
+        if mode == TimelineMode.YEARLY:
             timeline_start_period = datetime(int(self.value), 1, 1)
             timeline_end_period = datetime(int(self.value), 12, 31)
 
         return timeline_start_period, timeline_end_period
 
-    def get_timeline_pos_percentage(self, timeline_index, milestone_date):
+    def get_timeline_pos_percentage(self, mode: TimelineMode, milestone_date):
         correct_timeline = False
         pos_percentage = 0
-        timeline_start_period, timeline_end_period = self.__get_timeline_period(
-            timeline_index
-        )
+        timeline_start_period, timeline_end_period = self.get_timeline_period(mode)
+
+        if mode == TimelineMode.WEEKLY:
+            pos_percentage = milestone_date.weekday() / 7
+            milestone_period = f"{milestone_date.year}{milestone_date.strftime('%W')}"
+            this_period = (
+                f"{timeline_start_period.year}{timeline_start_period.strftime('%W')}"
+            )
+            if milestone_period == this_period:
+                correct_timeline = True
+
+        if mode == TimelineMode.MONTHLY:
+            _, last_day = calendar.monthrange(
+                timeline_start_period.year, timeline_start_period.month
+            )
+            pos_percentage = round(milestone_date.day / last_day, 1)
+            print(f"{pos_percentage} = {milestone_date.day} / {last_day}")
+            if (
+                milestone_date.year == timeline_start_period.year
+                and milestone_date.month == timeline_start_period.month
+            ):
+                correct_timeline = True
+
+        if mode == TimelineMode.QUARTERLY:
+            this_period = self.value
+
+            if this_period[-1] == "1":
+                pos_percentage = milestone_date.month / 3
+            elif this_period[-1] == "2":
+                pos_percentage = (milestone_date.month - 3) / 3
+            elif this_period[-1] == "3":
+                pos_percentage = (milestone_date.month - 6) / 3
+            elif this_period[-1] == "4":
+                pos_percentage = (milestone_date.month - 9) / 3
+
+            milestone_period = (
+                f"{milestone_date.year}{self.__get_quarter_from_date(milestone_date)}"
+            )
+            if milestone_period == this_period:
+                correct_timeline = True
+
+        if mode == TimelineMode.HALF_YEARLY:
+            this_period = self.value
+
+            if this_period[-1] == "1":
+                pos_percentage = milestone_date.month / 6
+            else:
+                pos_percentage = (milestone_date.month - 6) / 6
+            milestone_period = (
+                f"{milestone_date.year}{self.__get_halfyear_from_date(milestone_date)}"
+            )
+            # print(f"Matching >> {milestone_period=} == {this_period=}")
+            if milestone_period == this_period:
+                correct_timeline = True
+
+        if mode == TimelineMode.YEARLY:
+            this_period = self.value
+            pos_percentage = milestone_date.month / 12
+            milestone_period = f"{milestone_date.year}"
+            if milestone_period == this_period:
+                correct_timeline = True
+
+        return (correct_timeline, pos_percentage)
+
+    def __get_quarter_from_date(self, date):
+        return (date.month - 1) // 3 + 1
+
+    def __get_halfyear_from_date(self, date):
+        return (date.month - 1) // 6 + 1
 
     def draw(self, painter: Painter):
         painter.set_colour(self.fill_colour)
-        painter.draw_box(self.box_x, self.box_y, self.box_width, self.box_height)
+        painter.draw_box(
+            self.box_x, self.box_y, self.box_width - 1, self.box_height
+        )  # -1 is to draw the white line in between timeline items
         painter.set_colour(self.font_colour)
         painter.draw_text(self.text_x, self.text_y, self.text)
