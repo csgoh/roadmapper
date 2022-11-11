@@ -24,9 +24,9 @@ from dateutil.relativedelta import relativedelta
 from dataclasses import dataclass, field
 from contextlib import contextmanager
 
-from painter import Painter
-from timeline import Timeline
-from milestone import Milestone
+from generator.painter import Painter
+from generator.timeline import Timeline
+from generator.milestone import Milestone
 
 
 @dataclass(kw_only=True)
@@ -222,6 +222,7 @@ class Task:
     def set_task_position(self, painter, timeline, task_start_period, task_end_period):
         self.box_x = 0
         row_match = 0
+
         for timeline_item in timeline.timeline_items:
             (
                 timeline_start_period,
@@ -248,9 +249,11 @@ class Task:
                 (_, end_pos_percentage,) = timeline_item.get_timeline_pos_percentage(
                     timeline.mode, task_end_period
                 )
-
+                print(
+                    f"{task_start_period=}, {task_end_period=}, {timeline_start_period=}, {timeline_end_period=}, {start_pos_percentage=}, {end_pos_percentage=}"
+                )
                 row_match += 1
-
+                # bar_start_x_pos = 0
                 # print(f"{start_pos_percentage=},{end_pos_percentage=}")
                 # If this is the last period, calculate the width of the bar
                 if (  # Check [timeline_start....<task_end>....timeline_end]
@@ -259,7 +262,10 @@ class Task:
                 ):
                     print("-->task_end is in this timeline")
                     self.box_x = timeline_item.box_x
-                    self.width = timeline_item.box_width * end_pos_percentage
+                    self.box_width = timeline_item.box_width * end_pos_percentage
+                    print(
+                        f"[END] {self.box_x=}, {self.box_width=} = {timeline_item.box_width=} * {end_pos_percentage=}"
+                    )
                 elif (  # Check [timeline_start....<task_start>.....timeline_end]
                     task_start_period >= timeline_start_period
                     and task_start_period <= timeline_end_period
@@ -268,17 +274,22 @@ class Task:
                     self.box_x = timeline_item.box_x + (
                         timeline_item.box_width * start_pos_percentage
                     )
-                    self.width = timeline_item.box_width - (
+                    self.box_width = timeline_item.box_width - (
                         timeline_item.box_width * start_pos_percentage
                     )
                     bar_start_x_pos = self.box_x
                     print(
-                        f"{self.box_x} = {timeline_item.box_x} + {timeline_item.box_width} - {self.box_width}"
+                        f"[START] {self.box_x=} = {timeline_item.box_x} + ({timeline_item.box_width} * {start_pos_percentage})"
+                    )
+                    print(
+                        f"[START] {self.width=} = {timeline_item.box_width} + ({timeline_item.box_width} * {start_pos_percentage})"
                     )
                 else:
                     print("-->full bar")
                     self.box_x = timeline_item.box_x
                     self.box_width = timeline_item.box_width
+
+                    print(f"[MIDDLE] {self.box_x=} {self.width=}")
 
                 self.box_width += 1
 
@@ -312,7 +323,7 @@ class Task:
                 bar_start_x_pos,
                 self.box_y,
                 bar_width,
-                self.height,
+                self.box_height,
                 self.text,
                 "centre",
             )

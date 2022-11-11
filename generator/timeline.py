@@ -24,9 +24,9 @@ from dateutil.relativedelta import relativedelta
 from dataclasses import dataclass, field
 import calendar
 
-from painter import Painter
-from timelineitem import TimelineItem
-from timelinemode import TimelineMode
+from generator.painter import Painter
+from generator.timelineitem import TimelineItem
+from generator.timelinemode import TimelineMode
 
 
 @dataclass(kw_only=True)
@@ -133,7 +133,9 @@ class Timeline:
         timeline_value = ""
         if self.mode == TimelineMode.WEEKLY:
             this_week = self.start + relativedelta(weeks=+index)
-            timeline_value = f"{this_week.year}{this_week.strftime('%W')}"
+            week_value = int(this_week.strftime("%W"))
+            timeline_value = f"{this_week.year}{week_value}"
+            # print("week value: " + timeline_value)
         elif self.mode == TimelineMode.MONTHLY:
             this_month = self.start + relativedelta(months=+index)
             timeline_value = f"{this_month.year}{this_month.strftime('%m')}"
@@ -158,12 +160,12 @@ class Timeline:
             timeline_period = self.__get_timeline_item_value(index)
             this_year = timeline_period[0:4]
             this_week = timeline_period[4:]
-            # print(f"{timeline_period=}, this_year={this_year} this_week={this_week}")
+            print(f"{timeline_period=}, this_year={this_year} this_week={this_week}")
             timeline_start_period = date.fromisocalendar(
-                int(this_year), int(this_week) + 1, 1
+                int(this_year), int(this_week), 1
             )
             timeline_end_period = date.fromisocalendar(
-                int(this_year), int(this_week) + 1, 7
+                int(this_year), int(this_week), 7
             )
         elif self.mode == TimelineMode.MONTHLY:
             this_month = (self.start + relativedelta(months=+index)).month

@@ -21,9 +21,9 @@
 # SOFTWARE.
 from dataclasses import dataclass, field
 from contextlib import contextmanager
-from painter import Painter
-from timeline import Timeline
-from task import Task
+from generator.painter import Painter
+from generator.timeline import Timeline
+from generator.task import Task
 
 
 @dataclass

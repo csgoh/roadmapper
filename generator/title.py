@@ -20,7 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 from dataclasses import dataclass, field
-from painter import Painter
+from generator.painter import Painter
+
 
 @dataclass(kw_only=True)
 class Title:
@@ -48,4 +49,3 @@ class Title:
     def draw(self, painter: Painter):
         painter.set_font(self.font, self.font_size, self.font_colour)
         painter.draw_text(self.x, self.y, self.text)
-
