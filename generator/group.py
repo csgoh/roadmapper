@@ -37,6 +37,7 @@ class Group:
     font_size: int = 10
     font_colour: str = "black"
     fill_colour: str = "lightgrey"
+    text_alignment: str = "centre"
 
     def __post_init__(self):
         self.tasks = []
@@ -53,6 +54,7 @@ class Group:
         font_size=12,
         font_colour="Black",
         fill_colour="LightGreen",
+        text_alignment="centre",
     ):
         try:
             task = Task(
@@ -63,6 +65,7 @@ class Group:
                 font_size=font_size,
                 font_colour=font_colour,
                 fill_colour=fill_colour,
+                text_alignment=text_alignment,
             )
             self.tasks.append(task)
             yield task
@@ -70,7 +73,7 @@ class Group:
             task = None
 
     def set_draw_position(self, painter: Painter, timeline: Timeline):
-        additional_height_for_milestone = 6
+        additional_height_for_milestone = 8
 
         # Calculate number of milestones in group
         milestone_count = 0
@@ -89,20 +92,20 @@ class Group:
             painter.width - (painter.left_margin + painter.right_margin)
         ) * painter.group_box_width_percentage
 
-        painter.set_colour(self.fill_colour)
+        # painter.set_colour(self.fill_colour)
         self.box_x = painter.left_margin
 
         self.box_y = painter.last_drawn_y_pos + additional_height_for_milestone
-        painter.draw_box(self.box_x, self.box_y, self.box_width, self.box_height)
 
         painter.set_colour(self.font_colour)
+        painter.set_font(self.font, self.font_size, self.font_colour)
         self.text_x, self.text_y = painter.get_display_text_position(
             self.box_x,
             self.box_y,
             self.box_width,
             self.box_height,
             self.text,
-            "centre",
+            self.text_alignment,
         )
         # painter.draw_text(x_pos, y_pos, self.text)
 
@@ -111,6 +114,9 @@ class Group:
             task.set_draw_position(
                 painter, self.box_x, painter.last_drawn_y_pos, timeline
             )
+        painter.last_drawn_y_pos = (
+            self.box_y + self.box_height  # + additional_height_for_milestone
+        )
 
     def draw(self, painter: Painter):
         # Step 1: draw group

@@ -46,4 +46,5 @@ class Footer:
 
     def draw(self, painter: Painter):
         painter.set_font(self.font, self.font_size, self.font_colour)
-        painter.draw_text(self.x, self.y, self.text)
+        # add 35px top margin before drawing the footer
+        painter.draw_text(self.x, self.y + 35, self.text)

@@ -43,6 +43,7 @@ class Task:
     font_size: int = 12
     font_colour: str = "Black"
     fill_colour: str = "LightGreen"
+    text_alignment: str = "centre"
 
     def __post_init__(self):
         self.milestones = []
@@ -65,6 +66,7 @@ class Task:
         font_size=12,
         font_colour="Black",
         fill_colour="LightGreen",
+        text_alignment="centre",
     ):
         """Add a parallel task to this task
 
@@ -89,6 +91,7 @@ class Task:
                 font_size=font_size,
                 font_colour=font_colour,
                 fill_colour=fill_colour,
+                text_alignment=text_alignment,
             )
             self.tasks.append(task)
             yield task
@@ -103,9 +106,12 @@ class Task:
         font_size=12,
         font_colour="Red",
         fill_colour="Red",
+        text_alignment="centre",
     ):
         self.milestones.append(
-            Milestone(text, date, font, font_size, font_colour, fill_colour)
+            Milestone(
+                text, date, font, font_size, font_colour, fill_colour, text_alignment
+            )
         )
         # pd(self.milestones)
 
@@ -222,6 +228,7 @@ class Task:
     def set_task_position(self, painter, timeline, task_start_period, task_end_period):
         self.box_x = 0
         row_match = 0
+        bar_start_x_pos = 0
 
         for timeline_item in timeline.timeline_items:
             (
@@ -249,28 +256,40 @@ class Task:
                 (_, end_pos_percentage,) = timeline_item.get_timeline_pos_percentage(
                     timeline.mode, task_end_period
                 )
-                print(
-                    f"{task_start_period=}, {task_end_period=}, {timeline_start_period=}, {timeline_end_period=}, {start_pos_percentage=}, {end_pos_percentage=}"
-                )
                 row_match += 1
-                # bar_start_x_pos = 0
-                # print(f"{start_pos_percentage=},{end_pos_percentage=}")
+
                 # If this is the last period, calculate the width of the bar
                 if (  # Check [timeline_start....<task_end>....timeline_end]
                     task_end_period >= timeline_start_period
                     and task_end_period <= timeline_end_period
                 ):
-                    print("-->task_end is in this timeline")
-                    self.box_x = timeline_item.box_x
-                    self.box_width = timeline_item.box_width * end_pos_percentage
-                    print(
-                        f"[END] {self.box_x=}, {self.box_width=} = {timeline_item.box_width=} * {end_pos_percentage=}"
-                    )
+                    # print("-->task_end is in this timeline")
+                    if (
+                        task_start_period >= timeline_start_period
+                        and task_start_period <= timeline_end_period
+                        and task_end_period >= timeline_start_period
+                        and task_end_period <= timeline_end_period
+                    ):
+                        # print("-->task falls within this timeline")
+                        self.box_x = timeline_item.box_x + (
+                            timeline_item.box_width * start_pos_percentage
+                        )
+                        self.box_width = (
+                            timeline_item.box_width * end_pos_percentage
+                        ) - (timeline_item.box_width * start_pos_percentage)
+                        # print(
+                        #     f"[END] {self.box_x=}, {self.box_width=} = {timeline_item.box_width=} * {end_pos_percentage=}"
+                        # )
+                        bar_start_x_pos = self.box_x
+                    else:
+                        # print("-->task starts before this timeline")
+                        self.box_x = timeline_item.box_x
+                        self.box_width = timeline_item.box_width * end_pos_percentage
                 elif (  # Check [timeline_start....<task_start>.....timeline_end]
                     task_start_period >= timeline_start_period
                     and task_start_period <= timeline_end_period
                 ):
-                    print("-->task_start is in this timeline")
+                    # print("-->task_start is in this timeline")
                     self.box_x = timeline_item.box_x + (
                         timeline_item.box_width * start_pos_percentage
                     )
@@ -278,18 +297,15 @@ class Task:
                         timeline_item.box_width * start_pos_percentage
                     )
                     bar_start_x_pos = self.box_x
-                    print(
-                        f"[START] {self.box_x=} = {timeline_item.box_x} + ({timeline_item.box_width} * {start_pos_percentage})"
-                    )
-                    print(
-                        f"[START] {self.width=} = {timeline_item.box_width} + ({timeline_item.box_width} * {start_pos_percentage})"
-                    )
                 else:
-                    print("-->full bar")
+                    # print("-->full bar")
                     self.box_x = timeline_item.box_x
                     self.box_width = timeline_item.box_width
 
-                    print(f"[MIDDLE] {self.box_x=} {self.width=}")
+                    if bar_start_x_pos == 0:
+                        bar_start_x_pos = self.box_x
+
+                    # print(f"[MIDDLE] {self.box_x=} {self.width=}")
 
                 self.box_width += 1
 
@@ -304,16 +320,6 @@ class Task:
                 ]
                 self.boxes.append(box_coordinates)
 
-                # painter.draw_box(
-                #     self.box_x,
-                #     self.box_y,
-                #     self.box_width,
-                #     self.box_height,
-                # )
-                # print(
-                #     f"{self.text}: {timeline_start_period=}, {timeline_end_period=}, {task_start_period=}, {task_end_period=}, {self.box_x=}, {self.box_y=}, {self.box_width=}"
-                # )
-
                 bar_width = self.box_x + self.box_width - bar_start_x_pos
                 painter.last_drawn_y_pos = self.box_y + self.box_height
 
@@ -325,11 +331,10 @@ class Task:
                 bar_width,
                 self.box_height,
                 self.text,
-                "centre",
+                self.text_alignment,
             )
             self.text_x = text_x_pos
             self.text_y = text_y_pos
-            # painter.draw_text(text_x_pos, text_y_pos, self.text)
 
     def draw(self, painter: Painter):
         painter.set_colour(self.fill_colour)

@@ -35,8 +35,11 @@ class Milestone:
     font_size: int
     font_colour: str
     fill_colour: str
+    text_alignment: str = "centre"
 
-    def __init__(self, text, date, font, font_size, font_colour, fill_colour) -> None:
+    def __init__(
+        self, text, date, font, font_size, font_colour, fill_colour, text_alignment
+    ) -> None:
         self.text = text
         self.date = date
         self.x = 0
@@ -47,6 +50,7 @@ class Milestone:
         self.font_size = font_size
         self.font_colour = font_colour
         self.fill_colour = fill_colour
+        self.text_alignment = text_alignment
 
         self.diamond_x = 0
         self.diamond_y = 0

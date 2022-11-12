@@ -31,8 +31,8 @@ class Painter:
     height = 0
     last_drawn_y_pos = 0
 
-    left_margin = 20
-    right_margin = 20
+    left_margin = 30
+    right_margin = 30
     group_box_width_percentage = 0.2
     timeline_width_percentage = 1 - group_box_width_percentage
     gap_between_group_box_and_timeline = 20
@@ -137,9 +137,9 @@ class Painter:
         if alignment == "centre":
             text_x_pos = (width / 2) - (text_width / 2)
         elif alignment == "right":
-            text_x_pos = width - text_width
+            text_x_pos = width - text_width - 5
         elif alignment == "left":
-            text_x_pos = x + 10
+            text_x_pos = 0 + 5
 
         text_y_pos = (height / 2) + (text_height / 2)
 
