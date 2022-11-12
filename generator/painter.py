@@ -70,6 +70,10 @@ class Painter:
         c = Color(colour)
         self.__cr.set_source_rgb(*c.get_rgb())
 
+    def set_colour_alpha(self, colour):
+        c = Color(colour)
+        self.__cr.set_source_rgba(*c.get_rgb(), 0.7)
+
     def set_font(self, font, font_size, font_colour):
         self.__cr.select_font_face(font)
         self.__cr.set_font_size(font_size)
@@ -112,6 +116,23 @@ class Painter:
     def draw_text(self, x, y, text):
         self.__cr.move_to(x, y)
         self.__cr.show_text(text)
+
+    def set_line_width(self, width):
+        self.__cr.set_line_width(width)
+
+    def set_line_style(self, style="solid"):
+        if style == "solid":
+            dash = [10.0, 0]
+        elif style == "dashed":
+            dash = [10.0, 5.0]
+        else:
+            dash = [10.0, 0]
+        self.__cr.set_dash(dash)
+
+    def draw_line(self, x1, y1, x2, y2):
+        self.__cr.move_to(x1, y1)
+        self.__cr.line_to(x2, y2)
+        self.__cr.stroke()
 
     def get_text_dimension(self, text):
         (

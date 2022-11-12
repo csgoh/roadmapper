@@ -160,13 +160,22 @@ class Timeline:
             timeline_period = self.__get_timeline_item_value(index)
             this_year = timeline_period[0:4]
             this_week = timeline_period[4:]
-            print(f"{timeline_period=}, this_year={this_year} this_week={this_week}")
-            timeline_start_period = date.fromisocalendar(
-                int(this_year), int(this_week), 1
+            # print(f"{timeline_period=}, this_year={this_year} this_week={this_week}")
+            timeline_start_period = datetime.combine(
+                date.fromisocalendar(int(this_year), int(this_week), 1),
+                datetime.min.time(),
             )
-            timeline_end_period = date.fromisocalendar(
-                int(this_year), int(this_week), 7
+            timeline_start_period = timeline_start_period.replace(
+                hour=0, minute=0, second=0, microsecond=0
             )
+            timeline_end_period = datetime.combine(
+                date.fromisocalendar(int(this_year), int(this_week), 7),
+                datetime.min.time(),
+            )
+            timeline_end_period = timeline_end_period.replace(
+                hour=0, minute=0, second=0, microsecond=0
+            )
+            print(f"{timeline_start_period=}, {timeline_end_period=}")
         elif self.mode == TimelineMode.MONTHLY:
             this_month = (self.start + relativedelta(months=+index)).month
             this_year = (self.start + relativedelta(months=+index)).year

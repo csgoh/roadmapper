@@ -31,16 +31,19 @@ from generator.footer import Footer
 from generator.timelinemode import TimelineMode
 from generator.timeline import Timeline
 from generator.group import Group
+from generator.marker import Marker
 
 
 @dataclass()
 class Roadmap:
     width: int = field(default=1200)
     height: int = field(default=600)
+    show_current_date_marker: bool = field(default=False)
     title: Title = field(default=None, init=False)
     timeline: Timeline = field(default=None, init=False)
     # groups: list[Group] = field(default_factory=list, init=False)
     footer: Footer = field(default=None, init=False)
+    marker: Marker = field(default=None, init=False)
 
     def __post_init__(self):
         self.__painter = Painter(self.width, self.height, "test.png")
@@ -48,6 +51,25 @@ class Roadmap:
         self.groups = []
         self.__last_y_pos = 0
         self.__mode = TimelineMode.MONTHLY
+
+    def set_marker(
+        self,
+        label_text_font="Arial",
+        label_text_colour: str = "Black",
+        label_text_size: int = 10,
+        line_colour: str = "Black",
+        line_width: int = 2,
+        line_style: str = "dashed",
+    ):
+        self.marker = Marker(
+            font=label_text_font,
+            font_size=label_text_size,
+            font_colour=label_text_colour,
+            line_colour=line_colour,
+            line_width=line_width,
+            line_style=line_style,
+        )
+        self.show_current_date_marker = True
 
     def set_title(
         self,
@@ -70,6 +92,10 @@ class Roadmap:
         font_size: int = 18,
         font_colour: str = "Black",
     ):
+        # set marker position first since we know the height of groups
+        if self.show_current_date_marker == True:
+            self.marker.set_line_draw_position(self.__painter)
+
         self.footer = Footer(
             text=text, font=font, font_size=font_size, font_colour=font_colour
         )
@@ -99,6 +125,8 @@ class Roadmap:
             fill_colour=fill_colour,
         )
         self.timeline.set_draw_position(self.__painter)
+        if self.show_current_date_marker == True:
+            self.marker.set_label_draw_position(self.__painter, self.timeline)
         return None
 
     @contextmanager
@@ -131,12 +159,15 @@ class Roadmap:
         self.timeline.draw(self.__painter)
         for group in self.groups:
             group.draw(self.__painter)
+        self.marker.draw(self.__painter)
         self.footer.draw(self.__painter)
 
     def save(self):
         self.__painter.save_surface()
 
     def print_roadmap(self, print_area: str = "all"):
+        dash = "─"
+        space = " "
         if print_area == "all" or print_area == "title":
             print(f"Title={self.title.text}")
 
@@ -144,7 +175,7 @@ class Roadmap:
             print("Timeline:")
             for timeline_item in self.timeline.timeline_items:
                 print(
-                    f"       text={timeline_item.text}, value={timeline_item.value}, "
+                    f"└{dash*8}{timeline_item.text}, value={timeline_item.value}, "
                     f"box_x={round(timeline_item.box_x,2)}, box_y={timeline_item.box_y}, "
                     f"box_w={round(timeline_item.box_width,2)}, box_h={timeline_item.box_height}, "
                     f"text_x={round(timeline_item.text_x,2)}, text_y={timeline_item.text_y}"
@@ -158,25 +189,25 @@ class Roadmap:
                 )
                 for task in group.tasks:
                     print(
-                        f"└────────{task.text}, start={task.start}, end={task.end}, "
+                        f"└{dash*8}{task.text}, start={task.start}, end={task.end}, "
                         f"x={round(task.box_x, 2)}, y={task.box_y}, w={round(task.box_width, 2)}, "
                         f"h={task.box_height}"
                     )
                     for milestone in task.milestones:
                         print(
-                            f"         ╟░░░░{milestone.text}, date={milestone.date}, x={round(milestone.diamond_x, 2)}, "
+                            f"{space*9}├{dash*4}{milestone.text}, date={milestone.date}, x={round(milestone.diamond_x, 2)}, "
                             f"y={milestone.diamond_y}, w={milestone.diamond_width}, h={milestone.diamond_height}, "
                             f"font_colour={milestone.font_colour}, fill_colour={milestone.fill_colour}"
                         )
                     for parellel_task in task.tasks:
                         print(
-                            f"         └────Parellel Task: {parellel_task.text}, start={parellel_task.start}, "
+                            f"{space*9}└{dash*4}Parellel Task: {parellel_task.text}, start={parellel_task.start}, "
                             f"end={parellel_task.end}, x={round(parellel_task.box_x,2)}, y={round(parellel_task.box_y, 2)}, "
                             f"w={round(parellel_task.box_width, 2)}, h={round(parellel_task.box_height,2)}"
                         )
                         for parellel_task_milestone in parellel_task.milestones:
                             print(
-                                f"              ╟░░░░{parellel_task_milestone.text}, "
+                                f"{space*14}├{dash*4}{parellel_task_milestone.text}, "
                                 f"date={parellel_task_milestone.date}, x={round(parellel_task_milestone.diamond_x, 2)}, "
                                 f"y={round(parellel_task_milestone.diamond_y, 2)}, w={parellel_task_milestone.diamond_width}, "
                                 f"h={parellel_task_milestone.diamond_height}"

@@ -75,10 +75,17 @@ class TimelineItem:
                 date.fromisocalendar(int(this_year), int(this_week), 1),
                 datetime.min.time(),
             )
+            timeline_start_period = timeline_start_period.replace(
+                hour=0, minute=0, second=0, microsecond=0
+            )
             timeline_end_period = datetime.combine(
                 date.fromisocalendar(int(this_year), int(this_week), 7),
                 datetime.min.time(),
             )
+            timeline_end_period = timeline_end_period.replace(
+                hour=0, minute=0, second=0, microsecond=0
+            )
+            # print(f"type {type(timeline_start_period)} = {timeline_start_period}")
 
         if mode == TimelineMode.MONTHLY:
 
@@ -121,6 +128,7 @@ class TimelineItem:
             timeline_start_period = datetime(int(self.value), 1, 1)
             timeline_end_period = datetime(int(self.value), 12, 31)
 
+        # print(f"{type(timeline_start_period)}, {type(timeline_end_period)}")
         return timeline_start_period, timeline_end_period
 
     def get_timeline_pos_percentage(self, mode: TimelineMode, task_or_milestone_date):

@@ -2,10 +2,21 @@ from generator.roadmap import Roadmap
 from generator.timelinemode import TimelineMode
 
 my_roadmap = Roadmap(width=1400, height=412)
+my_roadmap.set_marker(
+    label_text_font="Arial",
+    label_text_colour="#006699",
+    label_text_size=10,
+    line_colour="#006699",
+    line_width=2,
+    line_style="solid",
+)
 my_roadmap.set_title("My Demo Roadmap 2023-2025", font_size=18)
-my_roadmap.set_timeline(TimelineMode.MONTHLY, "2022-12-01", 18, font_size=10)
-# my_roadmap.set_timeline(TimelineMode.MONTHLY, "2022-12-01", 12, font_size=11)
-# my_roadmap.set_timeline(TimelineMode.QUARTERLY, "2022-12-15", 6, font_size=11)
+# my_roadmap.set_timeline(TimelineMode.WEEKLY, "2022-11-01", 10, font_size=10)
+my_roadmap.set_timeline(TimelineMode.MONTHLY, "2022-10-01", 12, font_size=11)
+# my_roadmap.set_timeline(TimelineMode.QUARTERLY, "2022-01-01", 6, font_size=11)
+# my_roadmap.set_timeline(TimelineMode.HALF_YEARLY, "2022-01-01", 6, font_size=11)
+# my_roadmap.set_timeline(TimelineMode.YEARLY, "2022-01-01", 3, font_size=11)
+
 
 with my_roadmap.add_group(
     "Group 1 something long", "Arial", 12, "Black", "LightGrey"
@@ -66,4 +77,4 @@ with my_roadmap.add_group("Stream 3", "Arial", 12, "Black", "LightGrey") as grou
 my_roadmap.set_footer("this is footer!!", font_size=12)
 my_roadmap.draw()
 my_roadmap.save()
-my_roadmap.print_roadmap("groups")
+my_roadmap.print_roadmap()
