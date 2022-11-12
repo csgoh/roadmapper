@@ -38,7 +38,6 @@ from generator.marker import Marker
 class Roadmap:
     width: int = field(default=1200)
     height: int = field(default=600)
-    show_current_date_marker: bool = field(default=False)
     title: Title = field(default=None, init=False)
     timeline: Timeline = field(default=None, init=False)
     # groups: list[Group] = field(default_factory=list, init=False)
@@ -93,7 +92,7 @@ class Roadmap:
         font_colour: str = "Black",
     ):
         # set marker position first since we know the height of groups
-        if self.show_current_date_marker == True:
+        if self.marker != None:
             self.marker.set_line_draw_position(self.__painter)
 
         self.footer = Footer(
@@ -125,7 +124,7 @@ class Roadmap:
             fill_colour=fill_colour,
         )
         self.timeline.set_draw_position(self.__painter)
-        if self.show_current_date_marker == True:
+        if self.marker != None:
             self.marker.set_label_draw_position(self.__painter, self.timeline)
         return None
 
@@ -159,7 +158,9 @@ class Roadmap:
         self.timeline.draw(self.__painter)
         for group in self.groups:
             group.draw(self.__painter)
-        self.marker.draw(self.__painter)
+        if self.marker != None:
+            self.marker.draw(self.__painter)
+        # self.marker.draw(self.__painter)
         self.footer.draw(self.__painter)
 
     def save(self):
