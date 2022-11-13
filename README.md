@@ -1,10 +1,30 @@
-# roadmap_generator
+# Roadmap Generator - a Roadmap as Code (RaC) Tool
 
-Purpose: This python class library is used to generate graphical roadmap using code.
+## Purpose
+As the repo name implies, this purpose of this python library is used to draw roadmap by using python code. This is the first Roadmap as Code (RaC) library. RaC helps to create and edit roadmap in a more efficient way without having to use any graphical tools that are not always easy to use to create or update a roadmap.
+
+With git repository like GitHub or Bitbucket, roadmaps created using RaC can be version controlled, track changes and can be easily shared with others.
+
+### Python version requirements:
+* Python 3.10+
+  
+### Library Dependencies
+* PyCairo 1.21.0
+* Colour 0.1.5
+
+<hr>
+
+## Installation
+### Install from PyPI (To be provided - coming soon)
+<!-- ```bash
+pip install roadmap_generator
+``` -->
+
+<hr>
 
 ## Code Example
 
-```python
+```python 
 roadmap = Roadmap(1200, 312)
 roadmap.set_title("My Demo Roadmap")
 roadmap.set_timeline(TimelineMode.MONTHLY, "2023-02-01", 12)
@@ -68,3 +88,8 @@ roadmap.set_title("My Demo Roadmap", font_colour="Salmon", font="Arial", font_si
 
 ![name](demo06.png)
 
+<hr>
+<br>
+
+## Documentation
+Please refer to [Roadmap Generator Guide](docs/index.md) for more information on how to use this RaC library.
