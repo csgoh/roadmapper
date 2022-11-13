@@ -15,10 +15,15 @@ With git repository like GitHub or Bitbucket, roadmaps created using RaC can be 
 <hr>
 
 ## Installation
-### Install from PyPI (To be provided - coming soon)
-<!-- ```bash
-pip install roadmap_generator
-``` -->
+### Install from PyPI
+```bash
+pip install roadmap-generator
+```
+
+<hr>
+
+## Documentation
+Please refer to [Roadmap Generator Guide](https://github.com/csgoh/roadmap_generator/blob/main/docs/index.md) (coming soon) for more information on how to use this RaC library.
 
 <hr>
 
@@ -91,5 +96,4 @@ roadmap.set_title("My Demo Roadmap", font_colour="Salmon", font="Arial", font_si
 <hr>
 <br>
 
-## Documentation
-Please refer to [Roadmap Generator Guide](docs/index.md) for more information on how to use this RaC library.
+

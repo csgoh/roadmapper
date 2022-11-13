@@ -33,9 +33,13 @@ sandpit.py
 test.ipynb
 *.py[cod]
 *$py.class
+
+# My exclusion list
 reference/
 *.json
 *.txt
+*.cfg
+*.toml
 
 # C extensions
 *.so
@@ -199,7 +203,7 @@ Terms
 Privacy
 Security
 Status
-Docs
+#Docs
 Contact GitHub
 Pricing
 API
