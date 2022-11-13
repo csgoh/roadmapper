@@ -25,6 +25,8 @@ from generator.painter import Painter
 
 @dataclass(kw_only=True)
 class Footer:
+    """Roadmap Footer class"""
+
     text: str
     font: str = "Arial"
     font_size: int = 12
@@ -32,19 +34,39 @@ class Footer:
     x: int = field(init=False)
     y: int = field(init=False)
 
-    def __calculate_draw_position(self, painter: Painter):
+    def __calculate_draw_position(self, painter: Painter) -> tuple[int, int]:
+        """Calculate footer draw position
+
+        Args:
+            painter (Painter): PyCairo wrapper class instance
+
+        Returns:
+            tuple[int, int]: Footer x and y position
+        """
         self.width, self.height = painter.get_text_dimension(self.text)
         # 20px is the marging between the last drawn item and the footer
         return (
             painter.width / 2
         ) - self.width / 2, painter.last_drawn_y_pos + self.height + 20
 
-    def set_draw_position(self, painter: Painter, last_y_pos: int):
+    def set_draw_position(self, painter: Painter, last_y_pos: int) -> None:
+        """Set footer draw position
+
+        Args:
+            painter (Painter): PyCairo wrapper class instance
+            last_y_pos (int): Last drawn item y position
+        """
         painter.set_font(self.font, self.font_size, self.font_colour)
         self.x, self.y = self.__calculate_draw_position(painter)
         painter.last_drawn_y_pos = self.y
 
-    def draw(self, painter: Painter):
+    def draw(self, painter: Painter) -> None:
+        """Draw footer
+
+        Args:
+            painter (Painter): PyCairo wrapper class instance
+        """
         painter.set_font(self.font, self.font_size, self.font_colour)
+
         # add 35px top margin before drawing the footer
         painter.draw_text(self.x, self.y + 35, self.text)

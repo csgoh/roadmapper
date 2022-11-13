@@ -26,6 +26,8 @@ from colour import Color
 
 
 class Painter:
+    """A wrapper class for PyCairo library"""
+
     __VSPACER, __HSPACER = 12, 2
     width = 0
     height = 0
@@ -41,60 +43,94 @@ class Painter:
     timeline_height = 20
 
     # initialise code
-    def __init__(self, width, height, output_file_name):
+    def __init__(self, width: int, height: int):
+        """__init__ method
+
+        Args:
+            width (int): Width of the surface
+            height (int): Height of the surface
+        """
         self.width = width
         self.height = height
         self.last_drawn_y_pos = 0
-        if output_file_name == "":
-            output_file_name = "roadmap"
 
-        if output_file_name.split(".")[-1].upper() == "PNG":
-            output_type = "PNG"
-        elif output_file_name.split(".")[-1].upper() == "PDF":
-            output_type = "PDF"
-        else:
-            # Default file format
-            output_type = "PNG"
-            output_file_name.join(".png")
+        # Default file format
+        self.output_type = "PNG"
 
-        if output_type == "PNG":
+        if self.output_type == "PNG":
             self.__surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
-        if output_type == "PDF":
-            self.__surface = cairo.PDFSurface(output_file_name, width, height)
+
+        # Future Implementation
+        # if output_type == "PDF":
+        #     self.__surface = cairo.PDFSurface(output_file_name, width, height)
 
         self.__cr = cairo.Context(self.__surface)
-        self.__output_type = output_type
-        self.__output_file_name = output_file_name
 
-    def set_colour(self, colour):
+    def set_colour(self, colour: str) -> None:
+        """Set colour
+
+        Args:
+            colour (str): HTML color code. Eg. #FFFFFF or LightGreen
+        """
         c = Color(colour)
         self.__cr.set_source_rgb(*c.get_rgb())
 
-    def set_colour_alpha(self, colour):
+    def set_colour_alpha(self, colour: str) -> None:
+        """Set colour with alpha
+
+        Args:
+            colour (str): HTML colour name or hex code. Eg. #FFFFFF or LightGreen
+        """
         c = Color(colour)
         self.__cr.set_source_rgba(*c.get_rgb(), 0.7)
 
-    def set_font(self, font, font_size, font_colour):
+    def set_font(self, font: str, font_size: int, font_colour: str) -> None:
+        """Configure text font settings
+
+        Args:
+            font (str): Font name. Eg. Arial
+            font_size (int): Font size
+            font_colour (str): Font colour in HTML colour name or hex code. Eg. #FFFFFF or LightGreen
+        """
         self.__cr.select_font_face(font)
         self.__cr.set_font_size(font_size)
         self.set_colour(font_colour)
 
-    def draw_box(self, x, y, width, height):
-        # print(f"Drawing box at {x}, {y} with width {width} and height {height}")
+    def draw_box(self, x: int, y: int, width: int, height: int) -> None:
+        """Draw a rectagle
+
+        Args:
+            x (int): X coordinate
+            y (int): Y coordinate
+            width (int): Rectangle width
+            height (int): Rectangle height
+        """
         self.__cr.rectangle(x, y, width, height)
         self.__cr.fill()
 
     def draw_box_with_text(
         self,
-        x,
-        y,
-        width,
-        height,
-        text,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+        text: str,
         text_alignment: str,
         font_colour: str,
         fill_colour: str,
-    ):
+    ) -> None:
+        """Draw a box with text
+
+        Args:
+            x (int): X coordinate
+            y (int): Y coordinate
+            width (int): Rectangle width
+            height (int): Rectangle height
+            text (str): Text to display in the box
+            text_alignment (str): Text alignment. Eg. left, center, right
+            font_colour (str): Text font colour in HTML colour name or hex code. Eg. #FFFFFF or LightGreen
+            fill_colour (str): Box fill colour in HTML colour name or hex code. Eg. #FFFFFF or LightGreen
+        """
         self.set_colour(fill_colour)
         self.__cr.rectangle(x, y, width, height)
         self.__cr.fill()
@@ -104,7 +140,15 @@ class Painter:
         )
         self.draw_text(text_x, text_y, text)
 
-    def draw_diamond(self, x, y, width, height):
+    def draw_diamond(self, x: int, y: int, width: int, height: int) -> None:
+        """Draw a diamond
+
+        Args:
+            x (int): X coordinate
+            y (int): Y coordinate
+            width (int): Diamond width
+            height (int): Diamond height
+        """
         self.__cr.set_source_rgb(1, 0, 0)
         self.__cr.move_to(x + width / 2, y)
         self.__cr.line_to(x + width, y + height / 2)
@@ -113,14 +157,32 @@ class Painter:
         self.__cr.close_path()
         self.__cr.fill()
 
-    def draw_text(self, x, y, text):
+    def draw_text(self, x: int, y: int, text: str) -> None:
+        """Draw text
+
+        Args:
+            x (int): X coordinate
+            y (int): Y coordinate
+            text (str): Text to draw/display
+        """
         self.__cr.move_to(x, y)
         self.__cr.show_text(text)
 
-    def set_line_width(self, width):
+    def set_line_width(self, width: int) -> None:
+        """Set line width
+
+        Args:
+            width (int): Line width
+        """
+
         self.__cr.set_line_width(width)
 
-    def set_line_style(self, style="solid"):
+    def set_line_style(self, style: str = "solid") -> None:
+        """Set line style
+
+        Args:
+            style (str, optional): Line style. Defaults to "solid". Options: "solid", "dashed"
+        """
         if style == "solid":
             dash = [10.0, 0]
         elif style == "dashed":
@@ -129,12 +191,28 @@ class Painter:
             dash = [10.0, 0]
         self.__cr.set_dash(dash)
 
-    def draw_line(self, x1, y1, x2, y2):
+    def draw_line(self, x1: int, y1: int, x2: int, y2: int) -> None:
+        """Draw a line
+
+        Args:
+            x1 (int): Line begin X coordinate
+            y1 (int): Line begin Y coordinate
+            x2 (int): Line end X coordinate
+            y2 (int): Line end Y coordinate
+        """
         self.__cr.move_to(x1, y1)
         self.__cr.line_to(x2, y2)
         self.__cr.stroke()
 
-    def get_text_dimension(self, text):
+    def get_text_dimension(self, text: str) -> tuple:
+        """Get text dimension
+
+        Args:
+            text (str): Text that is used to calculate dimension
+
+        Returns:
+            (text_width (int), text_height (int)): Text dimension (width, height)
+        """
         (
             _,
             _,
@@ -145,14 +223,31 @@ class Painter:
         ) = self.__cr.text_extents(text)
         return text_width, text_height
 
-    def set_background_colour(self, colour):
+    def set_background_colour(self, colour: str) -> None:
+        """Set surface background colour
+
+        Args:
+            colour (str): Background colour in HTML colour name or hex code. Eg. #FFFFFF or LightGreen
+        """
         self.set_colour(colour)
         self.__cr.paint()
 
-    def get_display_text_position(self, x, y, width, height, text, alignment):
-        ### to remove
-        # self.set_colour("yellow")
-        # self.draw_box(x, y, width, height)
+    def get_display_text_position(
+        self, x: int, y: int, width: int, height: int, text: str, alignment: str
+    ) -> tuple:
+        """Get text position relative to the rectangle box
+
+        Args:
+            x (int): Rectangle X coordinate
+            y (int): Rectangle Y coordinate
+            width (int): Rectangle width
+            height (int): Rectangle height
+            text (str): Text used to calculate position
+            alignment (str): Text alignment. Eg. left, center, right
+
+        Returns:
+            (text_x (int), text_y (int)): Text x and y coordinates
+        """
         text_width, text_height = self.get_text_dimension(text)
 
         if alignment == "centre":
@@ -166,8 +261,11 @@ class Painter:
 
         return x + text_x_pos, y + text_y_pos
 
-    def save_surface(self):
-        if self.__output_type == "PNG":
-            self.__surface.write_to_png(self.__output_file_name)
-        if self.__output_type == "PDF":
-            self.__surface.show_page()
+    def save_surface(self, filename: str) -> None:
+        """Save surface to PNG file
+
+        Args:
+            filename (str): PNG file name
+        """
+        if self.output_type == "PNG":
+            self.__surface.write_to_png(filename)

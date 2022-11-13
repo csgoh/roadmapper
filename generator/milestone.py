@@ -21,37 +21,24 @@
 # SOFTWARE.
 from datetime import datetime
 from dataclasses import dataclass, field
+from generator.painter import Painter
+from generator.timeline import Timeline
 
 
 @dataclass(kw_only=True)
 class Milestone:
+    """Roadmap Milestone class"""
+
     text: str
     date: datetime
-    x: int
-    y: int
-    width: int
-    height: int
-    font: str
-    font_size: int
-    font_colour: str
-    fill_colour: str
-    text_alignment: str = "centre"
+    font: str = field(default="Arial")
+    font_size: int = field(default=10)
+    font_colour: str = field(default="red")
+    fill_colour: str = field(default="red")
+    text_alignment: str = field(default="centre")
 
-    def __init__(
-        self, text, date, font, font_size, font_colour, fill_colour, text_alignment
-    ) -> None:
-        self.text = text
-        self.date = date
-        self.x = 0
-        self.y = 0
-        self.width = 0
-        self.height = 0
-        self.font = font
-        self.font_size = font_size
-        self.font_colour = font_colour
-        self.fill_colour = fill_colour
-        self.text_alignment = text_alignment
-
+    def __post_init__(self):
+        """This method is called after __init__() is called"""
         self.diamond_x = 0
         self.diamond_y = 0
         self.diamond_width = 0
@@ -59,7 +46,13 @@ class Milestone:
         self.text_x = 0
         self.text_y = 0
 
-    def draw(self, painter):
+    def draw(self, painter: Painter) -> None:
+        """Draw milestone
+
+        Args:
+            painter (Painter): PyCairo wrapper class instance
+        """
+        # self.font_size = 10
         painter.set_font(self.font, self.font_size, self.font_colour)
         painter.set_colour(self.fill_colour)
         painter.draw_diamond(

@@ -20,8 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from datetime import datetime, date, timedelta
-from dateutil.relativedelta import relativedelta
+from datetime import datetime
 from dataclasses import dataclass, field
 from contextlib import contextmanager
 
@@ -36,30 +35,43 @@ from generator.marker import Marker
 
 @dataclass()
 class Roadmap:
+    """The main Roadmap class"""
+
     width: int = field(default=1200)
     height: int = field(default=600)
     title: Title = field(default=None, init=False)
     timeline: Timeline = field(default=None, init=False)
-    # groups: list[Group] = field(default_factory=list, init=False)
+    groups: list[Group] = field(default_factory=list, init=False)
     footer: Footer = field(default=None, init=False)
     marker: Marker = field(default=None, init=False)
 
     def __post_init__(self):
-        self.__painter = Painter(self.width, self.height, "test.png")
+        """This method is called after __init__() is called"""
+        self.__painter = Painter(self.width, self.height)
         self.__painter.set_background_colour("White")
         self.groups = []
         self.__last_y_pos = 0
-        self.__mode = TimelineMode.MONTHLY
+        self.version = "v1.0.0-beta1"
 
     def set_marker(
         self,
-        label_text_font="Arial",
+        label_text_font: str = "Arial",
         label_text_colour: str = "Black",
         label_text_size: int = 10,
         line_colour: str = "Black",
         line_width: int = 2,
         line_style: str = "dashed",
-    ):
+    ) -> None:
+        """Configure the marker settings
+
+        Args:
+            label_text_font (str, optional): Label text font. Defaults to "Arial".
+            label_text_colour (str, optional): Label text colour. Defaults to "Black".
+            label_text_size (int, optional): Label text size. Defaults to 10.
+            line_colour (str, optional): Line colour. Defaults to "Black".
+            line_width (int, optional): Line width. Defaults to 2.
+            line_style (str, optional): Line style. Defaults to "solid". Options are "solid", "dashed"
+        """
         self.marker = Marker(
             font=label_text_font,
             font_size=label_text_size,
@@ -76,7 +88,15 @@ class Roadmap:
         font: str = "Arial",
         font_size: int = 18,
         font_colour: str = "Black",
-    ):
+    ) -> None:
+        """Configure the title settings
+
+        Args:
+            text (str): Title text
+            font (str, optional): Title font. Defaults to "Arial".
+            font_size (int, optional): Title font size. Defaults to 18.
+            font_colour (str, optional): Title font colour. Defaults to "Black".
+        """
         self.title = Title(
             text=text, font=font, font_size=font_size, font_colour=font_colour
         )
@@ -88,9 +108,17 @@ class Roadmap:
         self,
         text: str,
         font: str = "Arial",
-        font_size: int = 18,
+        font_size: int = 12,
         font_colour: str = "Black",
-    ):
+    ) -> None:
+        """Configure the footer settings
+
+        Args:
+            text (str): Footer text
+            font (str, optional): Footer font. Defaults to "Arial".
+            font_size (int, optional): Footer font size. Defaults to 18.
+            font_colour (str, optional): Footer font colour. Defaults to "Black".
+        """
         # set marker position first since we know the height of groups
         if self.marker != None:
             self.marker.set_line_draw_position(self.__painter)
@@ -103,16 +131,28 @@ class Roadmap:
 
     def set_timeline(
         self,
-        mode=TimelineMode.MONTHLY,
-        start=datetime.strptime(
+        mode: TimelineMode = TimelineMode.MONTHLY,
+        start: datetime = datetime.strptime(
             datetime.strftime(datetime.today(), "%Y-%m-%d"), "%Y-%m-%d"
         ),
-        number_of_items=12,
-        font="Arial",
-        font_size=10,
-        font_colour="Black",
-        fill_colour="lightgrey",
-    ):
+        number_of_items: int = 12,
+        font: str = "Arial",
+        font_size: int = 10,
+        font_colour: str = "Black",
+        fill_colour: str = "lightgrey",
+    ) -> None:
+        """Configure the timeline settings
+
+        Args:
+            mode (TimelineMode, optional): Timeline mode. Defaults to TimelineMode.MONTHLY.
+                                            Options are WEEKLY, MONTHLY, QUARTERLY, HALF_YEARLY, YEARLY
+            start (datetime, optional): Timeline start date. Defaults to current date
+            number_of_items (int, optional): Number of time periods to display on the timeline. Defaults to 12.
+            font (str, optional): Timeline font. Defaults to "Arial".
+            font_size (int, optional): Timeline font size. Defaults to 10.
+            font_colour (str, optional): Timeline font colour. Defaults to "Black".
+            fill_colour (str, optional): Timeline fill colour. Defaults to "lightgrey".
+        """
         start_date = datetime.strptime(start, "%Y-%m-%d")
         self.timeline = Timeline(
             mode=mode,
@@ -126,18 +166,30 @@ class Roadmap:
         self.timeline.set_draw_position(self.__painter)
         if self.marker != None:
             self.marker.set_label_draw_position(self.__painter, self.timeline)
-        return None
 
     @contextmanager
     def add_group(
         self,
         text: str,
-        font="Arial",
-        font_size=10,
-        font_colour="Black",
-        fill_colour="lightgrey",
-        text_alignment="centre",
-    ):
+        font: str = "Arial",
+        font_size: int = 10,
+        font_colour: str = "Black",
+        fill_colour: str = "lightgrey",
+        text_alignment: str = "centre",
+    ) -> None:
+        """Add new group to the roadmap
+
+        Args:
+            text (str): Group text
+            font (str, optional): Group text font. Defaults to "Arial".
+            font_size (int, optional): Group text font size. Defaults to 10.
+            font_colour (str, optional): Group text font colour. Defaults to "Black".
+            fill_colour (str, optional): Group fill colour. Defaults to "lightgrey".
+            text_alignment (str, optional): Group text alignment. Defaults to "centre". Options are "left", "centre", "right"
+
+        Yields:
+            Group: A new group instance. Use this to add taks to the group
+        """
         try:
             group = Group(
                 text=text,
@@ -153,7 +205,8 @@ class Roadmap:
             group.set_draw_position(self.__painter, self.timeline)
             group = None
 
-    def draw(self):
+    def draw(self) -> None:
+        """Draw the group on surface"""
         self.title.draw(self.__painter)
         self.timeline.draw(self.__painter)
         for group in self.groups:
@@ -163,10 +216,20 @@ class Roadmap:
         # self.marker.draw(self.__painter)
         self.footer.draw(self.__painter)
 
-    def save(self):
-        self.__painter.save_surface()
+    def save(self, filename: str) -> None:
+        """Save surface to PNG file
 
-    def print_roadmap(self, print_area: str = "all"):
+        Args:
+            filename (str): PNG file name
+        """
+        self.__painter.save_surface(filename)
+
+    def print_roadmap(self, print_area: str = "all") -> None:
+        """Print the content of the roadmap
+
+        Args:
+            print_area (str, optional): Roadmap area to print. Defaults to "all". Options are "all", "title", "timeline", "groups", "footer"
+        """
         dash = "─"
         space = " "
         if print_area == "all" or print_area == "title":

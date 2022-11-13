@@ -21,11 +21,13 @@
 # SOFTWARE.
 from dataclasses import dataclass, field
 
+
 @dataclass
-class TimelineMode():
+class TimelineMode:
+    """Timeline mode for roadmap"""
+
     WEEKLY = "W"
     MONTHLY = "M"
     QUARTERLY = "Q"
     HALF_YEARLY = "H"
     YEARLY = "Y"
-

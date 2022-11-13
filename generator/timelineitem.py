@@ -30,6 +30,8 @@ from generator.timelinemode import TimelineMode
 
 @dataclass(kw_only=True)
 class TimelineItem:
+    """Roadmap TimelineItem class"""
+
     text: str
     value: str
     start: datetime
@@ -45,7 +47,16 @@ class TimelineItem:
     font_colour: str
     fill_colour: str
 
-    def __calculate_text_draw_position(self, painter: Painter):
+    def __calculate_text_draw_position(self, painter: Painter) -> tuple:
+        """Calculate the text draw position based on the box position and size
+
+        A Args:
+            painter (Painter): PyCairo wrapper class instance
+
+        Returns:
+            tuple(int, int): (x, y) position of the text
+        """
+
         painter.set_font(self.font, self.font_size, self.font_colour)
         return painter.get_display_text_position(
             self.box_x, self.box_y, self.box_width, self.box_height, self.text, "centre"
@@ -58,7 +69,16 @@ class TimelineItem:
         y: int,
         width: int,
         height: int,
-    ):
+    ) -> None:
+        """Set the draw position of the timeline item
+
+        Args:
+            painter (Painter): PyCairo wrapper class instance
+            x (int): x position of the box
+            y (int): y position of the box
+            width (int): width of the box
+            height (int): height of the box
+        """
         self.box_x = x
         self.box_y = y
         self.box_width = width
@@ -66,7 +86,15 @@ class TimelineItem:
         self.text_x, self.text_y = self.__calculate_text_draw_position(painter)
         painter.last_drawn_y_pos = self.box_y
 
-    def get_timeline_period(self, mode: TimelineMode):
+    def get_timeline_period(self, mode: TimelineMode) -> tuple:
+        """Get the timeline period based on the timeline mode
+
+        Args:
+            mode (TimelineMode): Timeline mode
+
+        Returns:
+            tuple(datetime, datetime): start datetime and end datetime of the timeline period
+        """
         start_date = self.start
         if mode == TimelineMode.WEEKLY:
             this_year = self.value[0:4]
@@ -85,7 +113,6 @@ class TimelineItem:
             timeline_end_period = timeline_end_period.replace(
                 hour=0, minute=0, second=0, microsecond=0
             )
-            # print(f"type {type(timeline_start_period)} = {timeline_start_period}")
 
         if mode == TimelineMode.MONTHLY:
 
@@ -128,10 +155,20 @@ class TimelineItem:
             timeline_start_period = datetime(int(self.value), 1, 1)
             timeline_end_period = datetime(int(self.value), 12, 31)
 
-        # print(f"{type(timeline_start_period)}, {type(timeline_end_period)}")
         return timeline_start_period, timeline_end_period
 
-    def get_timeline_pos_percentage(self, mode: TimelineMode, task_or_milestone_date):
+    def get_timeline_pos_percentage(
+        self, mode: TimelineMode, task_or_milestone_date: datetime
+    ) -> float:
+        """Get the timeline position percentage based on the task or milestone date
+
+        Args:
+            mode (TimelineMode): Timeline mode
+            task_or_milestone_date (datetime): Task or milestone date
+
+        Returns:
+            float: Timeline position percentage
+        """
         correct_timeline = False
         pos_percentage = 0
         timeline_start_period, timeline_end_period = self.get_timeline_period(mode)
@@ -173,7 +210,6 @@ class TimelineItem:
                 date_of_last_day_of_quarter = datetime(
                     this_year, 3, calendar.monthrange(this_year, 3)[1]
                 )
-                # calc number of days between first day of quarter and last day of quarter
                 days_in_quarter = (
                     date_of_last_day_of_quarter - date_of_first_day_of_quarter
                 ).days
@@ -183,12 +219,10 @@ class TimelineItem:
                 )
                 pos_percentage = days_progress_in_quarter / days_in_quarter
             elif this_period[-1] == "2":
-                # pos_percentage = (task_or_milestone_date.month - 3) / 3
                 date_of_first_day_of_quarter = datetime(this_year, 4, 1)
                 date_of_last_day_of_quarter = datetime(
                     this_year, 6, calendar.monthrange(this_year, 6)[1]
                 )
-                # calc number of days between first day of quarter and last day of quarter
                 days_in_quarter = (
                     date_of_last_day_of_quarter - date_of_first_day_of_quarter
                 ).days
@@ -198,12 +232,10 @@ class TimelineItem:
                 )
                 pos_percentage = days_progress_in_quarter / days_in_quarter
             elif this_period[-1] == "3":
-                # pos_percentage = (task_or_milestone_date.month - 6) / 3
                 date_of_first_day_of_quarter = datetime(this_year, 7, 1)
                 date_of_last_day_of_quarter = datetime(
                     this_year, 9, calendar.monthrange(this_year, 9)[1]
                 )
-                # calc number of days between first day of quarter and last day of quarter
                 days_in_quarter = (
                     date_of_last_day_of_quarter - date_of_first_day_of_quarter
                 ).days
@@ -213,12 +245,10 @@ class TimelineItem:
                 )
                 pos_percentage = days_progress_in_quarter / days_in_quarter
             elif this_period[-1] == "4":
-                # pos_percentage = (task_or_milestone_date.month - 9) / 3
                 date_of_first_day_of_quarter = datetime(this_year, 10, 1)
                 date_of_last_day_of_quarter = datetime(
                     this_year, 12, calendar.monthrange(this_year, 12)[1]
                 )
-                # calc number of days between first day of quarter and last day of quarter
                 days_in_quarter = (
                     date_of_last_day_of_quarter - date_of_first_day_of_quarter
                 ).days
@@ -287,13 +317,34 @@ class TimelineItem:
 
         return (correct_timeline, pos_percentage)
 
-    def __get_quarter_from_date(self, date):
+    def __get_quarter_from_date(self, date: datetime) -> int:
+        """Returns the quarter of a given date
+
+        Args:
+            date (datetime): date
+
+        Returns:
+            int: quarter
+        """
         return (date.month - 1) // 3 + 1
 
-    def __get_halfyear_from_date(self, date):
+    def __get_halfyear_from_date(self, date: datetime) -> int:
+        """Returns the halfyear of a given date
+
+        Args:
+            date (datetime): date
+
+        Returns:
+            int: halfyear
+        """
         return (date.month - 1) // 6 + 1
 
-    def draw(self, painter: Painter):
+    def draw(self, painter: Painter) -> None:
+        """Draws the timeline
+
+        Args:
+            painter (Painter): PyCairo wrapper class instance
+        """
         painter.set_colour(self.fill_colour)
         painter.draw_box(
             self.box_x, self.box_y, self.box_width - 1, self.box_height

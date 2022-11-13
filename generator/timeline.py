@@ -31,6 +31,8 @@ from generator.timelinemode import TimelineMode
 
 @dataclass(kw_only=True)
 class Timeline:
+    """Roadmap Timeline Class"""
+
     mode: str = TimelineMode.MONTHLY
     start: datetime = datetime.today()
     number_of_items: int = 12
@@ -47,7 +49,15 @@ class Timeline:
     # Constant Variables
     __timeline_height = 20
 
-    def __calculate_draw_position(self, painter: Painter):
+    def __calculate_draw_position(self, painter: Painter) -> tuple[int, int, int]:
+        """Calculate the draw position of the timeline
+
+        Args:
+            painter (Painter): PyCairo wrapper class instance
+
+        Returns:
+            tuple[int, int, int]: Timeline x, y, width
+        """
         # Determine group box width
         group_box_width = (
             painter.width - (painter.left_margin + painter.right_margin)
@@ -72,7 +82,12 @@ class Timeline:
 
         return timeline_x, timeline_y, timeline_width
 
-    def set_draw_position(self, painter: Painter):
+    def set_draw_position(self, painter: Painter) -> None:
+        """Set the draw position of the timeline
+
+        Args:
+            painter (Painter): PyCairo wrapper class instance
+        """
         # painter.set_font(self.font, self.font_size, self.font_colour)
         self.x, self.y, self.width = self.__calculate_draw_position(painter)
         timelineitem_width = self.width / self.number_of_items
@@ -107,7 +122,15 @@ class Timeline:
             self.timeline_items.append(timelineitem)
         painter.last_drawn_y_pos = timelineitem_y + timelineitem_height
 
-    def __get_timeline_item_text(self, index: int):
+    def __get_timeline_item_text(self, index: int) -> str:
+        """Get the text of the timeline item
+
+        Args:
+            index (int): Index of the timeline item
+
+        Returns:
+            str: Timeline item text
+        """
         timeline_text = ""
         if self.mode == TimelineMode.WEEKLY:
             this_week = self.start + relativedelta(weeks=+index)
@@ -129,7 +152,16 @@ class Timeline:
 
         return timeline_text
 
-    def __get_timeline_item_value(self, index: int):
+    def __get_timeline_item_value(self, index: int) -> str:
+        """Get the value of the timeline item
+
+        Args:
+            index (int): Index of the timeline item
+
+        Returns:
+            str: Value of the timeline item
+        """
+
         timeline_value = ""
         if self.mode == TimelineMode.WEEKLY:
             this_week = self.start + relativedelta(weeks=+index)
@@ -153,7 +185,15 @@ class Timeline:
 
         return timeline_value
 
-    def __get_timeline_item_dates(self, index: int):
+    def __get_timeline_item_dates(self, index: int) -> tuple[datetime, datetime]:
+        """Get the start and end dates of the timeline item
+
+        Args:
+            index (int): Index of the timeline item
+
+        Returns:
+            tuple[datetime, datetime]: Start and end dates of the timeline item
+        """
         timeline_start_period = ""
         timeline_end_period = ""
         if self.mode == TimelineMode.WEEKLY:
@@ -219,7 +259,12 @@ class Timeline:
             timeline_end_period = datetime(int(timeline_period), 12, 31)
         return timeline_start_period, timeline_end_period
 
-    def draw(self, painter: Painter):
+    def draw(self, painter: Painter) -> None:
+        """Draw the timeline
+
+        Args:
+            painter (Painter): PyCairo wrapper class instance
+        """
         painter.set_font(self.font, self.font_size, self.font_colour)
         for i in range(0, self.number_of_items):
 

@@ -25,6 +25,8 @@ from generator.painter import Painter
 
 @dataclass(kw_only=True)
 class Title:
+    """Roadmap title class"""
+
     text: str
     x: int = field(init=False)
     y: int = field(init=False)
@@ -37,15 +39,34 @@ class Title:
     # CONSTANT
     __TITLE_Y_POS = 30
 
-    def __calculate_draw_position(self, painter: Painter):
+    def __calculate_draw_position(self, painter: Painter) -> tuple:
+        """Calculate the draw position of the title
+
+        Args:
+            painter (Painter): PyCairo wrapper class instance
+
+        Returns:
+            tuple(int, int): x, y position of the title
+        """
+
         self.width, self.height = painter.get_text_dimension(self.text)
         return (painter.width / 2) - self.width / 2, self.__TITLE_Y_POS + self.height
 
-    def set_draw_position(self, painter: Painter):
+    def set_draw_position(self, painter: Painter) -> None:
+        """Set the draw position of the title
+
+        Args:
+            painter (Painter): PyCairo wrapper class instance
+        """
         painter.set_font(self.font, self.font_size, self.font_colour)
         self.x, self.y = self.__calculate_draw_position(painter)
         painter.last_drawn_y_pos = self.y
 
-    def draw(self, painter: Painter):
+    def draw(self, painter: Painter) -> None:
+        """Draw the title
+
+        Args:
+            painter (Painter): PyCairo wrapper class instance
+        """
         painter.set_font(self.font, self.font_size, self.font_colour)
         painter.draw_text(self.x, self.y, self.text)

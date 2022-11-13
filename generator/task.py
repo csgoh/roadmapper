@@ -31,12 +31,11 @@ from generator.milestone import Milestone
 
 @dataclass(kw_only=True)
 class Task:
+    """Roadmap Task class"""
 
     text: str
     start: datetime
     end: datetime
-    # x: int = 0
-    # y: int = 0
     width: int = 0
     height: int = 0
     font: str = "Arial"
@@ -46,6 +45,7 @@ class Task:
     text_alignment: str = "centre"
 
     def __post_init__(self):
+        """This method is called after __init__() is called"""
         self.milestones = []
         self.tasks = []
         self.boxes = []
@@ -59,28 +59,28 @@ class Task:
     @contextmanager
     def add_parellel_task(
         self,
-        text,
-        start,
-        end,
-        font="Arial",
-        font_size=12,
-        font_colour="Black",
-        fill_colour="LightGreen",
-        text_alignment="centre",
-    ):
+        text: str,
+        start: datetime,
+        end: datetime,
+        font: str = "Arial",
+        font_size: int = 12,
+        font_colour: str = "Black",
+        fill_colour: str = "LightGreen",
+        text_alignment: str = "centre",
+    ) -> None:
         """Add a parallel task to this task
 
         Args:
-            text ([type]): [description]
-            start ([type]): [description]
-            end ([type]): [description]
-            font (str, optional): [description]. Defaults to "Arial".
-            font_size (int, optional): [description]. Defaults to 12.
-            font_colour (str, optional): [description]. Defaults to "Black".
-            fill_colour (str, optional): [description]. Defaults to "LightGreen".
+            text (str): Task text
+            start (datetime): Task start date
+            end (datetime): Task end date
+            font (str, optional): Task text font. Defaults to "Arial".
+            font_size (int, optional): Task text font size. Defaults to 12.
+            font_colour (str, optional): Task text font colour. Defaults to "Black".
+            fill_colour (str, optional): Task fill colour. Defaults to "LightGreen".
 
         Yields:
-            [type]: [description]
+            Task: A task object that can be used to add milestones
         """
         try:
             task = Task(
@@ -100,28 +100,52 @@ class Task:
 
     def add_milestone(
         self,
-        text,
-        date,
-        font="Arial",
-        font_size=12,
-        font_colour="Red",
-        fill_colour="Red",
-        text_alignment="centre",
-    ):
+        text: str,
+        date: datetime,
+        font: str = "Arial",
+        font_size: int = 10,
+        font_colour: str = "Red",
+        fill_colour: str = "Red",
+        text_alignment: str = "centre",
+    ) -> None:
+        """Add a new milestone to this task
+
+        Args:
+            text (str): Milestone text
+            date (datetime): Milestone date
+            font (str, optional): Milestone text font. Defaults to "Arial".
+            font_size (int, optional): Milestone text font size. Defaults to 12.
+            font_colour (str, optional): Milestone text font colour. Defaults to "Red". HTML colour name or hex code. Eg. #FFFFFF or LightGreen
+            fill_colour (str, optional): Milestone fill colour. Defaults to "Red". HTML colour name or hex code. Eg. #FFFFFF or LightGreen
+            text_alignment (str, optional): Milestone text alignment. Defaults to "centre". Options are "left", "centre", "right"
+        """
         self.milestones.append(
             Milestone(
-                text, date, font, font_size, font_colour, fill_colour, text_alignment
+                text=text,
+                date=date,
+                font=font,
+                font_size=font_size,
+                font_colour=font_colour,
+                fill_colour=fill_colour,
+                text_alignment=text_alignment,
             )
         )
-        # pd(self.milestones)
 
     def set_draw_position(
-        self, painter: Painter, group_x, last_drawn_y, timeline: Timeline
-    ):
+        self, painter: Painter, group_x: int, last_drawn_y: int, timeline: Timeline
+    ) -> None:
+        """Set the draw position of this task
+
+        Args:
+            painter (Painter): PyCairo wrapper class instance
+            group_x (int): Parent group x position
+            last_drawn_y (int): Last drawn y position
+            timeline (Timeline): Timeline object
+        """
         if len(self.milestones) > 0:
             self.box_y = last_drawn_y + 15
         else:
-            self.box_y = last_drawn_y + 2
+            self.box_y = last_drawn_y + 5
 
         task_start_period = datetime.strptime(self.start, "%Y-%m-%d")
         task_end_period = datetime.strptime(self.end, "%Y-%m-%d")
@@ -137,8 +161,20 @@ class Task:
             task.set_draw_position(painter, self.box_x, for_parallel_tasks_y, timeline)
 
     def set_milestones_position(
-        self, painter, timeline, task_start_period, task_end_period
-    ):
+        self,
+        painter: Painter,
+        timeline: Timeline,
+        task_start_period: datetime,
+        task_end_period: datetime,
+    ) -> None:
+        """Set the draw position of this task's milestones
+
+        Args:
+            painter (Painter): PyCairo wrapper class instance
+            timeline (Timeline): Timeline object
+            task_start_period (datetime): Task start date
+            task_end_period (datetime): Task end date
+        """
         for timeline_item in timeline.timeline_items:
             (
                 timeline_start_period,
@@ -193,16 +229,6 @@ class Task:
                         milestone.diamond_width = 26
                         milestone.diamond_height = 26
 
-                        # painter.draw_diamond(
-                        #     bar_x_pos
-                        #     + (timeline_item.box_width * milestone_pos_percentage)
-                        #     - 8
-                        #     - 3,
-                        #     self.y - 3,
-                        #     26,
-                        #     26,
-                        # )
-
                         width, _ = painter.get_text_dimension(milestone.text)
                         milestone.text_x = (
                             bar_x_pos
@@ -211,21 +237,21 @@ class Task:
                         )
                         milestone.text_y = self.box_y - 6
 
-                        painter.set_font(
-                            milestone.font,
-                            10,
-                            milestone.font_colour,
-                        )
-                        # Draw milestone text
-                        # painter.draw_text(
-                        #     bar_x_pos
-                        #     + (timeline_item.box_width * milestone_pos_percentage)
-                        #     - (width / 3),
-                        #     self.y - 6,
-                        #     milestone.text,
-                        # )
+    def set_task_position(
+        self,
+        painter: Painter,
+        timeline: Timeline,
+        task_start_period: datetime,
+        task_end_period: datetime,
+    ) -> None:
+        """Set the draw position of this task
 
-    def set_task_position(self, painter, timeline, task_start_period, task_end_period):
+        Args:
+            painter (Painter): PyCairo wrapper class instance
+            timeline (Timeline): Timeline object
+            task_start_period (datetime): Task start date
+            task_end_period (datetime): Task end date
+        """
         self.box_x = 0
         row_match = 0
         bar_start_x_pos = 0
@@ -336,7 +362,12 @@ class Task:
             self.text_x = text_x_pos
             self.text_y = text_y_pos
 
-    def draw(self, painter: Painter):
+    def draw(self, painter: Painter) -> None:
+        """Draw the task
+
+        Args:
+            painter (Painter): PyCairo wrapper class instance
+        """
         painter.set_colour(self.fill_colour)
         for box in self.boxes:
             painter.draw_box(box[0], box[1], box[2], box[3])
