@@ -39,6 +39,9 @@ Please refer to [Roadmap Generator Guide](https://github.com/csgoh/roadmap_gener
 ## Code Example
 
 ```python 
+from generator.roadmap import Roadmap
+from generator.timelinemode import TimelineMode
+
 roadmap = Roadmap(1200, 312)
 roadmap.set_title("My Demo Roadmap")
 roadmap.set_timeline(TimelineMode.MONTHLY, "2023-02-01", 12)
