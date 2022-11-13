@@ -10,6 +10,10 @@ Welcome to roadmap-generator's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   getting_started
+   changelog
+   faq
+
 
 
 Indices and tables
