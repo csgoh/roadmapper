@@ -6,7 +6,7 @@ As the repo name implies, this purpose of this python library is used to draw ro
 With git repository like GitHub or Bitbucket, roadmaps created using RaC can be version controlled, track changes and can be easily shared with others.
 
 ### Current version
-v.0.1.0beta1
+v.0.1.0-beta1
 
 ### Python version requirements:
 * Python 3.10+
