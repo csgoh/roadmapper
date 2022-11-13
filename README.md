@@ -7,7 +7,7 @@ Purpose: This python class library is used to generate graphical roadmap using c
 ```python
 roadmap = Roadmap(1200, 312)
 roadmap.set_title("My Demo Roadmap")
-roadmap.set_timeline(mode, start_date, number_of_items)
+roadmap.set_timeline(TimelineMode.MONTHLY, "2023-02-01", 12)
 with roadmap.add_group("Core Product Work Stream") as group:
     with group.add_task("Base Functionality", "2022-11-01", "2023-10-31") as task:
         task.add_milestone("v.1.0", "2023-02-15")
