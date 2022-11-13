@@ -45,6 +45,8 @@ class Roadmap:
     footer: Footer = field(default=None, init=False)
     marker: Marker = field(default=None, init=False)
 
+    __version__ = "v0.1.0-beta2"
+
     def __post_init__(self):
         """This method is called after __init__() is called"""
         self.__painter = Painter(self.width, self.height)
