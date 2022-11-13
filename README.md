@@ -6,7 +6,7 @@ As the repo name implies, this purpose of this python library is used to draw ro
 With git repository like GitHub or Bitbucket, roadmaps created using RaC can be version controlled, track changes and can be easily shared with others.
 
 ### Current version
-v.0.1.0-beta1
+v.0.1.0-beta2
 
 ### Python version requirements:
 * Python 3.10+
@@ -14,6 +14,7 @@ v.0.1.0-beta1
 ### Library Dependencies
 * PyCairo 1.21.0
 * Colour 0.1.5
+* python-dateutil
 
 <hr>
 
@@ -21,6 +22,11 @@ v.0.1.0-beta1
 ### Install from PyPI
 ```bash
 pip install roadmap-generator
+```
+### Upgrade to the latest version
+If you are running older version of roadmap-generator, you can upgrade to the latest version by running the following command:
+```bash
+pip install --upgrade roadmap-generator
 ```
 
 <hr>
