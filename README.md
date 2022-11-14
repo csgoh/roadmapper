@@ -32,7 +32,7 @@ pip install --upgrade roadmap-generator
 <hr>
 
 ## Documentation
-Please refer to [Roadmap Generator Guide](https://github.com/csgoh/roadmap_generator/blob/main/docs/index.md) (coming soon) for more information on how to use this RaC library.
+Please refer to [Roadmap Generator Wiki](https://github.com/csgoh/roadmap-generator/wiki) for more information on how to use this RaC library.
 
 <hr>
 
