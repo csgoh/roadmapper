@@ -21,9 +21,9 @@
 # SOFTWARE.
 from datetime import datetime
 from dataclasses import dataclass, field
-from generator.painter import Painter
-from generator.timeline import Timeline
-from generator.group import Group
+from roadmapper.painter import Painter
+from roadmapper.timeline import Timeline
+from roadmapper.group import Group
 
 
 @dataclass(kw_only=True)

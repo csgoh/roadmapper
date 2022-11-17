@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 from dataclasses import dataclass, field
-from generator.painter import Painter
+from roadmapper.painter import Painter
 
 
 @dataclass(kw_only=True)

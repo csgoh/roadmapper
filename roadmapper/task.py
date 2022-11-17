@@ -24,9 +24,11 @@ from dateutil.relativedelta import relativedelta
 from dataclasses import dataclass, field
 from contextlib import contextmanager
 
-from generator.painter import Painter
-from generator.timeline import Timeline
-from generator.milestone import Milestone
+from roadmapper.painter import Painter
+from roadmapper.timeline import Timeline
+
+# from roadmapper.task import Task
+from roadmapper.milestone import Milestone
 
 
 @dataclass(kw_only=True)
@@ -56,8 +58,49 @@ class Task:
         self.text_x = 0
         self.text_y = 0
 
-    @contextmanager
-    def add_parellel_task(
+    # @contextmanager
+    # def add_parellel_task(
+    #     self,
+    #     text: str,
+    #     start: datetime,
+    #     end: datetime,
+    #     font: str = "Arial",
+    #     font_size: int = 12,
+    #     font_colour: str = "Black",
+    #     fill_colour: str = "LightGreen",
+    #     text_alignment: str = "centre",
+    # ) -> None:
+    #     """Add a parallel task to this task
+
+    #     Args:
+    #         text (str): Task text
+    #         start (datetime): Task start date
+    #         end (datetime): Task end date
+    #         font (str, optional): Task text font. Defaults to "Arial".
+    #         font_size (int, optional): Task text font size. Defaults to 12.
+    #         font_colour (str, optional): Task text font colour. Defaults to "Black".
+    #         fill_colour (str, optional): Task fill colour. Defaults to "LightGreen".
+
+    #     Yields:
+    #         Task: A task object that can be used to add milestones
+    #     """
+    #     try:
+    #         task = Task(
+    #             text=text,
+    #             start=start,
+    #             end=end,
+    #             font=font,
+    #             font_size=font_size,
+    #             font_colour=font_colour,
+    #             fill_colour=fill_colour,
+    #             text_alignment=text_alignment,
+    #         )
+    #         self.tasks.append(task)
+    #         yield task
+    #     finally:
+    #         task = None
+
+    def add_parallel_task(
         self,
         text: str,
         start: datetime,
@@ -67,7 +110,7 @@ class Task:
         font_colour: str = "Black",
         fill_colour: str = "LightGreen",
         text_alignment: str = "centre",
-    ) -> None:
+    ):
         """Add a parallel task to this task
 
         Args:
@@ -79,24 +122,22 @@ class Task:
             font_colour (str, optional): Task text font colour. Defaults to "Black".
             fill_colour (str, optional): Task fill colour. Defaults to "LightGreen".
 
-        Yields:
+        Return:
             Task: A task object that can be used to add milestones
         """
-        try:
-            task = Task(
-                text=text,
-                start=start,
-                end=end,
-                font=font,
-                font_size=font_size,
-                font_colour=font_colour,
-                fill_colour=fill_colour,
-                text_alignment=text_alignment,
-            )
-            self.tasks.append(task)
-            yield task
-        finally:
-            task = None
+        task = Task(
+            text=text,
+            start=start,
+            end=end,
+            font=font,
+            font_size=font_size,
+            font_colour=font_colour,
+            fill_colour=fill_colour,
+            text_alignment=text_alignment,
+        )
+        self.tasks.append(task)
+
+        return task
 
     def add_milestone(
         self,

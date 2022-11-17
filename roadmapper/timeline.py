@@ -24,9 +24,9 @@ from dateutil.relativedelta import relativedelta
 from dataclasses import dataclass, field
 import calendar
 
-from generator.painter import Painter
-from generator.timelineitem import TimelineItem
-from generator.timelinemode import TimelineMode
+from roadmapper.painter import Painter
+from roadmapper.timelineitem import TimelineItem
+from roadmapper.timelinemode import TimelineMode
 
 
 @dataclass(kw_only=True)

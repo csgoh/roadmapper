@@ -24,13 +24,13 @@ from datetime import datetime
 from dataclasses import dataclass, field
 from contextlib import contextmanager
 
-from generator.painter import Painter
-from generator.title import Title
-from generator.footer import Footer
-from generator.timelinemode import TimelineMode
-from generator.timeline import Timeline
-from generator.group import Group
-from generator.marker import Marker
+from roadmapper.painter import Painter
+from roadmapper.title import Title
+from roadmapper.footer import Footer
+from roadmapper.timelinemode import TimelineMode
+from roadmapper.timeline import Timeline
+from roadmapper.group import Group
+from roadmapper.marker import Marker
 
 
 @dataclass()
@@ -45,7 +45,7 @@ class Roadmap:
     footer: Footer = field(default=None, init=False)
     marker: Marker = field(default=None, init=False)
 
-    __version__ = "v0.1.0-beta2"
+    __version__ = "v0.1.0-beta3"
 
     def __post_init__(self):
         """This method is called after __init__() is called"""
@@ -129,7 +129,7 @@ class Roadmap:
             text=text, font=font, font_size=font_size, font_colour=font_colour
         )
         self.footer.text = text
-        self.footer.set_draw_position(self.__painter, self.__last_y_pos)
+        # self.footer.set_draw_position(self.__painter, self.__last_y_pos)
 
     def set_timeline(
         self,
@@ -169,7 +169,44 @@ class Roadmap:
         if self.marker != None:
             self.marker.set_label_draw_position(self.__painter, self.timeline)
 
-    @contextmanager
+    # @contextmanager
+    # def add_group(
+    #     self,
+    #     text: str,
+    #     font: str = "Arial",
+    #     font_size: int = 10,
+    #     font_colour: str = "Black",
+    #     fill_colour: str = "lightgrey",
+    #     text_alignment: str = "centre",
+    # ) -> Group:
+    #     """Add new group to the roadmap
+
+    #     Args:
+    #         text (str): Group text
+    #         font (str, optional): Group text font. Defaults to "Arial".
+    #         font_size (int, optional): Group text font size. Defaults to 10.
+    #         font_colour (str, optional): Group text font colour. Defaults to "Black".
+    #         fill_colour (str, optional): Group fill colour. Defaults to "lightgrey".
+    #         text_alignment (str, optional): Group text alignment. Defaults to "centre". Options are "left", "centre", "right"
+
+    #     Yields:
+    #         Group: A new group instance. Use this to add taks to the group
+    #     """
+    #     try:
+    #         group = Group(
+    #             text=text,
+    #             font=font,
+    #             font_size=font_size,
+    #             font_colour=font_colour,
+    #             fill_colour=fill_colour,
+    #             text_alignment=text_alignment,
+    #         )
+    #         self.groups.append(group)
+    #         yield group
+    #     finally:
+    #         group.set_draw_position(self.__painter, self.timeline)
+    #         group = None
+
     def add_group(
         self,
         text: str,
@@ -178,7 +215,7 @@ class Roadmap:
         font_colour: str = "Black",
         fill_colour: str = "lightgrey",
         text_alignment: str = "centre",
-    ) -> None:
+    ) -> Group:
         """Add new group to the roadmap
 
         Args:
@@ -189,34 +226,43 @@ class Roadmap:
             fill_colour (str, optional): Group fill colour. Defaults to "lightgrey".
             text_alignment (str, optional): Group text alignment. Defaults to "centre". Options are "left", "centre", "right"
 
-        Yields:
+        Return:
             Group: A new group instance. Use this to add taks to the group
         """
-        try:
-            group = Group(
-                text=text,
-                font=font,
-                font_size=font_size,
-                font_colour=font_colour,
-                fill_colour=fill_colour,
-                text_alignment=text_alignment,
-            )
-            self.groups.append(group)
-            yield group
-        finally:
-            group.set_draw_position(self.__painter, self.timeline)
-            group = None
+        group = Group(
+            text=text,
+            font=font,
+            font_size=font_size,
+            font_colour=font_colour,
+            fill_colour=fill_colour,
+            text_alignment=text_alignment,
+        )
+        self.groups.append(group)
+        # group.set_draw_position(self.__painter, self.timeline)
+
+        return group
 
     def draw(self) -> None:
-        """Draw the group on surface"""
+        """Draw the roadmap"""
+        if self.title == None:
+            raise ValueError("Title is not set. Please call set_title() to set title.")
         self.title.draw(self.__painter)
+
+        if self.timeline == None:
+            raise ValueError(
+                "Timeline is not set. Please call set_timeline() to set timeline."
+            )
         self.timeline.draw(self.__painter)
+
         for group in self.groups:
+            group.set_draw_position(self.__painter, self.timeline)
             group.draw(self.__painter)
+
         if self.marker != None:
             self.marker.draw(self.__painter)
-        # self.marker.draw(self.__painter)
+
         if self.footer != None:
+            self.footer.set_draw_position(self.__painter, self.timeline)
             self.footer.draw(self.__painter)
 
     def save(self, filename: str) -> None:
@@ -280,8 +326,9 @@ class Roadmap:
                                 f"h={parellel_task_milestone.diamond_height}"
                             )
         if print_area == "all" or print_area == "footer":
-            print(
-                f"Footer: {self.footer.text} x={self.footer.x} "
-                f"y={self.footer.y} w={self.footer.width} "
-                f"h={self.footer.height}"
-            )
+            if self.footer != None:
+                print(
+                    f"Footer: {self.footer.text} x={self.footer.x} "
+                    f"y={self.footer.y} w={self.footer.width} "
+                    f"h={self.footer.height}"
+                )

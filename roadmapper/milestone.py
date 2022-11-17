@@ -19,54 +19,43 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+from datetime import datetime
 from dataclasses import dataclass, field
-from generator.painter import Painter
+from roadmapper.painter import Painter
+from roadmapper.timeline import Timeline
 
 
 @dataclass(kw_only=True)
-class Title:
-    """Roadmap title class"""
+class Milestone:
+    """Roadmap Milestone class"""
 
     text: str
-    x: int = field(init=False)
-    y: int = field(init=False)
-    width: int = field(init=False)
-    height: int = field(init=False)
+    date: datetime
     font: str = field(default="Arial")
-    font_size: int = 12
-    font_colour: str = "Black"
+    font_size: int = field(default=10)
+    font_colour: str = field(default="red")
+    fill_colour: str = field(default="red")
+    text_alignment: str = field(default="centre")
 
-    # CONSTANT
-    __TITLE_Y_POS = 30
-
-    def __calculate_draw_position(self, painter: Painter) -> tuple:
-        """Calculate the draw position of the title
-
-        Args:
-            painter (Painter): PyCairo wrapper class instance
-
-        Returns:
-            tuple(int, int): x, y position of the title
-        """
-
-        self.width, self.height = painter.get_text_dimension(self.text)
-        return (painter.width / 2) - self.width / 2, self.__TITLE_Y_POS + self.height
-
-    def set_draw_position(self, painter: Painter) -> None:
-        """Set the draw position of the title
-
-        Args:
-            painter (Painter): PyCairo wrapper class instance
-        """
-        painter.set_font(self.font, self.font_size, self.font_colour)
-        self.x, self.y = self.__calculate_draw_position(painter)
-        painter.last_drawn_y_pos = self.y
+    def __post_init__(self):
+        """This method is called after __init__() is called"""
+        self.diamond_x = 0
+        self.diamond_y = 0
+        self.diamond_width = 0
+        self.diamond_height = 0
+        self.text_x = 0
+        self.text_y = 0
 
     def draw(self, painter: Painter) -> None:
-        """Draw the title
+        """Draw milestone
 
         Args:
             painter (Painter): PyCairo wrapper class instance
         """
+        # self.font_size = 10
         painter.set_font(self.font, self.font_size, self.font_colour)
-        painter.draw_text(self.x, self.y, self.text)
+        painter.set_colour(self.fill_colour)
+        painter.draw_diamond(
+            self.diamond_x, self.diamond_y, self.diamond_width, self.diamond_height
+        )
+        painter.draw_text(self.text_x, self.text_y, self.text)
