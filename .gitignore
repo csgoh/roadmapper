@@ -41,6 +41,7 @@ reference/
 *.cfg
 *.toml
 pwk.py
+pwk_roadmap.png
 
 # C extensions
 *.so
