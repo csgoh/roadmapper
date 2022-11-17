@@ -310,6 +310,8 @@ class Task:
                     else:
                         # print("-->task starts before this timeline")
                         self.box_x = timeline_item.box_x
+                        if bar_start_x_pos == 0:
+                            bar_start_x_pos = self.box_x
                         self.box_width = timeline_item.box_width * end_pos_percentage
                 elif (  # Check [timeline_start....<task_start>.....timeline_end]
                     task_start_period >= timeline_start_period

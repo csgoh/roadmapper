@@ -110,6 +110,7 @@ class Group:
         self.box_height = (
             (20 * task_count)
             + (additional_height_for_milestone * milestone_count)
+            + (5 * task_count)
             + (2 * (task_count - 1))
         )
         self.box_width = (

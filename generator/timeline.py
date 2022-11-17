@@ -215,7 +215,7 @@ class Timeline:
             timeline_end_period = timeline_end_period.replace(
                 hour=0, minute=0, second=0, microsecond=0
             )
-            print(f"{timeline_start_period=}, {timeline_end_period=}")
+            # print(f"{timeline_start_period=}, {timeline_end_period=}")
         elif self.mode == TimelineMode.MONTHLY:
             this_month = (self.start + relativedelta(months=+index)).month
             this_year = (self.start + relativedelta(months=+index)).year

@@ -216,7 +216,8 @@ class Roadmap:
         if self.marker != None:
             self.marker.draw(self.__painter)
         # self.marker.draw(self.__painter)
-        self.footer.draw(self.__painter)
+        if self.footer != None:
+            self.footer.draw(self.__painter)
 
     def save(self, filename: str) -> None:
         """Save surface to PNG file
