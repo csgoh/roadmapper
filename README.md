@@ -66,7 +66,7 @@ roadmap.save("demo01.png")
 
 ### Output
 
-![name]([demo07.png](https://github.com/csgoh/roadmapper/blob/main/demo07.png))
+![Roadmapper](https://github.com/csgoh/roadmapper/blob/main/demo07.png?raw=true)
 
 
 
