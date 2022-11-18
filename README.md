@@ -68,42 +68,5 @@ roadmap.save("demo01.png")
 
 ![name](demo07.png)
 
-## Timeline can be changed by changing the mode
-
-Quarterly Mode:
-```python
-roadmap.set_timeline(TimelineMode.QUARTERLY, "2023-02-01", 4)
-```
-
-### Output
-![name](demo03.png)
-
-Other timeline modes available are:
-* TimelineMode.WEEKLY
-* TimelineMode.MONTHLY
-* TimelineMode.QUARTERLY
-* TimelineMode.HALF_YEARLY
-* TimelineMode.YEARLY
-
-
-## Font, font size, font colour and fill colour can be changed
-
-```python
-# Uses default colour scheme, font and font size
-roadmap.set_title("My Demo Roadmap")
-
-# Change font colour, but use default font and font size
-roadmap.set_title("My Demo Roadmap", font_colour="Salmon")
-
-# Change font colour, font and font size
-roadmap.set_title("My Demo Roadmap", font_colour="Salmon", font="Arial", font_size=18)
-```
-
-### Output
-
-![name](demo06.png)
-
-<hr>
-<br>
 
 
