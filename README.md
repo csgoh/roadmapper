@@ -21,12 +21,12 @@ v.0.1.0-beta2
 ## Installation
 ### Install from PyPI
 ```bash
-pip install roadmap-generator
+pip install roadmapper
 ```
 ### Upgrade to the latest version
 If you are running older version of roadmap-generator, you can upgrade to the latest version by running the following command:
 ```bash
-pip install --upgrade roadmap-generator
+pip install --upgrade roadmapper
 ```
 
 <hr>
@@ -39,8 +39,8 @@ Please refer to [Roadmapper Wiki](https://github.com/csgoh/roadmap-generator/wik
 ## Code Example
 
 ```python 
-from generator.roadmap import Roadmap
-from generator.timelinemode import TimelineMode
+from roadmapper.roadmap import Roadmap
+from roadmapper.timelinemode import TimelineMode
 
 roadmap = Roadmap(1200, 312)
 roadmap.set_title("My Demo Roadmap")
@@ -66,7 +66,8 @@ roadmap.save("demo01.png")
 
 ### Output
 
-![name](demo07.png)
+![name]([demo07.png](https://github.com/csgoh/roadmapper/blob/main/demo07.png))
+
 
 
 

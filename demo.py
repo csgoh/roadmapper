@@ -119,4 +119,4 @@ def demo03(
 # demo02_barestyle(TimelineMode.HALF_YEARLY, "2023-02-01", 3, "demo04.png")
 # demo02_barestyle(TimelineMode.YEARLY, "2023-02-01", 2, "demo05.png")
 
-# demo03(file_name="demo07.png")
+demo03(file_name="demo07.png")
