@@ -53,7 +53,6 @@ class Roadmap:
         self.__painter.set_background_colour("White")
         self.groups = []
         self.__last_y_pos = 0
-        self.version = "v1.0.0-beta1"
 
     def set_marker(
         self,
