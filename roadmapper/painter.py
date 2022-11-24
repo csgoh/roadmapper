@@ -1,7 +1,7 @@
 # Painter class - Wrapper for PyCairo library
 # MIT License
 
-# Copyright (c) 2022 Cheng Soon Goh
+# Copyright (c) 2022 CS Goh
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
