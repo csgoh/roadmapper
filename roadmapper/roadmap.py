@@ -45,14 +45,19 @@ class Roadmap:
     footer: Footer = field(default=None, init=False)
     marker: Marker = field(default=None, init=False)
 
-    __version__ = "v0.1.0-beta3"
+    __version__ = "v0.2.0"
 
     def __post_init__(self):
         """This method is called after __init__() is called"""
         self.__painter = Painter(self.width, self.height)
+        self.__painter.set_colour_palette("DEFAULT")
         self.__painter.set_background_colour("White")
         self.groups = []
         self.__last_y_pos = 0
+
+    def set_colour_palette(self, palette: str) -> None:
+        """This method sets the colour palette"""
+        self.__painter.set_colour_palette("DEFAULT")
 
     def set_marker(
         self,

@@ -66,6 +66,14 @@ class Painter:
 
         self.__cr = cairo.Context(self.__surface)
 
+    def set_colour_palette(self, colour_palette: str) -> None:
+        """Set colour palette
+
+        Args:
+            colour_palette (str): Name of the colour palette. Eg. OrangePeel
+        """
+        self.__colour_palette = colour_palette
+
     def set_colour(self, colour: str) -> None:
         """Set colour
 
