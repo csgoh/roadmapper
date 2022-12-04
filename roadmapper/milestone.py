@@ -31,14 +31,37 @@ class Milestone:
 
     text: str
     date: datetime
-    font: str = field(default="Arial")
-    font_size: int = field(default=10)
-    font_colour: str = field(default="red")
-    fill_colour: str = field(default="red")
-    text_alignment: str = field(default="centre")
+    font: str
+    font_size: int
+    font_colour: str
+    fill_colour: str
+    text_alignment: str = "centre"
 
-    def __post_init__(self):
-        """This method is called after __init__() is called"""
+    diamond_x: int
+    diamond_y: int
+    diamond_width: int
+    diamond_height: int
+    text_x: int
+    text_y: int
+
+    def __init__(
+        self,
+        text: str,
+        date: datetime,
+        font: str,
+        font_size: int,
+        font_colour: str,
+        fill_colour: str,
+        text_alignment: str,
+    ) -> None:
+        self.text = text
+        self.date = date
+        self.font = font
+        self.font_size = font_size
+        self.font_colour = font_colour
+        self.fill_colour = fill_colour
+        self.text_alignment = text_alignment
+
         self.diamond_x = 0
         self.diamond_y = 0
         self.diamond_width = 0

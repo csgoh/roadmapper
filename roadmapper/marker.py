@@ -89,9 +89,6 @@ class Marker:
         """
         self.line_to_x = self.line_from_x
         self.line_to_y = painter.last_drawn_y_pos + 10
-        # print(
-        #     f"--{self.line_from_x=}, {self.line_from_y=}, {self.line_to_x=}, {self.line_to_y=}"
-        # )
 
     def draw(self, painter: Painter) -> None:
         """Draw marker
@@ -99,6 +96,9 @@ class Marker:
         Args:
             painter (Painter): PyCairo wrapper class instance
         """
+        # print(
+        #     f"marker: {self.line_from_x=}, {self.line_from_y=}, {self.line_to_x=}, {self.line_to_y=}"
+        # )
         painter.set_font(self.font, self.font_size, self.font_colour)
         painter.set_colour(self.font_colour)
         painter.draw_text(self.label_x, self.label_y + 10, self.text)

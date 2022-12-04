@@ -45,6 +45,7 @@ class Task:
     font_colour: str = "Black"
     fill_colour: str = "LightGreen"
     text_alignment: str = "centre"
+    painter: Painter
 
     def __post_init__(self):
         """This method is called after __init__() is called"""
@@ -105,10 +106,10 @@ class Task:
         text: str,
         start: datetime,
         end: datetime,
-        font: str = "Arial",
-        font_size: int = 12,
-        font_colour: str = "Black",
-        fill_colour: str = "LightGreen",
+        font: str = "",
+        font_size: int = 0,
+        font_colour: str = "",
+        fill_colour: str = "",
         text_alignment: str = "centre",
     ):
         """Add a parallel task to this task
@@ -125,6 +126,15 @@ class Task:
         Return:
             Task: A task object that can be used to add milestones
         """
+        if font == "":
+            font = self.painter.task_font
+        if font_size == 0:
+            font_size = self.painter.task_font_size
+        if font_colour == "":
+            font_colour = self.painter.task_font_colour
+        if fill_colour == "":
+            fill_colour = self.painter.task_fill_colour
+
         task = Task(
             text=text,
             start=start,
@@ -134,6 +144,7 @@ class Task:
             font_colour=font_colour,
             fill_colour=fill_colour,
             text_alignment=text_alignment,
+            painter=self.painter,
         )
         self.tasks.append(task)
 
@@ -143,10 +154,10 @@ class Task:
         self,
         text: str,
         date: datetime,
-        font: str = "Arial",
-        font_size: int = 10,
-        font_colour: str = "Red",
-        fill_colour: str = "Red",
+        font: str = "",
+        font_size: int = 0,
+        font_colour: str = "",
+        fill_colour: str = "",
         text_alignment: str = "centre",
     ) -> None:
         """Add a new milestone to this task
@@ -160,6 +171,18 @@ class Task:
             fill_colour (str, optional): Milestone fill colour. Defaults to "Red". HTML colour name or hex code. Eg. #FFFFFF or LightGreen
             text_alignment (str, optional): Milestone text alignment. Defaults to "centre". Options are "left", "centre", "right"
         """
+
+        if self.painter is None:
+            print("Painter is None")
+        if font == "":
+            font = self.painter.milestone_font
+        if font_size == 0:
+            font_size = self.painter.milestone_font_size
+        if font_colour == "":
+            font_colour = self.painter.milestone_font_colour
+        if fill_colour == "":
+            fill_colour = self.painter.milestone_fill_colour
+
         self.milestones.append(
             Milestone(
                 text=text,

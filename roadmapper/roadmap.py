@@ -39,32 +39,72 @@ class Roadmap:
 
     width: int = field(default=1200)
     height: int = field(default=600)
+    colour_theme: str = field(default="DEFAULT")
+    show_marker: bool = field(default=True)
+
     title: Title = field(default=None, init=False)
     timeline: Timeline = field(default=None, init=False)
     groups: list[Group] = field(default_factory=list, init=False)
     footer: Footer = field(default=None, init=False)
     marker: Marker = field(default=None, init=False)
 
-    __version__ = "v0.2.0"
+    __version__ = "v0.1.1"
 
     def __post_init__(self):
         """This method is called after __init__() is called"""
         self.__painter = Painter(self.width, self.height)
-        self.__painter.set_colour_palette("DEFAULT")
-        self.__painter.set_background_colour("White")
+        self.__set_colour_palette(self.colour_theme)
         self.groups = []
-        self.__last_y_pos = 0
+        if self.show_marker == True:
+            self.__create_marker()
 
-    def set_colour_palette(self, palette: str) -> None:
+    def __set_colour_palette(self, palette: str) -> None:
         """This method sets the colour palette"""
-        self.__painter.set_colour_palette("DEFAULT")
+        self.__painter.set_colour_palette(palette)
+
+    def __create_marker(
+        self,
+        label_text_font: str = "",
+        label_text_colour: str = "",
+        label_text_size: int = 0,
+        line_colour: str = "",
+        line_width: int = 2,
+        line_style: str = "dashed",
+    ) -> None:
+        """Add and configure the marker settings
+
+        Args:
+            label_text_font (str, optional): Label text font. Defaults to "Arial".
+            label_text_colour (str, optional): Label text colour. Defaults to "Black".
+            label_text_size (int, optional): Label text size. Defaults to 10.
+            line_colour (str, optional): Line colour. Defaults to "Black".
+            line_width (int, optional): Line width. Defaults to 2.
+            line_style (str, optional): Line style. Defaults to "solid". Options are "solid", "dashed"
+        """
+        if label_text_font == "":
+            label_text_font = self.__painter.marker_font
+        if label_text_size == 0:
+            label_text_size = self.__painter.marker_font_size
+        if label_text_colour == "":
+            label_text_colour = self.__painter.marker_font_colour
+        if line_colour == "":
+            line_colour = self.__painter.marker_line_colour
+
+        self.marker = Marker(
+            font=label_text_font,
+            font_size=label_text_size,
+            font_colour=label_text_colour,
+            line_colour=line_colour,
+            line_width=line_width,
+            line_style=line_style,
+        )
 
     def set_marker(
         self,
-        label_text_font: str = "Arial",
-        label_text_colour: str = "Black",
-        label_text_size: int = 10,
-        line_colour: str = "Black",
+        label_text_font: str = "",
+        label_text_colour: str = "",
+        label_text_size: int = 0,
+        line_colour: str = "",
         line_width: int = 2,
         line_style: str = "dashed",
     ) -> None:
@@ -78,22 +118,28 @@ class Roadmap:
             line_width (int, optional): Line width. Defaults to 2.
             line_style (str, optional): Line style. Defaults to "solid". Options are "solid", "dashed"
         """
-        self.marker = Marker(
-            font=label_text_font,
-            font_size=label_text_size,
-            font_colour=label_text_colour,
-            line_colour=line_colour,
-            line_width=line_width,
-            line_style=line_style,
-        )
-        self.show_current_date_marker = True
+        if label_text_font == "":
+            label_text_font = self.__painter.marker_font
+        if label_text_size == 0:
+            label_text_size = self.__painter.marker_font_size
+        if label_text_colour == "":
+            label_text_colour = self.__painter.marker_font_colour
+        if line_colour == "":
+            line_colour = self.__painter.marker_line_colour
+
+        self.marker.font = label_text_font
+        self.marker.font_size = label_text_size
+        self.font_colour = label_text_colour
+        self.line_colour = line_colour
+        self.line_width = line_width
+        self.line_style = line_style
 
     def set_title(
         self,
         text: str,
-        font: str = "Arial",
-        font_size: int = 18,
-        font_colour: str = "Black",
+        font: str = "",
+        font_size: int = 0,
+        font_colour: str = "",
     ) -> None:
         """Configure the title settings
 
@@ -103,6 +149,13 @@ class Roadmap:
             font_size (int, optional): Title font size. Defaults to 18.
             font_colour (str, optional): Title font colour. Defaults to "Black".
         """
+        if font == "":
+            font = self.__painter.title_font
+        if font_size == 0:
+            font_size = self.__painter.title_font_size
+        if font_colour == "":
+            font_colour = self.__painter.title_font_colour
+
         self.title = Title(
             text=text, font=font, font_size=font_size, font_colour=font_colour
         )
@@ -113,9 +166,9 @@ class Roadmap:
     def set_footer(
         self,
         text: str,
-        font: str = "Arial",
-        font_size: int = 12,
-        font_colour: str = "Black",
+        font: str = "",
+        font_size: int = 0,
+        font_colour: str = "",
     ) -> None:
         """Configure the footer settings
 
@@ -125,9 +178,16 @@ class Roadmap:
             font_size (int, optional): Footer font size. Defaults to 18.
             font_colour (str, optional): Footer font colour. Defaults to "Black".
         """
+        if font == "":
+            font = self.__painter.footer_font
+        if font_size == 0:
+            font_size = self.__painter.footer_font_size
+        if font_colour == "":
+            font_colour = self.__painter.footer_font_colour
+
         # set marker position first since we know the height of groups
-        if self.marker != None:
-            self.marker.set_line_draw_position(self.__painter)
+        # if self.marker != None:
+        #     self.marker.set_line_draw_position(self.__painter)
 
         self.footer = Footer(
             text=text, font=font, font_size=font_size, font_colour=font_colour
@@ -142,10 +202,10 @@ class Roadmap:
             datetime.strftime(datetime.today(), "%Y-%m-%d"), "%Y-%m-%d"
         ),
         number_of_items: int = 12,
-        font: str = "Arial",
-        font_size: int = 10,
-        font_colour: str = "Black",
-        fill_colour: str = "lightgrey",
+        font: str = "",
+        font_size: int = 0,
+        font_colour: str = "",
+        fill_colour: str = "",
     ) -> None:
         """Configure the timeline settings
 
@@ -159,6 +219,15 @@ class Roadmap:
             font_colour (str, optional): Timeline font colour. Defaults to "Black".
             fill_colour (str, optional): Timeline fill colour. Defaults to "lightgrey".
         """
+        if font == "":
+            font = self.__painter.timeline_font
+        if font_size == 0:
+            font_size = self.__painter.timeline_font_size
+        if font_colour == "":
+            font_colour = self.__painter.timeline_font_colour
+        if fill_colour == "":
+            fill_colour = self.__painter.timeline_fill_colour
+
         start_date = datetime.strptime(start, "%Y-%m-%d")
         self.timeline = Timeline(
             mode=mode,
@@ -214,10 +283,10 @@ class Roadmap:
     def add_group(
         self,
         text: str,
-        font: str = "Arial",
-        font_size: int = 10,
-        font_colour: str = "Black",
-        fill_colour: str = "lightgrey",
+        font: str = "",
+        font_size: int = 0,
+        font_colour: str = "",
+        fill_colour: str = "",
         text_alignment: str = "centre",
     ) -> Group:
         """Add new group to the roadmap
@@ -233,6 +302,15 @@ class Roadmap:
         Return:
             Group: A new group instance. Use this to add taks to the group
         """
+        if font == "":
+            font = self.__painter.group_font
+        if font_size == 0:
+            font_size = self.__painter.group_font_size
+        if font_colour == "":
+            font_colour = self.__painter.group_font_colour
+        if fill_colour == "":
+            fill_colour = self.__painter.group_fill_colour
+
         group = Group(
             text=text,
             font=font,
@@ -240,6 +318,7 @@ class Roadmap:
             font_colour=font_colour,
             fill_colour=fill_colour,
             text_alignment=text_alignment,
+            painter=self.__painter,
         )
         self.groups.append(group)
         # group.set_draw_position(self.__painter, self.timeline)
@@ -248,6 +327,8 @@ class Roadmap:
 
     def draw(self) -> None:
         """Draw the roadmap"""
+        self.__painter.set_background_colour()
+
         if self.title == None:
             raise ValueError("Title is not set. Please call set_title() to set title.")
         self.title.draw(self.__painter)
@@ -263,10 +344,11 @@ class Roadmap:
             group.draw(self.__painter)
 
         if self.marker != None:
+            self.marker.set_line_draw_position(self.__painter)
             self.marker.draw(self.__painter)
 
         if self.footer != None:
-            self.footer.set_draw_position(self.__painter, self.timeline)
+            self.footer.set_draw_position(self.__painter)
             self.footer.draw(self.__painter)
 
     def save(self, filename: str) -> None:

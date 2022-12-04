@@ -23,12 +23,12 @@
 
 import cairo
 from colour import Color
+from roadmapper.colourpalette import ColourTheme
 
 
 class Painter:
     """A wrapper class for PyCairo library"""
 
-    __VSPACER, __HSPACER = 12, 2
     width = 0
     height = 0
     last_drawn_y_pos = 0
@@ -41,6 +41,40 @@ class Painter:
     gap_between_timeline_and_title = 20
 
     timeline_height = 20
+
+    # Colour scheme
+    title_font: str
+    title_font_size: int
+    title_font_colour: str
+
+    timeline_font: str
+    timeline_font_size: int
+    timeline_font_colour: str
+    timeline_fill_colour: str
+
+    marker_font: str
+    marker_font_size: int
+    marker_font_colour: str
+    marker_line_colour: str
+
+    group_font: str
+    group_font_size: int
+    group_font_colour: str
+    group_fill_colour: str
+
+    task_font: str
+    task_font_size: int
+    task_font_colour: str
+    task_fill_colour: str
+
+    milestone_font: str
+    milestone_font_size: int
+    milestone_font_colour: str
+    milestone_fill_colour: str
+
+    footer_font: str
+    footer_font_size: int
+    footer_font_colour: str
 
     # initialise code
     def __init__(self, width: int, height: int):
@@ -72,7 +106,48 @@ class Painter:
         Args:
             colour_palette (str): Name of the colour palette. Eg. OrangePeel
         """
-        self.__colour_palette = colour_palette
+        colour_theme = ColourTheme(colour_palette)
+        self.background_colour = colour_theme.get_colour_theme_settings("background")
+        (
+            self.title_font,
+            self.title_font_size,
+            self.title_font_colour,
+        ) = colour_theme.get_colour_theme_settings("title")
+        (
+            self.timeline_font,
+            self.timeline_font_size,
+            self.timeline_font_colour,
+            self.timeline_fill_colour,
+        ) = colour_theme.get_colour_theme_settings("timeline")
+        (
+            self.marker_font,
+            self.marker_font_size,
+            self.marker_font_colour,
+            self.marker_line_colour,
+        ) = colour_theme.get_colour_theme_settings("marker")
+        (
+            self.group_font,
+            self.group_font_size,
+            self.group_font_colour,
+            self.group_fill_colour,
+        ) = colour_theme.get_colour_theme_settings("group")
+        (
+            self.task_font,
+            self.task_font_size,
+            self.task_font_colour,
+            self.task_fill_colour,
+        ) = colour_theme.get_colour_theme_settings("task")
+        (
+            self.milestone_font,
+            self.milestone_font_size,
+            self.milestone_font_colour,
+            self.milestone_fill_colour,
+        ) = colour_theme.get_colour_theme_settings("milestone")
+        (
+            self.footer_font,
+            self.footer_font_size,
+            self.footer_font_colour,
+        ) = colour_theme.get_colour_theme_settings("footer")
 
     def set_colour(self, colour: str) -> None:
         """Set colour
@@ -157,7 +232,7 @@ class Painter:
             width (int): Diamond width
             height (int): Diamond height
         """
-        self.__cr.set_source_rgb(1, 0, 0)
+        # self.__cr.set_source_rgb(1, 0, 0)
         self.__cr.move_to(x + width / 2, y)
         self.__cr.line_to(x + width, y + height / 2)
         self.__cr.line_to(x + width / 2, y + height)
@@ -231,13 +306,13 @@ class Painter:
         ) = self.__cr.text_extents(text)
         return text_width, text_height
 
-    def set_background_colour(self, colour: str) -> None:
+    def set_background_colour(self) -> None:
         """Set surface background colour
 
         Args:
             colour (str): Background colour in HTML colour name or hex code. Eg. #FFFFFF or LightGreen
         """
-        self.set_colour(colour)
+        self.set_colour(self.background_colour)
         self.__cr.paint()
 
     def get_display_text_position(

@@ -49,7 +49,7 @@ class Footer:
             painter.width / 2
         ) - self.width / 2, painter.last_drawn_y_pos + self.height + 20
 
-    def set_draw_position(self, painter: Painter, last_y_pos: int) -> None:
+    def set_draw_position(self, painter: Painter) -> None:
         """Set footer draw position
 
         Args:
