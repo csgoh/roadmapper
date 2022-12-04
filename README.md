@@ -26,6 +26,13 @@ v.0.1.0-beta3
 * Colour 0.1.5
 * python-dateutil
 
+## Future plans :bulb:
+* Create roadmap with plain english text like PlantUML
+* GUI and Web frontend for this roadmapper library
+* Visual Studio Code extension to create and edit roadmap
+  
+<br/><br/>
+
 <hr>
 
 ## Installation
