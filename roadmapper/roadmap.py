@@ -185,15 +185,10 @@ class Roadmap:
         if font_colour == "":
             font_colour = self.__painter.footer_font_colour
 
-        # set marker position first since we know the height of groups
-        # if self.marker != None:
-        #     self.marker.set_line_draw_position(self.__painter)
-
         self.footer = Footer(
             text=text, font=font, font_size=font_size, font_colour=font_colour
         )
         self.footer.text = text
-        # self.footer.set_draw_position(self.__painter, self.__last_y_pos)
 
     def set_timeline(
         self,
@@ -202,6 +197,7 @@ class Roadmap:
             datetime.strftime(datetime.today(), "%Y-%m-%d"), "%Y-%m-%d"
         ),
         number_of_items: int = 12,
+        show_generic_dates: bool = False,
         font: str = "",
         font_size: int = 0,
         font_colour: str = "",
@@ -233,6 +229,7 @@ class Roadmap:
             mode=mode,
             start=start_date,
             number_of_items=number_of_items,
+            show_generic_dates=show_generic_dates,
             font=font,
             font_size=font_size,
             font_colour=font_colour,
@@ -241,44 +238,6 @@ class Roadmap:
         self.timeline.set_draw_position(self.__painter)
         if self.marker != None:
             self.marker.set_label_draw_position(self.__painter, self.timeline)
-
-    # @contextmanager
-    # def add_group(
-    #     self,
-    #     text: str,
-    #     font: str = "Arial",
-    #     font_size: int = 10,
-    #     font_colour: str = "Black",
-    #     fill_colour: str = "lightgrey",
-    #     text_alignment: str = "centre",
-    # ) -> Group:
-    #     """Add new group to the roadmap
-
-    #     Args:
-    #         text (str): Group text
-    #         font (str, optional): Group text font. Defaults to "Arial".
-    #         font_size (int, optional): Group text font size. Defaults to 10.
-    #         font_colour (str, optional): Group text font colour. Defaults to "Black".
-    #         fill_colour (str, optional): Group fill colour. Defaults to "lightgrey".
-    #         text_alignment (str, optional): Group text alignment. Defaults to "centre". Options are "left", "centre", "right"
-
-    #     Yields:
-    #         Group: A new group instance. Use this to add taks to the group
-    #     """
-    #     try:
-    #         group = Group(
-    #             text=text,
-    #             font=font,
-    #             font_size=font_size,
-    #             font_colour=font_colour,
-    #             fill_colour=fill_colour,
-    #             text_alignment=text_alignment,
-    #         )
-    #         self.groups.append(group)
-    #         yield group
-    #     finally:
-    #         group.set_draw_position(self.__painter, self.timeline)
-    #         group = None
 
     def add_group(
         self,

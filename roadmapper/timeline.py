@@ -36,6 +36,7 @@ class Timeline:
     mode: str = TimelineMode.MONTHLY
     start: datetime = datetime.today()
     number_of_items: int = 12
+    show_generic_dates: bool = False
     x: int = field(init=False)
     y: int = field(init=False)
     width: int = field(init=False)
@@ -133,22 +134,46 @@ class Timeline:
         """
         timeline_text = ""
         if self.mode == TimelineMode.WEEKLY:
-            this_week = self.start + relativedelta(weeks=+index)
-            timeline_text = f"W{this_week.strftime('%W')} {this_week.year}"
+            if self.show_generic_dates == False:
+                this_week = self.start + relativedelta(weeks=+index)
+                timeline_text = f"W{this_week.strftime('%W')} {this_week.year}"
+            else:
+                this_week = index + 1
+                this_year = 1
+                timeline_text = f"Week {this_week}"
         elif self.mode == TimelineMode.MONTHLY:
-            this_month = self.start + relativedelta(months=+index)
-            timeline_text = f"{this_month.strftime('%b')} {this_month.year}"
+            if self.show_generic_dates == False:
+                this_month = self.start + relativedelta(months=+index)
+                timeline_text = f"{this_month.strftime('%b')} {this_month.year}"
+            else:
+                this_month = index + 1
+                timeline_text = f"Month {this_month}"
         elif self.mode == TimelineMode.QUARTERLY:
-            this_month = self.start + relativedelta(months=+(index * 3))
-            this_quarter = (this_month.month - 1) // 3 + 1
-            timeline_text = f"Q{this_quarter} {this_month.year}"
+            if self.show_generic_dates == False:
+                this_month = self.start + relativedelta(months=+(index * 3))
+                this_quarter = (this_month.month - 1) // 3 + 1
+                timeline_text = f"Q{this_quarter} {this_month.year}"
+            else:
+                this_month = index * 3 + 1
+                this_quarter = (this_month - 1) // 3 + 1
+                timeline_text = f"Quarter {this_quarter}"
         elif self.mode == TimelineMode.HALF_YEARLY:
-            this_month = self.start + relativedelta(months=+(index * 6))
-            this_halfyear = (this_month.month - 1) // 6 + 1
-            timeline_text = f"H{this_halfyear} {this_month.year}"
+            if self.show_generic_dates == False:
+                this_month = self.start + relativedelta(months=+(index * 6))
+                this_halfyear = (this_month.month - 1) // 6 + 1
+                timeline_text = f"H{this_halfyear} {this_month.year}"
+            else:
+                this_month = index * 6 + 1
+                this_halfyear = (this_month - 1) // 6 + 1
+                timeline_text = f"H{this_halfyear}"
         elif self.mode == TimelineMode.YEARLY:
-            this_month = self.start + relativedelta(months=+(index * 12))
-            timeline_text = f"{this_month.year}"
+            if self.show_generic_dates == False:
+                this_month = self.start + relativedelta(months=+(index * 12))
+                timeline_text = f"{this_month.year}"
+            else:
+                this_month = index * 12 + 1
+                this_year = (this_month - 1) // 12 + 1
+                timeline_text = f"Year {this_year}"
 
         return timeline_text
 
