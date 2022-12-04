@@ -200,63 +200,38 @@ class TimelineItem:
             this_year = int(this_period[0:4])
             this_quarter = int(this_period[4:])
 
-            date_of_first_day_of_quarter = date(this_year, 1, 1)
-            date_of_last_day_of_quarter = date(
-                this_year, 3, calendar.monthrange(this_year, 3)[1]
-            )
-
             if this_period[-1] == "1":
                 date_of_first_day_of_quarter = datetime(this_year, 1, 1)
                 date_of_last_day_of_quarter = datetime(
                     this_year, 3, calendar.monthrange(this_year, 3)[1]
                 )
-                days_in_quarter = (
-                    date_of_last_day_of_quarter - date_of_first_day_of_quarter
-                ).days
-                days_progress_in_quarter = (
-                    days_in_quarter
-                    - (date_of_last_day_of_quarter - task_or_milestone_date).days
-                )
-                pos_percentage = days_progress_in_quarter / days_in_quarter
+
             elif this_period[-1] == "2":
                 date_of_first_day_of_quarter = datetime(this_year, 4, 1)
                 date_of_last_day_of_quarter = datetime(
                     this_year, 6, calendar.monthrange(this_year, 6)[1]
                 )
-                days_in_quarter = (
-                    date_of_last_day_of_quarter - date_of_first_day_of_quarter
-                ).days
-                days_progress_in_quarter = (
-                    days_in_quarter
-                    - (date_of_last_day_of_quarter - task_or_milestone_date).days
-                )
-                pos_percentage = days_progress_in_quarter / days_in_quarter
+
             elif this_period[-1] == "3":
                 date_of_first_day_of_quarter = datetime(this_year, 7, 1)
                 date_of_last_day_of_quarter = datetime(
                     this_year, 9, calendar.monthrange(this_year, 9)[1]
                 )
-                days_in_quarter = (
-                    date_of_last_day_of_quarter - date_of_first_day_of_quarter
-                ).days
-                days_progress_in_quarter = (
-                    days_in_quarter
-                    - (date_of_last_day_of_quarter - task_or_milestone_date).days
-                )
-                pos_percentage = days_progress_in_quarter / days_in_quarter
+
             elif this_period[-1] == "4":
                 date_of_first_day_of_quarter = datetime(this_year, 10, 1)
                 date_of_last_day_of_quarter = datetime(
                     this_year, 12, calendar.monthrange(this_year, 12)[1]
                 )
-                days_in_quarter = (
-                    date_of_last_day_of_quarter - date_of_first_day_of_quarter
-                ).days
-                days_progress_in_quarter = (
-                    days_in_quarter
-                    - (date_of_last_day_of_quarter - task_or_milestone_date).days
-                )
-                pos_percentage = days_progress_in_quarter / days_in_quarter
+
+            days_in_quarter = (
+                date_of_last_day_of_quarter - date_of_first_day_of_quarter
+            ).days
+            days_progress_in_quarter = (
+                days_in_quarter
+                - (date_of_last_day_of_quarter - task_or_milestone_date).days
+            )
+            pos_percentage = days_progress_in_quarter / days_in_quarter
 
             milestone_period = f"{task_or_milestone_date.year}{self.__get_quarter_from_date(task_or_milestone_date)}"
             if milestone_period == this_period:
@@ -271,29 +246,21 @@ class TimelineItem:
                 date_of_last_day_of_halfyear = datetime(
                     this_year, 6, calendar.monthrange(this_year, 6)[1]
                 )
-                # calc number of days between first day of quarter and last day of quarter
-                days_in_halfyear = (
-                    date_of_last_day_of_halfyear - date_of_first_day_of_halfyear
-                ).days
-                days_progress_in_halfyear = (
-                    days_in_halfyear
-                    - (date_of_last_day_of_halfyear - task_or_milestone_date).days
-                )
-                pos_percentage = days_progress_in_halfyear / days_in_halfyear
+
             else:
                 date_of_first_day_of_halfyear = datetime(this_year, 7, 1)
                 date_of_last_day_of_halfyear = datetime(
                     this_year, 12, calendar.monthrange(this_year, 12)[1]
                 )
-                # calc number of days between first day of quarter and last day of quarter
-                days_in_halfyear = (
-                    date_of_last_day_of_halfyear - date_of_first_day_of_halfyear
-                ).days
-                days_progress_in_halfyear = (
-                    days_in_halfyear
-                    - (date_of_last_day_of_halfyear - task_or_milestone_date).days
-                )
-                pos_percentage = days_progress_in_halfyear / days_in_halfyear
+            # calc number of days between first day of quarter and last day of quarter
+            days_in_halfyear = (
+                date_of_last_day_of_halfyear - date_of_first_day_of_halfyear
+            ).days
+            days_progress_in_halfyear = (
+                days_in_halfyear
+                - (date_of_last_day_of_halfyear - task_or_milestone_date).days
+            )
+            pos_percentage = days_progress_in_halfyear / days_in_halfyear
             milestone_period = f"{task_or_milestone_date.year}{self.__get_halfyear_from_date(task_or_milestone_date)}"
             if milestone_period == this_period:
                 correct_timeline = True
