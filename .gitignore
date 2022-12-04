@@ -43,6 +43,7 @@ reference/
 pwk.py
 pwk_roadmap.png
 temp/
+*.png
 
 # C extensions
 *.so
