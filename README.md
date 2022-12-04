@@ -1,4 +1,4 @@
-![Roadmapper](https://github.com/csgoh/roadmapper/blob/main/images/roadmapper.jpg?raw=true)
+![Banner](https://github.com/csgoh/roadmapper/blob/main/images/roadmapper.jpg)
 
 [![license](https://img.shields.io/badge/license-mit-brightgreen.svg?style=plastic)](https://en.wikipedia.org/wiki/MIT_License)
 ![release](https://img.shields.io/pypi/v/roadmapper)
