@@ -31,8 +31,11 @@ v.0.1.0-beta3
 * GUI and Web frontend for this roadmapper library
 * Visual Studio Code extension to create and edit roadmap
   
-<br/><br/>
+<br/>
 
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/csgoh)
+
+<br/>
 <hr>
 
 ## Installation
