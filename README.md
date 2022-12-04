@@ -64,7 +64,7 @@ from roadmapper.timelinemode import TimelineMode
 
 roadmap = Roadmap(1200, 312)
 roadmap.set_title("My Demo Roadmap")
-roadmap.set_timeline(TimelineMode.MONTHLY, "2023-01-01", 12)
+roadmap.set_timeline(TimelineMode.MONTHLY, "2023-02-01", 12)
 
 group = roadmap.add_group("Core Product Work Stream")
 
