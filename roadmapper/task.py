@@ -26,6 +26,7 @@ from contextlib import contextmanager
 
 from roadmapper.painter import Painter
 from roadmapper.timeline import Timeline
+from roadmapper.timelineitem import TimelineItem
 
 # from roadmapper.task import Task
 from roadmapper.milestone import Milestone
@@ -301,6 +302,137 @@ class Task:
                         )
                         milestone.text_y = self.box_y - 6
 
+    def is_task_begins_here_ends_here(
+        self,
+        timeline_start_period,
+        timeline_end_period,
+        task_start_period,
+        task_end_period,
+    ):
+        """Determine whether the task begins and ends within the timeline period
+
+        Args:
+            timeline_start_period (_type_): timeline start period
+            timeline_end_period (_type_): timeline end period
+            task_start_period (_type_): task_start_period
+            task_end_period (_type_): task_end_period
+
+        Returns:
+            bool: True if task begins and ends within the timeline period
+        """
+        return (
+            timeline_start_period <= task_start_period <= timeline_end_period
+            and timeline_start_period <= task_end_period <= timeline_end_period
+        )
+
+    def is_task_begins_here_ends_future(
+        self,
+        timeline_start_period,
+        timeline_end_period,
+        task_start_period,
+        task_end_period,
+    ):
+        """Determine whether the task begins within the timeline period and ends in the future
+
+        Args:
+            timeline_start_period (_type_): timeline start period
+            timeline_end_period (_type_): timeline end period
+            task_start_period (_type_): task_start_period
+            task_end_period (_type_): task_end_period
+
+        Returns:
+            bool: True if task begins within the timeline period and ends in the future
+        """
+        return (
+            timeline_start_period <= task_start_period <= timeline_end_period
+            and timeline_end_period <= task_end_period
+        )
+
+    def is_task_begins_past_ends_here(
+        self,
+        timeline_start_period,
+        timeline_end_period,
+        task_start_period,
+        task_end_period,
+    ):
+        """Determine whether the task begins in the past and ends within the timeline period
+
+        Args:
+            timeline_start_period (_type_): timeline start period
+            timeline_end_period (_type_): timeline end period
+            task_start_period (_type_): task_start_period
+            task_end_period (_type_): task_end_period
+
+        Returns:
+            bool: True if task begins in the past and ends within the timeline period
+        """
+        return (
+            task_start_period < timeline_start_period
+            and timeline_start_period <= task_end_period <= timeline_end_period
+        )
+
+    def is_task_begins_past_ends_future(
+        self,
+        timeline_start_period,
+        timeline_end_period,
+        task_start_period,
+        task_end_period,
+    ):
+        """Determine whether the task begins in the past and ends in the future
+
+        Args:
+            timeline_start_period (_type_): timeline start period
+            timeline_end_period (_type_): timeline end period
+            task_start_period (_type_): task_start_period
+            task_end_period (_type_): task_end_period
+
+        Returns:
+            bool: True if task begins in the past and ends in the future
+        """
+        return (
+            task_start_period < timeline_start_period
+            and timeline_end_period < task_end_period
+        )
+
+    def is_task_in_range(
+        self,
+        timeline_start_period,
+        timeline_end_period,
+        task_start_period,
+        task_end_period,
+    ):
+        """Determine whether the task is within the timeline period
+
+        Args:
+            timeline_start_period (_type_): timeline start period
+            timeline_end_period (_type_): timeline end period
+            task_start_period (_type_): task_start_period
+            task_end_period (_type_): task_end_period
+
+        Returns:
+            bool: True if task is within the timeline period
+        """
+        return (
+            self.is_task_begins_here_ends_future(
+                timeline_start_period,
+                timeline_end_period,
+                task_start_period,
+                task_end_period,
+            )
+            or self.is_task_begins_past_ends_here(
+                timeline_start_period,
+                timeline_end_period,
+                task_start_period,
+                task_end_period,
+            )
+            or self.is_task_begins_past_ends_future(
+                timeline_start_period,
+                timeline_end_period,
+                task_start_period,
+                task_end_period,
+            )
+        )
+
     def set_task_position(
         self,
         painter: Painter,
@@ -326,18 +458,13 @@ class Task:
                 timeline_end_period,
             ) = timeline_item.get_timeline_period(timeline.mode)
             if (
-                (  # Check [timeline_start....<task_start>....timeline_end]
-                    task_start_period >= timeline_start_period
-                    and task_start_period <= timeline_end_period
+                self.is_task_in_range(
+                    timeline_start_period,
+                    timeline_end_period,
+                    task_start_period,
+                    task_end_period,
                 )
-                or (  # Check [timeline_start....<task_end>....timeline_end]
-                    task_end_period >= timeline_start_period
-                    and task_end_period <= timeline_end_period
-                )
-                or (  # Check [<task_start>....[timeline_start....<task_end>.....timeline_end]
-                    task_start_period <= timeline_start_period
-                    and task_end_period >= timeline_end_period
-                )
+                == True
             ):
                 (_, start_pos_percentage,) = timeline_item.get_timeline_pos_percentage(
                     timeline.mode,
@@ -348,40 +475,49 @@ class Task:
                 )
                 row_match += 1
 
-                # If this is the last period, calculate the width of the bar
-                if (  # Check [timeline_start....<task_end>....timeline_end]
-                    task_end_period >= timeline_start_period
-                    and task_end_period <= timeline_end_period
+                ## Check condition 1
+                if (
+                    self.is_task_begins_here_ends_here(
+                        timeline_start_period,
+                        timeline_end_period,
+                        task_start_period,
+                        task_end_period,
+                    )
+                    == True
                 ):
-                    # print("-->task_end is in this timeline")
-                    if (
-                        task_start_period >= timeline_start_period
-                        and task_start_period <= timeline_end_period
-                        and task_end_period >= timeline_start_period
-                        and task_end_period <= timeline_end_period
-                    ):
-                        # print("-->task falls within this timeline")
-                        self.box_x = timeline_item.box_x + (
-                            timeline_item.box_width * start_pos_percentage
-                        )
-                        self.box_width = (
-                            timeline_item.box_width * end_pos_percentage
-                        ) - (timeline_item.box_width * start_pos_percentage)
-                        # print(
-                        #     f"[END] {self.box_x=}, {self.box_width=} = {timeline_item.box_width=} * {end_pos_percentage=}"
-                        # )
+                    self.box_x = timeline_item.box_x + (
+                        timeline_item.box_width * start_pos_percentage
+                    )
+                    self.box_width = (timeline_item.box_width * end_pos_percentage) - (
+                        timeline_item.box_width * start_pos_percentage
+                    )
+                    bar_start_x_pos = self.box_x
+
+                ## Check condition 2
+                if (
+                    self.is_task_begins_past_ends_here(
+                        timeline_start_period,
+                        timeline_end_period,
+                        task_start_period,
+                        task_end_period,
+                    )
+                    == True
+                ):
+                    self.box_x = timeline_item.box_x
+                    if bar_start_x_pos == 0:
                         bar_start_x_pos = self.box_x
-                    else:
-                        # print("-->task starts before this timeline")
-                        self.box_x = timeline_item.box_x
-                        if bar_start_x_pos == 0:
-                            bar_start_x_pos = self.box_x
-                        self.box_width = timeline_item.box_width * end_pos_percentage
-                elif (  # Check [timeline_start....<task_start>.....timeline_end]
-                    task_start_period >= timeline_start_period
-                    and task_start_period <= timeline_end_period
+                    self.box_width = timeline_item.box_width * end_pos_percentage
+
+                ## Check condition 3
+                if (
+                    self.is_task_begins_here_ends_future(
+                        timeline_start_period,
+                        timeline_end_period,
+                        task_start_period,
+                        task_end_period,
+                    )
+                    == True
                 ):
-                    # print("-->task_start is in this timeline")
                     self.box_x = timeline_item.box_x + (
                         timeline_item.box_width * start_pos_percentage
                     )
@@ -389,15 +525,22 @@ class Task:
                         timeline_item.box_width * start_pos_percentage
                     )
                     bar_start_x_pos = self.box_x
-                else:
-                    # print("-->full bar")
+
+                ## Check condition 4
+                if (
+                    self.is_task_begins_past_ends_future(
+                        timeline_start_period,
+                        timeline_end_period,
+                        task_start_period,
+                        task_end_period,
+                    )
+                    == True
+                ):
                     self.box_x = timeline_item.box_x
                     self.box_width = timeline_item.box_width
 
                     if bar_start_x_pos == 0:
                         bar_start_x_pos = self.box_x
-
-                    # print(f"[MIDDLE] {self.box_x=} {self.width=}")
 
                 self.box_width += 1
 
