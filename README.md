@@ -1,3 +1,11 @@
+[![license](https://img.shields.io/badge/license-mit-brightgreen.svg?style=plastic)](https://en.wikipedia.org/wiki/MIT_License)
+![release](https://img.shields.io/pypi/v/roadmapper)
+![Wheel](https://img.shields.io/pypi/wheel/roadmapper?style=plastic)
+![download count](https://img.shields.io/pypi/dm/roadmapper?style=plastic)
+![code size](https://img.shields.io/github/languages/code-size/csgoh/roadmapper?style=plastic)
+![commit count](https://img.shields.io/github/commit-activity/m/csgoh/roadmapper?style=plastic)
+![python version](https://img.shields.io/pypi/pyversions/roadmapper?style=plastic)
+
 # Roadmaper - a Roadmap as Code (RaC) Tool
 
 ## Purpose
