@@ -1,4 +1,4 @@
-![Banner](https://github.com/csgoh/roadmapper/blob/main/images/roadmapper.jpg)
+![Banner](https://github.com/csgoh/roadmapper/blob/main/images/roadmapper.jpg?raw=true)
 
 [![license](https://img.shields.io/badge/license-mit-brightgreen.svg?style=plastic)](https://en.wikipedia.org/wiki/MIT_License)
 ![release](https://img.shields.io/pypi/v/roadmapper)
@@ -22,7 +22,6 @@ With git repository like GitHub or Bitbucket, roadmaps created using RaC can be 
 * Added the ability to change timeline from actual date to non-specific timeline like Year 1, Year 2, Month 1, Month 2, etc.
 * Added the ability to show current date marker on the roadmap
 * Fixed defects
-<br/>
 
 ### Python version requirements:
 * Python 3.10+
@@ -36,7 +35,10 @@ With git repository like GitHub or Bitbucket, roadmaps created using RaC can be 
 * Create roadmap with plain english text like PlantUML
 * GUI and Web frontend for this roadmapper library
 * Visual Studio Code extension to create and edit roadmap
-  
+<br/>
+
+Any feedback or suggestions are welcome. Please feel free to create an issue or pull request.
+<br/>
 <br/>
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/csgoh)
@@ -61,6 +63,7 @@ pip install --upgrade roadmapper
 ## Documentation
 Please refer to [Roadmapper Wiki](https://github.com/csgoh/roadmap-generator/wiki) for more information on how to use this RaC library.
 
+<br/>
 <hr>
 
 ## Code Example
