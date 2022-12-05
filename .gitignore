@@ -38,8 +38,6 @@ test.ipynb
 reference/
 *.json
 *.txt
-*.cfg
-*.toml
 pwk.py
 pwk_roadmap.png
 temp/
