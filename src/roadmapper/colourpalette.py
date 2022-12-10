@@ -27,7 +27,7 @@ DEFAULT_TIMELINE_FONT_SIZE = 12
 DEFAULT_MARKER_FONT_SIZE = 10
 DEFAULT_GROUP_FONT_SIZE = 12
 DEFAULT_TASK_FONT_SIZE = 12
-DEFAULT_MILESTONE_FONT_SIZE = 12
+DEFAULT_MILESTONE_FONT_SIZE = 10
 DEFAULT_FOOTER_FONT_SIZE = 12
 
 
@@ -106,7 +106,7 @@ def get_default_scheme(roadmap_component: str):
 
     footer_font = DEFAULT_FONT
     footer_font_size = DEFAULT_FOOTER_FONT_SIZE
-    footer_font_colour = "#FFFFFF"
+    footer_font_colour = "#000000"
 
     match roadmap_component:
         case "background":
