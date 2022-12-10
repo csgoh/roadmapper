@@ -39,7 +39,7 @@ class Marker:
 
     def __post_init__(self):
         """This method is called after __init__() is called"""
-        self.text = "Now"
+        self.text = "▼"
         self.label_x = 0
         self.label_y = 0
         self.label_width = 0
