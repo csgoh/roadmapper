@@ -47,6 +47,10 @@ class Painter:
     title_font_size: int
     title_font_colour: str
 
+    subtitle_font: str
+    subtitle_font_size: int
+    subtitle_font_colour: str
+
     timeline_font: str
     timeline_font_size: int
     timeline_font_colour: str
@@ -100,6 +104,8 @@ class Painter:
 
         self.__cr = cairo.Context(self.__surface)
 
+        self.__cr.set_antialias(cairo.ANTIALIAS_NONE)
+
     def set_colour_palette(self, colour_palette: str) -> None:
         """Set colour palette
 
@@ -112,6 +118,9 @@ class Painter:
             self.title_font,
             self.title_font_size,
             self.title_font_colour,
+            self.subtitle_font,
+            self.subtitle_font_size,
+            self.subtitle_font_colour,
         ) = colour_theme.get_colour_theme_settings("title")
         (
             self.timeline_font,
@@ -283,6 +292,7 @@ class Painter:
             x2 (int): Line end X coordinate
             y2 (int): Line end Y coordinate
         """
+        self.__cr.set_antialias(cairo.ANTIALIAS_NONE)
         self.__cr.move_to(x1, y1)
         self.__cr.line_to(x2, y2)
         self.__cr.stroke()

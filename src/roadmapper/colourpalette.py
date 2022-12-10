@@ -21,14 +21,116 @@
 # SOFTWARE.
 from dataclasses import dataclass, field
 
+### Font :
+# "Microsoft YaHei UI"
+# "DengXian"
+# "Segoe UI"
+# "Tahoma"
+# "Microsoft Jhenghei"
+
 DEFAULT_FONT = "Arial"
-DEFAULT_TITLE_FONT_SIZE = 18
-DEFAULT_TIMELINE_FONT_SIZE = 12
+DEFAULT_TITLE_FONT_SIZE = 26
+DEFAULT_SUBTITLE_FONT_SIZE = 18
+DEFAULT_TIMELINE_FONT_SIZE = 13
 DEFAULT_MARKER_FONT_SIZE = 10
-DEFAULT_GROUP_FONT_SIZE = 12
-DEFAULT_TASK_FONT_SIZE = 12
+DEFAULT_GROUP_FONT_SIZE = 13
+DEFAULT_TASK_FONT_SIZE = 10
 DEFAULT_MILESTONE_FONT_SIZE = 10
 DEFAULT_FOOTER_FONT_SIZE = 12
+
+
+class ColourSettings:
+    background_colour: str
+
+    title_font: str = DEFAULT_FONT
+    title_font_size: int = DEFAULT_TITLE_FONT_SIZE
+    title_font_colour: str = "#000000"
+
+    subtitle_font: str = DEFAULT_FONT
+    subtitle_font_size: int = DEFAULT_SUBTITLE_FONT_SIZE
+    subtitle_font_colour: str = "#000000"
+
+    timeline_font: str = DEFAULT_FONT
+    timeline_font_size: int = DEFAULT_TIMELINE_FONT_SIZE
+    timeline_font_colour: str = "#FFFFFF"
+    timeline_fill_colour: str = "#000000"
+
+    marker_font: str = DEFAULT_FONT
+    marker_font_size: int = DEFAULT_MARKER_FONT_SIZE
+    marker_font_colour: str = "#000000"
+    marker_line_colour: str = "#000000"
+
+    group_font: str = DEFAULT_FONT
+    group_font_size: int = DEFAULT_GROUP_FONT_SIZE
+    group_font_colour: str = "#FFFFFF"
+    group_fill_colour: str = "#000000"
+
+    task_font: str = DEFAULT_FONT
+    task_font_size: int = DEFAULT_TASK_FONT_SIZE
+    task_font_colour: str = "#000000"
+    task_fill_colour: str = "#D9D9D9"
+
+    milestone_font: str = DEFAULT_FONT
+    milestone_font_size: int = DEFAULT_MILESTONE_FONT_SIZE
+    milestone_font_colour: str = "#FFFFFF"
+    milestone_fill_colour: str = "#000000"
+
+    footer_font: str = DEFAULT_FONT
+    footer_font_size: int = DEFAULT_FOOTER_FONT_SIZE
+    footer_font_colour: str = "#000000"
+
+    def get_colour_settings(self, roadmap_component: str):
+        match roadmap_component:
+            case "background":
+                return self.background_colour
+            case "title":
+                return (
+                    self.title_font,
+                    self.title_font_size,
+                    self.title_font_colour,
+                    self.subtitle_font,
+                    self.subtitle_font_size,
+                    self.subtitle_font_colour,
+                )
+            case "timeline":
+                return (
+                    self.timeline_font,
+                    self.timeline_font_size,
+                    self.timeline_font_colour,
+                    self.timeline_fill_colour,
+                )
+            case "marker":
+                return (
+                    self.marker_font,
+                    self.marker_font_size,
+                    self.marker_font_colour,
+                    self.marker_line_colour,
+                )
+            case "group":
+                return (
+                    self.group_font,
+                    self.group_font_size,
+                    self.group_font_colour,
+                    self.group_fill_colour,
+                )
+            case "task":
+                return (
+                    self.task_font,
+                    self.task_font_size,
+                    self.task_font_colour,
+                    self.task_fill_colour,
+                )
+            case "milestone":
+                return (
+                    self.milestone_font,
+                    self.milestone_font_size,
+                    self.milestone_font_colour,
+                    self.milestone_fill_colour,
+                )
+            case "footer":
+                return self.footer_font, self.footer_font_size, self.footer_font_colour
+            case _:
+                return None
 
 
 def get_default_scheme(roadmap_component: str):
@@ -73,70 +175,30 @@ def get_default_scheme(roadmap_component: str):
         footer_font_size (int): If roadmap_component is "footer"
         footer_font_colour (str): If roadmap_component is "footer"
     """
-    background_colour = "#FFFFFF"
+    settings = ColourSettings()
+    settings.background_colour = "#FFFFFF"
 
-    title_font = DEFAULT_FONT
-    title_font_size = DEFAULT_TITLE_FONT_SIZE
-    title_font_colour = "#000000"
+    settings.title_font_colour = "#000000"
+    settings.subtitle_font_colour = "#000000"
 
-    timeline_font = DEFAULT_FONT
-    timeline_font_size = DEFAULT_TIMELINE_FONT_SIZE
-    timeline_font_colour = "#FFFFFF"
-    timeline_fill_colour = "#000000"
+    settings.timeline_font_colour = "#FFFFFF"
+    settings.timeline_fill_colour = "#000000"
 
-    marker_font = DEFAULT_FONT
-    marker_font_size = DEFAULT_MARKER_FONT_SIZE
-    marker_font_colour = "#000000"
-    marker_line_colour = "#000000"
+    settings.marker_font_colour = "#000000"
+    settings.marker_line_colour = "#000000"
 
-    group_font = DEFAULT_FONT
-    group_font_size = DEFAULT_GROUP_FONT_SIZE
-    group_font_colour = "#FFFFFF"
-    group_fill_colour = "#000000"
+    settings.group_font_colour = "#FFFFFF"
+    settings.group_fill_colour = "#000000"
 
-    task_font = DEFAULT_FONT
-    task_font_size = DEFAULT_TASK_FONT_SIZE
-    task_font_colour = "#000000"
-    task_fill_colour = "#D9D9D9"
+    settings.task_font_colour = "#000000"
+    settings.task_fill_colour = "#D9D9D9"
 
-    milestone_font = DEFAULT_FONT
-    milestone_font_size = DEFAULT_MILESTONE_FONT_SIZE
-    milestone_font_colour = "#FFFFFF"
-    milestone_fill_colour = "#000000"
+    settings.milestone_font_colour = "#FFFFFF"
+    settings.milestone_fill_colour = "#000000"
 
-    footer_font = DEFAULT_FONT
-    footer_font_size = DEFAULT_FOOTER_FONT_SIZE
-    footer_font_colour = "#000000"
+    settings.footer_font_colour = "#000000"
 
-    match roadmap_component:
-        case "background":
-            return background_colour
-        case "title":
-            return title_font, title_font_size, title_font_colour
-        case "timeline":
-            return (
-                timeline_font,
-                timeline_font_size,
-                timeline_font_colour,
-                timeline_fill_colour,
-            )
-        case "marker":
-            return marker_font, marker_font_size, marker_font_colour, marker_line_colour
-        case "group":
-            return group_font, group_font_size, group_font_colour, group_fill_colour
-        case "task":
-            return task_font, task_font_size, task_font_colour, task_fill_colour
-        case "milestone":
-            return (
-                milestone_font,
-                milestone_font_size,
-                milestone_font_colour,
-                milestone_fill_colour,
-            )
-        case "footer":
-            return footer_font, footer_font_size, footer_font_colour
-        case _:
-            return None
+    return settings.get_colour_settings(roadmap_component)
 
 
 def get_greywoof_scheme(roadmap_component: str):
@@ -181,74 +243,30 @@ def get_greywoof_scheme(roadmap_component: str):
         footer_font_size (int): If roadmap_component is "footer"
         footer_font_colour (str): If roadmap_component is "footer"
     """
-    background_colour = "#FFFFFF"
-    title_font = DEFAULT_FONT
-    title_font_size = DEFAULT_TITLE_FONT_SIZE
-    title_font_colour = "#000000"
+    settings = ColourSettings()
+    settings.background_colour = "#FFFFFF"
 
-    timeline_font = DEFAULT_FONT
-    timeline_font_size = DEFAULT_TIMELINE_FONT_SIZE
-    timeline_font_colour = "#FFFFFF"
-    timeline_fill_colour = "#666666"
+    settings.title_font_colour = "#000000"
+    settings.subtitle_font_colour = "#000000"
 
-    marker_font = DEFAULT_FONT
-    marker_font_size = DEFAULT_MARKER_FONT_SIZE
-    marker_font_colour = "#666666"
-    marker_line_colour = "#666666"
+    settings.timeline_font_colour = "#FFFFFF"
+    settings.timeline_fill_colour = "#666666"
 
-    group_font = DEFAULT_FONT
-    group_font_size = DEFAULT_GROUP_FONT_SIZE
-    group_font_colour = "#FFFFFF"
-    group_fill_colour = "#666666"
+    settings.marker_font_colour = "#666666"
+    settings.marker_line_colour = "#666666"
 
-    task_font = DEFAULT_FONT
-    task_font_size = DEFAULT_TASK_FONT_SIZE
-    task_font_colour = "#000000"
-    task_fill_colour = "#D9D9D9"
+    settings.group_font_colour = "#FFFFFF"
+    settings.group_fill_colour = "#666666"
 
-    milestone_font = DEFAULT_FONT
-    milestone_font_size = DEFAULT_MILESTONE_FONT_SIZE
-    milestone_font_colour = "#000000"
-    milestone_fill_colour = "#B7B7B7"
+    settings.task_font_colour = "#000000"
+    settings.task_fill_colour = "#D9D9D9"
 
-    footer_font = DEFAULT_FONT
-    footer_font_size = DEFAULT_FOOTER_FONT_SIZE
-    footer_font_colour = "#000000"
+    settings.milestone_font_colour = "#000000"
+    settings.milestone_fill_colour = "#B7B7B7"
 
-    match roadmap_component:
-        case "background":
-            return background_colour
-        case "title":
-            return title_font, title_font_size, title_font_colour
-        case "timeline":
-            return (
-                timeline_font,
-                timeline_font_size,
-                timeline_font_colour,
-                timeline_fill_colour,
-            )
-        case "marker":
-            return (
-                marker_font,
-                marker_font_size,
-                marker_font_colour,
-                marker_line_colour,
-            )
-        case "group":
-            return group_font, group_font_size, group_font_colour, group_fill_colour
-        case "task":
-            return task_font, task_font_size, task_font_colour, task_fill_colour
-        case "milestone":
-            return (
-                milestone_font,
-                milestone_font_size,
-                milestone_font_colour,
-                milestone_fill_colour,
-            )
-        case "footer":
-            return footer_font, footer_font_size, footer_font_colour
-        case _:
-            return None
+    settings.footer_font_colour = "#000000"
+
+    return settings.get_colour_settings(roadmap_component)
 
 
 def get_bluemountain_scheme(roadmap_component: str):
@@ -293,74 +311,30 @@ def get_bluemountain_scheme(roadmap_component: str):
         footer_font_size (int): If roadmap_component is "footer"
         footer_font_colour (str): If roadmap_component is "footer"
     """
-    background_colour = "#FFFFFF"
-    title_font = DEFAULT_FONT
-    title_font_size = DEFAULT_TITLE_FONT_SIZE
-    title_font_colour = "#0B5394"
+    settings = ColourSettings()
+    settings.background_colour = "#FFFFFF"
 
-    timeline_font = DEFAULT_FONT
-    timeline_font_size = DEFAULT_TIMELINE_FONT_SIZE
-    timeline_font_colour = "#FFFFFF"
-    timeline_fill_colour = "#0B5394"
+    settings.title_font_colour = "#0B5394"
+    settings.subtitle_font_colour = "#0B5394"
 
-    marker_font = DEFAULT_FONT
-    marker_font_size = DEFAULT_MARKER_FONT_SIZE
-    marker_font_colour = "#0B5394"
-    marker_line_colour = "#0B5394"
+    settings.timeline_font_colour = "#FFFFFF"
+    settings.timeline_fill_colour = "#0B5394"
 
-    group_font = DEFAULT_FONT
-    group_font_size = DEFAULT_GROUP_FONT_SIZE
-    group_font_colour = "#FFFFFF"
-    group_fill_colour = "#0B5394"
+    settings.marker_font_colour = "#0B5394"
+    settings.marker_line_colour = "#0B5394"
 
-    task_font = DEFAULT_FONT
-    task_font_size = DEFAULT_TASK_FONT_SIZE
-    task_font_colour = "#000000"
-    task_fill_colour = "#9FC5E8"
+    settings.group_font_colour = "#FFFFFF"
+    settings.group_fill_colour = "#0B5394"
 
-    milestone_font = DEFAULT_FONT
-    milestone_font_size = DEFAULT_MILESTONE_FONT_SIZE
-    milestone_font_colour = "#0B5394"
-    milestone_fill_colour = "#3D85C6"
+    settings.task_font_colour = "#000000"
+    settings.task_fill_colour = "#9FC5E8"
 
-    footer_font = DEFAULT_FONT
-    footer_font_size = DEFAULT_FOOTER_FONT_SIZE
-    footer_font_colour = "#0B5394"
+    settings.milestone_font_colour = "#0B5394"
+    settings.milestone_fill_colour = "#3D85C6"
 
-    match roadmap_component:
-        case "background":
-            return background_colour
-        case "title":
-            return title_font, title_font_size, title_font_colour
-        case "timeline":
-            return (
-                timeline_font,
-                timeline_font_size,
-                timeline_font_colour,
-                timeline_fill_colour,
-            )
-        case "marker":
-            return (
-                marker_font,
-                marker_font_size,
-                marker_font_colour,
-                marker_line_colour,
-            )
-        case "group":
-            return group_font, group_font_size, group_font_colour, group_fill_colour
-        case "task":
-            return task_font, task_font_size, task_font_colour, task_fill_colour
-        case "milestone":
-            return (
-                milestone_font,
-                milestone_font_size,
-                milestone_font_colour,
-                milestone_fill_colour,
-            )
-        case "footer":
-            return footer_font, footer_font_size, footer_font_colour
-        case _:
-            return None
+    settings.footer_font_colour = "#0B5394"
+
+    return settings.get_colour_settings(roadmap_component)
 
 
 def get_orangepeel_scheme(roadmap_component: str):
@@ -405,74 +379,30 @@ def get_orangepeel_scheme(roadmap_component: str):
         footer_font_size (int): If roadmap_component is "footer"
         footer_font_colour (str): If roadmap_component is "footer"
     """
-    background_colour = "#FFFFFF"
-    title_font = DEFAULT_FONT
-    title_font_size = DEFAULT_TITLE_FONT_SIZE
-    title_font_colour = "#B45F06"
+    settings = ColourSettings()
+    settings.background_colour = "#FFFFFF"
 
-    timeline_font = DEFAULT_FONT
-    timeline_font_size = DEFAULT_TIMELINE_FONT_SIZE
-    timeline_font_colour = "#FFFFFF"
-    timeline_fill_colour = "#B45F06"
+    settings.title_font_colour = "#B45F06"
+    settings.subtitle_font_colour = "#B45F06"
 
-    marker_font = DEFAULT_FONT
-    marker_font_size = DEFAULT_MARKER_FONT_SIZE
-    marker_font_colour = "#B45F06"
-    marker_line_colour = "#B45F06"
+    settings.timeline_font_colour = "#FFFFFF"
+    settings.timeline_fill_colour = "#B45F06"
 
-    group_font = DEFAULT_FONT
-    group_font_size = DEFAULT_GROUP_FONT_SIZE
-    group_font_colour = "#FFFFFF"
-    group_fill_colour = "#B45F06"
+    settings.marker_font_colour = "#B45F06"
+    settings.marker_line_colour = "#B45F06"
 
-    task_font = DEFAULT_FONT
-    task_font_size = DEFAULT_TASK_FONT_SIZE
-    task_font_colour = "#000000"
-    task_fill_colour = "#F6B26B"
+    settings.group_font_colour = "#FFFFFF"
+    settings.group_fill_colour = "#B45F06"
 
-    milestone_font = DEFAULT_FONT
-    milestone_font_size = DEFAULT_MILESTONE_FONT_SIZE
+    settings.task_font_colour = "#000000"
+    settings.task_fill_colour = "#F6B26B"
+
     milestone_font_colour = "#B45F06"
     milestone_fill_colour = "#B45F06"
 
-    footer_font = DEFAULT_FONT
-    footer_font_size = DEFAULT_FOOTER_FONT_SIZE
-    footer_font_colour = "#B45F06"
+    settings.footer_font_colour = "#B45F06"
 
-    match roadmap_component:
-        case "background":
-            return background_colour
-        case "title":
-            return title_font, title_font_size, title_font_colour
-        case "timeline":
-            return (
-                timeline_font,
-                timeline_font_size,
-                timeline_font_colour,
-                timeline_fill_colour,
-            )
-        case "marker":
-            return (
-                marker_font,
-                marker_font_size,
-                marker_font_colour,
-                marker_line_colour,
-            )
-        case "group":
-            return group_font, group_font_size, group_font_colour, group_fill_colour
-        case "task":
-            return task_font, task_font_size, task_font_colour, task_fill_colour
-        case "milestone":
-            return (
-                milestone_font,
-                milestone_font_size,
-                milestone_font_colour,
-                milestone_fill_colour,
-            )
-        case "footer":
-            return footer_font, footer_font_size, footer_font_colour
-        case _:
-            return None
+    return settings.get_colour_settings(roadmap_component)
 
 
 def get_greenturtle_scheme(roadmap_component: str):
@@ -517,74 +447,30 @@ def get_greenturtle_scheme(roadmap_component: str):
         footer_font_size (int): If roadmap_component is "footer"
         footer_font_colour (str): If roadmap_component is "footer"
     """
-    background_colour = "#FFFFFF"
-    title_font = DEFAULT_FONT
-    title_font_size = DEFAULT_TITLE_FONT_SIZE
-    title_font_colour = "#38761D"
+    settings = ColourSettings()
+    settings.background_colour = "#FFFFFF"
 
-    timeline_font = DEFAULT_FONT
-    timeline_font_size = DEFAULT_TIMELINE_FONT_SIZE
-    timeline_font_colour = "#FFFFFF"
-    timeline_fill_colour = "#38761D"
+    settings.title_font_colour = "#38761D"
+    settings.subtitle_font_colour = "#38761D"
 
-    marker_font = DEFAULT_FONT
-    marker_font_size = DEFAULT_MARKER_FONT_SIZE
-    marker_font_colour = "#38761D"
-    marker_line_colour = "#38761D"
+    settings.timeline_font_colour = "#FFFFFF"
+    settings.timeline_fill_colour = "#38761D"
 
-    group_font = DEFAULT_FONT
-    group_font_size = DEFAULT_GROUP_FONT_SIZE
-    group_font_colour = "#FFFFFF"
-    group_fill_colour = "#38761D"
+    settings.marker_font_colour = "#38761D"
+    settings.marker_line_colour = "#38761D"
 
-    task_font = DEFAULT_FONT
-    task_font_size = DEFAULT_TASK_FONT_SIZE
-    task_font_colour = "#000000"
-    task_fill_colour = "#93C47D"
+    settings.group_font_colour = "#FFFFFF"
+    settings.group_fill_colour = "#38761D"
 
-    milestone_font = DEFAULT_FONT
-    milestone_font_size = DEFAULT_MILESTONE_FONT_SIZE
-    milestone_font_colour = "#38761D"
-    milestone_fill_colour = "#38761D"
+    settings.task_font_colour = "#000000"
+    settings.task_fill_colour = "#93C47D"
 
-    footer_font = DEFAULT_FONT
-    footer_font_size = DEFAULT_FOOTER_FONT_SIZE
-    footer_font_colour = "#38761D"
+    settings.milestone_font_colour = "#38761D"
+    settings.milestone_fill_colour = "#38761D"
 
-    match roadmap_component:
-        case "background":
-            return background_colour
-        case "title":
-            return title_font, title_font_size, title_font_colour
-        case "timeline":
-            return (
-                timeline_font,
-                timeline_font_size,
-                timeline_font_colour,
-                timeline_fill_colour,
-            )
-        case "marker":
-            return (
-                marker_font,
-                marker_font_size,
-                marker_font_colour,
-                marker_line_colour,
-            )
-        case "group":
-            return group_font, group_font_size, group_font_colour, group_fill_colour
-        case "task":
-            return task_font, task_font_size, task_font_colour, task_fill_colour
-        case "milestone":
-            return (
-                milestone_font,
-                milestone_font_size,
-                milestone_font_colour,
-                milestone_fill_colour,
-            )
-        case "footer":
-            return footer_font, footer_font_size, footer_font_colour
-        case _:
-            return None
+    settings.footer_font_colour = "#38761D"
+
+    return settings.get_colour_settings(roadmap_component)
 
 
 @dataclass

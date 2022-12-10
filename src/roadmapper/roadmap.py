@@ -26,6 +26,7 @@ from contextlib import contextmanager
 
 from roadmapper.painter import Painter
 from roadmapper.title import Title
+from roadmapper.subtitle import SubTitle
 from roadmapper.footer import Footer
 from roadmapper.timelinemode import TimelineMode
 from roadmapper.timeline import Timeline
@@ -43,6 +44,7 @@ class Roadmap:
     show_marker: bool = field(default=True)
 
     title: Title = field(default=None, init=False)
+    subtitle: SubTitle = field(default=None, init=False)
     timeline: Timeline = field(default=None, init=False)
     groups: list[Group] = field(default_factory=list, init=False)
     footer: Footer = field(default=None, init=False)
@@ -162,6 +164,35 @@ class Roadmap:
         self.title.text = text
 
         self.title.set_draw_position(self.__painter)
+
+    def set_subtitle(
+        self,
+        text: str,
+        font: str = "",
+        font_size: int = 0,
+        font_colour: str = "",
+    ) -> None:
+        """Configure the subtitle settings
+
+        Args:
+            text (str): Title text
+            font (str, optional): Title font. Defaults to "Arial".
+            font_size (int, optional): Title font size. Defaults to 18.
+            font_colour (str, optional): Title font colour. Defaults to "Black".
+        """
+        if font == "":
+            font = self.__painter.subtitle_font
+        if font_size == 0:
+            font_size = self.__painter.subtitle_font_size
+        if font_colour == "":
+            font_colour = self.__painter.subtitle_font_colour
+
+        self.subtitle = SubTitle(
+            text=text, font=font, font_size=font_size, font_colour=font_colour
+        )
+        self.subtitle.text = text
+
+        self.subtitle.set_draw_position(self.__painter)
 
     def set_footer(
         self,
@@ -291,6 +322,9 @@ class Roadmap:
         if self.title == None:
             raise ValueError("Title is not set. Please call set_title() to set title.")
         self.title.draw(self.__painter)
+
+        if self.subtitle != None:
+            self.subtitle.draw(self.__painter)
 
         if self.timeline == None:
             raise ValueError(
