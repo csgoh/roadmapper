@@ -165,7 +165,7 @@ class Painter:
             colour (str): HTML colour name or hex code. Eg. #FFFFFF or LightGreen
         """
         c = Color(colour)
-        self.__cr.set_source_rgba(*c.get_rgb(), 0.7)
+        self.__cr.set_source_rgba(*c.get_rgb(), 0.5)
 
     def set_font(self, font: str, font_size: int, font_colour: str) -> None:
         """Configure text font settings

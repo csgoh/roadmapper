@@ -60,48 +60,6 @@ class Task:
         self.text_x = 0
         self.text_y = 0
 
-    # @contextmanager
-    # def add_parellel_task(
-    #     self,
-    #     text: str,
-    #     start: datetime,
-    #     end: datetime,
-    #     font: str = "Arial",
-    #     font_size: int = 12,
-    #     font_colour: str = "Black",
-    #     fill_colour: str = "LightGreen",
-    #     text_alignment: str = "centre",
-    # ) -> None:
-    #     """Add a parallel task to this task
-
-    #     Args:
-    #         text (str): Task text
-    #         start (datetime): Task start date
-    #         end (datetime): Task end date
-    #         font (str, optional): Task text font. Defaults to "Arial".
-    #         font_size (int, optional): Task text font size. Defaults to 12.
-    #         font_colour (str, optional): Task text font colour. Defaults to "Black".
-    #         fill_colour (str, optional): Task fill colour. Defaults to "LightGreen".
-
-    #     Yields:
-    #         Task: A task object that can be used to add milestones
-    #     """
-    #     try:
-    #         task = Task(
-    #             text=text,
-    #             start=start,
-    #             end=end,
-    #             font=font,
-    #             font_size=font_size,
-    #             font_colour=font_colour,
-    #             fill_colour=fill_colour,
-    #             text_alignment=text_alignment,
-    #         )
-    #         self.tasks.append(task)
-    #         yield task
-    #     finally:
-    #         task = None
-
     def add_parallel_task(
         self,
         text: str,
@@ -207,10 +165,22 @@ class Task:
             last_drawn_y (int): Last drawn y position
             timeline (Timeline): Timeline object
         """
+        additional_height_for_milestone = 18
+        task_y = last_drawn_y
         if len(self.milestones) > 0:
-            self.box_y = last_drawn_y + 15
+            self.box_y = task_y + additional_height_for_milestone
         else:
-            self.box_y = last_drawn_y + 5
+            milestone_in_tasks = False
+            for task in self.tasks:
+                if len(task.milestones) > 0:
+                    milestone_in_tasks = True
+
+            if milestone_in_tasks == True:
+                task_y += additional_height_for_milestone
+            else:
+                task_y += 5
+
+            self.box_y = task_y
 
         task_start_period = datetime.strptime(self.start, "%Y-%m-%d")
         task_end_period = datetime.strptime(self.end, "%Y-%m-%d")
@@ -245,62 +215,41 @@ class Task:
                 timeline_start_period,
                 timeline_end_period,
             ) = timeline_item.get_timeline_period(timeline.mode)
-            if (
-                (  # Check [timeline_start....<task_start>....timeline_end]
-                    task_start_period >= timeline_start_period
-                    and task_start_period <= timeline_end_period
-                )
-                or (  # Check [timeline_start....<task_end>....timeline_end]
-                    task_end_period >= timeline_start_period
-                    and task_end_period <= timeline_end_period
-                )
-                or (  # Check [<task_start>....[timeline_start....<task_end>.....timeline_end]
-                    task_start_period <= timeline_start_period
-                    and task_end_period >= timeline_end_period
-                )
-            ):
-                (_, start_pos_percentage,) = timeline_item.get_timeline_pos_percentage(
-                    timeline.mode,
-                    task_start_period,
-                )
-                (_, end_pos_percentage,) = timeline_item.get_timeline_pos_percentage(
-                    timeline.mode, task_end_period
+
+            bar_x_pos = timeline_item.box_x
+            for milestone in self.milestones:
+                milestone_date = datetime.strptime(milestone.date, "%Y-%m-%d")
+                (
+                    _,
+                    milestone_pos_percentage,
+                ) = timeline_item.get_timeline_pos_percentage(
+                    timeline.mode, milestone_date
                 )
 
-                bar_x_pos = timeline_item.box_x
-                for milestone in self.milestones:
-                    milestone_date = datetime.strptime(milestone.date, "%Y-%m-%d")
-                    (
-                        correct_timeline,
-                        milestone_pos_percentage,
-                    ) = timeline_item.get_timeline_pos_percentage(
-                        timeline.mode, milestone_date
+                if timeline_start_period <= milestone_date <= timeline_end_period:
+                    # Draw milestone diamond
+                    painter.set_font(
+                        milestone.font,
+                        10,
+                        milestone.fill_colour,
                     )
+                    milestone.diamond_x = (
+                        bar_x_pos
+                        + (timeline_item.box_width * milestone_pos_percentage)
+                        - 8
+                        - 3
+                    )
+                    milestone.diamond_y = self.box_y - 3
+                    milestone.diamond_width = 26
+                    milestone.diamond_height = 26
 
-                    if correct_timeline == True:
-                        # Draw milestone diamond
-                        painter.set_font(
-                            milestone.font,
-                            10,
-                            milestone.fill_colour,
-                        )
-                        milestone.diamond_x = (
-                            bar_x_pos
-                            + (timeline_item.box_width * milestone_pos_percentage)
-                            - 8
-                            - 3
-                        )
-                        milestone.diamond_y = self.box_y - 3
-                        milestone.diamond_width = 26
-                        milestone.diamond_height = 26
-
-                        width, _ = painter.get_text_dimension(milestone.text)
-                        milestone.text_x = (
-                            bar_x_pos
-                            + (timeline_item.box_width * milestone_pos_percentage)
-                            - (width / 3)
-                        )
-                        milestone.text_y = self.box_y - 6
+                    width, _ = painter.get_text_dimension(milestone.text)
+                    milestone.text_x = (
+                        bar_x_pos
+                        + (timeline_item.box_width * milestone_pos_percentage)
+                        - (width / 3)
+                    )
+                    milestone.text_y = self.box_y - 6
 
     def is_task_begins_here_ends_here(
         self,
@@ -581,6 +530,7 @@ class Task:
         for box in self.boxes:
             painter.draw_box(box[0], box[1], box[2], box[3])
 
+        self.font_size = 13
         painter.set_font(self.font, self.font_size, self.font_colour)
         painter.draw_text(self.text_x, self.text_y, self.text)
         for milestone in self.milestones:

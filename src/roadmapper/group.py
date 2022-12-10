@@ -49,49 +49,6 @@ class Group:
         self.text_x = 0
         self.text_y = 0
 
-    # @contextmanager
-    # def add_task(
-    #     self,
-    #     text: str,
-    #     start: datetime,
-    #     end: datetime,
-    #     font: str = "Arial",
-    #     font_size: int = 12,
-    #     font_colour: str = "Black",
-    #     fill_colour: str = "LightGreen",
-    #     text_alignment: str = "centre",
-    # ) -> None:
-    #     """Add new task to group
-
-    #     Args:
-    #         text (str): Task text
-    #         start (datetime): Task start date
-    #         end (datetime): Task end date
-    #         font (str, optional): Task font. Defaults to "Arial".
-    #         font_size (int, optional): Task font size. Defaults to 12.
-    #         font_colour (str, optional): Task font colour. Defaults to "Black". HTML colour name or hex code. Eg. #FFFFFF or LightGreen
-    #         fill_colour (str, optional): Task fill colour. Defaults to "LightGreen". HTML colour name or hex code
-    #         text_alignment (str, optional): Task text alignment. Defaults to "centre". Options: "left", "centre", "right"
-
-    #     Yields:
-    #         Task: Task instance to be used in with statement
-    #     """
-    #     try:
-    #         task = Task(
-    #             text=text,
-    #             start=start,
-    #             end=end,
-    #             font=font,
-    #             font_size=font_size,
-    #             font_colour=font_colour,
-    #             fill_colour=fill_colour,
-    #             text_alignment=text_alignment,
-    #         )
-    #         self.tasks.append(task)
-    #         yield task
-    #     finally:
-    #         task = None
-
     def add_task(
         self,
         text: str,
@@ -150,12 +107,15 @@ class Group:
             painter (Painter): PyCairo wrapper class instance
             timeline (Timeline): Timeline instance
         """
-        additional_height_for_milestone = 8
+        additional_height_for_milestone = 15
 
         # Calculate number of milestones in group
         milestone_count = 0
         for task in self.tasks:
             milestone_count += len(task.milestones)
+            if len(task.milestones) == 0:
+                for parallel_task in task.tasks:
+                    milestone_count += len(parallel_task.milestones)
 
         # Calc group height
         task_count = len(self.tasks)
