@@ -36,11 +36,11 @@ DEFAULT_MARKER_FONT_SIZE = 10
 DEFAULT_GROUP_FONT_SIZE = 13
 DEFAULT_TASK_FONT_SIZE = 10
 DEFAULT_MILESTONE_FONT_SIZE = 10
-DEFAULT_FOOTER_FONT_SIZE = 12
+DEFAULT_FOOTER_FONT_SIZE = 13
 
 
 class ColourSettings:
-    background_colour: str
+    background_colour: str = "#FFFFFF"
 
     title_font: str = DEFAULT_FONT
     title_font_size: int = DEFAULT_TITLE_FONT_SIZE
@@ -142,61 +142,48 @@ def get_default_scheme(roadmap_component: str):
     Returns:
         background_colour (str): If roadmap_component is "background"
 
-        title_font (str): If roadmap_component is "title"
-        title_font_size (int): If roadmap_component is "title"
         title_font_colour (str): If roadmap_component is "title"
+        subtitle_font_colour (str): If roadmap_component is "title"
 
-        timeline_font (str): If roadmap_component is "timeline"
-        timeline_font_size (int): If roadmap_component is "timeline"
         timeline_font_colour (str): If roadmap_component is "timeline"
         timeline_fill_colour (str): If roadmap_component is "timeline"
 
-        marker_font (str): If roadmap_component is "marker"
-        marker_font_size (int): If roadmap_component is "marker"
         marker_font_colour (str): If roadmap_component is "marker"
         marker_line_colour (str): If roadmap_component is "marker"
 
-        group_font (str): If roadmap_component is "group"
-        group_font_size (int): If roadmap_component is "group"
         group_font_colour (str): If roadmap_component is "group"
         group_fill_colour (str): If roadmap_component is "group"
 
-        task_font (str): If roadmap_component is "task"
-        task_font_size (int): If roadmap_component is "task"
         task_font_colour (str): If roadmap_component is "task"
         task_fill_colour (str): If roadmap_component is "task"
 
-        milestone_font (str): If roadmap_component is "milestone"
-        milestone_font_size (int): If roadmap_component is "milestone"
         milestone_font_colour (str): If roadmap_component is "milestone"
         milestone_fill_colour (str): If roadmap_component is "milestone"
 
-        footer_font (str): If roadmap_component is "footer"
-        footer_font_size (int): If roadmap_component is "footer"
         footer_font_colour (str): If roadmap_component is "footer"
     """
     settings = ColourSettings()
-    settings.background_colour = "#FFFFFF"
+    # settings.background_colour = "#FFFFFF"
 
-    settings.title_font_colour = "#000000"
-    settings.subtitle_font_colour = "#000000"
+    # settings.title_font_colour = "#000000"
+    # settings.subtitle_font_colour = "#000000"
 
-    settings.timeline_font_colour = "#FFFFFF"
-    settings.timeline_fill_colour = "#000000"
+    # settings.timeline_font_colour = "#FFFFFF"
+    # settings.timeline_fill_colour = "#000000"
 
-    settings.marker_font_colour = "#000000"
-    settings.marker_line_colour = "#000000"
+    # settings.marker_font_colour = "#000000"
+    # settings.marker_line_colour = "#000000"
 
-    settings.group_font_colour = "#FFFFFF"
-    settings.group_fill_colour = "#000000"
+    # settings.group_font_colour = "#FFFFFF"
+    # settings.group_fill_colour = "#000000"
 
-    settings.task_font_colour = "#000000"
-    settings.task_fill_colour = "#D9D9D9"
+    # settings.task_font_colour = "#000000"
+    # settings.task_fill_colour = "#D9D9D9"
 
-    settings.milestone_font_colour = "#FFFFFF"
-    settings.milestone_fill_colour = "#000000"
+    # settings.milestone_font_colour = "#FFFFFF"
+    # settings.milestone_fill_colour = "#000000"
 
-    settings.footer_font_colour = "#000000"
+    # settings.footer_font_colour = "#000000"
 
     return settings.get_colour_settings(roadmap_component)
 
@@ -210,37 +197,24 @@ def get_greywoof_scheme(roadmap_component: str):
     Returns:
         background_colour (str): If roadmap_component is "background"
 
-        title_font (str): If roadmap_component is "title"
-        title_font_size (int): If roadmap_component is "title"
         title_font_colour (str): If roadmap_component is "title"
+        subtitle_font_colour (str): If roadmap_component is "title"
 
-        timeline_font (str): If roadmap_component is "timeline"
-        timeline_font_size (int): If roadmap_component is "timeline"
         timeline_font_colour (str): If roadmap_component is "timeline"
         timeline_fill_colour (str): If roadmap_component is "timeline"
 
-        marker_font (str): If roadmap_component is "marker"
-        marker_font_size (int): If roadmap_component is "marker"
         marker_font_colour (str): If roadmap_component is "marker"
         marker_line_colour (str): If roadmap_component is "marker"
 
-        group_font (str): If roadmap_component is "group"
-        group_font_size (int): If roadmap_component is "group"
         group_font_colour (str): If roadmap_component is "group"
         group_fill_colour (str): If roadmap_component is "group"
 
-        task_font (str): If roadmap_component is "task"
-        task_font_size (int): If roadmap_component is "task"
         task_font_colour (str): If roadmap_component is "task"
         task_fill_colour (str): If roadmap_component is "task"
 
-        milestone_font (str): If roadmap_component is "milestone"
-        milestone_font_size (int): If roadmap_component is "milestone"
         milestone_font_colour (str): If roadmap_component is "milestone"
         milestone_fill_colour (str): If roadmap_component is "milestone"
 
-        footer_font (str): If roadmap_component is "footer"
-        footer_font_size (int): If roadmap_component is "footer"
         footer_font_colour (str): If roadmap_component is "footer"
     """
     settings = ColourSettings()
@@ -278,37 +252,24 @@ def get_bluemountain_scheme(roadmap_component: str):
     Returns:
         background_colour (str): If roadmap_component is "background"
 
-        title_font (str): If roadmap_component is "title"
-        title_font_size (int): If roadmap_component is "title"
         title_font_colour (str): If roadmap_component is "title"
+        subtitle_font_colour (str): If roadmap_component is "title"
 
-        timeline_font (str): If roadmap_component is "timeline"
-        timeline_font_size (int): If roadmap_component is "timeline"
         timeline_font_colour (str): If roadmap_component is "timeline"
         timeline_fill_colour (str): If roadmap_component is "timeline"
 
-        marker_font (str): If roadmap_component is "marker"
-        marker_font_size (int): If roadmap_component is "marker"
         marker_font_colour (str): If roadmap_component is "marker"
         marker_line_colour (str): If roadmap_component is "marker"
 
-        group_font (str): If roadmap_component is "group"
-        group_font_size (int): If roadmap_component is "group"
         group_font_colour (str): If roadmap_component is "group"
         group_fill_colour (str): If roadmap_component is "group"
 
-        task_font (str): If roadmap_component is "task"
-        task_font_size (int): If roadmap_component is "task"
         task_font_colour (str): If roadmap_component is "task"
         task_fill_colour (str): If roadmap_component is "task"
 
-        milestone_font (str): If roadmap_component is "milestone"
-        milestone_font_size (int): If roadmap_component is "milestone"
         milestone_font_colour (str): If roadmap_component is "milestone"
         milestone_fill_colour (str): If roadmap_component is "milestone"
 
-        footer_font (str): If roadmap_component is "footer"
-        footer_font_size (int): If roadmap_component is "footer"
         footer_font_colour (str): If roadmap_component is "footer"
     """
     settings = ColourSettings()
@@ -346,37 +307,24 @@ def get_orangepeel_scheme(roadmap_component: str):
     Returns:
         background_colour (str): If roadmap_component is "background"
 
-        title_font (str): If roadmap_component is "title"
-        title_font_size (int): If roadmap_component is "title"
         title_font_colour (str): If roadmap_component is "title"
+        subtitle_font_colour (str): If roadmap_component is "title"
 
-        timeline_font (str): If roadmap_component is "timeline"
-        timeline_font_size (int): If roadmap_component is "timeline"
         timeline_font_colour (str): If roadmap_component is "timeline"
         timeline_fill_colour (str): If roadmap_component is "timeline"
 
-        marker_font (str): If roadmap_component is "marker"
-        marker_font_size (int): If roadmap_component is "marker"
         marker_font_colour (str): If roadmap_component is "marker"
         marker_line_colour (str): If roadmap_component is "marker"
 
-        group_font (str): If roadmap_component is "group"
-        group_font_size (int): If roadmap_component is "group"
         group_font_colour (str): If roadmap_component is "group"
         group_fill_colour (str): If roadmap_component is "group"
 
-        task_font (str): If roadmap_component is "task"
-        task_font_size (int): If roadmap_component is "task"
         task_font_colour (str): If roadmap_component is "task"
         task_fill_colour (str): If roadmap_component is "task"
 
-        milestone_font (str): If roadmap_component is "milestone"
-        milestone_font_size (int): If roadmap_component is "milestone"
         milestone_font_colour (str): If roadmap_component is "milestone"
         milestone_fill_colour (str): If roadmap_component is "milestone"
 
-        footer_font (str): If roadmap_component is "footer"
-        footer_font_size (int): If roadmap_component is "footer"
         footer_font_colour (str): If roadmap_component is "footer"
     """
     settings = ColourSettings()
@@ -414,37 +362,24 @@ def get_greenturtle_scheme(roadmap_component: str):
     Returns:
         background_colour (str): If roadmap_component is "background"
 
-        title_font (str): If roadmap_component is "title"
-        title_font_size (int): If roadmap_component is "title"
         title_font_colour (str): If roadmap_component is "title"
+        subtitle_font_colour (str): If roadmap_component is "title"
 
-        timeline_font (str): If roadmap_component is "timeline"
-        timeline_font_size (int): If roadmap_component is "timeline"
         timeline_font_colour (str): If roadmap_component is "timeline"
         timeline_fill_colour (str): If roadmap_component is "timeline"
 
-        marker_font (str): If roadmap_component is "marker"
-        marker_font_size (int): If roadmap_component is "marker"
         marker_font_colour (str): If roadmap_component is "marker"
         marker_line_colour (str): If roadmap_component is "marker"
 
-        group_font (str): If roadmap_component is "group"
-        group_font_size (int): If roadmap_component is "group"
         group_font_colour (str): If roadmap_component is "group"
         group_fill_colour (str): If roadmap_component is "group"
 
-        task_font (str): If roadmap_component is "task"
-        task_font_size (int): If roadmap_component is "task"
         task_font_colour (str): If roadmap_component is "task"
         task_fill_colour (str): If roadmap_component is "task"
 
-        milestone_font (str): If roadmap_component is "milestone"
-        milestone_font_size (int): If roadmap_component is "milestone"
         milestone_font_colour (str): If roadmap_component is "milestone"
         milestone_fill_colour (str): If roadmap_component is "milestone"
 
-        footer_font (str): If roadmap_component is "footer"
-        footer_font_size (int): If roadmap_component is "footer"
         footer_font_colour (str): If roadmap_component is "footer"
     """
     settings = ColourSettings()
@@ -499,38 +434,25 @@ class ColourTheme:
         Returns:
             background_colour (str): If roadmap_component is "background"
 
-            title_font (str): If roadmap_component is "title"
-            title_font_size (int): If roadmap_component is "title"
-            title_font_colour (str): If roadmap_component is "title"
+        title_font_colour (str): If roadmap_component is "title"
+        subtitle_font_colour (str): If roadmap_component is "title"
 
-            timeline_font (str): If roadmap_component is "timeline"
-            timeline_font_size (int): If roadmap_component is "timeline"
-            timeline_font_colour (str): If roadmap_component is "timeline"
-            timeline_fill_colour (str): If roadmap_component is "timeline"
+        timeline_font_colour (str): If roadmap_component is "timeline"
+        timeline_fill_colour (str): If roadmap_component is "timeline"
 
-            marker_font (str): If roadmap_component is "marker"
-            marker_font_size (int): If roadmap_component is "marker"
-            marker_font_colour (str): If roadmap_component is "marker"
-            marker_line_colour (str): If roadmap_component is "marker"
+        marker_font_colour (str): If roadmap_component is "marker"
+        marker_line_colour (str): If roadmap_component is "marker"
 
-            group_font (str): If roadmap_component is "group"
-            group_font_size (int): If roadmap_component is "group"
-            group_font_colour (str): If roadmap_component is "group"
-            group_fill_colour (str): If roadmap_component is "group"
+        group_font_colour (str): If roadmap_component is "group"
+        group_fill_colour (str): If roadmap_component is "group"
 
-            task_font (str): If roadmap_component is "task"
-            task_font_size (int): If roadmap_component is "task"
-            task_font_colour (str): If roadmap_component is "task"
-            task_fill_colour (str): If roadmap_component is "task"
+        task_font_colour (str): If roadmap_component is "task"
+        task_fill_colour (str): If roadmap_component is "task"
 
-            milestone_font (str): If roadmap_component is "milestone"
-            milestone_font_size (int): If roadmap_component is "milestone"
-            milestone_font_colour (str): If roadmap_component is "milestone"
-            milestone_fill_colour (str): If roadmap_component is "milestone"
+        milestone_font_colour (str): If roadmap_component is "milestone"
+        milestone_fill_colour (str): If roadmap_component is "milestone"
 
-            footer_font (str): If roadmap_component is "footer"
-            footer_font_size (int): If roadmap_component is "footer"
-            footer_font_colour (str): If roadmap_component is "footer"
+        footer_font_colour (str): If roadmap_component is "footer"
         """
         if self._colour_theme_name == "DEFAULT":
             return get_default_scheme(roadmap_component)
