@@ -187,9 +187,11 @@ class Painter:
             font_size (int): Font size
             font_colour (str): Font colour in HTML colour name or hex code. Eg. #FFFFFF or LightGreen
         """
-        self.__cr.select_font_face(font)
-        self.__cr.set_font_size(font_size)
         self.set_colour(font_colour)
+        self.__cr.select_font_face(
+            font, cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL
+        )
+        self.__cr.set_font_size(font_size)
 
     def draw_box(self, x: int, y: int, width: int, height: int) -> None:
         """Draw a rectagle

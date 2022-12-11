@@ -58,6 +58,7 @@ class TimelineItem:
         """
 
         painter.set_font(self.font, self.font_size, self.font_colour)
+
         return painter.get_display_text_position(
             self.box_x, self.box_y, self.box_width, self.box_height, self.text, "centre"
         )
@@ -317,6 +318,7 @@ class TimelineItem:
             self.box_x, self.box_y, self.box_width - 1, self.box_height
         )  # -1 is to draw the white line in between timeline items
         painter.set_colour(self.font_colour)
+        painter.set_font(self.font, self.font_size, self.font_colour)
         painter.draw_text(self.text_x, self.text_y, self.text)
 
     def draw_vertical_line(self, painter: Painter) -> None:
