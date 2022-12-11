@@ -106,6 +106,9 @@ class Painter:
 
         self.__cr.set_antialias(cairo.ANTIALIAS_NONE)
 
+        self.__new_cr = None
+        self.__new_surface = None
+
     def set_colour_palette(self, colour_palette: str) -> None:
         """Set colour palette
 
@@ -354,6 +357,22 @@ class Painter:
 
         return x + text_x_pos, y + text_y_pos
 
+    def set_surface_size(self, width: int, height: int) -> None:
+        """Set surface size
+
+        Args:
+            width (int): Surface width
+            height (int): Surface height
+        """
+        height += 50
+        self.__new_surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
+
+        self.__new_cr = cairo.Context(self.__new_surface)
+
+        # Copy the contents of the old surface onto the new surface
+        self.__new_cr.set_source_surface(self.__surface)
+        self.__new_cr.paint()
+
     def save_surface(self, filename: str) -> None:
         """Save surface to PNG file
 
@@ -361,4 +380,7 @@ class Painter:
             filename (str): PNG file name
         """
         if self.output_type == "PNG":
-            self.__surface.write_to_png(filename)
+            if self.__new_cr is not None:
+                self.__new_surface.write_to_png(filename)
+            else:
+                self.__surface.write_to_png(filename)

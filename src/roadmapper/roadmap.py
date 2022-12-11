@@ -40,6 +40,7 @@ class Roadmap:
 
     width: int = field(default=1200)
     height: int = field(default=600)
+    auto_height: bool = field(default=True)
     colour_theme: str = field(default="DEFAULT")
     show_marker: bool = field(default=True)
 
@@ -334,6 +335,10 @@ class Roadmap:
 
         for group in self.groups:
             group.set_draw_position(self.__painter, self.timeline)
+
+        self.timeline.draw_vertical_lines(self.__painter)
+
+        for group in self.groups:
             group.draw(self.__painter)
 
         if self.marker != None:
@@ -343,6 +348,11 @@ class Roadmap:
         if self.footer != None:
             self.footer.set_draw_position(self.__painter)
             self.footer.draw(self.__painter)
+
+        if self.auto_height == True:
+            self.__painter.set_surface_size(
+                self.__painter.width, int(self.__painter.last_drawn_y_pos)
+            )
 
     def save(self, filename: str) -> None:
         """Save surface to PNG file
