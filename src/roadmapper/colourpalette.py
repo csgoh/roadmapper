@@ -397,8 +397,8 @@ def get_orangepeel_scheme(roadmap_component: str):
     settings.task_font_colour = "#000000"
     settings.task_fill_colour = "#F6B26B"
 
-    milestone_font_colour = "#B45F06"
-    milestone_fill_colour = "#B45F06"
+    settings.milestone_font_colour = "#B45F06"
+    settings.milestone_fill_colour = "#B45F06"
 
     settings.footer_font_colour = "#B45F06"
 
