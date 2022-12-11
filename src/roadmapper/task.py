@@ -230,7 +230,7 @@ class Task:
                     # Draw milestone diamond
                     painter.set_font(
                         milestone.font,
-                        10,
+                        milestone.font_size,
                         milestone.fill_colour,
                     )
                     milestone.diamond_x = (
@@ -530,7 +530,7 @@ class Task:
         for box in self.boxes:
             painter.draw_box(box[0], box[1], box[2], box[3])
 
-        self.font_size = 13
+        # self.font_size = 13
         painter.set_font(self.font, self.font_size, self.font_colour)
         painter.draw_text(self.text_x, self.text_y, self.text)
         for milestone in self.milestones:
