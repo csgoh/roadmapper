@@ -175,12 +175,12 @@ def generic_date_test(
 def parallel_task_demo(
     mode: TimelineMode = TimelineMode.MONTHLY,
     start_date: str = "2022-11-01",
-    number_of_items: int = 8,
+    number_of_items: int = 12,
     file_name: str = "demo01.png",
     colour_theme: str = "DEFAULT",
 ) -> None:
     roadmap = Roadmap(
-        1200, 612, auto_height=False, colour_theme=colour_theme, show_marker=True
+        1200, 612, auto_height=True, colour_theme=colour_theme, show_marker=True
     )
     roadmap.set_title("ROADMAP EXAMPLE 2022/2023")
     roadmap.set_subtitle("This is a subtitle")
