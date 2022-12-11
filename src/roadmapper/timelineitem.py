@@ -318,3 +318,19 @@ class TimelineItem:
         )  # -1 is to draw the white line in between timeline items
         painter.set_colour(self.font_colour)
         painter.draw_text(self.text_x, self.text_y, self.text)
+
+    def draw_vertical_line(self, painter: Painter) -> None:
+        """Draws the timeline
+
+        Args:
+            painter (Painter): PyCairo wrapper class instance
+        """
+        painter.set_colour("#e6e6e6")
+        # painter.set_colour("lightgrey")
+        painter.set_line_width(1)
+        painter.draw_line(
+            self.box_x,
+            self.box_y + self.box_height,
+            self.box_x,
+            painter.last_drawn_y_pos + 10,
+        )

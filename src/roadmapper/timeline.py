@@ -295,3 +295,15 @@ class Timeline:
 
             timelineitem = self.timeline_items[i]
             timelineitem.draw(painter)
+
+    def draw_vertical_lines(self, painter: Painter) -> None:
+        """Draw the timeline's vertical lines
+
+        Args:
+            painter (Painter): PyCairo wrapper class instance
+        """
+        painter.set_font(self.font, self.font_size, self.font_colour)
+        for i in range(0, self.number_of_items):
+            if i > 0:
+                timelineitem = self.timeline_items[i]
+                timelineitem.draw_vertical_line(painter)
