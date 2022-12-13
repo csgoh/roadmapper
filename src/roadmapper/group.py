@@ -133,7 +133,7 @@ class Group:
 
         self.box_y = painter.last_drawn_y_pos + additional_height_for_milestone
 
-        painter.set_font(self.font, self.font_size, self.font_colour)
+        # painter.set_font(self.font, self.font_size, self.font_colour)
         # painter.set_colour(self.font_colour)
 
         self.text_x, self.text_y = painter.get_display_text_position(
@@ -143,6 +143,8 @@ class Group:
             self.box_height,
             self.text,
             self.text_alignment,
+            self.font,
+            self.font_size,
         )
 
         painter.last_drawn_y_pos = self.box_y
@@ -159,12 +161,21 @@ class Group:
             painter (Painter): PyCairo wrapper class instance
         """
         # Step 1: draw group
-        painter.set_colour(self.fill_colour)
-        painter.draw_box(self.box_x, self.box_y, self.box_width, self.box_height)
+        # painter.set_colour(self.fill_colour)
+        painter.draw_box(
+            self.box_x, self.box_y, self.box_width, self.box_height, self.fill_colour
+        )
 
-        painter.set_font(self.font, self.font_size, self.font_colour)
+        # painter.set_font(self.font, self.font_size, self.font_colour)
 
-        painter.draw_text(self.text_x, self.text_y, self.text)
+        painter.draw_text(
+            self.text_x,
+            self.text_y,
+            self.text,
+            self.font,
+            self.font_size,
+            self.font_colour,
+        )
 
         # Step 2: draw tasks
         for tasks in self.tasks:

@@ -228,11 +228,11 @@ class Task:
 
                 if timeline_start_period <= milestone_date <= timeline_end_period:
                     # Draw milestone diamond
-                    painter.set_font(
-                        milestone.font,
-                        milestone.font_size,
-                        milestone.fill_colour,
-                    )
+                    # painter.set_font(
+                    #     milestone.font,
+                    #     milestone.font_size,
+                    #     milestone.fill_colour,
+                    # )
                     milestone.diamond_x = (
                         bar_x_pos
                         + (timeline_item.box_width * milestone_pos_percentage)
@@ -243,7 +243,9 @@ class Task:
                     milestone.diamond_width = 26
                     milestone.diamond_height = 26
 
-                    width, _ = painter.get_text_dimension(milestone.text)
+                    width, _ = painter.get_text_dimension(
+                        milestone.text, milestone.font, milestone.font_size
+                    )
                     milestone.text_x = (
                         bar_x_pos
                         + (timeline_item.box_width * milestone_pos_percentage)
@@ -493,7 +495,7 @@ class Task:
 
                 self.box_width += 1
 
-                painter.set_colour(self.fill_colour)
+                # painter.set_colour(self.fill_colour)
                 self.box_height = 20
 
                 box_coordinates = [
@@ -508,7 +510,7 @@ class Task:
                 painter.last_drawn_y_pos = self.box_y + self.box_height
 
         if row_match > 0:
-            painter.set_font(self.font, self.font_size, self.font_colour)
+            # painter.set_font(self.font, self.font_size, self.font_colour)
             text_x_pos, text_y_pos = painter.get_display_text_position(
                 bar_start_x_pos,
                 self.box_y,
@@ -516,6 +518,8 @@ class Task:
                 self.box_height,
                 self.text,
                 self.text_alignment,
+                self.font,
+                self.font_size,
             )
             self.text_x = text_x_pos
             self.text_y = text_y_pos
@@ -526,13 +530,20 @@ class Task:
         Args:
             painter (Painter): PyCairo wrapper class instance
         """
-        painter.set_colour(self.fill_colour)
+        # painter.set_colour(self.fill_colour)
         for box in self.boxes:
-            painter.draw_box(box[0], box[1], box[2], box[3])
+            painter.draw_box(box[0], box[1], box[2], box[3], self.fill_colour)
 
         # self.font_size = 13
-        painter.set_font(self.font, self.font_size, self.font_colour)
-        painter.draw_text(self.text_x, self.text_y, self.text)
+        # painter.set_font(self.font, self.font_size, self.font_colour)
+        painter.draw_text(
+            self.text_x,
+            self.text_y,
+            self.text,
+            self.font,
+            self.font_size,
+            self.font_colour,
+        )
         for milestone in self.milestones:
             milestone.draw(painter)
 

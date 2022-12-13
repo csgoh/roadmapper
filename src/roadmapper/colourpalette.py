@@ -28,7 +28,7 @@ from dataclasses import dataclass, field
 # "Tahoma"
 # "Microsoft Jhenghei"
 
-DEFAULT_FONT = "Arial"
+DEFAULT_FONT = "arial.ttf"
 DEFAULT_TITLE_FONT_SIZE = 26
 DEFAULT_SUBTITLE_FONT_SIZE = 18
 DEFAULT_TIMELINE_FONT_SIZE = 12
@@ -163,28 +163,6 @@ def get_default_scheme(roadmap_component: str):
         footer_font_colour (str): If roadmap_component is "footer"
     """
     settings = ColourSettings()
-    # settings.background_colour = "#FFFFFF"
-
-    # settings.title_font_colour = "#000000"
-    # settings.subtitle_font_colour = "#000000"
-
-    # settings.timeline_font_colour = "#FFFFFF"
-    # settings.timeline_fill_colour = "#000000"
-
-    # settings.marker_font_colour = "#000000"
-    # settings.marker_line_colour = "#000000"
-
-    # settings.group_font_colour = "#FFFFFF"
-    # settings.group_fill_colour = "#000000"
-
-    # settings.task_font_colour = "#000000"
-    # settings.task_fill_colour = "#D9D9D9"
-
-    # settings.milestone_font_colour = "#FFFFFF"
-    # settings.milestone_fill_colour = "#000000"
-
-    # settings.footer_font_colour = "#000000"
-
     return settings.get_colour_settings(roadmap_component)
 
 

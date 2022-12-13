@@ -57,10 +57,17 @@ class TimelineItem:
             tuple(int, int): (x, y) position of the text
         """
 
-        painter.set_font(self.font, self.font_size, self.font_colour)
+        # painter.set_font(self.font, self.font_size, self.font_colour)
 
         return painter.get_display_text_position(
-            self.box_x, self.box_y, self.box_width, self.box_height, self.text, "centre"
+            self.box_x,
+            self.box_y,
+            self.box_width,
+            self.box_height,
+            self.text,
+            "centre",
+            self.font,
+            self.font_size,
         )
 
     def set_draw_position(
@@ -313,13 +320,29 @@ class TimelineItem:
         Args:
             painter (Painter): PyCairo wrapper class instance
         """
-        painter.set_colour(self.fill_colour)
+        # painter.set_colour(self.fill_colour)
         painter.draw_box(
-            self.box_x, self.box_y, self.box_width - 1, self.box_height
+            self.box_x,
+            self.box_y,
+            self.box_width - 2,
+            self.box_height,
+            self.fill_colour,
         )  # -1 is to draw the white line in between timeline items
-        painter.set_colour(self.font_colour)
-        painter.set_font(self.font, self.font_size, self.font_colour)
-        painter.draw_text(self.text_x, self.text_y, self.text)
+
+        print(
+            f"Timeline.draw: self.text = {self.text}, x = {self.box_x}, y = {self.box_y}, width = {self.box_width}, height = {self.box_height}"
+        )
+
+        # painter.set_colour(self.font_colour)
+        # painter.set_font(self.font, self.font_size, self.font_colour)
+        painter.draw_text(
+            self.text_x,
+            self.text_y,
+            self.text,
+            self.font,
+            self.font_size,
+            self.font_colour,
+        )
 
     def draw_vertical_line(self, painter: Painter) -> None:
         """Draws the timeline
@@ -327,12 +350,16 @@ class TimelineItem:
         Args:
             painter (Painter): PyCairo wrapper class instance
         """
-        painter.set_colour("#e6e6e6")
+        # painter.set_colour("#e6e6e6")
         # painter.set_colour("lightgrey")
-        painter.set_line_width(1)
+        # painter.set_line_width(1)
         painter.draw_line(
             self.box_x,
             self.box_y + self.box_height,
             self.box_x,
             painter.last_drawn_y_pos + 10,
+            "#e6e6e6",
+            50,
+            1,
+            "solid",
         )

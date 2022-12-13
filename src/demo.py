@@ -176,12 +176,12 @@ def generic_date_test(
 def parallel_task_demo(
     mode: TimelineMode = TimelineMode.MONTHLY,
     start_date: str = "2022-11-01",
-    number_of_items: int = 12,
+    number_of_items: int = 6,
     file_name: str = "demo01.png",
     colour_theme: str = "DEFAULT",
 ) -> None:
     roadmap = Roadmap(
-        1200, 612, auto_height=True, colour_theme=colour_theme, show_marker=True
+        1200, 612, auto_height=False, colour_theme=colour_theme, show_marker=True
     )
     roadmap.set_title("ROADMAP EXAMPLE 2022/2023")
     roadmap.set_subtitle("This is a subtitle")
@@ -214,11 +214,11 @@ def parallel_task_demo(
 # # demo02_barestyle(TimelineMode.HALF_YEARLY, "2023-02-01", 3, "demo04.png")
 # # demo02_barestyle(TimelineMode.YEARLY, "2023-02-01", 2, "demo05.png")
 
-colour_theme_demo(file_name="demo-colour-default.png", colour_theme="DEFAULT")
-colour_theme_demo(file_name="demo-colour-GREYWOOF.png", colour_theme="GREYWOOF")
-colour_theme_demo(file_name="demo-colour-BLUEMOUNTAIN.png", colour_theme="BLUEMOUNTAIN")
+# colour_theme_demo(file_name="demo-colour-default.png", colour_theme="DEFAULT")
+# colour_theme_demo(file_name="demo-colour-GREYWOOF.png", colour_theme="GREYWOOF")
+# colour_theme_demo(file_name="demo-colour-BLUEMOUNTAIN.png", colour_theme="BLUEMOUNTAIN")
 colour_theme_demo(file_name="demo-colour-ORANGEPEEL.png", colour_theme="ORANGEPEEL")
-colour_theme_demo(file_name="demo-colour-GREENTURTLE.png", colour_theme="GREENTURTLE")
+# colour_theme_demo(file_name="demo-colour-GREENTURTLE.png", colour_theme="GREENTURTLE")
 
 # show_generic_dates = True
 

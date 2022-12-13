@@ -81,6 +81,10 @@ class Timeline:
         # Determine timeline starting y position
         timeline_y = painter.last_drawn_y_pos + painter.gap_between_timeline_and_title
 
+        print(
+            f"Timeline: {timeline_x}, {timeline_y}, {timeline_width}, {self.__timeline_height}"
+        )
+
         return timeline_x, timeline_y, timeline_width
 
     def set_draw_position(self, painter: Painter) -> None:
@@ -290,7 +294,7 @@ class Timeline:
         Args:
             painter (Painter): PyCairo wrapper class instance
         """
-        painter.set_font(self.font, self.font_size, self.font_colour)
+        # painter.set_font(self.font, self.font_size, self.font_colour)
         for i in range(0, self.number_of_items):
 
             timelineitem = self.timeline_items[i]
@@ -302,7 +306,7 @@ class Timeline:
         Args:
             painter (Painter): PyCairo wrapper class instance
         """
-        painter.set_font(self.font, self.font_size, self.font_colour)
+        # painter.set_font(self.font, self.font_size, self.font_colour)
         for i in range(0, self.number_of_items):
             if i > 0:
                 timelineitem = self.timeline_items[i]
