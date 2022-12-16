@@ -371,7 +371,8 @@ class TimelineItem:
         # painter.set_line_width(1)
         painter.draw_line(
             self.box_x,
-            self.box_y + self.box_height + 1,
+            # self.box_y + self.box_height + 1,
+            self.box_y,
             self.box_x,
             painter.last_drawn_y_pos + 10,
             "#e6e6e6",
