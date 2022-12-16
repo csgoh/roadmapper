@@ -81,9 +81,9 @@ class Timeline:
         # Determine timeline starting y position
         timeline_y = painter.last_drawn_y_pos + painter.gap_between_timeline_and_title
 
-        print(
-            f"Timeline: {timeline_x}, {timeline_y}, {timeline_width}, {self.__timeline_height}"
-        )
+        # print(
+        #     f"Timeline: {timeline_x}, {timeline_y}, {timeline_width}, {self.__timeline_height}"
+        # )
 
         return timeline_x, timeline_y, timeline_width
 
@@ -95,7 +95,7 @@ class Timeline:
         """
         # painter.set_font(self.font, self.font_size, self.font_colour)
         self.x, self.y, self.width = self.__calculate_draw_position(painter)
-        timelineitem_width = self.width / self.number_of_items
+        timelineitem_width = int(self.width / self.number_of_items)
         timelineitem_y = self.y + painter.timeline_height
         timelineitem_height = self.__timeline_height
 

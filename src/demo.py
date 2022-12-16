@@ -111,7 +111,7 @@ def demo03(
 def colour_theme_demo(
     mode: TimelineMode = TimelineMode.MONTHLY,
     start_date: str = "2022-11-01",
-    number_of_items: int = 12,
+    number_of_items: int = 6,
     file_name: str = "demo01.png",
     colour_theme: str = "DEFAULT",
 ) -> None:
@@ -214,11 +214,11 @@ def parallel_task_demo(
 # # demo02_barestyle(TimelineMode.HALF_YEARLY, "2023-02-01", 3, "demo04.png")
 # # demo02_barestyle(TimelineMode.YEARLY, "2023-02-01", 2, "demo05.png")
 
-# colour_theme_demo(file_name="demo-colour-default.png", colour_theme="DEFAULT")
-# colour_theme_demo(file_name="demo-colour-GREYWOOF.png", colour_theme="GREYWOOF")
-# colour_theme_demo(file_name="demo-colour-BLUEMOUNTAIN.png", colour_theme="BLUEMOUNTAIN")
+colour_theme_demo(file_name="demo-colour-default.png", colour_theme="DEFAULT")
+colour_theme_demo(file_name="demo-colour-GREYWOOF.png", colour_theme="GREYWOOF")
+colour_theme_demo(file_name="demo-colour-BLUEMOUNTAIN.png", colour_theme="BLUEMOUNTAIN")
 colour_theme_demo(file_name="demo-colour-ORANGEPEEL.png", colour_theme="ORANGEPEEL")
-# colour_theme_demo(file_name="demo-colour-GREENTURTLE.png", colour_theme="GREENTURTLE")
+colour_theme_demo(file_name="demo-colour-GREENTURTLE.png", colour_theme="GREENTURTLE")
 
 # show_generic_dates = True
 
@@ -263,4 +263,4 @@ colour_theme_demo(file_name="demo-colour-ORANGEPEEL.png", colour_theme="ORANGEPE
 # )
 
 
-parallel_task_demo(file_name="parallel-demo01.png")
+# parallel_task_demo(file_name="parallel-demo01.png")

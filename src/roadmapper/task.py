@@ -251,7 +251,7 @@ class Task:
                         + (timeline_item.box_width * milestone_pos_percentage)
                         - (width / 3)
                     )
-                    milestone.text_y = self.box_y - 6
+                    milestone.text_y = self.box_y - 18
 
     def is_task_begins_here_ends_here(
         self,
@@ -493,7 +493,7 @@ class Task:
                     if bar_start_x_pos == 0:
                         bar_start_x_pos = self.box_x
 
-                self.box_width += 1
+                # self.box_width += 1
 
                 # painter.set_colour(self.fill_colour)
                 self.box_height = 20
@@ -531,21 +531,59 @@ class Task:
             painter (Painter): PyCairo wrapper class instance
         """
         # painter.set_colour(self.fill_colour)
-        for box in self.boxes:
+        box_x = 0
+        box_y = 0
+        width = 0
+        height = 0
+
+        for i, box in enumerate(self.boxes):
             painter.draw_box(box[0], box[1], box[2], box[3], self.fill_colour)
+            if i == 0:
+                box_x = box[0]
+                box_y = box[1]
+            # print(f"{i} width: {width + int(box[2])} = {width} + {int(box[2])}")
+            width += int(box[2])
+            height = box[3]
 
-        # self.font_size = 13
-        # painter.set_font(self.font, self.font_size, self.font_colour)
-        painter.draw_text(
-            self.text_x,
-            self.text_y,
-            self.text,
-            self.font,
-            self.font_size,
-            self.font_colour,
+        box_x, box_y, box_width, box_height = (
+            box_x,
+            box_y,
+            width,
+            height,
         )
-        for milestone in self.milestones:
-            milestone.draw(painter)
 
-        for task in self.tasks:
-            task.draw(painter)
+        # print(
+        #     f"{self.text} = box_x: {box_x}, box_y: {box_y}, box_width: {box_width}, box_height: {box_height}"
+        # )
+
+        # # self.font_size = 13
+        # # painter.set_font(self.font, self.font_size, self.font_colour)
+        # painter.draw_text(
+        #     self.text_x,
+        #     self.text_y,
+        #     self.text,
+        #     self.font,
+        #     self.font_size,
+        #     self.font_colour,
+        # )
+
+        # print (f"box x: {box_x}, box y: {box_y}, box width: {box_width}, box height: {box_height}")
+
+        if (box_x == 0 and box_y == 0 and box_width == 0 and box_height == 0) != True:
+            painter.draw_box_with_text(
+                box_x,
+                box_y,
+                box_width,
+                box_height,
+                self.fill_colour,
+                self.text,
+                "centre",
+                self.font,
+                self.font_size,
+                self.font_colour,
+            )
+            for milestone in self.milestones:
+                milestone.draw(painter)
+
+            for task in self.tasks:
+                task.draw(painter)

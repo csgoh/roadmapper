@@ -25,6 +25,7 @@
 # from colour import Color
 from roadmapper.colourpalette import ColourTheme
 from PIL import Image, ImageDraw, ImageFont, ImageColor
+import textwrap
 
 
 class Painter:
@@ -170,43 +171,6 @@ class Painter:
             self.footer_font_colour,
         ) = colour_theme.get_colour_theme_settings("footer")
 
-    # def XXXset_colour(self, colour: str) -> None:
-    #     """Set colour
-
-    #     Args:
-    #         colour (str): HTML color code. Eg. #FFFFFF or LightGreen
-    #     """
-    #     # c = Color(colour)
-    #     # self.__cr.set_source_rgb(*c.get_rgb())
-    #     self.current_colour = colour
-
-    # def XXXset_colour_alpha(self, colour: str) -> None:
-    #     """Set colour with alpha
-
-    #     Args:
-    #         colour (str): HTML colour name or hex code. Eg. #FFFFFF or LightGreen
-    #     """
-    #     # c = Color(colour)
-    #     # self.__cr.set_source_rgba(*c.get_rgb(), 0.5)
-    #     self.transparency_level = 0.5
-
-    # def XXXset_font(self, font: str, font_size: int, font_colour: str) -> None:
-    #     """Configure text font settings
-
-    #     Args:
-    #         font (str): Font name. Eg. Arial
-    #         font_size (int): Font size
-    #         font_colour (str): Font colour in HTML colour name or hex code. Eg. #FFFFFF or LightGreen
-    #     """
-    #     # self.set_colour(font_colour)
-    #     # self.__cr.select_font_face(
-    #     #     font, cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL
-    #     # )
-    #     # self.__cr.set_font_size(font_size)
-    #     self.font = font
-    #     self.font_size = font_size
-    #     # self.__cr.text((0, 0), "", font=ImageFont.truetype(font, font_size), fill=font_colour)
-
     def draw_box(
         self, x: int, y: int, width: int, height: int, box_fill_colour: str
     ) -> None:
@@ -224,50 +188,74 @@ class Painter:
 
     def draw_box_with_text(
         self,
-        x: int,
-        y: int,
-        width: int,
-        height: int,
-        box_fill_colour: str,
+        box_x: int,
+        box_y: int,
+        box_width: int,
+        box_height: int,
+        box_fill_colour: int,
         text: str,
         text_alignment: str,
         text_font: str,
         text_font_size: int,
         text_font_colour: str,
     ) -> None:
-        """Draw a box with text
+        font = ImageFont.truetype(text_font, size=text_font_size)
 
-        Args:
-            x (int): X coordinate
-            y (int): Y coordinate
-            width (int): Rectangle width
-            height (int): Rectangle height
-            box_fill_colour (str): Box fill colour in HTML colour name or hex code. Eg. #FFFFFF or LightGreen
-            text (str): Text to display in the box
-            text_alignment (str): Text alignment. Eg. left, center, right
-            text_font (str): Text font name. Eg. Arial
-            text_font_size (int): Text font size
-            text_font_colour (str): Text font colour in HTML colour name or hex code. Eg. #FFFFFF or LightGreen
-        """
-        # self.set_colour(text_fill_colour)
-        # self.__cr.rectangle(x, y, width, height)
-        self.draw_box(x, y, width, height, box_fill_colour=box_fill_colour)
+        multi_lines = []
+        wrap_lines = []
 
-        # self.set_colour(text_font_colour)
-        text_x, text_y = self.get_display_text_position(
-            x,
-            y,
-            width,
-            height,
-            text,
-            text_alignment,
-            text_font,
-            text_font_size,
-            text_font_colour,
+        # Make '\n' work
+        multi_lines = text.splitlines()
+
+        left, _, right, bottom = font.getbbox("a")
+        single_char_width = right - left
+
+        # wrap text
+        for line in multi_lines:
+            wrap_lines.extend(textwrap.wrap(line, int(box_width / single_char_width)))
+
+        box_x1, box_y1, box_x2, box_y2 = (
+            box_x,
+            box_y,
+            box_x + box_width,
+            box_y + box_height,
         )
-        self.draw_text(
-            text_x, text_y, text, text_font, text_font_size, text_font_colour
-        )
+        self.__cr.rectangle((box_x1, box_y1, box_x2, box_y2), fill=box_fill_colour)
+
+        # self.draw_cross_on_box(box_x1, box_y1, box_x2, box_y2, "red")
+
+        pad = 4
+        line_count = len(wrap_lines)
+
+        for i, line in enumerate(wrap_lines):
+            # left, top, right, bottom = font.getbbox(line)
+            font_width, font_height = self.get_text_dimension(
+                line, text_font, text_font_size
+            )
+            # font_width = right - left
+            # font_height = bottom
+
+            match text_alignment:
+                case "centre":
+                    x = box_x1 + (box_width - font_width) / 2
+                case "left":
+                    x = box_x1 + 15
+                case "right":
+                    x = box_x2 - font_width - 15
+                case _:
+                    x = box_x1 + (box_width - font_width) / 2
+
+            total_line_height = (font_height * line_count) + (pad * (line_count - 1))
+
+            single_line_height = font_height
+
+            y = (
+                box_y1
+                + ((box_height - total_line_height) / 2)
+                + ((single_line_height * i) + (pad * i))
+            )
+
+            self.__cr.text((x, y), line, fill=text_font_colour, anchor="la", font=font)
 
     def draw_diamond(
         self, x: int, y: int, width: int, height: int, fill_colour: str
@@ -281,13 +269,6 @@ class Painter:
             height (int): Diamond height
             fill_colour (str): Diamond fill colour in HTML colour name or hex code. Eg. #FFFFFF or LightGreen
         """
-        # self.__cr.set_source_rgb(1, 0, 0)
-        # self.__cr.move_to(x + width / 2, y)
-        # self.__cr.line_to(x + width, y + height / 2)
-        # self.__cr.line_to(x + width / 2, y + height)
-        # self.__cr.line_to(x, y + height / 2)
-        # self.__cr.close_path()
-        # self.__cr.fill()
 
         # Calculate the coordinates of the four points of the diamond.
         points = [
@@ -314,18 +295,9 @@ class Painter:
             (x, y),
             text,
             font=ImageFont.truetype(font, font_size),
+            anchor="la",
             fill=(font_colour),
         )
-
-    # def XXXset_line_width(self, width: int) -> None:
-    #     """Set line width
-
-    #     Args:
-    #         width (int): Line width
-    #     """
-
-    #     # self.__cr.set_line_width(width)
-    #     self.line_width = width
 
     def set_line_style(self, style: str = "solid") -> None:
         """Set line style
@@ -339,7 +311,6 @@ class Painter:
             self.dash = (10.0, 5.0)
         else:
             self.dash = None
-        # self.__cr.set_dash(dash)
 
     def draw_line(
         self,
@@ -350,7 +321,7 @@ class Painter:
         line_colour: str,
         line_transparency: int,
         line_width: int,
-        line_style: str = "solid",
+        line_style: str = "dashed",
     ) -> None:
         """Draw a line
 
@@ -364,24 +335,54 @@ class Painter:
             line_width (int): Line width
             line_style (str, optional): Line style. Defaults to "solid". Options: "solid", "dashed"
         """
-        if line_style == "solid":
-            dash = None
-        elif line_style == "dashed":
-            dash = (10.0, 5.0)
-        else:
-            dash = None
-
+        # print("line_style", line_style)
         r, g, b = ImageColor.getrgb(line_colour)
 
-        self.__cr.line(
-            (x1, y1, x2, y2),
-            width=line_width,
-            fill=(r, g, b, line_transparency),
-        )
+        def linspace(start, stop, n):
+            if n == 1:
+                yield stop
+                return
+            h = (stop - start) / (n - 1)
+            for i in range(n):
+                yield start + h * i
 
-        # self.__cr.move_to(x1, y1)
-        # self.__cr.line_to(x2, y2)
-        # self.__cr.stroke()
+        if line_style == "solid":
+            self.__cr.line(
+                (x1, y1, x2, y2),
+                width=line_width,
+                fill=(r, g, b, int(255 * line_transparency)),
+            )
+        elif line_style == "dashed":
+            # given a line between x1, y1 and x2, y2, divide it into multiple shorter lines
+            # and draw them with a gap in between
+            for i, (x, y) in enumerate(
+                zip(
+                    linspace(x1, x2, 20),
+                    linspace(y1, y2, 20),
+                )
+            ):
+                if i % 2 == 0:
+                    self.__cr.line(
+                        (x, y, x, y + 10),
+                        width=line_width,
+                        fill=(r, g, b, int(255 * line_transparency)),
+                    )
+
+    def draw_cross_on_box(
+        self, x1: int, y1: int, x2: int, y2: int, colour: str
+    ) -> None:
+        # draw.line((x1, y1, x2, y2), fill=colour)
+        # draw.line((x1, y2, x2, y1), fill=colour)
+        self.__cr.line(
+            (
+                x1,
+                y1 + (y2 - y1) / 2,
+                x2,
+                y2 - (y2 - y1) / 2,
+            ),
+            fill="red",
+        )
+        self.__cr.line((x1 + ((x2 - x1) / 2), y1, x1 + ((x2 - x1) / 2), y2), fill="red")
 
     def get_text_dimension(self, text: str, font: str, font_size: int) -> tuple:
         """Get text dimension
@@ -394,12 +395,17 @@ class Painter:
         """
         # Use Pillow's ImageFont module to get the dimensions of the text.
         image_font = ImageFont.truetype(font, font_size)
+
         ascent, descent = image_font.getmetrics()
 
-        text_width = image_font.getmask(text).getbbox()[2]
-        text_height = image_font.getmask(text).getbbox()[3] + descent
+        # font_width = image_font.getmask(text).getbbox()[2]
+        # font_height = image_font.getmask(text).getbbox()[3] + descent
 
-        return text_width, text_height
+        left, _, right, bottom = image_font.getbbox(text)
+        font_width = right
+        font_height = bottom
+
+        return font_width, font_height
 
     def set_background_colour(self) -> None:
         """Set surface background colour"""
@@ -455,16 +461,17 @@ class Painter:
             width (int): Surface width
             height (int): Surface height
         """
-        height += 50
+        height += 100
         # self.__new_surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
-        print(f"width: {width}, height: {height}")
-        self.__surface.resize((width, height))
+        # print(f"width: {width}, height: {height}")
+        # print(f"Original size: {self.__surface.width} x {self.__surface.height}")
 
-        # self.__new_cr = cairo.Context(self.__new_surface)
+        # left, top, right, bottom = 0, height, width, self.__surface.height
+        left, top, right, bottom = 0, 0, width, height
+        # print(f"cropped area: {left}, {top}, {right}, {bottom}")
+        self.__surface = self.__surface.crop((left, top, right, bottom))
 
-        # # Copy the contents of the old surface onto the new surface
-        # self.__new_cr.set_source_surface(self.__surface)
-        # self.__new_cr.paint()
+        # print(f"Changed size: {self.__surface.width} x {self.__surface.height}")
 
     def save_surface(self, filename: str) -> None:
         """Save surface to PNG file

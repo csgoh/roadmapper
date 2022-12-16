@@ -160,18 +160,31 @@ class Group:
         Args:
             painter (Painter): PyCairo wrapper class instance
         """
-        # Step 1: draw group
-        # painter.set_colour(self.fill_colour)
-        painter.draw_box(
-            self.box_x, self.box_y, self.box_width, self.box_height, self.fill_colour
-        )
+        # # Step 1: draw group
+        # # painter.set_colour(self.fill_colour)
+        # painter.draw_box(
+        #     self.box_x, self.box_y, self.box_width, self.box_height, self.fill_colour
+        # )
 
-        # painter.set_font(self.font, self.font_size, self.font_colour)
+        # # painter.set_font(self.font, self.font_size, self.font_colour)
 
-        painter.draw_text(
-            self.text_x,
-            self.text_y,
+        # painter.draw_text(
+        #     self.text_x,
+        #     self.text_y,
+        #     self.text,
+        #     self.font,
+        #     self.font_size,
+        #     self.font_colour,
+        # )
+        
+        painter.draw_box_with_text(
+            self.box_x,
+            self.box_y,
+            self.box_width,
+            self.box_height,
+            self.fill_colour,
             self.text,
+            "centre",
             self.font,
             self.font_size,
             self.font_colour,

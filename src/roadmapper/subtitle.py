@@ -51,7 +51,7 @@ class SubTitle:
         )
         return (
             painter.width / 2
-        ) - self.width / 2, painter.last_drawn_y_pos + self.height + 5
+        ) - self.width / 2, painter.last_drawn_y_pos + self.height + 10
 
     def set_draw_position(self, painter: Painter) -> None:
         """Set the draw position of the title

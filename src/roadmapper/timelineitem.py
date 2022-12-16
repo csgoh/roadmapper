@@ -320,29 +320,45 @@ class TimelineItem:
         Args:
             painter (Painter): PyCairo wrapper class instance
         """
-        # painter.set_colour(self.fill_colour)
-        painter.draw_box(
+        # # painter.set_colour(self.fill_colour)
+        # painter.draw_box(
+        #     self.box_x,
+        #     self.box_y,
+        #     self.box_width - 2,
+        #     self.box_height,
+        #     self.fill_colour,
+        # )  # -1 is to draw the white line in between timeline items
+
+        # print(
+        #     f"Timeline.draw: self.text = {self.text}, x = {self.box_x}, y = {self.box_y}, width = {self.box_width}, height = {self.box_height}"
+        # )
+
+        # # painter.set_colour(self.font_colour)
+        # # painter.set_font(self.font, self.font_size, self.font_colour)
+        # painter.draw_text(
+        #     self.text_x,
+        #     self.text_y,
+        #     self.text,
+        #     self.font,
+        #     self.font_size,
+        #     self.font_colour,
+        # )
+
+        painter.draw_box_with_text(
             self.box_x,
             self.box_y,
-            self.box_width - 2,
+            self.box_width,
             self.box_height,
             self.fill_colour,
-        )  # -1 is to draw the white line in between timeline items
-
-        print(
-            f"Timeline.draw: self.text = {self.text}, x = {self.box_x}, y = {self.box_y}, width = {self.box_width}, height = {self.box_height}"
-        )
-
-        # painter.set_colour(self.font_colour)
-        # painter.set_font(self.font, self.font_size, self.font_colour)
-        painter.draw_text(
-            self.text_x,
-            self.text_y,
             self.text,
+            "centre",
             self.font,
             self.font_size,
             self.font_colour,
         )
+        # print(
+        #     f"Timeline.draw: self.text = {self.text}, x = {self.box_x}, y = {self.box_y}, width = {self.box_width}, height = {self.box_height}"
+        # )
 
     def draw_vertical_line(self, painter: Painter) -> None:
         """Draws the timeline

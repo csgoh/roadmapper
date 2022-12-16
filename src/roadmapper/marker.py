@@ -79,7 +79,14 @@ class Marker:
         self.label_width, self.label_height = painter.get_text_dimension(
             self.text, self.font, self.font_size
         )
-        self.label_x = self.line_from_x - (self.label_width / 2)
+        self.label_x = self.line_from_x - (self.label_width / 2) + 1
+        # print(
+        #     f"marker: {self.label_x=}, {self.label_y=}, {self.label_width=}, {self.label_height=}"
+        # )
+        # print(
+        #     f"line: {self.line_from_x=}, {self.line_from_y=}, {self.line_to_x=}, {self.line_to_y=}"
+        # )
+
         self.line_from_y = self.label_y + self.label_height + 4
         painter.last_drawn_y_pos = self.label_y + self.label_height
 
@@ -105,7 +112,7 @@ class Marker:
         # painter.set_colour(self.font_colour)
         painter.draw_text(
             self.label_x,
-            self.label_y + 10,
+            self.label_y + 5,
             self.text,
             self.font,
             self.font_size,
@@ -121,7 +128,16 @@ class Marker:
             self.line_to_x,
             self.line_to_y,
             self.line_colour,
-            line_transparency=50,
+            line_transparency=0.9,
             line_width=self.line_width,
             line_style=self.line_style,
         )
+
+        # painter.draw_transp_line(
+        #     self.line_from_x,
+        #     self.line_from_y,
+        #     self.line_to_x,
+        #     self.line_to_y,
+        #     self.line_colour,
+        #     self.line_width,
+        # )
