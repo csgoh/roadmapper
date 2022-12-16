@@ -54,7 +54,7 @@ class Timeline:
         """Calculate the draw position of the timeline
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
 
         Returns:
             tuple[int, int, int]: Timeline x, y, width
@@ -81,17 +81,13 @@ class Timeline:
         # Determine timeline starting y position
         timeline_y = painter.last_drawn_y_pos + painter.gap_between_timeline_and_title
 
-        # print(
-        #     f"Timeline: {timeline_x}, {timeline_y}, {timeline_width}, {self.__timeline_height}"
-        # )
-
         return timeline_x, timeline_y, timeline_width
 
     def set_draw_position(self, painter: Painter) -> None:
         """Set the draw position of the timeline
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
         """
         # painter.set_font(self.font, self.font_size, self.font_colour)
         self.x, self.y, self.width = self.__calculate_draw_position(painter)
@@ -292,7 +288,7 @@ class Timeline:
         """Draw the timeline
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
         """
         # painter.set_font(self.font, self.font_size, self.font_colour)
         for i in range(0, self.number_of_items):
@@ -304,7 +300,7 @@ class Timeline:
         """Draw the timeline's vertical lines
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
         """
         # painter.set_font(self.font, self.font_size, self.font_colour)
         for i in range(0, self.number_of_items):

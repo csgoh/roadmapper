@@ -214,10 +214,10 @@ def parallel_task_demo(
 # # demo02_barestyle(TimelineMode.HALF_YEARLY, "2023-02-01", 3, "demo04.png")
 # # demo02_barestyle(TimelineMode.YEARLY, "2023-02-01", 2, "demo05.png")
 
-colour_theme_demo(file_name="demo-colour-default.png", colour_theme="DEFAULT")
-colour_theme_demo(file_name="demo-colour-GREYWOOF.png", colour_theme="GREYWOOF")
-colour_theme_demo(file_name="demo-colour-BLUEMOUNTAIN.png", colour_theme="BLUEMOUNTAIN")
-colour_theme_demo(file_name="demo-colour-ORANGEPEEL.png", colour_theme="ORANGEPEEL")
+# colour_theme_demo(file_name="demo-colour-default.png", colour_theme="DEFAULT")
+# colour_theme_demo(file_name="demo-colour-GREYWOOF.png", colour_theme="GREYWOOF")
+# colour_theme_demo(file_name="demo-colour-BLUEMOUNTAIN.png", colour_theme="BLUEMOUNTAIN")
+# colour_theme_demo(file_name="demo-colour-ORANGEPEEL.png", colour_theme="ORANGEPEEL")
 colour_theme_demo(file_name="demo-colour-GREENTURTLE.png", colour_theme="GREENTURTLE")
 
 # show_generic_dates = True
