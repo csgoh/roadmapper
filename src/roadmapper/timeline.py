@@ -26,6 +26,7 @@ import calendar
 
 from roadmapper.painter import Painter
 from roadmapper.timelineitem import TimelineItem
+from roadmapper.timelineitemgroup import TimelineItemGroup
 from roadmapper.timelinemode import TimelineMode
 
 
@@ -45,6 +46,7 @@ class Timeline:
     font_size: int = 12
     font_colour: str = "Black"
     fill_colour: str = "LightGray"
+    timeline_items_group: list[TimelineItemGroup] = field(default_factory=list)
     timeline_items: list[TimelineItem] = field(default_factory=list)
 
     # Constant Variables
@@ -91,15 +93,68 @@ class Timeline:
         """
         # painter.set_font(self.font, self.font_size, self.font_colour)
         self.x, self.y, self.width = self.__calculate_draw_position(painter)
-        timelineitem_width = int(self.width / self.number_of_items)
-        timelineitem_y = self.y + painter.timeline_height
-        timelineitem_height = self.__timeline_height
 
-        for i in range(0, self.number_of_items):
-            timelineitem_x = self.x + (i * timelineitem_width)
-            timelineitem_text = self.__get_timeline_item_text(i)
-            timelineitem_value = self.__get_timeline_item_value(i)
-            timelineitem_start, timelineitem_end = self.__get_timeline_item_dates(i)
+        year_groups = {}
+        this_year = 0
+        for index in range(0, self.number_of_items):
+
+            index_year = self.__get_timeline_item_value(index)[0:4]
+
+            (
+                timelineitemgroup_start,
+                timelineitemgroup_end,
+            ) = self.__get_timeline_item_dates(index)
+
+            if index_year in year_groups:
+                year_groups[index_year] += 1
+            else:
+                year_groups[index_year] = 1
+
+        print(f"{year_groups}")
+
+        timelineitem_width = int(self.width / self.number_of_items)
+
+        timelineitemgroup_y = self.y + painter.timeline_height
+        timelineitemgroup_height = painter.timeline_height
+        index = 0
+        for year in year_groups:
+            print(f"{year} {year_groups[year]}")
+            # Set timelinegroup attributes
+            timelineitemgroup_x = self.x + (index * timelineitem_width)
+            timelineitemgroup_width = timelineitem_width * year_groups[year]
+            index += year_groups[year]
+
+            timelinetimegroup = TimelineItemGroup(
+                text=year,
+                value=year,
+                start=timelineitemgroup_start,
+                end=timelineitemgroup_end,
+                font=self.font,
+                font_size=self.font_size,
+                font_colour=self.font_colour,
+                fill_colour=self.fill_colour,
+            )
+
+            timelinetimegroup.set_draw_position(
+                painter,
+                timelineitemgroup_x,
+                timelineitemgroup_y,
+                timelineitemgroup_width,
+                timelineitemgroup_height,
+            )
+            self.timeline_items_group.append(timelinetimegroup)
+
+        painter.last_drawn_y_pos = timelineitemgroup_y + timelineitemgroup_height
+
+        # timelineitem_y = self.y + painter.timeline_height
+        timelineitem_y = painter.last_drawn_y_pos
+        timelineitem_height = painter.timeline_height
+
+        for index in range(0, self.number_of_items):
+            timelineitem_x = self.x + (index * timelineitem_width)
+            timelineitem_text = self.__get_timeline_item_text(index)
+            timelineitem_value = self.__get_timeline_item_value(index)
+            timelineitem_start, timelineitem_end = self.__get_timeline_item_dates(index)
 
             timelineitem = TimelineItem(
                 text=timelineitem_text,
@@ -136,7 +191,7 @@ class Timeline:
         if self.mode == TimelineMode.WEEKLY:
             if self.show_generic_dates == False:
                 this_week = self.start + relativedelta(weeks=+index)
-                timeline_text = f"W{this_week.strftime('%W')} {this_week.year}"
+                timeline_text = f"W{this_week.strftime('%W')}"
             else:
                 this_week = index + 1
                 this_year = 1
@@ -144,7 +199,7 @@ class Timeline:
         elif self.mode == TimelineMode.MONTHLY:
             if self.show_generic_dates == False:
                 this_month = self.start + relativedelta(months=+index)
-                timeline_text = f"{this_month.strftime('%b')} {this_month.year}"
+                timeline_text = f"{this_month.strftime('%b')}"
             else:
                 this_month = index + 1
                 timeline_text = f"Month {this_month}"
@@ -152,7 +207,7 @@ class Timeline:
             if self.show_generic_dates == False:
                 this_month = self.start + relativedelta(months=+(index * 3))
                 this_quarter = (this_month.month - 1) // 3 + 1
-                timeline_text = f"Q{this_quarter} {this_month.year}"
+                timeline_text = f"Q{this_quarter}"
             else:
                 this_month = index * 3 + 1
                 this_quarter = (this_month - 1) // 3 + 1
@@ -161,7 +216,7 @@ class Timeline:
             if self.show_generic_dates == False:
                 this_month = self.start + relativedelta(months=+(index * 6))
                 this_halfyear = (this_month.month - 1) // 6 + 1
-                timeline_text = f"H{this_halfyear} {this_month.year}"
+                timeline_text = f"H{this_halfyear}"
             else:
                 this_month = index * 6 + 1
                 this_halfyear = (this_month - 1) // 6 + 1
@@ -291,8 +346,15 @@ class Timeline:
             painter (Painter): Pillow wrapper class instance
         """
         # painter.set_font(self.font, self.font_size, self.font_colour)
-        for i in range(0, self.number_of_items):
+        for timelinegroup in self.timeline_items_group:
+            timelinegroup.draw(painter)
 
+        for index, timelinegroup in enumerate(self.timeline_items_group):
+            # The negative 1 is to avoid drawing the last vertical line
+            if index < len(self.timeline_items_group) - 1:
+                timelinegroup.draw_vertical_line(painter)
+
+        for i in range(0, self.number_of_items):
             timelineitem = self.timeline_items[i]
             timelineitem.draw(painter)
 

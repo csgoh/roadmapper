@@ -356,9 +356,6 @@ class TimelineItem:
             self.font_size,
             self.font_colour,
         )
-        # print(
-        #     f"Timeline.draw: self.text = {self.text}, x = {self.box_x}, y = {self.box_y}, width = {self.box_width}, height = {self.box_height}"
-        # )
 
     def draw_vertical_line(self, painter: Painter) -> None:
         """Draws the timeline
@@ -366,9 +363,6 @@ class TimelineItem:
         Args:
             painter (Painter): PyCairo wrapper class instance
         """
-        # painter.set_colour("#e6e6e6")
-        # painter.set_colour("lightgrey")
-        # painter.set_line_width(1)
         painter.draw_line(
             self.box_x,
             # self.box_y + self.box_height + 1,
