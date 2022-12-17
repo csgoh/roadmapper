@@ -100,8 +100,33 @@ class TimelineItemGroup:
         Args:
             painter (Painter): Pillow wrapper class instance
         """
-        # painter.set_font(self.font, self.font_size, self.font_colour)
-        for i in range(0, self.number_of_items):
+        painter.draw_box_with_text(
+            self.box_x,
+            self.box_y,
+            self.box_width,
+            self.box_height,
+            self.fill_colour,
+            self.text,
+            "centre",
+            self.font,
+            self.font_size,
+            self.font_colour,
+        )
+        print(
+            f"Drawing {self.text} at {self.box_x}, {self.box_y}, {self.box_width}, {self.box_height}"
+        )
 
-            timelineitem = self.timeline_items[i]
-            timelineitem.draw(painter)
+    def draw_vertical_line(self, painter: Painter) -> None:
+        painter.draw_line(
+            self.box_x + self.box_width,
+            self.box_y,
+            self.box_x + self.box_width,
+            self.box_y + self.box_height,
+            "#e6e6e6",
+            50,
+            1,
+            "solid",
+        )
+        print(
+            f"Drawing line at {self.box_x + self.box_width}, {self.box_y}, {self.box_x + self.box_width}, {self.box_y + self.box_height}"
+        )
