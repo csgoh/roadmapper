@@ -302,6 +302,7 @@ class Roadmap:
         if fill_colour == "":
             fill_colour = self.__painter.group_fill_colour
 
+        # print(f"{text}, alignment = {text_alignment}")
         group = Group(
             text=text,
             font=font,
