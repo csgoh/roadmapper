@@ -107,7 +107,6 @@ class Group:
             painter (Painter): PyCairo wrapper class instance
             timeline (Timeline): Timeline instance
         """
-        additional_height_for_milestone = 15
 
         # Calculate number of milestones in group
         milestone_count = 0
@@ -116,12 +115,16 @@ class Group:
             if len(task.milestones) == 0:
                 for parallel_task in task.tasks:
                     milestone_count += len(parallel_task.milestones)
+                    break  ### We only need to know whether there milestone exists in the parallel tasks
 
         # Calc group height
         task_count = len(self.tasks)
+        # print(
+        #     f"{self.text} task_count: {task_count}, milestone_count: {milestone_count}"
+        # )
         self.box_height = (
             (20 * task_count)
-            + (additional_height_for_milestone * milestone_count)
+            + (painter.additional_height_for_milestone * milestone_count)
             + (5 * task_count)
             + (2 * (task_count - 1))
         )
@@ -131,7 +134,7 @@ class Group:
 
         self.box_x = painter.left_margin
 
-        self.box_y = painter.last_drawn_y_pos + additional_height_for_milestone
+        self.box_y = painter.last_drawn_y_pos + painter.additional_height_for_milestone
 
         self.text_x, self.text_y = painter.get_display_text_position(
             self.box_x,
