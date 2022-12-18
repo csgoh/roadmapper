@@ -112,9 +112,9 @@ class TimelineItemGroup:
             self.font_size,
             self.font_colour,
         )
-        print(
-            f"Drawing {self.text} at {self.box_x}, {self.box_y}, {self.box_width}, {self.box_height}"
-        )
+        # print(
+        #     f"Drawing {self.text} at {self.box_x}, {self.box_y}, {self.box_width}, {self.box_height}"
+        # )
 
     def draw_vertical_line(self, painter: Painter) -> None:
         painter.draw_line(
@@ -127,6 +127,6 @@ class TimelineItemGroup:
             1,
             "solid",
         )
-        print(
-            f"Drawing line at {self.box_x + self.box_width}, {self.box_y}, {self.box_x + self.box_width}, {self.box_y + self.box_height}"
-        )
+        # print(
+        #     f"Drawing line at {self.box_x + self.box_width}, {self.box_y}, {self.box_x + self.box_width}, {self.box_y + self.box_height}"
+        # )

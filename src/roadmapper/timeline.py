@@ -94,10 +94,11 @@ class Timeline:
         # painter.set_font(self.font, self.font_size, self.font_colour)
         self.x, self.y, self.width = self.__calculate_draw_position(painter)
 
+        # Calculate timelineitemgroup positions
         year_groups = {}
-        this_year = 0
-        for index in range(0, self.number_of_items):
 
+        for index in range(0, self.number_of_items):
+            # print(f"index: {index}")
             index_year = self.__get_timeline_item_value(index)[0:4]
 
             (
@@ -105,53 +106,91 @@ class Timeline:
                 timelineitemgroup_end,
             ) = self.__get_timeline_item_dates(index)
 
-            if index_year in year_groups:
-                year_groups[index_year] += 1
+            if self.show_generic_dates == False:
+                if index_year in year_groups:
+                    year_groups[index_year] += 1
+                else:
+                    year_groups[index_year] = 1
             else:
-                year_groups[index_year] = 1
+                generic_year = 1
+                if self.mode == TimelineMode.WEEKLY:
+                    if index >= 52:
+                        generic_year += index // 52
+                elif self.mode == TimelineMode.MONTHLY:
+                    if index >= 12:
+                        generic_year += index // 12
+                elif self.mode == TimelineMode.QUARTERLY:
+                    if index >= 4:
+                        generic_year += index // 4
+                elif self.mode == TimelineMode.HALF_YEARLY:
+                    if index >= 2:
+                        generic_year += index // 2
+                elif self.mode == TimelineMode.YEARLY:
+                    if index >= 1:
+                        generic_year += index // 1
 
-        print(f"{year_groups}")
+                if generic_year in year_groups:
+                    year_groups[generic_year] += 1
+                else:
+                    year_groups[generic_year] = 1
 
-        timelineitem_width = int(self.width / self.number_of_items)
+        # print(f"{year_groups}")
 
-        timelineitemgroup_y = self.y + painter.timeline_height
-        timelineitemgroup_height = painter.timeline_height
-        index = 0
-        for year in year_groups:
-            print(f"{year} {year_groups[year]}")
-            # Set timelinegroup attributes
-            timelineitemgroup_x = self.x + (index * timelineitem_width)
-            timelineitemgroup_width = timelineitem_width * year_groups[year]
-            index += year_groups[year]
+        # timelineitem_width = int(self.width / self.number_of_items)
 
-            timelinetimegroup = TimelineItemGroup(
-                text=year,
-                value=year,
-                start=timelineitemgroup_start,
-                end=timelineitemgroup_end,
-                font=self.font,
-                font_size=self.font_size,
-                font_colour=self.font_colour,
-                fill_colour=self.fill_colour,
+        timelineitem_width = int(self.width / self.number_of_items) + (
+            painter.gap_between_timeline_item / 2
+        )
+
+        if self.mode != TimelineMode.YEARLY:
+            timelineitemgroup_y = self.y + painter.timeline_height
+            timelineitemgroup_height = painter.timeline_height
+            index = 0
+            for year in year_groups:
+                # print(f"{year} {year_groups[year]}")
+                # Set timelinegroup attributes
+                timelineitemgroup_x = self.x + (index * timelineitem_width)
+                timelineitemgroup_width = timelineitem_width * year_groups[year] + (
+                    (painter.gap_between_timeline_item / 2) * (year_groups[year] - 1)
+                )
+                index += year_groups[year]
+
+                timelinetimegroup = TimelineItemGroup(
+                    text="Year " + str(year),
+                    value=year,
+                    start=timelineitemgroup_start,
+                    end=timelineitemgroup_end,
+                    font=self.font,
+                    font_size=self.font_size,
+                    font_colour=self.font_colour,
+                    fill_colour=self.fill_colour,
+                )
+
+                timelinetimegroup.set_draw_position(
+                    painter,
+                    timelineitemgroup_x,
+                    timelineitemgroup_y,
+                    timelineitemgroup_width,
+                    timelineitemgroup_height,
+                )
+                self.timeline_items_group.append(timelinetimegroup)
+
+            painter.last_drawn_y_pos = (
+                timelineitemgroup_y
+                + timelineitemgroup_height
+                + painter.gap_between_timeline_group_item
             )
-
-            timelinetimegroup.set_draw_position(
-                painter,
-                timelineitemgroup_x,
-                timelineitemgroup_y,
-                timelineitemgroup_width,
-                timelineitemgroup_height,
-            )
-            self.timeline_items_group.append(timelinetimegroup)
-
-        painter.last_drawn_y_pos = timelineitemgroup_y + timelineitemgroup_height
 
         # timelineitem_y = self.y + painter.timeline_height
         timelineitem_y = painter.last_drawn_y_pos
         timelineitem_height = painter.timeline_height
 
         for index in range(0, self.number_of_items):
-            timelineitem_x = self.x + (index * timelineitem_width)
+            timelineitem_x = (
+                self.x
+                + (index * timelineitem_width)
+                + (index * (painter.gap_between_timeline_item / 2))
+            )
             timelineitem_text = self.__get_timeline_item_text(index)
             timelineitem_value = self.__get_timeline_item_value(index)
             timelineitem_start, timelineitem_end = self.__get_timeline_item_dates(index)
@@ -174,6 +213,9 @@ class Timeline:
                 timelineitem_width,
                 timelineitem_height,
             )
+            # print(
+            #     f"[{timelineitem_text}], {timelineitem_x}, {timelineitem_y}, {timelineitem_width}, {timelineitem_height}"
+            # )
 
             self.timeline_items.append(timelineitem)
         painter.last_drawn_y_pos = timelineitem_y + timelineitem_height
@@ -193,15 +235,27 @@ class Timeline:
                 this_week = self.start + relativedelta(weeks=+index)
                 timeline_text = f"W{this_week.strftime('%W')}"
             else:
-                this_week = index + 1
                 this_year = 1
-                timeline_text = f"Week {this_week}"
+                if index >= 52:
+                    this_year += index // 52
+
+                # this_year = ("0000" + str(this_year))[-4:]
+
+                # timeline_value = f"{this_year}{this_week}"
+                # print(f"index: {index}, this_week: {this_week}, this_year: {this_year}")
+
+                # this_week = index + 1
+                # this_year = 1
+                # this_week = (index % 52) + 1
+                this_week = index + 1
+                timeline_text = f"W {this_week}"
         elif self.mode == TimelineMode.MONTHLY:
             if self.show_generic_dates == False:
                 this_month = self.start + relativedelta(months=+index)
                 timeline_text = f"{this_month.strftime('%b')}"
             else:
                 this_month = index + 1
+
                 timeline_text = f"Month {this_month}"
         elif self.mode == TimelineMode.QUARTERLY:
             if self.show_generic_dates == False:
@@ -245,9 +299,11 @@ class Timeline:
         timeline_value = ""
         if self.mode == TimelineMode.WEEKLY:
             this_week = self.start + relativedelta(weeks=+index)
-            week_value = int(this_week.strftime("%W"))
+            print(f"this_week: {this_week}")
+            week_value = int(this_week.strftime("%W")) + 1
+            print(f"week_value: {week_value}")
             timeline_value = f"{this_week.year}{week_value}"
-            # print("week value: " + timeline_value)
+            print(f"timeline_value: {timeline_value}")
         elif self.mode == TimelineMode.MONTHLY:
             this_month = self.start + relativedelta(months=+index)
             timeline_value = f"{this_month.year}{this_month.strftime('%m')}"
@@ -280,7 +336,7 @@ class Timeline:
             timeline_period = self.__get_timeline_item_value(index)
             this_year = timeline_period[0:4]
             this_week = timeline_period[4:]
-            # print(f"{timeline_period=}, this_year={this_year} this_week={this_week}")
+            print(f"{timeline_period=}, this_year={this_year} this_week={this_week}")
             timeline_start_period = datetime.combine(
                 date.fromisocalendar(int(this_year), int(this_week), 1),
                 datetime.min.time(),
