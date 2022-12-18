@@ -155,7 +155,12 @@ class Task:
         )
 
     def set_draw_position(
-        self, painter: Painter, group_x: int, last_drawn_y: int, timeline: Timeline
+        self,
+        painter: Painter,
+        group_x: int,
+        last_drawn_y: int,
+        timeline: Timeline,
+        milestone_exists_in_parent: bool = False,
     ) -> None:
         """Set the draw position of this task
 
@@ -165,35 +170,57 @@ class Task:
             last_drawn_y (int): Last drawn y position
             timeline (Timeline): Timeline object
         """
-        additional_height_for_milestone = 18
         task_y = last_drawn_y
+
+        milestone_in_tasks = False
         if len(self.milestones) > 0:
-            self.box_y = task_y + additional_height_for_milestone
+            milestone_in_tasks = True
+            # self.box_y = task_y + additional_height_for_milestone
+            # for_parallel_tasks_y = self.box_y
         else:
-            milestone_in_tasks = False
             for task in self.tasks:
                 if len(task.milestones) > 0:
                     milestone_in_tasks = True
 
+        if milestone_exists_in_parent == False:
             if milestone_in_tasks == True:
-                task_y += additional_height_for_milestone
+                # print(f"{self.text} BEFORE : self.box_y: {self.box_y}")
+                self.box_y = task_y + painter.additional_height_for_milestone
+                # print(
+                #     f"{self.text} AFTER : self.box_y: {self.box_y}, task_y: {task_y}, additional_height_for_milestone: {painter.additional_height_for_milestone}"
+                # )
+                # print(f"{self.text} milestone in tasks")
             else:
-                task_y += 5
-
+                self.box_y = task_y
+        else:
             self.box_y = task_y
+
+        for_parallel_tasks_y = self.box_y
+
+        # print(f"{self.text} box_y: {self.box_y}")
 
         task_start_period = datetime.strptime(self.start, "%Y-%m-%d")
         task_end_period = datetime.strptime(self.end, "%Y-%m-%d")
 
-        for_parallel_tasks_y = last_drawn_y
         self.set_task_position(painter, timeline, task_start_period, task_end_period)
+
+        # for_parallel_tasks_y = last_drawn_y
+        # for_parallel_tasks_y = self.box_y
+        # if len(self.tasks) > 0:
+        #     for_parallel_tasks_y -= -5
+
+        for task in self.tasks:
+            task.set_draw_position(
+                painter,
+                self.box_x,
+                for_parallel_tasks_y,
+                timeline,
+                milestone_exists_in_parent=milestone_in_tasks,
+            )
 
         self.set_milestones_position(
             painter, timeline, task_start_period, task_end_period
         )
-
-        for task in self.tasks:
-            task.set_draw_position(painter, self.box_x, for_parallel_tasks_y, timeline)
 
     def set_milestones_position(
         self,
@@ -364,7 +391,13 @@ class Task:
             bool: True if task is within the timeline period
         """
         return (
-            self.is_task_begins_here_ends_future(
+            self.is_task_begins_here_ends_here(
+                timeline_start_period,
+                timeline_end_period,
+                task_start_period,
+                task_end_period,
+            )
+            or self.is_task_begins_here_ends_future(
                 timeline_start_period,
                 timeline_end_period,
                 task_start_period,
@@ -499,15 +532,16 @@ class Task:
                 self.box_height = 20
 
                 box_coordinates = [
-                    self.box_x,
-                    self.box_y,
-                    self.box_width,
-                    self.box_height,
+                    int(self.box_x),
+                    int(self.box_y),
+                    int(self.box_width),
+                    int(self.box_height),
                 ]
+                # print(f"[{self.text}] box_coordinates: {box_coordinates}")
                 self.boxes.append(box_coordinates)
 
                 bar_width = self.box_x + self.box_width - bar_start_x_pos
-                painter.last_drawn_y_pos = self.box_y + self.box_height
+                painter.last_drawn_y_pos = self.box_y + self.box_height + 5
 
         if row_match > 0:
             # painter.set_font(self.font, self.font_size, self.font_colour)
@@ -545,9 +579,7 @@ class Task:
             width += int(box[2])
             height = box[3]
 
-        box_x, box_y, box_width, box_height = (
-            box_x,
-            box_y,
+        box_width, box_height = (
             width,
             height,
         )
@@ -582,8 +614,9 @@ class Task:
                 self.font_size,
                 self.font_colour,
             )
-            for milestone in self.milestones:
-                milestone.draw(painter)
 
             for task in self.tasks:
                 task.draw(painter)
+
+            for milestone in self.milestones:
+                milestone.draw(painter)
