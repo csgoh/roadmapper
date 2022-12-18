@@ -22,7 +22,9 @@
 
 from datetime import datetime
 from dataclasses import dataclass, field
-from contextlib import contextmanager
+import time
+
+# from contextlib import contextmanager
 
 from roadmapper.painter import Painter
 from roadmapper.title import Title
@@ -50,6 +52,7 @@ class Roadmap:
     groups: list[Group] = field(default_factory=list, init=False)
     footer: Footer = field(default=None, init=False)
     marker: Marker = field(default=None, init=False)
+    show_generic_dates: bool = field(default=False, init=False)
 
     __version__ = "v0.1.1"
 
@@ -256,6 +259,7 @@ class Roadmap:
         if fill_colour == "":
             fill_colour = self.__painter.timeline_fill_colour
 
+        self.show_generic_dates = show_generic_dates
         start_date = datetime.strptime(start, "%Y-%m-%d")
         self.timeline = Timeline(
             mode=mode,
@@ -319,6 +323,9 @@ class Roadmap:
 
     def draw(self) -> None:
         """Draw the roadmap"""
+
+        start_time = time.time()
+
         self.__painter.set_background_colour()
 
         if self.title == None:
@@ -342,7 +349,7 @@ class Roadmap:
         for group in self.groups:
             group.draw(self.__painter)
 
-        if self.marker != None:
+        if self.marker != None and self.show_generic_dates == False:
             self.marker.set_line_draw_position(self.__painter)
             self.marker.draw(self.__painter)
 
@@ -354,6 +361,9 @@ class Roadmap:
             self.__painter.set_surface_size(
                 self.__painter.width, int(self.__painter.last_drawn_y_pos)
             )
+
+        elapsed_time = (time.time() - start_time) * 1000
+        print("Drawing time: %.3f ms" % elapsed_time)
 
     def save(self, filename: str) -> None:
         """Save surface to PNG file
