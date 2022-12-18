@@ -36,11 +36,15 @@ class Painter:
     last_drawn_y_pos = 0
 
     left_margin = 30
-    right_margin = 30
+    right_margin = 60
     group_box_width_percentage = 0.2
     timeline_width_percentage = 1 - group_box_width_percentage
     gap_between_group_box_and_timeline = 20
     gap_between_timeline_and_title = 20
+    gap_between_timeline_item = 3
+    gap_between_timeline_group_item = 3
+
+    additional_height_for_milestone = 15
 
     timeline_height = 20
 
