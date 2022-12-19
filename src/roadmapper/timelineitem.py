@@ -363,14 +363,17 @@ class TimelineItem:
         Args:
             painter (Painter): PyCairo wrapper class instance
         """
+        x_pos = self.box_x - 1
         painter.draw_line(
-            self.box_x,
-            # self.box_y + self.box_height + 1,
-            self.box_y,
-            self.box_x,
+            # self.box_x,
+            x_pos,
+            self.box_y + self.box_height,
+            # self.box_y,
+            x_pos,
             painter.last_drawn_y_pos + 10,
             "#e6e6e6",
             50,
             1,
             "solid",
         )
+        #print(f"line x={x_pos}")

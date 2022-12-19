@@ -117,16 +117,27 @@ class TimelineItemGroup:
         # )
 
     def draw_vertical_line(self, painter: Painter) -> None:
-        painter.draw_line(
-            self.box_x + self.box_width,
-            self.box_y,
-            self.box_x + self.box_width,
-            self.box_y + self.box_height,
-            "#e6e6e6",
-            50,
-            1,
-            "solid",
-        )
-        # print(
-        #     f"Drawing line at {self.box_x + self.box_width}, {self.box_y}, {self.box_x + self.box_width}, {self.box_y + self.box_height}"
+
+        x_pos = self.box_x - 1
+        # painter.draw_line(
+        #     x_pos,
+        #     self.box_y,
+        #     x_pos,
+        #     self.box_y + self.box_height,
+        #     "#e6e6e6",
+        #     50,
+        #     1,
+        #     "solid",
         # )
+
+        # painter.draw_line(
+        #     self.box_x + self.box_width,
+        #     self.box_y,
+        #     self.box_x + self.box_width,
+        #     self.box_y + self.box_height,
+        #     "#e6e6e6",
+        #     50,
+        #     1,
+        #     "solid",
+        # )
+        

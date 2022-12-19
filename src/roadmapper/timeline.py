@@ -138,7 +138,7 @@ class Timeline:
 
         # timelineitem_width = int(self.width / self.number_of_items)
 
-        timelineitem_width = int(self.width / self.number_of_items) + (
+        timelineitem_width = int(self.width / self.number_of_items) - (
             painter.gap_between_timeline_item / 2
         )
 
@@ -149,10 +149,20 @@ class Timeline:
             for year in year_groups:
                 # print(f"{year} {year_groups[year]}")
                 # Set timelinegroup attributes
-                timelineitemgroup_x = self.x + (index * timelineitem_width)
+                # timelineitemgroup_x = self.x + (index * timelineitem_width)
+
+                ##------------
+                timelineitemgroup_x = (
+                    self.x
+                    + (index * timelineitem_width)
+                    + (index * (painter.gap_between_timeline_item / 2))
+                )
+                ##------------
+
                 timelineitemgroup_width = timelineitem_width * year_groups[year] + (
                     (painter.gap_between_timeline_item / 2) * (year_groups[year] - 1)
                 )
+
                 index += year_groups[year]
 
                 timelinetimegroup = TimelineItemGroup(
@@ -166,6 +176,9 @@ class Timeline:
                     fill_colour=self.fill_colour,
                 )
 
+                # print(
+                #     f"timelineitemgroup {year}, x: {timelineitemgroup_x}, w: {timelineitemgroup_width}"
+                # )
                 timelinetimegroup.set_draw_position(
                     painter,
                     timelineitemgroup_x,
@@ -191,6 +204,7 @@ class Timeline:
                 + (index * timelineitem_width)
                 + (index * (painter.gap_between_timeline_item / 2))
             )
+            # print(f"timelineitem {index} x: {timelineitem_x}, w: {timelineitem_width}")
             timelineitem_text = self.__get_timeline_item_text(index)
             timelineitem_value = self.__get_timeline_item_value(index)
             timelineitem_start, timelineitem_end = self.__get_timeline_item_dates(index)
@@ -299,11 +313,11 @@ class Timeline:
         timeline_value = ""
         if self.mode == TimelineMode.WEEKLY:
             this_week = self.start + relativedelta(weeks=+index)
-            print(f"this_week: {this_week}")
+            # print(f"this_week: {this_week}")
             week_value = int(this_week.strftime("%W")) + 1
-            print(f"week_value: {week_value}")
+            # print(f"week_value: {week_value}")
             timeline_value = f"{this_week.year}{week_value}"
-            print(f"timeline_value: {timeline_value}")
+            # print(f"timeline_value: {timeline_value}")
         elif self.mode == TimelineMode.MONTHLY:
             this_month = self.start + relativedelta(months=+index)
             timeline_value = f"{this_month.year}{this_month.strftime('%m')}"
@@ -336,7 +350,7 @@ class Timeline:
             timeline_period = self.__get_timeline_item_value(index)
             this_year = timeline_period[0:4]
             this_week = timeline_period[4:]
-            print(f"{timeline_period=}, this_year={this_year} this_week={this_week}")
+            # print(f"{timeline_period=}, this_year={this_year} this_week={this_week}")
             timeline_start_period = datetime.combine(
                 date.fromisocalendar(int(this_year), int(this_week), 1),
                 datetime.min.time(),
@@ -404,10 +418,12 @@ class Timeline:
         # painter.set_font(self.font, self.font_size, self.font_colour)
         for timelinegroup in self.timeline_items_group:
             timelinegroup.draw(painter)
+            # break  ### TEMP
 
         for index, timelinegroup in enumerate(self.timeline_items_group):
             # The negative 1 is to avoid drawing the last vertical line
-            if index < len(self.timeline_items_group) - 1:
+            # if index < len(self.timeline_items_group) - 1:
+            if index > 0:
                 timelinegroup.draw_vertical_line(painter)
 
         for i in range(0, self.number_of_items):
