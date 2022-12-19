@@ -186,6 +186,7 @@ def colour_theme_demo(
 
     roadmap.save(file_name)
 
+
 def unicode_demo(
     width: int = 1200,
     mode: TimelineMode = TimelineMode.MONTHLY,
@@ -384,25 +385,25 @@ class TestRoadmap(unittest.TestCase):
         )
         self.assertTrue(True)
 
-    def test_sample_case3(self):
-        colour_theme_demo(
-            file_name="src/test/baseline/test-ORANGEPEEL-quarter.png",
-            # colour_theme="ORANGEPEEL",
-            mode=TimelineMode.QUARTERLY,
-            number_of_items=4,
-            start_date="2023-01-01",
-        )
-        self.assertTrue(True)
+    # def test_sample_case3(self):
+    #     colour_theme_demo(
+    #         file_name="src/test/baseline/test-ORANGEPEEL-quarter.png",
+    #         # colour_theme="ORANGEPEEL",
+    #         mode=TimelineMode.QUARTERLY,
+    #         number_of_items=4,
+    #         start_date="2023-01-01",
+    #     )
+    #     self.assertTrue(True)
 
-    def test_sample_unicase1(self):
-        unicode_demo(
-            file_name="src/test/baseline/test-unicode-monthly.png",
-            # colour_theme="ORANGEPEEL",
-            mode=TimelineMode.MONTHLY,
-            number_of_items=12,
-            start_date="2023-01-01",
-        )
-        self.assertTrue(True)
+    # def test_sample_unicase1(self):
+    #     unicode_demo(
+    #         file_name="src/test/baseline/test-unicode-monthly.png",
+    #         # colour_theme="ORANGEPEEL",
+    #         mode=TimelineMode.MONTHLY,
+    #         number_of_items=12,
+    #         start_date="2023-01-01",
+    #     )
+    #     self.assertTrue(True)
 
 
 if __name__ == "__main__":
