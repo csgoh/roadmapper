@@ -225,13 +225,14 @@ colour_theme_demo(file_name="demo-colour-GREENTURTLE.png", colour_theme="GREENTU
 
 show_generic_dates = True
 
-colour_theme_demo(
-    file_name="demo-colour-GREENTURTLE-weekly.png",
-    colour_theme="GREENTURTLE",
-    mode=TimelineMode.WEEKLY,
-    number_of_items=53,
-    show_generic_dates=show_generic_dates,
-)
+### Problematic test case - To check
+# colour_theme_demo(
+#     file_name="demo-colour-GREENTURTLE-weekly.png",
+#     colour_theme="GREENTURTLE",
+#     mode=TimelineMode.WEEKLY,
+#     number_of_items=53,
+#     show_generic_dates=show_generic_dates,
+# )
 
 colour_theme_demo(
     file_name="demo-colour-GREENTURTLE-monthly.png",

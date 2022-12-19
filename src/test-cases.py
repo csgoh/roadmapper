@@ -186,7 +186,6 @@ def colour_theme_demo(
 
     roadmap.save(file_name)
 
-
 def unicode_demo(
     width: int = 1200,
     mode: TimelineMode = TimelineMode.MONTHLY,
