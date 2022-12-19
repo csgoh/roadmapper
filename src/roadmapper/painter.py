@@ -36,7 +36,7 @@ class Painter:
     last_drawn_y_pos = 0
 
     left_margin = 30
-    right_margin = 60
+    right_margin = 30
     group_box_width_percentage = 0.2
     timeline_width_percentage = 1 - group_box_width_percentage
     gap_between_group_box_and_timeline = 20
