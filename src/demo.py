@@ -178,17 +178,26 @@ def generic_date_test(
 
 def parallel_task_demo(
     mode: TimelineMode = TimelineMode.MONTHLY,
-    start_date: str = "2022-11-01",
-    number_of_items: int = 6,
+    start_date: str = "2022-12-01",
+    number_of_items: int = 14,
     file_name: str = "demo01.png",
     colour_theme: str = "DEFAULT",
 ) -> None:
     roadmap = Roadmap(
-        1200, 612, auto_height=False, colour_theme=colour_theme, show_marker=True
+        1200,
+        612,
+        auto_height=False,
+        colour_theme=colour_theme,
+        show_marker=True,
     )
     roadmap.set_title("ROADMAP EXAMPLE 2022/2023")
     roadmap.set_subtitle("This is a subtitle")
-    roadmap.set_timeline(mode, start_date, number_of_items)
+    roadmap.set_timeline(
+        mode,
+        start_date,
+        number_of_items,
+        show_generic_dates=False,
+    )
 
     group = roadmap.add_group("TBCore Product Work Stream")
 
@@ -234,45 +243,45 @@ show_generic_dates = True
 #     show_generic_dates=show_generic_dates,
 # )
 
-colour_theme_demo(
-    file_name="demo-colour-GREENTURTLE-monthly-gen.png",
-    colour_theme="GREENTURTLE",
-    mode=TimelineMode.MONTHLY,
-    number_of_items=14,
-    show_generic_dates=show_generic_dates,
-)
-show_generic_dates = False
-colour_theme_demo(
-    file_name="demo-colour-GREENTURTLE-monthly.png",
-    colour_theme="GREENTURTLE",
-    mode=TimelineMode.MONTHLY,
-    number_of_items=14,
-    show_generic_dates=show_generic_dates,
-)
-show_generic_dates = True
-colour_theme_demo(
-    file_name="demo-colour-GREENTURTLE-quarter.png",
-    colour_theme="GREENTURTLE",
-    mode=TimelineMode.QUARTERLY,
-    number_of_items=6,
-    show_generic_dates=show_generic_dates,
-)
+# colour_theme_demo(
+#     file_name="demo-colour-GREENTURTLE-monthly-gen.png",
+#     colour_theme="GREENTURTLE",
+#     mode=TimelineMode.MONTHLY,
+#     number_of_items=14,
+#     show_generic_dates=show_generic_dates,
+# )
+# show_generic_dates = False
+# colour_theme_demo(
+#     file_name="demo-colour-GREENTURTLE-monthly.png",
+#     colour_theme="GREENTURTLE",
+#     mode=TimelineMode.MONTHLY,
+#     number_of_items=14,
+#     show_generic_dates=show_generic_dates,
+# )
+# show_generic_dates = True
+# colour_theme_demo(
+#     file_name="demo-colour-GREENTURTLE-quarter.png",
+#     colour_theme="GREENTURTLE",
+#     mode=TimelineMode.QUARTERLY,
+#     number_of_items=6,
+#     show_generic_dates=show_generic_dates,
+# )
 
-colour_theme_demo(
-    file_name="demo-colour-GREENTURTLE-halfyearly.png",
-    colour_theme="GREENTURTLE",
-    mode=TimelineMode.HALF_YEARLY,
-    number_of_items=6,
-    show_generic_dates=show_generic_dates,
-)
+# colour_theme_demo(
+#     file_name="demo-colour-GREENTURTLE-halfyearly.png",
+#     colour_theme="GREENTURTLE",
+#     mode=TimelineMode.HALF_YEARLY,
+#     number_of_items=6,
+#     show_generic_dates=show_generic_dates,
+# )
 
-colour_theme_demo(
-    file_name="demo-colour-GREENTURTLE-yearly.png",
-    colour_theme="GREENTURTLE",
-    mode=TimelineMode.YEARLY,
-    number_of_items=4,
-    show_generic_dates=show_generic_dates,
-)
+# colour_theme_demo(
+#     file_name="demo-colour-GREENTURTLE-yearly.png",
+#     colour_theme="GREENTURTLE",
+#     mode=TimelineMode.YEARLY,
+#     number_of_items=4,
+#     show_generic_dates=show_generic_dates,
+# )
 
 
 # generic_date_test(
@@ -316,4 +325,4 @@ colour_theme_demo(
 # )
 
 
-# parallel_task_demo(file_name="parallel-demo01.png")
+parallel_task_demo(file_name="parallel-demo01.png")
