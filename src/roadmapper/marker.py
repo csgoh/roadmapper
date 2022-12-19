@@ -48,6 +48,7 @@ class Marker:
         self.line_from_y = 0
         self.line_to_x = 0
         self.line_to_y = 0
+        self.not_in_timeline_range = False
 
     def set_label_draw_position(self, painter: Painter, timeline: Timeline) -> None:
         """Set marker label draw position
@@ -59,7 +60,11 @@ class Marker:
         current_date = datetime.today()
         current_date = current_date.replace(hour=0, minute=0, second=0, microsecond=0)
         label_pos_percentage = 0
+        correct_timeline = False
         for timeline_item in timeline.timeline_items:
+            # print(
+            #     f"timeline_item: {timeline_item.text=}, start={timeline_item.start} <= current_date={current_date} <= end={timeline_item.end}"
+            # )
             if timeline_item.start <= current_date <= timeline_item.end:
                 # calc label position
                 (
@@ -71,6 +76,7 @@ class Marker:
                 if correct_timeline == True:
                     break
 
+        self.not_in_timeline_range = not correct_timeline
         self.line_from_x = timeline_item.box_x + (
             timeline_item.box_width * label_pos_percentage
         )
@@ -110,28 +116,29 @@ class Marker:
         # )
         # painter.set_font(self.font, self.font_size, self.font_colour)
         # painter.set_colour(self.font_colour)
-        painter.draw_text(
-            self.label_x,
-            self.label_y + 5,
-            self.text,
-            self.font,
-            self.font_size,
-            self.font_colour,
-        )
-        # painter.set_colour_alpha(self.line_colour)
-        # painter.set_line_width(self.line_width)
-        # painter.set_line_style(self.line_style)
+        if self.not_in_timeline_range == False:
+            painter.draw_text(
+                self.label_x,
+                self.label_y + 5,
+                self.text,
+                self.font,
+                self.font_size,
+                self.font_colour,
+            )
+            # painter.set_colour_alpha(self.line_colour)
+            # painter.set_line_width(self.line_width)
+            # painter.set_line_style(self.line_style)
 
-        painter.draw_line(
-            self.line_from_x,
-            self.line_from_y,
-            self.line_to_x,
-            self.line_to_y,
-            self.line_colour,
-            line_transparency=0.9,
-            line_width=self.line_width,
-            line_style=self.line_style,
-        )
+            painter.draw_line(
+                self.line_from_x,
+                self.line_from_y,
+                self.line_to_x,
+                self.line_to_y,
+                self.line_colour,
+                line_transparency=0.9,
+                line_width=self.line_width,
+                line_style=self.line_style,
+            )
 
         # painter.draw_transp_line(
         #     self.line_from_x,
