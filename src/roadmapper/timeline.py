@@ -247,7 +247,10 @@ class Timeline:
         if self.mode == TimelineMode.WEEKLY:
             if self.show_generic_dates == False:
                 this_week = self.start + relativedelta(weeks=+index)
-                timeline_text = f"W{this_week.strftime('%W')}"
+                this_week_number = int(this_week.strftime("%W"))
+                this_week_number += 1
+                timeline_text = f"W{this_week_number}"
+                # print(f"this_week: {this_week}, {timeline_text}")
             else:
                 this_year = 1
                 if index >= 52:
