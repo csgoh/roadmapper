@@ -41,7 +41,8 @@ reference/
 pwk.py
 pwk_roadmap.png
 temp/
-*.png
+src/*.png
+src/test/*.png
 .VSCodeCounter/
 
 # C extensions
