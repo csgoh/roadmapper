@@ -74,7 +74,7 @@ class ColourSettings:
 
     milestone_font: str = DEFAULT_FONT
     milestone_font_size: int = DEFAULT_MILESTONE_FONT_SIZE
-    milestone_font_colour: str = "#FFFFFF"
+    milestone_font_colour: str = "#000000"
     milestone_fill_colour: str = "#000000"
 
     footer_font: str = DEFAULT_FONT
