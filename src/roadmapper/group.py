@@ -119,9 +119,6 @@ class Group:
 
         # Calc group height
         task_count = len(self.tasks)
-        # print(
-        #     f"{self.text} task_count: {task_count}, milestone_count: {milestone_count}"
-        # )
         self.box_height = (
             (20 * task_count)
             + (painter.additional_height_for_milestone * milestone_count)

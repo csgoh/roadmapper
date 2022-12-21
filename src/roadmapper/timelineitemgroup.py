@@ -57,8 +57,6 @@ class TimelineItemGroup:
             tuple(int, int): (x, y) position of the text
         """
 
-        # painter.set_font(self.font, self.font_size, self.font_colour)
-
         return painter.get_display_text_position(
             self.box_x,
             self.box_y,
@@ -112,9 +110,6 @@ class TimelineItemGroup:
             self.font_size,
             self.font_colour,
         )
-        # print(
-        #     f"Drawing {self.text} at {self.box_x}, {self.box_y}, {self.box_width}, {self.box_height}"
-        # )
 
     def draw_vertical_line(self, painter: Painter) -> None:
 

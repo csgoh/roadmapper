@@ -75,9 +75,6 @@ class Milestone:
         Args:
             painter (Painter): PyCairo wrapper class instance
         """
-        # self.font_size = 10
-        # painter.set_font(self.font, self.font_size, self.font_colour)
-        # painter.set_colour(self.fill_colour)
         if (self.diamond_x != 0) and (self.diamond_y != 0):
             painter.draw_diamond(
                 self.diamond_x,
@@ -86,7 +83,7 @@ class Milestone:
                 self.diamond_height,
                 self.fill_colour,
             )
-        if (self.text_x != 0) and (self.text_y != 0):    
+        if (self.text_x != 0) and (self.text_y != 0):
             painter.draw_text(
                 self.text_x,
                 self.text_y,

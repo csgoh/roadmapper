@@ -60,7 +60,6 @@ class Title:
         Args:
             painter (Painter): PyCairo wrapper class instance
         """
-        # painter.set_font(self.font, self.font_size, self.font_colour)
         self.x, self.y = self.__calculate_draw_position(painter)
         painter.last_drawn_y_pos = self.y
 
@@ -70,7 +69,6 @@ class Title:
         Args:
             painter (Painter): PyCairo wrapper class instance
         """
-        # painter.set_font(self.font, self.font_size, self.font_colour)
         painter.draw_text(
             self.x, self.y, self.text, self.font, self.font_size, self.font_colour
         )

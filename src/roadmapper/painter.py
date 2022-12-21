@@ -208,13 +208,13 @@ class Painter:
         multi_lines = []
         wrap_lines = []
 
-        # Make '\n' work
+        ### Make '\n' work
         multi_lines = text.splitlines()
 
         left, _, right, bottom = font.getbbox("a")
         single_char_width = right - left
 
-        # wrap text
+        ### wrap text
         for line in multi_lines:
             wrap_lines.extend(textwrap.wrap(line, int(box_width / single_char_width)))
 
@@ -226,18 +226,13 @@ class Painter:
         )
         self.__cr.rectangle((box_x1, box_y1, box_x2, box_y2), fill=box_fill_colour)
 
-        # self.draw_cross_on_box(box_x1, box_y1, box_x2, box_y2, "red")
-
         pad = 4
         line_count = len(wrap_lines)
 
         for i, line in enumerate(wrap_lines):
-            # left, top, right, bottom = font.getbbox(line)
             font_width, font_height = self.get_text_dimension(
                 line, text_font, text_font_size
             )
-            # font_width = right - left
-            # font_height = bottom
 
             match text_alignment:
                 case "centre":
@@ -339,7 +334,6 @@ class Painter:
             line_width (int): Line width
             line_style (str, optional): Line style. Defaults to "solid". Options: "solid", "dashed"
         """
-        # print("line_style", line_style)
         r, g, b = ImageColor.getrgb(line_colour)
 
         def linspace(start, stop, n):
@@ -375,8 +369,15 @@ class Painter:
     def draw_cross_on_box(
         self, x1: int, y1: int, x2: int, y2: int, colour: str
     ) -> None:
-        # draw.line((x1, y1, x2, y2), fill=colour)
-        # draw.line((x1, y2, x2, y1), fill=colour)
+        """Draw a cross (vertical and horizontal lines) on a box
+
+        Args:
+            x1 (int): x coordinate of top left corner of box
+            y1 (int): y coordinate of top left corner of box
+            x2 (int): x coordinate of bottom right corner of box
+            y2 (int): y coordinate of bottom right corner of box
+            colour (str): Colour of cross in HTML colour name or hex code. Eg. #FFFFFF or LightGreen
+        """
         self.__cr.line(
             (
                 x1,
@@ -393,6 +394,8 @@ class Painter:
 
         Args:
             text (str): Text that is used to calculate dimension
+            font (str): Font name
+            font_size (int): Font size
 
         Returns:
             (text_width (int), text_height (int)): Text dimension (width, height)
@@ -402,9 +405,6 @@ class Painter:
 
         ascent, descent = image_font.getmetrics()
 
-        # font_width = image_font.getmask(text).getbbox()[2]
-        # font_height = image_font.getmask(text).getbbox()[3] + descent
-
         left, _, right, bottom = image_font.getbbox(text)
         font_width = right
         font_height = bottom
@@ -413,8 +413,6 @@ class Painter:
 
     def set_background_colour(self) -> None:
         """Set surface background colour"""
-        # self.set_colour(self.background_colour)
-        # self.__cr.paint()
         self.__cr.rectangle(
             (0, 0, self.width, self.height), fill=self.background_colour
         )
@@ -466,16 +464,8 @@ class Painter:
             height (int): Surface height
         """
         height += 100
-        # self.__new_surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
-        # print(f"width: {width}, height: {height}")
-        # print(f"Original size: {self.__surface.width} x {self.__surface.height}")
-
-        # left, top, right, bottom = 0, height, width, self.__surface.height
         left, top, right, bottom = 0, 0, width, height
-        # print(f"cropped area: {left}, {top}, {right}, {bottom}")
         self.__surface = self.__surface.crop((left, top, right, bottom))
-
-        # print(f"Changed size: {self.__surface.width} x {self.__surface.height}")
 
     def save_surface(self, filename: str) -> None:
         """Save surface to PNG file

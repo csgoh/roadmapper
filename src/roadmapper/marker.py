@@ -62,9 +62,6 @@ class Marker:
         label_pos_percentage = 0
         correct_timeline = False
         for timeline_item in timeline.timeline_items:
-            # print(
-            #     f"timeline_item: {timeline_item.text=}, start={timeline_item.start} <= current_date={current_date} <= end={timeline_item.end}"
-            # )
             if timeline_item.start <= current_date <= timeline_item.end:
                 # calc label position
                 (
@@ -81,18 +78,10 @@ class Marker:
             timeline_item.box_width * label_pos_percentage
         )
         self.label_y = painter.last_drawn_y_pos + 8
-        # painter.set_font(self.font, self.font_size, self.font_colour)
         self.label_width, self.label_height = painter.get_text_dimension(
             self.text, self.font, self.font_size
         )
         self.label_x = self.line_from_x - (self.label_width / 2) + 1
-        # print(
-        #     f"marker: {self.label_x=}, {self.label_y=}, {self.label_width=}, {self.label_height=}"
-        # )
-        # print(
-        #     f"line: {self.line_from_x=}, {self.line_from_y=}, {self.line_to_x=}, {self.line_to_y=}"
-        # )
-
         self.line_from_y = self.label_y + self.label_height + 4
         painter.last_drawn_y_pos = self.label_y + self.label_height
 
@@ -111,11 +100,6 @@ class Marker:
         Args:
             painter (Painter): PyCairo wrapper class instance
         """
-        # print(
-        #     f"marker: {self.line_from_x=}, {self.line_from_y=}, {self.line_to_x=}, {self.line_to_y=}"
-        # )
-        # painter.set_font(self.font, self.font_size, self.font_colour)
-        # painter.set_colour(self.font_colour)
         if self.not_in_timeline_range == False:
             painter.draw_text(
                 self.label_x,
@@ -125,9 +109,6 @@ class Marker:
                 self.font_size,
                 self.font_colour,
             )
-            # painter.set_colour_alpha(self.line_colour)
-            # painter.set_line_width(self.line_width)
-            # painter.set_line_style(self.line_style)
 
             painter.draw_line(
                 self.line_from_x,
@@ -140,11 +121,4 @@ class Marker:
                 line_style=self.line_style,
             )
 
-        # painter.draw_transp_line(
-        #     self.line_from_x,
-        #     self.line_from_y,
-        #     self.line_to_x,
-        #     self.line_to_y,
-        #     self.line_colour,
-        #     self.line_width,
-        # )
+        

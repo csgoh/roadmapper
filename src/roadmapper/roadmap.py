@@ -54,7 +54,7 @@ class Roadmap:
     marker: Marker = field(default=None, init=False)
     show_generic_dates: bool = field(default=False, init=False)
 
-    __version__ = "v0.1.1"
+    __version__ = "v0.2.0"
 
     def __post_init__(self):
         """This method is called after __init__() is called"""
@@ -306,7 +306,6 @@ class Roadmap:
         if fill_colour == "":
             fill_colour = self.__painter.group_fill_colour
 
-        # print(f"{text}, alignment = {text_alignment}")
         group = Group(
             text=text,
             font=font,
@@ -317,8 +316,6 @@ class Roadmap:
             painter=self.__painter,
         )
         self.groups.append(group)
-        # group.set_draw_position(self.__painter, self.timeline)
-
         return group
 
     def draw(self) -> None:

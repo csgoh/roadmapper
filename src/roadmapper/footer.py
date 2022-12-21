@@ -58,7 +58,6 @@ class Footer:
             painter (Painter): PyCairo wrapper class instance
             last_y_pos (int): Last drawn item y position
         """
-        # painter.set_font(self.font, self.font_size, self.font_colour)
         self.x, self.y = self.__calculate_draw_position(painter)
         painter.last_drawn_y_pos = self.y
 
@@ -68,7 +67,6 @@ class Footer:
         Args:
             painter (Painter): PyCairo wrapper class instance
         """
-        # painter.set_font(self.font, self.font_size, self.font_colour)
 
         # add 35px top margin before drawing the footer
         painter.draw_text(
