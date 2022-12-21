@@ -57,9 +57,15 @@ class TimelineItem:
             tuple(int, int): (x, y) position of the text
         """
 
-        painter.set_font(self.font, self.font_size, self.font_colour)
         return painter.get_display_text_position(
-            self.box_x, self.box_y, self.box_width, self.box_height, self.text, "centre"
+            self.box_x,
+            self.box_y,
+            self.box_width,
+            self.box_height,
+            self.text,
+            "centre",
+            self.font,
+            self.font_size,
         )
 
     def set_draw_position(
@@ -252,7 +258,7 @@ class TimelineItem:
                 date_of_last_day_of_halfyear = datetime(
                     this_year, 12, calendar.monthrange(this_year, 12)[1]
                 )
-            # calc number of days between first day of quarter and last day of quarter
+            ### calc number of days between first day of quarter and last day of quarter
             days_in_halfyear = (
                 date_of_last_day_of_halfyear - date_of_first_day_of_halfyear
             ).days
@@ -272,7 +278,7 @@ class TimelineItem:
             date_of_last_day_of_year = datetime(
                 this_year, 12, calendar.monthrange(this_year, 12)[1]
             )
-            # calc number of days between first day of quarter and last day of quarter
+            ### calc number of days between first day of quarter and last day of quarter
             days_in_year = (date_of_last_day_of_year - date_of_first_day_of_year).days
             days_progress_in_year = (
                 days_in_year - (date_of_last_day_of_year - task_or_milestone_date).days
@@ -312,9 +318,34 @@ class TimelineItem:
         Args:
             painter (Painter): PyCairo wrapper class instance
         """
-        painter.set_colour(self.fill_colour)
-        painter.draw_box(
-            self.box_x, self.box_y, self.box_width - 1, self.box_height
-        )  # -1 is to draw the white line in between timeline items
-        painter.set_colour(self.font_colour)
-        painter.draw_text(self.text_x, self.text_y, self.text)
+
+        painter.draw_box_with_text(
+            self.box_x,
+            self.box_y,
+            self.box_width,
+            self.box_height,
+            self.fill_colour,
+            self.text,
+            "centre",
+            self.font,
+            self.font_size,
+            self.font_colour,
+        )
+
+    def draw_vertical_line(self, painter: Painter) -> None:
+        """Draws the timeline
+
+        Args:
+            painter (Painter): PyCairo wrapper class instance
+        """
+        x_pos = self.box_x - 1
+        painter.draw_line(
+            x_pos,
+            self.box_y + self.box_height,
+            x_pos,
+            painter.last_drawn_y_pos + 10,
+            "#e6e6e6",
+            50,
+            1,
+            "solid",
+        )

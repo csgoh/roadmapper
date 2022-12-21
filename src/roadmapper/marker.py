@@ -39,7 +39,7 @@ class Marker:
 
     def __post_init__(self):
         """This method is called after __init__() is called"""
-        self.text = "Now"
+        self.text = "▼"
         self.label_x = 0
         self.label_y = 0
         self.label_width = 0
@@ -48,6 +48,7 @@ class Marker:
         self.line_from_y = 0
         self.line_to_x = 0
         self.line_to_y = 0
+        self.not_in_timeline_range = False
 
     def set_label_draw_position(self, painter: Painter, timeline: Timeline) -> None:
         """Set marker label draw position
@@ -59,6 +60,7 @@ class Marker:
         current_date = datetime.today()
         current_date = current_date.replace(hour=0, minute=0, second=0, microsecond=0)
         label_pos_percentage = 0
+        correct_timeline = False
         for timeline_item in timeline.timeline_items:
             if timeline_item.start <= current_date <= timeline_item.end:
                 # calc label position
@@ -71,13 +73,15 @@ class Marker:
                 if correct_timeline == True:
                     break
 
+        self.not_in_timeline_range = not correct_timeline
         self.line_from_x = timeline_item.box_x + (
             timeline_item.box_width * label_pos_percentage
         )
         self.label_y = painter.last_drawn_y_pos + 8
-        painter.set_font(self.font, self.font_size, self.font_colour)
-        self.label_width, self.label_height = painter.get_text_dimension(self.text)
-        self.label_x = self.line_from_x - (self.label_width / 2)
+        self.label_width, self.label_height = painter.get_text_dimension(
+            self.text, self.font, self.font_size
+        )
+        self.label_x = self.line_from_x - (self.label_width / 2) + 1
         self.line_from_y = self.label_y + self.label_height + 4
         painter.last_drawn_y_pos = self.label_y + self.label_height
 
@@ -96,16 +100,25 @@ class Marker:
         Args:
             painter (Painter): PyCairo wrapper class instance
         """
-        # print(
-        #     f"marker: {self.line_from_x=}, {self.line_from_y=}, {self.line_to_x=}, {self.line_to_y=}"
-        # )
-        painter.set_font(self.font, self.font_size, self.font_colour)
-        painter.set_colour(self.font_colour)
-        painter.draw_text(self.label_x, self.label_y + 10, self.text)
-        painter.set_colour_alpha(self.line_colour)
-        painter.set_line_width(self.line_width)
-        painter.set_line_style(self.line_style)
+        if self.not_in_timeline_range == False:
+            painter.draw_text(
+                self.label_x,
+                self.label_y + 5,
+                self.text,
+                self.font,
+                self.font_size,
+                self.font_colour,
+            )
 
-        painter.draw_line(
-            self.line_from_x, self.line_from_y, self.line_to_x, self.line_to_y
-        )
+            painter.draw_line(
+                self.line_from_x,
+                self.line_from_y,
+                self.line_to_x,
+                self.line_to_y,
+                self.line_colour,
+                line_transparency=0.9,
+                line_width=self.line_width,
+                line_style=self.line_style,
+            )
+
+        

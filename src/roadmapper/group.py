@@ -49,49 +49,6 @@ class Group:
         self.text_x = 0
         self.text_y = 0
 
-    # @contextmanager
-    # def add_task(
-    #     self,
-    #     text: str,
-    #     start: datetime,
-    #     end: datetime,
-    #     font: str = "Arial",
-    #     font_size: int = 12,
-    #     font_colour: str = "Black",
-    #     fill_colour: str = "LightGreen",
-    #     text_alignment: str = "centre",
-    # ) -> None:
-    #     """Add new task to group
-
-    #     Args:
-    #         text (str): Task text
-    #         start (datetime): Task start date
-    #         end (datetime): Task end date
-    #         font (str, optional): Task font. Defaults to "Arial".
-    #         font_size (int, optional): Task font size. Defaults to 12.
-    #         font_colour (str, optional): Task font colour. Defaults to "Black". HTML colour name or hex code. Eg. #FFFFFF or LightGreen
-    #         fill_colour (str, optional): Task fill colour. Defaults to "LightGreen". HTML colour name or hex code
-    #         text_alignment (str, optional): Task text alignment. Defaults to "centre". Options: "left", "centre", "right"
-
-    #     Yields:
-    #         Task: Task instance to be used in with statement
-    #     """
-    #     try:
-    #         task = Task(
-    #             text=text,
-    #             start=start,
-    #             end=end,
-    #             font=font,
-    #             font_size=font_size,
-    #             font_colour=font_colour,
-    #             fill_colour=fill_colour,
-    #             text_alignment=text_alignment,
-    #         )
-    #         self.tasks.append(task)
-    #         yield task
-    #     finally:
-    #         task = None
-
     def add_task(
         self,
         text: str,
@@ -150,18 +107,21 @@ class Group:
             painter (Painter): PyCairo wrapper class instance
             timeline (Timeline): Timeline instance
         """
-        additional_height_for_milestone = 8
 
         # Calculate number of milestones in group
         milestone_count = 0
         for task in self.tasks:
             milestone_count += len(task.milestones)
+            if len(task.milestones) == 0:
+                for parallel_task in task.tasks:
+                    milestone_count += len(parallel_task.milestones)
+                    break  ### We only need to know whether there milestone exists in the parallel tasks
 
         # Calc group height
         task_count = len(self.tasks)
         self.box_height = (
             (20 * task_count)
-            + (additional_height_for_milestone * milestone_count)
+            + (painter.additional_height_for_milestone * milestone_count)
             + (5 * task_count)
             + (2 * (task_count - 1))
         )
@@ -171,10 +131,8 @@ class Group:
 
         self.box_x = painter.left_margin
 
-        self.box_y = painter.last_drawn_y_pos + additional_height_for_milestone
+        self.box_y = painter.last_drawn_y_pos + painter.additional_height_for_milestone
 
-        painter.set_colour(self.font_colour)
-        painter.set_font(self.font, self.font_size, self.font_colour)
         self.text_x, self.text_y = painter.get_display_text_position(
             self.box_x,
             self.box_y,
@@ -182,6 +140,8 @@ class Group:
             self.box_height,
             self.text,
             self.text_alignment,
+            self.font,
+            self.font_size,
         )
 
         painter.last_drawn_y_pos = self.box_y
@@ -198,11 +158,18 @@ class Group:
             painter (Painter): PyCairo wrapper class instance
         """
         # Step 1: draw group
-        painter.set_colour(self.fill_colour)
-        painter.draw_box(self.box_x, self.box_y, self.box_width, self.box_height)
-        painter.set_colour(self.font_colour)
-        painter.set_font(self.font, self.font_size, self.font_colour)
-        painter.draw_text(self.text_x, self.text_y, self.text)
+        painter.draw_box_with_text(
+            self.box_x,
+            self.box_y,
+            self.box_width,
+            self.box_height,
+            self.fill_colour,
+            self.text,
+            self.text_alignment,
+            self.font,
+            self.font_size,
+            self.font_colour,
+        )
 
         # Step 2: draw tasks
         for tasks in self.tasks:

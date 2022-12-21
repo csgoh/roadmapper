@@ -22,10 +22,13 @@
 
 from datetime import datetime
 from dataclasses import dataclass, field
-from contextlib import contextmanager
+import time
+
+# from contextlib import contextmanager
 
 from roadmapper.painter import Painter
 from roadmapper.title import Title
+from roadmapper.subtitle import SubTitle
 from roadmapper.footer import Footer
 from roadmapper.timelinemode import TimelineMode
 from roadmapper.timeline import Timeline
@@ -39,16 +42,19 @@ class Roadmap:
 
     width: int = field(default=1200)
     height: int = field(default=600)
+    auto_height: bool = field(default=True)
     colour_theme: str = field(default="DEFAULT")
     show_marker: bool = field(default=True)
 
     title: Title = field(default=None, init=False)
+    subtitle: SubTitle = field(default=None, init=False)
     timeline: Timeline = field(default=None, init=False)
     groups: list[Group] = field(default_factory=list, init=False)
     footer: Footer = field(default=None, init=False)
     marker: Marker = field(default=None, init=False)
+    show_generic_dates: bool = field(default=False, init=False)
 
-    __version__ = "v0.1.1"
+    __version__ = "v0.2.0"
 
     def __post_init__(self):
         """This method is called after __init__() is called"""
@@ -163,6 +169,35 @@ class Roadmap:
 
         self.title.set_draw_position(self.__painter)
 
+    def set_subtitle(
+        self,
+        text: str,
+        font: str = "",
+        font_size: int = 0,
+        font_colour: str = "",
+    ) -> None:
+        """Configure the subtitle settings
+
+        Args:
+            text (str): Title text
+            font (str, optional): Title font. Defaults to "Arial".
+            font_size (int, optional): Title font size. Defaults to 18.
+            font_colour (str, optional): Title font colour. Defaults to "Black".
+        """
+        if font == "":
+            font = self.__painter.subtitle_font
+        if font_size == 0:
+            font_size = self.__painter.subtitle_font_size
+        if font_colour == "":
+            font_colour = self.__painter.subtitle_font_colour
+
+        self.subtitle = SubTitle(
+            text=text, font=font, font_size=font_size, font_colour=font_colour
+        )
+        self.subtitle.text = text
+
+        self.subtitle.set_draw_position(self.__painter)
+
     def set_footer(
         self,
         text: str,
@@ -224,6 +259,7 @@ class Roadmap:
         if fill_colour == "":
             fill_colour = self.__painter.timeline_fill_colour
 
+        self.show_generic_dates = show_generic_dates
         start_date = datetime.strptime(start, "%Y-%m-%d")
         self.timeline = Timeline(
             mode=mode,
@@ -280,17 +316,21 @@ class Roadmap:
             painter=self.__painter,
         )
         self.groups.append(group)
-        # group.set_draw_position(self.__painter, self.timeline)
-
         return group
 
     def draw(self) -> None:
         """Draw the roadmap"""
+
+        start_time = time.time()
+
         self.__painter.set_background_colour()
 
         if self.title == None:
             raise ValueError("Title is not set. Please call set_title() to set title.")
         self.title.draw(self.__painter)
+
+        if self.subtitle != None:
+            self.subtitle.draw(self.__painter)
 
         if self.timeline == None:
             raise ValueError(
@@ -300,15 +340,27 @@ class Roadmap:
 
         for group in self.groups:
             group.set_draw_position(self.__painter, self.timeline)
+
+        self.timeline.draw_vertical_lines(self.__painter)
+
+        for group in self.groups:
             group.draw(self.__painter)
 
-        if self.marker != None:
+        if self.marker != None and self.show_generic_dates == False:
             self.marker.set_line_draw_position(self.__painter)
             self.marker.draw(self.__painter)
 
         if self.footer != None:
             self.footer.set_draw_position(self.__painter)
             self.footer.draw(self.__painter)
+
+        if self.auto_height == True:
+            self.__painter.set_surface_size(
+                self.__painter.width, int(self.__painter.last_drawn_y_pos)
+            )
+
+        elapsed_time = (time.time() - start_time) * 1000
+        print("Drawing time: %.3f ms" % elapsed_time)
 
     def save(self, filename: str) -> None:
         """Save surface to PNG file

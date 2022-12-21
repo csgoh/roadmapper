@@ -26,6 +26,7 @@ import calendar
 
 from roadmapper.painter import Painter
 from roadmapper.timelineitem import TimelineItem
+from roadmapper.timelineitemgroup import TimelineItemGroup
 from roadmapper.timelinemode import TimelineMode
 
 
@@ -40,45 +41,42 @@ class Timeline:
     x: int = field(init=False)
     y: int = field(init=False)
     width: int = field(init=False)
-    # height: int = field(init=False)
     font: str = "Arial"
     font_size: int = 12
     font_colour: str = "Black"
     fill_colour: str = "LightGray"
+    timeline_items_group: list[TimelineItemGroup] = field(default_factory=list)
     timeline_items: list[TimelineItem] = field(default_factory=list)
-
-    # Constant Variables
-    __timeline_height = 20
 
     def __calculate_draw_position(self, painter: Painter) -> tuple[int, int, int]:
         """Calculate the draw position of the timeline
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
 
         Returns:
             tuple[int, int, int]: Timeline x, y, width
         """
-        # Determine group box width
+        ### Determine group box width
         group_box_width = (
             painter.width - (painter.left_margin + painter.right_margin)
         ) * painter.group_box_width_percentage
 
-        # Determine timeline total width
+        ### Determine timeline total width
         timeline_width = (
             painter.width
             - (painter.left_margin + painter.right_margin)
             - painter.gap_between_group_box_and_timeline
         ) * painter.timeline_width_percentage
 
-        # Determine timeline starting x position
+        ### Determine timeline starting x position
         timeline_x = (
             painter.left_margin
             + painter.gap_between_group_box_and_timeline
             + group_box_width
         )
 
-        # Determine timeline starting y position
+        ### Determine timeline starting y position
         timeline_y = painter.last_drawn_y_pos + painter.gap_between_timeline_and_title
 
         return timeline_x, timeline_y, timeline_width
@@ -87,19 +85,111 @@ class Timeline:
         """Set the draw position of the timeline
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
         """
-        # painter.set_font(self.font, self.font_size, self.font_colour)
         self.x, self.y, self.width = self.__calculate_draw_position(painter)
-        timelineitem_width = self.width / self.number_of_items
-        timelineitem_y = self.y + painter.timeline_height
-        timelineitem_height = self.__timeline_height
 
-        for i in range(0, self.number_of_items):
-            timelineitem_x = self.x + (i * timelineitem_width)
-            timelineitem_text = self.__get_timeline_item_text(i)
-            timelineitem_value = self.__get_timeline_item_value(i)
-            timelineitem_start, timelineitem_end = self.__get_timeline_item_dates(i)
+        ### Calculate timelineitemgroup positions
+        year_groups = {}
+
+        for index in range(0, self.number_of_items):
+            index_year = self.__get_timeline_item_value(index)[0:4]
+
+            (
+                timelineitemgroup_start,
+                timelineitemgroup_end,
+            ) = self.__get_timeline_item_dates(index)
+
+            if self.show_generic_dates == False:
+                if index_year in year_groups:
+                    year_groups[index_year] += 1
+                else:
+                    year_groups[index_year] = 1
+            else:
+                generic_year = 1
+                if self.mode == TimelineMode.WEEKLY:
+                    if index >= 52:
+                        generic_year += index // 52
+                elif self.mode == TimelineMode.MONTHLY:
+                    if index >= 12:
+                        generic_year += index // 12
+                elif self.mode == TimelineMode.QUARTERLY:
+                    if index >= 4:
+                        generic_year += index // 4
+                elif self.mode == TimelineMode.HALF_YEARLY:
+                    if index >= 2:
+                        generic_year += index // 2
+                elif self.mode == TimelineMode.YEARLY:
+                    if index >= 1:
+                        generic_year += index // 1
+
+                if generic_year in year_groups:
+                    year_groups[generic_year] += 1
+                else:
+                    year_groups[generic_year] = 1
+
+        timelineitem_width = int(self.width / self.number_of_items) - (
+            painter.gap_between_timeline_item / 2
+        )
+
+        if self.mode != TimelineMode.YEARLY:
+            timelineitemgroup_y = self.y + painter.timeline_height
+            timelineitemgroup_height = painter.timeline_height
+            index = 0
+            for year in year_groups:
+
+                ##------------
+                timelineitemgroup_x = (
+                    self.x
+                    + (index * timelineitem_width)
+                    + (index * (painter.gap_between_timeline_item / 2))
+                )
+                ##------------
+
+                timelineitemgroup_width = timelineitem_width * year_groups[year] + (
+                    (painter.gap_between_timeline_item / 2) * (year_groups[year] - 1)
+                )
+
+                index += year_groups[year]
+
+                timelinetimegroup = TimelineItemGroup(
+                    text="Year " + str(year),
+                    value=year,
+                    start=timelineitemgroup_start,
+                    end=timelineitemgroup_end,
+                    font=self.font,
+                    font_size=self.font_size,
+                    font_colour=self.font_colour,
+                    fill_colour=self.fill_colour,
+                )
+
+                timelinetimegroup.set_draw_position(
+                    painter,
+                    timelineitemgroup_x,
+                    timelineitemgroup_y,
+                    timelineitemgroup_width,
+                    timelineitemgroup_height,
+                )
+                self.timeline_items_group.append(timelinetimegroup)
+
+            painter.last_drawn_y_pos = (
+                timelineitemgroup_y
+                + timelineitemgroup_height
+                + painter.gap_between_timeline_group_item
+            )
+
+        timelineitem_y = painter.last_drawn_y_pos
+        timelineitem_height = painter.timeline_height
+
+        for index in range(0, self.number_of_items):
+            timelineitem_x = (
+                self.x
+                + (index * timelineitem_width)
+                + (index * (painter.gap_between_timeline_item / 2))
+            )
+            timelineitem_text = self.__get_timeline_item_text(index)
+            timelineitem_value = self.__get_timeline_item_value(index)
+            timelineitem_start, timelineitem_end = self.__get_timeline_item_dates(index)
 
             timelineitem = TimelineItem(
                 text=timelineitem_text,
@@ -136,23 +226,29 @@ class Timeline:
         if self.mode == TimelineMode.WEEKLY:
             if self.show_generic_dates == False:
                 this_week = self.start + relativedelta(weeks=+index)
-                timeline_text = f"W{this_week.strftime('%W')} {this_week.year}"
+                this_week_number = int(this_week.strftime("%W"))
+                this_week_number += 1
+                timeline_text = f"W{this_week_number}"
             else:
-                this_week = index + 1
                 this_year = 1
-                timeline_text = f"Week {this_week}"
+                if index >= 52:
+                    this_year += index // 52
+
+                this_week = index + 1
+                timeline_text = f"W {this_week}"
         elif self.mode == TimelineMode.MONTHLY:
             if self.show_generic_dates == False:
                 this_month = self.start + relativedelta(months=+index)
-                timeline_text = f"{this_month.strftime('%b')} {this_month.year}"
+                timeline_text = f"{this_month.strftime('%b')}"
             else:
                 this_month = index + 1
+
                 timeline_text = f"Month {this_month}"
         elif self.mode == TimelineMode.QUARTERLY:
             if self.show_generic_dates == False:
                 this_month = self.start + relativedelta(months=+(index * 3))
                 this_quarter = (this_month.month - 1) // 3 + 1
-                timeline_text = f"Q{this_quarter} {this_month.year}"
+                timeline_text = f"Q{this_quarter}"
             else:
                 this_month = index * 3 + 1
                 this_quarter = (this_month - 1) // 3 + 1
@@ -161,7 +257,7 @@ class Timeline:
             if self.show_generic_dates == False:
                 this_month = self.start + relativedelta(months=+(index * 6))
                 this_halfyear = (this_month.month - 1) // 6 + 1
-                timeline_text = f"H{this_halfyear} {this_month.year}"
+                timeline_text = f"H{this_halfyear}"
             else:
                 this_month = index * 6 + 1
                 this_halfyear = (this_month - 1) // 6 + 1
@@ -190,9 +286,8 @@ class Timeline:
         timeline_value = ""
         if self.mode == TimelineMode.WEEKLY:
             this_week = self.start + relativedelta(weeks=+index)
-            week_value = int(this_week.strftime("%W"))
+            week_value = int(this_week.strftime("%W")) + 1
             timeline_value = f"{this_week.year}{week_value}"
-            # print("week value: " + timeline_value)
         elif self.mode == TimelineMode.MONTHLY:
             this_month = self.start + relativedelta(months=+index)
             timeline_value = f"{this_month.year}{this_month.strftime('%m')}"
@@ -225,7 +320,6 @@ class Timeline:
             timeline_period = self.__get_timeline_item_value(index)
             this_year = timeline_period[0:4]
             this_week = timeline_period[4:]
-            # print(f"{timeline_period=}, this_year={this_year} this_week={this_week}")
             timeline_start_period = datetime.combine(
                 date.fromisocalendar(int(this_year), int(this_week), 1),
                 datetime.min.time(),
@@ -240,7 +334,6 @@ class Timeline:
             timeline_end_period = timeline_end_period.replace(
                 hour=0, minute=0, second=0, microsecond=0
             )
-            # print(f"{timeline_start_period=}, {timeline_end_period=}")
         elif self.mode == TimelineMode.MONTHLY:
             this_month = (self.start + relativedelta(months=+index)).month
             this_year = (self.start + relativedelta(months=+index)).year
@@ -249,10 +342,8 @@ class Timeline:
             timeline_end_period = datetime(this_year, this_month, month_end_day)
         elif self.mode == TimelineMode.QUARTERLY:
             timeline_period = self.__get_timeline_item_value(index)
-            # print(f"timeline_period={timeline_period}")
             this_year = int(timeline_period[0:4])
             this_quarter = int(timeline_period[4:])
-            # print(f"{this_year=}, {this_quarter=}")
             if this_quarter == 1:
                 this_month = 1
             elif this_quarter == 2:
@@ -288,10 +379,26 @@ class Timeline:
         """Draw the timeline
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
         """
-        painter.set_font(self.font, self.font_size, self.font_colour)
-        for i in range(0, self.number_of_items):
+        for timelinegroup in self.timeline_items_group:
+            timelinegroup.draw(painter)
 
+        for index, timelinegroup in enumerate(self.timeline_items_group):
+            if index > 0:
+                timelinegroup.draw_vertical_line(painter)
+
+        for i in range(0, self.number_of_items):
             timelineitem = self.timeline_items[i]
             timelineitem.draw(painter)
+
+    def draw_vertical_lines(self, painter: Painter) -> None:
+        """Draw the timeline's vertical lines
+
+        Args:
+            painter (Painter): Pillow wrapper class instance
+        """
+        for i in range(0, self.number_of_items):
+            if i > 0:
+                timelineitem = self.timeline_items[i]
+                timelineitem.draw_vertical_line(painter)
