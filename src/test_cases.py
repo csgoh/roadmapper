@@ -363,48 +363,46 @@ def unicode_demo(
     roadmap.save(file_name)
 
 
-class TestRoadmap(unittest.TestCase):
-    def test_sample_case1(self):
-        colour_theme_demo(
-            width=2500,
-            file_name="src/test/baseline/test-ORANGEPEEL-weekly.png",
-            # colour_theme="ORANGEPEEL",
-            mode=TimelineMode.WEEKLY,
-            number_of_items=52,
-            start_date="2023-01-01",
-        )
-        self.assertTrue(True)
-
-    def test_sample_case2(self):
-        colour_theme_demo(
-            file_name="src/test/baseline/test-ORANGEPEEL-monthly.png",
-            # colour_theme="ORANGEPEEL",
-            mode=TimelineMode.MONTHLY,
-            number_of_items=12,
-            start_date="2023-01-01",
-        )
-        self.assertTrue(True)
-
-    # def test_sample_case3(self):
-    #     colour_theme_demo(
-    #         file_name="src/test/baseline/test-ORANGEPEEL-quarter.png",
-    #         # colour_theme="ORANGEPEEL",
-    #         mode=TimelineMode.QUARTERLY,
-    #         number_of_items=4,
-    #         start_date="2023-01-01",
-    #     )
-    #     self.assertTrue(True)
-
-    # def test_sample_unicase1(self):
-    #     unicode_demo(
-    #         file_name="src/test/baseline/test-unicode-monthly.png",
-    #         # colour_theme="ORANGEPEEL",
-    #         mode=TimelineMode.MONTHLY,
-    #         number_of_items=12,
-    #         start_date="2023-01-01",
-    #     )
-    #     self.assertTrue(True)
+def test_sample_case1():
+    colour_theme_demo(
+        width=2500,
+        file_name="src/test/baseline/test-ORANGEPEEL-weekly.png",
+        # colour_theme="ORANGEPEEL",
+        mode=TimelineMode.WEEKLY,
+        number_of_items=52,
+        start_date="2023-01-01",
+    )
+    assert True
 
 
-if __name__ == "__main__":
-    unittest.main()
+def test_sample_case2():
+    colour_theme_demo(
+        file_name="src/test/baseline/test-ORANGEPEEL-monthly.png",
+        # colour_theme="ORANGEPEEL",
+        mode=TimelineMode.MONTHLY,
+        number_of_items=12,
+        start_date="2023-01-01",
+    )
+    assert True
+
+
+def test_sample_case3():
+    colour_theme_demo(
+        file_name="src/test/baseline/test-ORANGEPEEL-quarter.png",
+        # colour_theme="ORANGEPEEL",
+        mode=TimelineMode.QUARTERLY,
+        number_of_items=4,
+        start_date="2023-01-01",
+    )
+    assert True
+
+
+def test_sample_unicase1():
+    unicode_demo(
+        file_name="src/test/baseline/test-unicode-monthly.png",
+        # colour_theme="ORANGEPEEL",
+        mode=TimelineMode.MONTHLY,
+        number_of_items=12,
+        start_date="2023-01-01",
+    )
+    assert True
