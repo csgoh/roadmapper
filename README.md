@@ -16,19 +16,21 @@ As the repo name implies, this purpose of this python library is used to draw ro
 With git repository like GitHub or Bitbucket, roadmaps created using RaC can be version controlled, track changes and can be easily shared with others.
 
 ### Latest version
-**v.0.1.1**
+**v.0.2.0**
 ### What's new in the latest version of Roadmapper?
-* Added colour themes support
-* Added the ability to change timeline from actual date to non-specific timeline like Year 1, Year 2, Month 1, Month 2, etc.
-* Added the ability to show current date marker on the roadmap
-* Fixed defects
+* Replaced problematic pycairo with Pillow library
+* Ability to add subtitle text
+* Display vertical grey lines for timelines
+* Display year on top of the timeline
+* "Now" marker is updated to ▼
+* Auto size surface height
+* Fix defects
 
 ### Python version requirements:
 * Python 3.10+
   
 ### Library Dependencies
-* PyCairo 1.21.0
-* Colour 0.1.5
+* Pillow 9.3.0
 * python-dateutil
 
 ## Future plans :bulb:
