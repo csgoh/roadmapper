@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "roadmapper"
-version = "0.2.0"
+version = "0.2.2"
 authors = [{ name = "CS Goh" }]
 description = "Roadmapper. A Roadmap-as-Code (RaC) python library for generating a roadmap by using python code"
 readme = "README.md"

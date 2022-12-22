@@ -54,7 +54,7 @@ class Roadmap:
     marker: Marker = field(default=None, init=False)
     show_generic_dates: bool = field(default=False, init=False)
 
-    __version__ = "v0.2.0"
+    __version__ = "v0.2.2"
 
     def __post_init__(self):
         """This method is called after __init__() is called"""
