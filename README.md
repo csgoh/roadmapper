@@ -74,7 +74,7 @@ Please refer to [Roadmapper Wiki](https://github.com/csgoh/roadmap-generator/wik
 from roadmapper.roadmap import Roadmap
 from roadmapper.timelinemode import TimelineMode
 
-roadmap = Roadmap(1200, 312)
+roadmap = Roadmap(1200, 312, colour_theme="BLUEMOUNTAIN")
 roadmap.set_title("My Demo Roadmap")
 roadmap.set_timeline(TimelineMode.MONTHLY, "2023-02-01", 12)
 
