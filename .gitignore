@@ -42,6 +42,7 @@ pwk.py
 pwk_roadmap.png
 temp/
 src/*.png
+*.png
 src/test/*.png
 .VSCodeCounter/
 
