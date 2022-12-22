@@ -94,7 +94,6 @@ class Timeline:
 
         for index in range(0, self.number_of_items):
             index_year = self.__get_timeline_item_value(index)[0:4]
-
             (
                 timelineitemgroup_start,
                 timelineitemgroup_end,
@@ -227,7 +226,7 @@ class Timeline:
             if self.show_generic_dates == False:
                 this_week = self.start + relativedelta(weeks=+index)
                 this_week_number = int(this_week.strftime("%W"))
-                this_week_number += 1
+                # this_week_number += 1
                 timeline_text = f"W{this_week_number}"
             else:
                 this_year = 1
@@ -286,7 +285,8 @@ class Timeline:
         timeline_value = ""
         if self.mode == TimelineMode.WEEKLY:
             this_week = self.start + relativedelta(weeks=+index)
-            week_value = int(this_week.strftime("%W")) + 1
+            # week_value = int(this_week.strftime("%W")) + 1
+            week_value = int(this_week.strftime("%W"))
             timeline_value = f"{this_week.year}{week_value}"
         elif self.mode == TimelineMode.MONTHLY:
             this_month = self.start + relativedelta(months=+index)
