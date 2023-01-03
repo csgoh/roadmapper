@@ -195,6 +195,7 @@ class Task:
 
         self.set_task_position(painter, timeline, task_start_period, task_end_period)
 
+        ### Set parallel tasks position
         for task in self.tasks:
             task.set_draw_position(
                 painter,
@@ -204,6 +205,7 @@ class Task:
                 milestone_exists_in_parent=milestone_in_tasks,
             )
 
+        ### Set milestones position
         self.set_milestones_position(
             painter, timeline, task_start_period, task_end_period
         )
@@ -417,10 +419,13 @@ class Task:
         bar_start_x_pos = 0
 
         for timeline_item in timeline.timeline_items:
+            ### Get the start and end period of the timeline item
             (
                 timeline_start_period,
                 timeline_end_period,
             ) = timeline_item.get_timeline_period(timeline.mode)
+
+            ### Check if the task is within the timeline period
             if (
                 self.is_task_in_range(
                     timeline_start_period,
