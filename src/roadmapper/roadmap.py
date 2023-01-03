@@ -54,7 +54,7 @@ class Roadmap:
     marker: Marker = field(default=None, init=False)
     show_generic_dates: bool = field(default=False, init=False)
 
-    __version__ = "v0.2.2"
+    __version__ = "v0.3.0"
 
     def __post_init__(self):
         """This method is called after __init__() is called"""
@@ -233,6 +233,7 @@ class Roadmap:
         ),
         number_of_items: int = 12,
         show_generic_dates: bool = False,
+        show_first_day_of_week: bool = False,
         font: str = "",
         font_size: int = 0,
         font_colour: str = "",
@@ -266,6 +267,7 @@ class Roadmap:
             start=start_date,
             number_of_items=number_of_items,
             show_generic_dates=show_generic_dates,
+            show_first_day_of_week=show_first_day_of_week,
             font=font,
             font_size=font_size,
             font_colour=font_colour,
@@ -323,37 +325,47 @@ class Roadmap:
 
         start_time = time.time()
 
+        ### Set the surface background colour
         self.__painter.set_background_colour()
 
+        ### Draw the roadmap title
         if self.title == None:
             raise ValueError("Title is not set. Please call set_title() to set title.")
         self.title.draw(self.__painter)
 
+        ### Draw the roadmap subtitle
         if self.subtitle != None:
             self.subtitle.draw(self.__painter)
 
+        ### Draw the roadmap timeline
         if self.timeline == None:
             raise ValueError(
                 "Timeline is not set. Please call set_timeline() to set timeline."
             )
         self.timeline.draw(self.__painter)
 
+        ### Set the roadmap groups draw position
         for group in self.groups:
             group.set_draw_position(self.__painter, self.timeline)
 
+        ### Draw timeline vertical lines on the roadmap
         self.timeline.draw_vertical_lines(self.__painter)
 
+        ### Draw the roadmap groups
         for group in self.groups:
             group.draw(self.__painter)
 
+        ### Draw the roadmap marker
         if self.marker != None and self.show_generic_dates == False:
             self.marker.set_line_draw_position(self.__painter)
             self.marker.draw(self.__painter)
 
+        ### Draw the roadmap footer
         if self.footer != None:
             self.footer.set_draw_position(self.__painter)
             self.footer.draw(self.__painter)
 
+        ### Auto adjust the surface height
         if self.auto_height == True:
             self.__painter.set_surface_size(
                 self.__painter.width, int(self.__painter.last_drawn_y_pos)
