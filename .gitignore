@@ -37,7 +37,6 @@ test.ipynb
 # My exclusion list
 reference/
 *.json
-*.txt
 pwk.py
 pwk_roadmap.png
 temp/
