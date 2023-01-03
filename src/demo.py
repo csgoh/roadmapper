@@ -149,13 +149,18 @@ def generic_date_test(
     start_date: str = "2022-11-01",
     number_of_items: int = 24,
     show_generic_dates: bool = False,
+    show_first_day_of_week: bool = False,
     file_name: str = "demo01.png",
     colour_theme: str = "DEFAULT",
 ) -> None:
     roadmap = Roadmap(4400, 2000, colour_theme=colour_theme, show_marker=True)
     roadmap.set_title("My Demo Roadmap!!!")
     roadmap.set_timeline(
-        mode, start_date, number_of_items, show_generic_dates=show_generic_dates
+        mode,
+        start_date,
+        number_of_items,
+        show_generic_dates=show_generic_dates,
+        show_first_day_of_week=show_first_day_of_week,
     )
 
     group = roadmap.add_group("Core Product Work Stream")
@@ -232,73 +237,113 @@ def parallel_task_demo(
 # colour_theme_demo(file_name="demo-colour-ORANGEPEEL.png", colour_theme="ORANGEPEEL")
 # colour_theme_demo(file_name="demo-colour-GREENTURTLE.png", colour_theme="GREENTURTLE")
 
-show_generic_dates = True
+show_generic_dates = False
 
 ### Problematic test case - To check
-colour_theme_demo(
-    file_name="demo-colour-GREENTURTLE-weekly.png",
-    colour_theme="GREENTURTLE",
-    mode=TimelineMode.WEEKLY,
-    number_of_items=53,
-    show_generic_dates=show_generic_dates,
-)
+# colour_theme_demo(
+#     file_name="demo-colour-GREENTURTLE-weekly.png",
+#     colour_theme="GREENTURTLE",
+#     mode=TimelineMode.WEEKLY,
+#     number_of_items=53,
+#     show_generic_dates=show_generic_dates,
+# )
 
-colour_theme_demo(
-    file_name="demo-colour-GREENTURTLE-monthly-gen.png",
-    colour_theme="GREENTURTLE",
-    mode=TimelineMode.MONTHLY,
-    number_of_items=14,
-    show_generic_dates=show_generic_dates,
-)
-show_generic_dates = False
-colour_theme_demo(
-    file_name="demo-colour-GREENTURTLE-monthly.png",
-    colour_theme="GREENTURTLE",
-    mode=TimelineMode.MONTHLY,
-    number_of_items=14,
-    show_generic_dates=show_generic_dates,
-)
-show_generic_dates = True
-colour_theme_demo(
-    file_name="demo-colour-GREENTURTLE-quarter.png",
-    colour_theme="GREENTURTLE",
-    mode=TimelineMode.QUARTERLY,
-    number_of_items=6,
-    show_generic_dates=show_generic_dates,
-)
+# colour_theme_demo(
+#     file_name="demo-colour-GREENTURTLE-monthly-gen.png",
+#     colour_theme="GREENTURTLE",
+#     mode=TimelineMode.MONTHLY,
+#     number_of_items=14,
+#     show_generic_dates=show_generic_dates,
+# )
+# show_generic_dates = False
+# colour_theme_demo(
+#     file_name="demo-colour-GREENTURTLE-monthly.png",
+#     colour_theme="GREENTURTLE",
+#     mode=TimelineMode.MONTHLY,
+#     number_of_items=14,
+#     show_generic_dates=show_generic_dates,
+# )
+# show_generic_dates = True
+# colour_theme_demo(
+#     file_name="demo-colour-GREENTURTLE-quarter.png",
+#     colour_theme="GREENTURTLE",
+#     mode=TimelineMode.QUARTERLY,
+#     number_of_items=6,
+#     show_generic_dates=show_generic_dates,
+# )
 
-colour_theme_demo(
-    file_name="demo-colour-GREENTURTLE-halfyearly.png",
-    colour_theme="GREENTURTLE",
-    mode=TimelineMode.HALF_YEARLY,
-    number_of_items=6,
-    show_generic_dates=show_generic_dates,
-)
+# colour_theme_demo(
+#     file_name="demo-colour-GREENTURTLE-halfyearly.png",
+#     colour_theme="GREENTURTLE",
+#     mode=TimelineMode.HALF_YEARLY,
+#     number_of_items=6,
+#     show_generic_dates=show_generic_dates,
+# )
 
-colour_theme_demo(
-    file_name="demo-colour-GREENTURTLE-yearly.png",
-    colour_theme="GREENTURTLE",
-    mode=TimelineMode.YEARLY,
-    number_of_items=4,
-    show_generic_dates=show_generic_dates,
-)
+# colour_theme_demo(
+#     file_name="demo-colour-GREENTURTLE-yearly.png",
+#     colour_theme="GREENTURTLE",
+#     mode=TimelineMode.YEARLY,
+#     number_of_items=4,
+#     show_generic_dates=show_generic_dates,
+# )
 
 
 generic_date_test(
-    file_name="demo-weekly-gen.png",
+    file_name="demo-weekly-1.png",
     mode=TimelineMode.WEEKLY,
     start_date="2022-11-01",
-    number_of_items=54,
-    show_generic_dates=show_generic_dates,
+    number_of_items=56,
+    show_generic_dates=True,
+    show_first_day_of_week=True,
 )
 
 generic_date_test(
-    file_name="demo-weekly2.png",
+    file_name="demo-weekly-2.png",
+    mode=TimelineMode.WEEKLY,
+    start_date="2022-11-01",
+    number_of_items=70,
+    show_generic_dates=False,
+    show_first_day_of_week=True,
+)
+
+
+generic_date_test(
+    file_name="demo-weekly-3.png",
+    mode=TimelineMode.WEEKLY,
+    number_of_items=52,
+    start_date="2023-01-01",
+    show_generic_dates=False,
+    show_first_day_of_week=True,
+)
+
+
+generic_date_test(
+    file_name="demo-weekly-4.png",
+    mode=TimelineMode.WEEKLY,
+    number_of_items=56,
+    start_date="2023-01-01",
+    show_generic_dates=False,
+    show_first_day_of_week=True,
+)
+
+generic_date_test(
+    file_name="demo-weekly-5.png",
     mode=TimelineMode.WEEKLY,
     start_date="2022-11-01",
     number_of_items=63,
     show_generic_dates=False,
 )
+
+generic_date_test(
+    file_name="demo-weekly-6.png",
+    mode=TimelineMode.WEEKLY,
+    number_of_items=12,
+    start_date="2023-01-01",
+    show_generic_dates=False,
+)
+
+
 # generic_date_test(
 #     file_name="demo-monthly.png",
 #     mode=TimelineMode.MONTHLY,
@@ -332,4 +377,4 @@ generic_date_test(
 # )
 
 
-parallel_task_demo(file_name="parallel-demo01.png")
+# parallel_task_demo(file_name="parallel-demo01.png")
