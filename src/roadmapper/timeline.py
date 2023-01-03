@@ -38,6 +38,7 @@ class Timeline:
     start: datetime = datetime.today()
     number_of_items: int = 12
     show_generic_dates: bool = False
+    show_first_day_of_week: bool = False
     x: int = field(init=False)
     y: int = field(init=False)
     width: int = field(init=False)
@@ -161,7 +162,6 @@ class Timeline:
                     font_colour=self.font_colour,
                     fill_colour=self.fill_colour,
                 )
-
                 timelinetimegroup.set_draw_position(
                     painter,
                     timelineitemgroup_x,
@@ -200,7 +200,6 @@ class Timeline:
                 font_colour=self.font_colour,
                 fill_colour=self.fill_colour,
             )
-
             timelineitem.set_draw_position(
                 painter,
                 timelineitem_x,
@@ -211,6 +210,10 @@ class Timeline:
 
             self.timeline_items.append(timelineitem)
         painter.last_drawn_y_pos = timelineitem_y + timelineitem_height
+
+    def __get_monday_from_calendar_week(self, year, calendar_week):
+        monday = datetime.strptime(f"{year}-{calendar_week}-1", "%Y-%W-%w").date()
+        return monday
 
     def __get_timeline_item_text(self, index: int) -> str:
         """Get the text of the timeline item
@@ -224,17 +227,30 @@ class Timeline:
         timeline_text = ""
         if self.mode == TimelineMode.WEEKLY:
             if self.show_generic_dates == False:
-                this_week = self.start + relativedelta(weeks=+index)
-                this_week_number = int(this_week.strftime("%W"))
-                # this_week_number += 1
-                timeline_text = f"W{this_week_number}"
+                if self.show_first_day_of_week == False:
+                    this_week = self.__find_first_day_of_week(
+                        self.start
+                    ) + relativedelta(weeks=+index)
+                    this_week_number = int(this_week.strftime("%W"))
+                    timeline_text = f"W{this_week_number}"
+                else:
+                    this_week = self.__find_first_day_of_week(
+                        self.start
+                    ) + relativedelta(weeks=+index)
+                    this_week_number = int(this_week.strftime("%W"))
+                    first_day_of_week = self.__get_monday_from_calendar_week(
+                        this_week.year, this_week_number
+                    )
+                    this_day = first_day_of_week.strftime("%d")
+                    this_month = first_day_of_week.strftime("%b")
+                    timeline_text = f"{this_day} {this_month}"
+
             else:
-                this_year = 1
-                if index >= 52:
-                    this_year += index // 52
+                ### show_generic_dates is True ###
 
                 this_week = index + 1
                 timeline_text = f"W {this_week}"
+
         elif self.mode == TimelineMode.MONTHLY:
             if self.show_generic_dates == False:
                 this_month = self.start + relativedelta(months=+index)
@@ -272,6 +288,11 @@ class Timeline:
 
         return timeline_text
 
+    def __find_first_day_of_week(self, this_date: datetime) -> datetime:
+        _, _, day_of_week = this_date.isocalendar()
+        first_day_of_week = this_date - timedelta(days=day_of_week - 1)
+        return first_day_of_week
+
     def __get_timeline_item_value(self, index: int) -> str:
         """Get the value of the timeline item
 
@@ -284,10 +305,23 @@ class Timeline:
 
         timeline_value = ""
         if self.mode == TimelineMode.WEEKLY:
-            this_week = self.start + relativedelta(weeks=+index)
-            # week_value = int(this_week.strftime("%W")) + 1
-            week_value = int(this_week.strftime("%W"))
+            ### When dealing with weeks, the actual week number is used regardless of whether show_generic_dates is set.
+
+            ### if index > 52, then reset the index number to 1
+            # index = index % 52
+
+            this_week = self.__find_first_day_of_week(self.start) + relativedelta(
+                weeks=+index
+            )
+
+            week_value = int(this_week.strftime("%W"))  # + 1
+            # print(
+            #     f"start: {self.start}, this_week: {this_week}, week_value: {week_value}"
+            # )
+            if week_value > 52:
+                week_value = week_value % 52
             timeline_value = f"{this_week.year}{week_value}"
+            # print(f"V:{index} = {this_week}, {week_value}")
         elif self.mode == TimelineMode.MONTHLY:
             this_month = self.start + relativedelta(months=+index)
             timeline_value = f"{this_month.year}{this_month.strftime('%m')}"
@@ -318,8 +352,10 @@ class Timeline:
         timeline_end_period = ""
         if self.mode == TimelineMode.WEEKLY:
             timeline_period = self.__get_timeline_item_value(index)
-            this_year = timeline_period[0:4]
-            this_week = timeline_period[4:]
+            ### timeline_period is in the format YYYYWW
+            this_year = timeline_period[0:4]  ### First 4 characters
+            this_week = timeline_period[4:]  ### Last 2 characters
+            # print(f"this_year: {this_year}, this_week: {this_week}")
             timeline_start_period = datetime.combine(
                 date.fromisocalendar(int(this_year), int(this_week), 1),
                 datetime.min.time(),

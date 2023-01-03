@@ -101,7 +101,7 @@ class TimelineItem:
         Returns:
             tuple(datetime, datetime): start datetime and end datetime of the timeline period
         """
-        start_date = self.start
+
         if mode == TimelineMode.WEEKLY:
             this_year = self.value[0:4]
             this_week = self.value[4:]
