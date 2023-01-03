@@ -45,6 +45,7 @@ src/*.png
 *.png
 src/test/*.png
 .VSCodeCounter/
+scrap.py
 
 # C extensions
 *.so
