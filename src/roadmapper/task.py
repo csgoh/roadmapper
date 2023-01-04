@@ -165,7 +165,7 @@ class Task:
         """Set the draw position of this task
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
             group_x (int): Parent group x position
             last_drawn_y (int): Last drawn y position
             timeline (Timeline): Timeline object
@@ -220,7 +220,7 @@ class Task:
         """Set the draw position of this task's milestones
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
             timeline (Timeline): Timeline object
             task_start_period (datetime): Task start date
             task_end_period (datetime): Task end date
@@ -409,7 +409,7 @@ class Task:
         """Set the draw position of this task
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
             timeline (Timeline): Timeline object
             task_start_period (datetime): Task start date
             task_end_period (datetime): Task end date
@@ -542,7 +542,7 @@ class Task:
         """Draw the task
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
         """
         box_x = 0
         box_y = 0

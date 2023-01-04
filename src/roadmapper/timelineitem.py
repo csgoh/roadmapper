@@ -51,7 +51,7 @@ class TimelineItem:
         """Calculate the text draw position based on the box position and size
 
         A Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
 
         Returns:
             tuple(int, int): (x, y) position of the text
@@ -79,7 +79,7 @@ class TimelineItem:
         """Set the draw position of the timeline item
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
             x (int): x position of the box
             y (int): y position of the box
             width (int): width of the box
@@ -316,7 +316,7 @@ class TimelineItem:
         """Draws the timeline
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
         """
 
         painter.draw_box_with_text(
@@ -336,7 +336,7 @@ class TimelineItem:
         """Draws the timeline
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
         """
         x_pos = self.box_x - 1
         painter.draw_line(

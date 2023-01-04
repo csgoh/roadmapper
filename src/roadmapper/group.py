@@ -104,7 +104,7 @@ class Group:
         """Set group draw position
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
             timeline (Timeline): Timeline instance
         """
 
@@ -155,7 +155,7 @@ class Group:
         """Draw group
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
         """
         # Step 1: draw group
         painter.draw_box_with_text(
