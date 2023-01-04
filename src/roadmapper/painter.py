@@ -1,4 +1,4 @@
-# Painter class - Wrapper for PyCairo library
+# Painter class - Wrapper for Pillow library
 # MIT License
 
 # Copyright (c) 2022 CS Goh
@@ -29,7 +29,7 @@ import textwrap
 
 
 class Painter:
-    """A wrapper class for PyCairo library"""
+    """A wrapper class for Pillow library"""
 
     width = 0
     height = 0
@@ -352,11 +352,15 @@ class Painter:
             )
         elif line_style == "dashed":
             # given a line between x1, y1 and x2, y2, divide it into multiple shorter lines
-            # and draw them with a gap in between
+            # and draw them with a gap in between.
+
+            ### Calculate the number of dashes
+            gap_counts = int((y2 - y1) / 7)
+
             for i, (x, y) in enumerate(
                 zip(
-                    linspace(x1, x2, 20),
-                    linspace(y1, y2, 20),
+                    linspace(x1, x2, gap_counts),
+                    linspace(y1, y2, gap_counts),
                 )
             ):
                 if i % 2 == 0:
