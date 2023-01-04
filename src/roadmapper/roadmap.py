@@ -23,8 +23,8 @@
 from datetime import datetime
 from dataclasses import dataclass, field
 import time
+import importlib.metadata
 
-# from contextlib import contextmanager
 
 from roadmapper.painter import Painter
 from roadmapper.title import Title
@@ -53,8 +53,6 @@ class Roadmap:
     footer: Footer = field(default=None, init=False)
     marker: Marker = field(default=None, init=False)
     show_generic_dates: bool = field(default=False, init=False)
-
-    __version__ = "v0.3.0"
 
     def __post_init__(self):
         """This method is called after __init__() is called"""
@@ -246,10 +244,12 @@ class Roadmap:
                                             Options are WEEKLY, MONTHLY, QUARTERLY, HALF_YEARLY, YEARLY
             start (datetime, optional): Timeline start date. Defaults to current date
             number_of_items (int, optional): Number of time periods to display on the timeline. Defaults to 12.
-            font (str, optional): Timeline font. Defaults to "Arial".
-            font_size (int, optional): Timeline font size. Defaults to 10.
-            font_colour (str, optional): Timeline font colour. Defaults to "Black".
-            fill_colour (str, optional): Timeline fill colour. Defaults to "lightgrey".
+            show_generic_dates (bool, optional): Show generic dates. Defaults to False.
+            show_first_day_of_week (bool, optional): Show first day of week. Defaults to False. For this to work, show_generic_dates must set to False.
+            font (str, optional): Timeline font. Defaults to "DEFAULT" colour theme.
+            font_size (int, optional): Timeline font size. Defaults to "DEFAULT" colour theme.
+            font_colour (str, optional): Timeline font colour. Defaults to "DEFAULT" colour theme.
+            fill_colour (str, optional): Timeline fill colour. Defaults to "DEFAULT" colour theme.
         """
         if font == "":
             font = self.__painter.timeline_font
