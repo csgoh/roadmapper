@@ -16,7 +16,8 @@ As the repo name implies, this purpose of this python library is used to draw ro
 With git repository like GitHub or Bitbucket, roadmaps created using RaC can be version controlled, track changes and can be easily shared with others.
 
 ### Latest version
-**v.0.3.0**
+![release](https://img.shields.io/pypi/v/roadmapper)
+
 ### What's new in the latest version of Roadmapper?
 * Replaced problematic pycairo with Pillow library
 * Ability to add subtitle text
