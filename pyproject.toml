@@ -26,6 +26,7 @@ exclude = [
     "demo",
     "generate_gallery",
     "test_cases",
+    "tempCodeRunnerFile"
 ] # exclude packages matching these glob patterns (empty by default)
 
 [tool.setuptools.dynamic]
