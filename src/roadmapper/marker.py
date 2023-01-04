@@ -54,7 +54,7 @@ class Marker:
         """Set marker label draw position
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
             timeline (Timeline): Timeline instance
         """
         current_date = datetime.today()
@@ -89,7 +89,7 @@ class Marker:
         """Set marker line draw position
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
         """
         self.line_to_x = self.line_from_x
         self.line_to_y = painter.last_drawn_y_pos + 10
@@ -98,7 +98,7 @@ class Marker:
         """Draw marker
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
         """
         if self.not_in_timeline_range == False:
             painter.draw_text(
