@@ -108,17 +108,9 @@ class Painter:
         # Default file format
         self.output_type = "PNG"
 
-        # if self.output_type == "PNG":
         self.__surface = Image.new("RGBA", (width, height), (0, 0, 0, 0))
 
-        # Future Implementation
-        # if output_type == "PDF":
-        #     self.__surface = cairo.PDFSurface(output_file_name, width, height)
-
-        # self.__cr = cairo.Context(self.__surface)
         self.__cr = ImageDraw.Draw(self.__surface)
-
-        # self.__cr.set_antialias(cairo.ANTIALIAS_NONE)
 
         self.__new_cr = None
         self.__new_surface = None
@@ -129,8 +121,10 @@ class Painter:
         Args:
             colour_palette (str): Name of the colour palette. Eg. OrangePeel
         """
-        colour_theme = ColourTheme(colour_palette)
-        self.background_colour = colour_theme.get_colour_theme_settings("background")
+        self.colour_theme = ColourTheme(colour_palette)
+        (self.background_colour,) = self.colour_theme.get_colour_theme_settings(
+            "background"
+        )
         (
             self.title_font,
             self.title_font_size,
@@ -138,42 +132,42 @@ class Painter:
             self.subtitle_font,
             self.subtitle_font_size,
             self.subtitle_font_colour,
-        ) = colour_theme.get_colour_theme_settings("title")
+        ) = self.colour_theme.get_colour_theme_settings("title")
         (
             self.timeline_font,
             self.timeline_font_size,
             self.timeline_font_colour,
             self.timeline_fill_colour,
-        ) = colour_theme.get_colour_theme_settings("timeline")
+        ) = self.colour_theme.get_colour_theme_settings("timeline")
         (
             self.marker_font,
             self.marker_font_size,
             self.marker_font_colour,
             self.marker_line_colour,
-        ) = colour_theme.get_colour_theme_settings("marker")
+        ) = self.colour_theme.get_colour_theme_settings("marker")
         (
             self.group_font,
             self.group_font_size,
             self.group_font_colour,
             self.group_fill_colour,
-        ) = colour_theme.get_colour_theme_settings("group")
+        ) = self.colour_theme.get_colour_theme_settings("group")
         (
             self.task_font,
             self.task_font_size,
             self.task_font_colour,
             self.task_fill_colour,
-        ) = colour_theme.get_colour_theme_settings("task")
+        ) = self.colour_theme.get_colour_theme_settings("task")
         (
             self.milestone_font,
             self.milestone_font_size,
             self.milestone_font_colour,
             self.milestone_fill_colour,
-        ) = colour_theme.get_colour_theme_settings("milestone")
+        ) = self.colour_theme.get_colour_theme_settings("milestone")
         (
             self.footer_font,
             self.footer_font_size,
             self.footer_font_colour,
-        ) = colour_theme.get_colour_theme_settings("footer")
+        ) = self.colour_theme.get_colour_theme_settings("footer")
 
     def draw_box(
         self, x: int, y: int, width: int, height: int, box_fill_colour: str
