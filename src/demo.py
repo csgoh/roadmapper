@@ -204,7 +204,7 @@ def parallel_task_demo(
         show_generic_dates=False,
     )
 
-    group = roadmap.add_group("TBCore Product Work Stream")
+    group = roadmap.add_group("Core Product Work Stream")
 
     task = group.add_task("Base Functionality", "2022-11-01", "2023-01-31")
     parellel_task = task.add_parallel_task("Enhancements", "2023-02-15", "2024-03-31")
@@ -213,6 +213,9 @@ def parallel_task_demo(
     task = group.add_task("Showcase #1", "2023-01-01", "2023-01-31")
     parellel_task = task.add_parallel_task("Showcase #2", "2023-02-02", "2023-03-15")
     parellel_task.add_milestone("v.2.0", "2023-04-15")
+
+    # group = roadmap.add_group("Core Product Work Stream 2")
+    # task = group.add_task("Base Functionality", "2022-11-01", "2023-01-31")
 
     roadmap.set_footer("Author: CS Goh " + datetime.now().strftime("%Y-%m-%d"))
     roadmap.draw()
@@ -377,4 +380,4 @@ generic_date_test(
 # )
 
 
-# parallel_task_demo(file_name="parallel-demo01.png")
+parallel_task_demo(file_name="parallel-demo01.png")
