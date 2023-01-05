@@ -46,6 +46,7 @@ class Task:
     font_colour: str = "Black"
     fill_colour: str = "LightGreen"
     text_alignment: str = "centre"
+    style: str = "rectangle"
     painter: Painter
 
     def __post_init__(self):
@@ -550,7 +551,8 @@ class Task:
         height = 0
 
         for i, box in enumerate(self.boxes):
-            painter.draw_box(box[0], box[1], box[2], box[3], self.fill_colour)
+            # painter.draw_box(box[0], box[1], box[2], box[3], self.fill_colour)
+            # painter.draw_rounded_box(box[0], box[1], box[2], box[3], self.fill_colour)
             if i == 0:
                 box_x = box[0]
                 box_y = box[1]
@@ -574,6 +576,7 @@ class Task:
                 self.font,
                 self.font_size,
                 self.font_colour,
+                style=self.style,
             )
 
             for task in self.tasks:
