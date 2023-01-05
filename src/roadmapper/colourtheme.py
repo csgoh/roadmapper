@@ -29,11 +29,13 @@ from dataclasses import dataclass, field
 # "Microsoft Jhenghei"
 # simhei.ttf
 # "ARIALUNI.TTF"
+# "arial.ttf"
 
 DEFAULT_FONT = "arial.ttf"
 DEFAULT_TITLE_FONT_SIZE = 26
 DEFAULT_SUBTITLE_FONT_SIZE = 18
-DEFAULT_TIMELINE_FONT_SIZE = 12
+DEFAULT_TIMELINE_YEAR_FONT_SIZE = 12
+DEFAULT_TIMELINE_ITEM_FONT_SIZE = 12
 DEFAULT_MARKER_FONT_SIZE = 12
 DEFAULT_GROUP_FONT_SIZE = 12
 DEFAULT_TASK_FONT_SIZE = 12
@@ -56,10 +58,14 @@ default_colour_settings = {
             "subtitle_font_colour": "#000000",
         },
         "timeline": {
-            "timeline_font": DEFAULT_FONT,
-            "timeline_font_size": DEFAULT_TIMELINE_FONT_SIZE,
-            "timeline_font_colour": "#FFFFFF",
-            "timeline_fill_colour": "#000000",
+            "timeline_year_font": DEFAULT_FONT,
+            "timeline_year_font_size": DEFAULT_TIMELINE_YEAR_FONT_SIZE,
+            "timeline_year_font_colour": "#FFFFFF",
+            "timeline_year_fill_colour": "#000000",
+            "timeline_item_font": DEFAULT_FONT,
+            "timeline_item_font_size": DEFAULT_TIMELINE_ITEM_FONT_SIZE,
+            "timeline_item_font_colour": "#FFFFFF",
+            "timeline_item_fill_colour": "#000000",
         },
         "marker": {
             "marker_font": DEFAULT_FONT,
@@ -78,6 +84,7 @@ default_colour_settings = {
             "task_font_size": DEFAULT_TASK_FONT_SIZE,
             "task_font_colour": "#000000",
             "task_fill_colour": "#D9D9D9",
+            "task_style": "rectangle",
         },
         "milestone": {
             "milestone_font": DEFAULT_FONT,
@@ -108,10 +115,14 @@ greywoof_colour_settings = {
             "subtitle_font_colour": "#000000",
         },
         "timeline": {
-            "timeline_font": DEFAULT_FONT,
-            "timeline_font_size": DEFAULT_TIMELINE_FONT_SIZE,
-            "timeline_font_colour": "#FFFFFF",
-            "timeline_fill_colour": "#666666",
+            "timeline_year_font": DEFAULT_FONT,
+            "timeline_year_font_size": DEFAULT_TIMELINE_YEAR_FONT_SIZE,
+            "timeline_year_font_colour": "#FFFFFF",
+            "timeline_year_fill_colour": "#666666",
+            "timeline_item_font": DEFAULT_FONT,
+            "timeline_item_font_size": DEFAULT_TIMELINE_ITEM_FONT_SIZE,
+            "timeline_item_font_colour": "#FFFFFF",
+            "timeline_item_fill_colour": "#666666",
         },
         "marker": {
             "marker_font": DEFAULT_FONT,
@@ -130,6 +141,7 @@ greywoof_colour_settings = {
             "task_font_size": DEFAULT_TASK_FONT_SIZE,
             "task_font_colour": "#000000",
             "task_fill_colour": "#D9D9D9",
+            "task_style": "rectangle",
         },
         "milestone": {
             "milestone_font": DEFAULT_FONT,
@@ -160,10 +172,14 @@ bluemountain_colour_settings = {
             "subtitle_font_colour": "#0B5394",
         },
         "timeline": {
-            "timeline_font": DEFAULT_FONT,
-            "timeline_font_size": DEFAULT_TIMELINE_FONT_SIZE,
-            "timeline_font_colour": "#FFFFFF",
-            "timeline_fill_colour": "#0B5394",
+            "timeline_year_font": DEFAULT_FONT,
+            "timeline_year_font_size": DEFAULT_TIMELINE_YEAR_FONT_SIZE,
+            "timeline_year_font_colour": "#FFFFFF",
+            "timeline_year_fill_colour": "#0B5394",
+            "timeline_item_font": DEFAULT_FONT,
+            "timeline_item_font_size": DEFAULT_TIMELINE_ITEM_FONT_SIZE,
+            "timeline_item_font_colour": "#FFFFFF",
+            "timeline_item_fill_colour": "#0B5394",
         },
         "marker": {
             "marker_font": DEFAULT_FONT,
@@ -182,6 +198,7 @@ bluemountain_colour_settings = {
             "task_font_size": DEFAULT_TASK_FONT_SIZE,
             "task_font_colour": "#000000",
             "task_fill_colour": "#9FC5E8",
+            "task_style": "rectangle",
         },
         "milestone": {
             "milestone_font": DEFAULT_FONT,
@@ -212,10 +229,14 @@ orangepeel_colour_settings = {
             "subtitle_font_colour": "#B45F06",
         },
         "timeline": {
-            "timeline_font": DEFAULT_FONT,
-            "timeline_font_size": DEFAULT_TIMELINE_FONT_SIZE,
-            "timeline_font_colour": "#FFFFFF",
-            "timeline_fill_colour": "#B45F06",
+            "timeline_year_font": DEFAULT_FONT,
+            "timeline_year_font_size": DEFAULT_TIMELINE_YEAR_FONT_SIZE,
+            "timeline_year_font_colour": "#FFFFFF",
+            "timeline_year_fill_colour": "#B45F06",
+            "timeline_item_font": DEFAULT_FONT,
+            "timeline_item_font_size": DEFAULT_TIMELINE_ITEM_FONT_SIZE,
+            "timeline_item_font_colour": "#FFFFFF",
+            "timeline_item_fill_colour": "#B45F06",
         },
         "marker": {
             "marker_font": DEFAULT_FONT,
@@ -234,6 +255,7 @@ orangepeel_colour_settings = {
             "task_font_size": DEFAULT_TASK_FONT_SIZE,
             "task_font_colour": "#000000",
             "task_fill_colour": "#F6B26B",
+            "task_style": "rectangle",
         },
         "milestone": {
             "milestone_font": DEFAULT_FONT,
@@ -264,10 +286,14 @@ greenturtle_colour_settings = {
             "subtitle_font_colour": "#38761D",
         },
         "timeline": {
-            "timeline_font": DEFAULT_FONT,
-            "timeline_font_size": DEFAULT_TIMELINE_FONT_SIZE,
-            "timeline_font_colour": "#FFFFFF",
-            "timeline_fill_colour": "#38761D",
+            "timeline_year_font": DEFAULT_FONT,
+            "timeline_year_font_size": DEFAULT_TIMELINE_YEAR_FONT_SIZE,
+            "timeline_year_font_colour": "#FFFFFF",
+            "timeline_year_fill_colour": "#38761D",
+            "timeline_item_font": DEFAULT_FONT,
+            "timeline_item_font_size": DEFAULT_TIMELINE_ITEM_FONT_SIZE,
+            "timeline_item_font_colour": "#FFFFFF",
+            "timeline_item_fill_colour": "#38761D",
         },
         "marker": {
             "marker_font": DEFAULT_FONT,
@@ -286,6 +312,7 @@ greenturtle_colour_settings = {
             "task_font_size": DEFAULT_TASK_FONT_SIZE,
             "task_font_colour": "#000000",
             "task_fill_colour": "#93C47D",
+            "task_style": "rectangle",
         },
         "milestone": {
             "milestone_font": DEFAULT_FONT,
@@ -309,6 +336,7 @@ ColourThemesSettings = [
     greenturtle_colour_settings,
     ### Add more themes here
 ]
+
 
 @dataclass
 class ColourTheme:
@@ -337,25 +365,44 @@ class ColourTheme:
         Returns:
             background_colour (str): If roadmap_component is "background"
 
-        title_font_colour (str): If roadmap_component is "title"
-        subtitle_font_colour (str): If roadmap_component is "title"
+            title_font (str): If roadmap_component is "title"
+            title_font_size (int): If roadmap_component is "title"
+            title_font_colour (str): If roadmap_component is "title"
+            subtitle_font (str): If roadmap_component is "title"
+            subtitle_font_size (int): If roadmap_component is "title"
+            subtitle_font_colour (str): If roadmap_component is "title"
 
-        timeline_font_colour (str): If roadmap_component is "timeline"
-        timeline_fill_colour (str): If roadmap_component is "timeline"
+            timeline_year_font (str): If roadmap_component is "timeline"
+            timeline_year_font_size (int): If roadmap_component is "timeline"
+            timeline_year_font_colour (str): If roadmap_component is "timeline"
+            timeline_year_fill_colour (str): If roadmap_component is "timeline"
+            timeline_item_font (str): If roadmap_component is "timeline"
+            timeline_item_font_size (int): If roadmap_component is "timeline"
+            timeline_item_font_colour (str): If roadmap_component is "timeline"
+            timeline_item_fill_colour (str): If roadmap_component is "timeline"
 
-        marker_font_colour (str): If roadmap_component is "marker"
-        marker_line_colour (str): If roadmap_component is "marker"
+            marker_font (str): If roadmap_component is "marker"
+            marker_font_size (int): If roadmap_component is "marker"
+            marker_font_colour (str): If roadmap_component is "marker"
+            marker_line_colour (str): If roadmap_component is "marker"
 
-        group_font_colour (str): If roadmap_component is "group"
-        group_fill_colour (str): If roadmap_component is "group"
+            group_font (str): If roadmap_component is "group"
+            group_font_size (int): If roadmap_component is "group"
+            group_font_colour (str): If roadmap_component is "group"
+            group_fill_colour (str): If roadmap_component is "group"
 
-        task_font_colour (str): If roadmap_component is "task"
-        task_fill_colour (str): If roadmap_component is "task"
+            task_font (str): If roadmap_component is "task"
+            task_font_size (int): If roadmap_component is "task"
+            task_font_colour (str): If roadmap_component is "task"
+            task_fill_colour (str): If roadmap_component is "task"
+            task_style (str): If roadmap_component is "task"
 
-        milestone_font_colour (str): If roadmap_component is "milestone"
-        milestone_fill_colour (str): If roadmap_component is "milestone"
+            milestone_font (str): If roadmap_component is "milestone"
+            milestone_font_size (int): If roadmap_component is "milestone"
+            milestone_font_colour (str): If roadmap_component is "milestone"
+            milestone_fill_colour (str): If roadmap_component is "milestone"
 
-        footer_font_colour (str): If roadmap_component is "footer"
+            footer_font_colour (str): If roadmap_component is "footer"
         """
 
         colour_settings = None
@@ -366,4 +413,5 @@ class ColourTheme:
                 break
 
         ### get the colour scheme for the specified roadmap component
+        ### values() returns a list of dictionaries, convert it to tuple. e.g. {1, 2} -> (1, 2)
         return tuple(colour_settings[roadmap_component].values())
