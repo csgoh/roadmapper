@@ -23,7 +23,7 @@
 
 # import cairo
 # from colour import Color
-from roadmapper.colourpalette import ColourTheme
+from roadmapper.colourtheme import ColourTheme
 from PIL import Image, ImageDraw, ImageFont, ImageColor
 import textwrap
 
@@ -35,8 +35,11 @@ class Painter:
     height = 0
     last_drawn_y_pos = 0
 
+    top_margin = 30
+    bottom_margin = 30
     left_margin = 30
     right_margin = 30
+
     group_box_width_percentage = 0.2
     timeline_width_percentage = 1 - group_box_width_percentage
     gap_between_group_box_and_timeline = 20
@@ -57,10 +60,15 @@ class Painter:
     subtitle_font_size: int
     subtitle_font_colour: str
 
-    timeline_font: str
-    timeline_font_size: int
-    timeline_font_colour: str
-    timeline_fill_colour: str
+    timeline_year_font: str
+    timeline_year_font_size: int
+    timeline_year_font_colour: str
+    timeline_year_fill_colour: str
+
+    timeline_item_font: str
+    timeline_item_font_size: int
+    timeline_item_font_colour: str
+    timeline_item_fill_colour: str
 
     marker_font: str
     marker_font_size: int
@@ -76,6 +84,7 @@ class Painter:
     task_font_size: int
     task_font_colour: str
     task_fill_colour: str
+    task_style: str
 
     milestone_font: str
     milestone_font_size: int
@@ -134,10 +143,14 @@ class Painter:
             self.subtitle_font_colour,
         ) = self.colour_theme.get_colour_theme_settings("title")
         (
-            self.timeline_font,
-            self.timeline_font_size,
-            self.timeline_font_colour,
-            self.timeline_fill_colour,
+            self.timeline_year_font,
+            self.timeline_year_font_size,
+            self.timeline_year_font_colour,
+            self.timeline_year_fill_colour,
+            self.timeline_item_font,
+            self.timeline_item_font_size,
+            self.timeline_item_font_colour,
+            self.timeline_item_fill_colour,
         ) = self.colour_theme.get_colour_theme_settings("timeline")
         (
             self.marker_font,
@@ -156,6 +169,7 @@ class Painter:
             self.task_font_size,
             self.task_font_colour,
             self.task_fill_colour,
+            self.task_style,
         ) = self.colour_theme.get_colour_theme_settings("task")
         (
             self.milestone_font,
@@ -184,6 +198,53 @@ class Painter:
         shape = [(x, y), (x + width, y + height)]
         self.__cr.rectangle(shape, fill=box_fill_colour)
 
+    def draw_rounded_box(
+        self, x: int, y: int, width: int, height: int, box_fill_colour: str
+    ) -> None:
+        """Draw a rounded rectagle
+
+        Args:
+            x (int): X coordinate
+            y (int): Y coordinate
+            width (int): Rectangle width
+            height (int): Rectangle height
+            box_fill_colour (str: HTML colour name or hex code. Eg. #FFFFFF or LightGreen)
+        """
+        shape = [(x, y), (x + width, y + height)]
+        radius = 20
+        self.__cr.rounded_rectangle(shape, radius, fill=box_fill_colour)
+
+    def draw_arrowhead_box(
+        self, x: int, y: int, width: int, height: int, box_fill_colour: str
+    ) -> None:
+        """Draw a rounded rectagle
+
+        Args:
+            x (int): X coordinate
+            y (int): Y coordinate
+            width (int): Rectangle width
+            height (int): Rectangle height
+            box_fill_colour (str: HTML colour name or hex code. Eg. #FFFFFF or LightGreen)
+        """
+        arrowhead_width = 10
+        width = width - arrowhead_width
+        shape = [(x, y), (x + width, y + height)]
+
+        # Draw the rectangle
+        self.__cr.rectangle(shape, fill=box_fill_colour)
+
+        # Set the coordinates of the arrowhead
+        vertical_midpoint = (height / 2) + y
+        arrowhead_endpoint = x + width + arrowhead_width
+        arrowhead = [
+            (x + width, y),
+            (arrowhead_endpoint, vertical_midpoint),
+            (x + width, y + height),
+        ]
+
+        # Draw the arrowhead
+        self.__cr.polygon(arrowhead, fill=box_fill_colour)
+
     def draw_box_with_text(
         self,
         box_x: int,
@@ -196,6 +257,7 @@ class Painter:
         text_font: str,
         text_font_size: int,
         text_font_colour: str,
+        style: str = "rectangle",
     ) -> None:
         font = ImageFont.truetype(text_font, size=text_font_size)
 
@@ -218,7 +280,25 @@ class Painter:
             box_x + box_width,
             box_y + box_height,
         )
-        self.__cr.rectangle((box_x1, box_y1, box_x2, box_y2), fill=box_fill_colour)
+        match style:
+            case "rectangle":
+                self.draw_box(
+                    box_x1,
+                    box_y1,
+                    box_width,
+                    box_height,
+                    box_fill_colour=box_fill_colour,
+                )
+            case "rounded":
+                self.draw_rounded_box(
+                    box_x1, box_y1, box_width, box_height, box_fill_colour
+                )
+            case "arrowhead":
+                self.draw_arrowhead_box(
+                    box_x1, box_y1, box_width, box_height, box_fill_colour
+                )
+            case _:
+                raise ValueError("Invalid style")
 
         pad = 4
         line_count = len(wrap_lines)
@@ -387,6 +467,23 @@ class Painter:
         )
         self.__cr.line((x1 + ((x2 - x1) / 2), y1, x1 + ((x2 - x1) / 2), y2), fill="red")
 
+    def draw_logo(self, image: str, x: int, y: int, width: int, height: int) -> None:
+        """Draw a logo
+
+        Args:
+            x (int): x coordinate of logo
+            y (int): y coordinate of logo
+            logo (str): Logo file name
+        """
+        logo = Image.open(image)
+        logo = logo.resize((width, height))
+        logo = logo.convert("RGBA")
+        mask = Image.new("L", logo.size, 0)
+        mask.paste(255, (0, 0, logo.size[0], logo.size[1]), logo)
+        logo.putalpha(mask)
+
+        self.__surface.paste(logo, (x, y))
+
     def get_text_dimension(self, text: str, font: str, font_size: int) -> tuple:
         """Get text dimension
 
@@ -464,6 +561,18 @@ class Painter:
         height += 100
         left, top, right, bottom = 0, 0, width, height
         self.__surface = self.__surface.crop((left, top, right, bottom))
+
+    def get_image_size(self, image: str) -> tuple:
+        """Get image size
+
+        Args:
+            image (str): Image path
+
+        Returns:
+            (width (int), height (int)): Image width and height
+        """
+        with Image.open(image) as img:
+            return img.size
 
     def save_surface(self, filename: str) -> None:
         """Save surface to PNG file

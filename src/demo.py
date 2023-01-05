@@ -3,6 +3,8 @@ from roadmapper.roadmap import Roadmap
 from roadmapper.timelinemode import TimelineMode
 from roadmapper.group import Group
 from roadmapper.task import Task
+import inspect
+from emoji import emojize
 
 
 def demo01(
@@ -222,6 +224,80 @@ def parallel_task_demo(
     roadmap.save(file_name)
 
 
+def singleton_demo(
+    mode: TimelineMode = TimelineMode.MONTHLY,
+    start_date: str = "2023-01-01",
+    number_of_items: int = 2,
+    file_name: str = "demo01.png",
+    colour_theme: str = "BLUEMOUNTAIN",
+) -> None:
+    roadmap = Roadmap(
+        600,
+        612,
+        auto_height=True,
+        colour_theme=colour_theme,
+        show_marker=False,
+    )
+    roadmap.set_title("ROADMAP EXAMPLE")
+    # roadmap.set_subtitle("This is a subtitle")
+    roadmap.set_timeline(
+        mode,
+        start_date,
+        number_of_items,
+        show_generic_dates=False,
+    )
+
+    group = roadmap.add_group("Showcase Task Styles")
+
+    task = group.add_task("Rectangle Style", "2023-01-15", "2023-02-15")
+    task = group.add_task("Rounded Style", "2023-01-15", "2023-02-15", style="rounded")
+    task = group.add_task(
+        "Arrowhead Style", "2023-01-15", "2023-02-15", style="arrowhead"
+    )
+
+    # roadmap.set_footer("Author: CS Goh " + datetime.now().strftime("%Y-%m-%d"))
+    roadmap.draw()
+    roadmap.save(file_name)
+
+
+def logo_demo(
+    mode: TimelineMode = TimelineMode.MONTHLY,
+    start_date: str = "2023-01-01",
+    number_of_items: int = 2,
+    file_name: str = "demo01.png",
+    colour_theme: str = "BLUEMOUNTAIN",
+) -> None:
+    roadmap = Roadmap(
+        800,
+        612,
+        auto_height=False,
+        colour_theme=colour_theme,
+        show_marker=False,
+    )
+    frameinfo = inspect.getframeinfo(inspect.currentframe())
+    title = f"{frameinfo.function}(), theme={colour_theme}, mode={mode}"
+
+    roadmap.add_logo("sample-logo1-bg.png", "top-centre", 50, 50)
+    roadmap.set_title(title)
+    roadmap.set_subtitle("This is a subtitle")
+    roadmap.set_timeline(
+        mode,
+        start_date,
+        number_of_items,
+        show_generic_dates=False,
+    )
+
+    group = roadmap.add_group("Showcase Task Styles")
+
+    text = "I love Python"
+    # emojized_text = emojize(text)
+    task = group.add_task(text, "2023-01-15", "2023-02-15")
+
+    # roadmap.set_footer("Author: CS Goh " + datetime.now().strftime("%Y-%m-%d"))
+    roadmap.draw()
+    roadmap.save(file_name)
+
+
 # # demo01(file_name="demo01.png")
 # # demo01(TimelineMode.WEEKLY, "2023-02-01", 16, "demo02.png")
 # # demo01(TimelineMode.QUARTERLY, "2023-02-01", 4, "demo03.png")
@@ -258,6 +334,31 @@ show_generic_dates = False
 #     number_of_items=14,
 #     show_generic_dates=show_generic_dates,
 # )
+
+# colour_theme_demo(
+#     file_name="demo-colour-GREYWOOF-monthly-gen.png",
+#     colour_theme="GREYWOOF",
+#     mode=TimelineMode.MONTHLY,
+#     number_of_items=14,
+#     show_generic_dates=show_generic_dates,
+# )
+
+# colour_theme_demo(
+#     file_name="demo-colour-ORANGEPEEL-monthly-gen.png",
+#     colour_theme="ORANGEPEEL",
+#     mode=TimelineMode.MONTHLY,
+#     number_of_items=14,
+#     show_generic_dates=show_generic_dates,
+# )
+
+# colour_theme_demo(
+#     file_name="demo-colour-BLUEMOUNTAIN-monthly-gen.png",
+#     colour_theme="BLUEMOUNTAIN",
+#     mode=TimelineMode.MONTHLY,
+#     number_of_items=14,
+#     show_generic_dates=show_generic_dates,
+# )
+
 # show_generic_dates = False
 # colour_theme_demo(
 #     file_name="demo-colour-GREENTURTLE-monthly.png",
@@ -292,59 +393,59 @@ show_generic_dates = False
 # )
 
 
-generic_date_test(
-    file_name="demo-weekly-1.png",
-    mode=TimelineMode.WEEKLY,
-    start_date="2022-11-01",
-    number_of_items=56,
-    show_generic_dates=True,
-    show_first_day_of_week=True,
-)
+# generic_date_test(
+#     file_name="demo-weekly-1.png",
+#     mode=TimelineMode.WEEKLY,
+#     start_date="2022-11-01",
+#     number_of_items=56,
+#     show_generic_dates=True,
+#     show_first_day_of_week=True,
+# )
 
-generic_date_test(
-    file_name="demo-weekly-2.png",
-    mode=TimelineMode.WEEKLY,
-    start_date="2022-11-01",
-    number_of_items=70,
-    show_generic_dates=False,
-    show_first_day_of_week=True,
-)
-
-
-generic_date_test(
-    file_name="demo-weekly-3.png",
-    mode=TimelineMode.WEEKLY,
-    number_of_items=52,
-    start_date="2023-01-01",
-    show_generic_dates=False,
-    show_first_day_of_week=True,
-)
+# generic_date_test(
+#     file_name="demo-weekly-2.png",
+#     mode=TimelineMode.WEEKLY,
+#     start_date="2022-11-01",
+#     number_of_items=70,
+#     show_generic_dates=False,
+#     show_first_day_of_week=True,
+# )
 
 
-generic_date_test(
-    file_name="demo-weekly-4.png",
-    mode=TimelineMode.WEEKLY,
-    number_of_items=56,
-    start_date="2023-01-01",
-    show_generic_dates=False,
-    show_first_day_of_week=True,
-)
+# generic_date_test(
+#     file_name="demo-weekly-3.png",
+#     mode=TimelineMode.WEEKLY,
+#     number_of_items=52,
+#     start_date="2023-01-01",
+#     show_generic_dates=False,
+#     show_first_day_of_week=True,
+# )
 
-generic_date_test(
-    file_name="demo-weekly-5.png",
-    mode=TimelineMode.WEEKLY,
-    start_date="2022-11-01",
-    number_of_items=63,
-    show_generic_dates=False,
-)
 
-generic_date_test(
-    file_name="demo-weekly-6.png",
-    mode=TimelineMode.WEEKLY,
-    number_of_items=12,
-    start_date="2023-01-01",
-    show_generic_dates=False,
-)
+# generic_date_test(
+#     file_name="demo-weekly-4.png",
+#     mode=TimelineMode.WEEKLY,
+#     number_of_items=56,
+#     start_date="2023-01-01",
+#     show_generic_dates=False,
+#     show_first_day_of_week=True,
+# )
+
+# generic_date_test(
+#     file_name="demo-weekly-5.png",
+#     mode=TimelineMode.WEEKLY,
+#     start_date="2022-11-01",
+#     number_of_items=63,
+#     show_generic_dates=False,
+# )
+
+# generic_date_test(
+#     file_name="demo-weekly-6.png",
+#     mode=TimelineMode.WEEKLY,
+#     number_of_items=12,
+#     start_date="2023-01-01",
+#     show_generic_dates=False,
+# )
 
 
 # generic_date_test(
@@ -380,4 +481,6 @@ generic_date_test(
 # )
 
 
-parallel_task_demo(file_name="parallel-demo01.png")
+# parallel_task_demo(file_name="parallel-demo01.png")
+# singleton_demo(file_name="singleton-demo01.png")
+logo_demo(file_name="logo_demo.png")
