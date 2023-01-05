@@ -59,6 +59,7 @@ class Group:
         font_colour: str = "",
         fill_colour: str = "",
         text_alignment: str = "centre",
+        style: str = "rectangle",
     ) -> Task:
         """Add new task to group
 
@@ -85,6 +86,9 @@ class Group:
         if fill_colour == "":
             fill_colour = self.painter.task_fill_colour
 
+        if style == "":
+            style = self.painter.task_style
+
         task = Task(
             text=text,
             start=start,
@@ -94,6 +98,7 @@ class Group:
             font_colour=font_colour,
             fill_colour=fill_colour,
             text_alignment=text_alignment,
+            style=style,
             painter=self.painter,
         )
         self.tasks.append(task)
