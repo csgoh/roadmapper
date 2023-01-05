@@ -37,7 +37,7 @@ class Title:
     font_colour: str = "Black"
 
     # CONSTANT
-    __TITLE_Y_POS = 30
+    __TITLE_Y_POS = 0
 
     def __calculate_draw_position(self, painter: Painter) -> tuple:
         """Calculate the draw position of the title
@@ -52,7 +52,13 @@ class Title:
         self.width, self.height = painter.get_text_dimension(
             self.text, self.font, self.font_size
         )
-        return (painter.width / 2) - self.width / 2, self.__TITLE_Y_POS + self.height
+        # return (painter.width / 2) - self.width / 2, self.__TITLE_Y_POS + self.height
+        return (
+            (painter.width / 2) - self.width / 2,
+            painter.top_margin
+            if painter.last_drawn_y_pos == 0
+            else painter.last_drawn_y_pos,
+        )
 
     def set_draw_position(self, painter: Painter) -> None:
         """Set the draw position of the title
@@ -61,7 +67,7 @@ class Title:
             painter (Painter): Pillow wrapper class instance
         """
         self.x, self.y = self.__calculate_draw_position(painter)
-        painter.last_drawn_y_pos = self.y
+        painter.last_drawn_y_pos = self.y + self.height
 
     def draw(self, painter: Painter) -> None:
         """Draw the title

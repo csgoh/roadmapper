@@ -49,9 +49,7 @@ class SubTitle:
         self.width, self.height = painter.get_text_dimension(
             self.text, self.font, self.font_size
         )
-        return (
-            painter.width / 2
-        ) - self.width / 2, painter.last_drawn_y_pos + self.height + 10
+        return (painter.width / 2) - self.width / 2, painter.last_drawn_y_pos + 5
 
     def set_draw_position(self, painter: Painter) -> None:
         """Set the draw position of the title
@@ -60,7 +58,7 @@ class SubTitle:
             painter (Painter): Pillow wrapper class instance
         """
         self.x, self.y = self.__calculate_draw_position(painter)
-        painter.last_drawn_y_pos = self.y
+        painter.last_drawn_y_pos = self.y + self.height
 
     def draw(self, painter: Painter) -> None:
         """Draw the title
