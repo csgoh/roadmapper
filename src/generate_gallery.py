@@ -24,8 +24,10 @@ def sample_roadmap(
         start_date,
         number_of_items,
         show_generic_dates=show_generic_dates,
-        fill_colour="#404040",
-        font_colour="white",
+        year_fill_colour="#404040",
+        year_font_colour="white",
+        item_fill_colour="#404040",
+        item_font_colour="white",
     )
 
     group = roadmap.add_group("Planning", fill_colour="#FFC000", font_colour="black")
