@@ -26,7 +26,7 @@ import calendar
 
 from roadmapper.painter import Painter
 from roadmapper.timelineitem import TimelineItem
-from roadmapper.timelineitemgroup import TimelineItemGroup
+from roadmapper.timelineitemyear import TimelineYear
 from roadmapper.timelinemode import TimelineMode
 
 
@@ -42,11 +42,15 @@ class Timeline:
     x: int = field(init=False)
     y: int = field(init=False)
     width: int = field(init=False)
-    font: str = "Arial"
-    font_size: int = 12
-    font_colour: str = "Black"
-    fill_colour: str = "LightGray"
-    timeline_items_group: list[TimelineItemGroup] = field(default_factory=list)
+    year_font: str = "Arial"
+    year_font_size: int = 12
+    year_font_colour: str = "Black"
+    year_fill_colour: str = "LightGray"
+    item_font: str = "Arial"
+    item_font_size: int = 12
+    item_font_colour: str = "Black"
+    item_fill_colour: str = "LightGray"
+    timeline_years: list[TimelineYear] = field(default_factory=list)
     timeline_items: list[TimelineItem] = field(default_factory=list)
 
     def __calculate_draw_position(self, painter: Painter) -> tuple[int, int, int]:
@@ -152,15 +156,15 @@ class Timeline:
 
                 index += year_groups[year]
 
-                timelinetimegroup = TimelineItemGroup(
+                timelinetimegroup = TimelineYear(
                     text="Year " + str(year),
                     value=year,
                     start=timelineitemgroup_start,
                     end=timelineitemgroup_end,
-                    font=self.font,
-                    font_size=self.font_size,
-                    font_colour=self.font_colour,
-                    fill_colour=self.fill_colour,
+                    font=self.year_font,
+                    font_size=self.year_font_size,
+                    font_colour=self.year_font_colour,
+                    fill_colour=self.year_fill_colour,
                 )
                 timelinetimegroup.set_draw_position(
                     painter,
@@ -169,7 +173,7 @@ class Timeline:
                     timelineitemgroup_width,
                     timelineitemgroup_height,
                 )
-                self.timeline_items_group.append(timelinetimegroup)
+                self.timeline_years.append(timelinetimegroup)
 
             painter.last_drawn_y_pos = (
                 timelineitemgroup_y
@@ -195,10 +199,10 @@ class Timeline:
                 value=timelineitem_value,
                 start=timelineitem_start,
                 end=timelineitem_end,
-                font=self.font,
-                font_size=self.font_size,
-                font_colour=self.font_colour,
-                fill_colour=self.fill_colour,
+                font=self.item_font,
+                font_size=self.item_font_size,
+                font_colour=self.item_font_colour,
+                fill_colour=self.item_fill_colour,
             )
             timelineitem.set_draw_position(
                 painter,
@@ -417,12 +421,13 @@ class Timeline:
         Args:
             painter (Painter): Pillow wrapper class instance
         """
-        for timelinegroup in self.timeline_items_group:
+        for timelinegroup in self.timeline_years:
             timelinegroup.draw(painter)
 
-        for index, timelinegroup in enumerate(self.timeline_items_group):
-            if index > 0:
-                timelinegroup.draw_vertical_line(painter)
+        ### No longer needed.
+        # for index, timelinegroup in enumerate(self.timeline_items_group):
+        #     if index > 0:
+        #         timelinegroup.draw_vertical_line(painter)
 
         for i in range(0, self.number_of_items):
             timelineitem = self.timeline_items[i]
