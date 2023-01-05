@@ -34,6 +34,7 @@ from roadmapper.timelinemode import TimelineMode
 from roadmapper.timeline import Timeline
 from roadmapper.group import Group
 from roadmapper.marker import Marker
+from roadmapper.logo import Logo
 
 
 @dataclass()
@@ -54,8 +55,11 @@ class Roadmap:
     marker: Marker = field(default=None, init=False)
     show_generic_dates: bool = field(default=False, init=False)
 
+    logo: Logo = field(default=None, init=False)
+
     def __post_init__(self):
         """This method is called after __init__() is called"""
+        self.start_time = time.time()
         self.__painter = Painter(self.width, self.height)
         self.__set_colour_palette(self.colour_theme)
         self.groups = []
@@ -232,10 +236,14 @@ class Roadmap:
         number_of_items: int = 12,
         show_generic_dates: bool = False,
         show_first_day_of_week: bool = False,
-        font: str = "",
-        font_size: int = 0,
-        font_colour: str = "",
-        fill_colour: str = "",
+        year_font: str = "",
+        year_font_size: int = 0,
+        year_font_colour: str = "",
+        year_fill_colour: str = "",
+        item_font: str = "",
+        item_font_size: int = 0,
+        item_font_colour: str = "",
+        item_fill_colour: str = "",
     ) -> None:
         """Configure the timeline settings
 
@@ -246,19 +254,32 @@ class Roadmap:
             number_of_items (int, optional): Number of time periods to display on the timeline. Defaults to 12.
             show_generic_dates (bool, optional): Show generic dates. Defaults to False.
             show_first_day_of_week (bool, optional): Show first day of week. Defaults to False. For this to work, show_generic_dates must set to False.
+            font (str, optional): Timelinegroup font. Defaults to "DEFAULT" colour theme.
+            font_size (int, optional): Timelinegroup font size. Defaults to "DEFAULT" colour theme.
+            font_colour (str, optional): Timelinegroup font colour. Defaults to "DEFAULT" colour theme.
+            fill_colour (str, optional): Timelinegroup fill colour. Defaults to "DEFAULT" colour theme.
             font (str, optional): Timeline font. Defaults to "DEFAULT" colour theme.
             font_size (int, optional): Timeline font size. Defaults to "DEFAULT" colour theme.
             font_colour (str, optional): Timeline font colour. Defaults to "DEFAULT" colour theme.
             fill_colour (str, optional): Timeline fill colour. Defaults to "DEFAULT" colour theme.
         """
-        if font == "":
-            font = self.__painter.timeline_font
-        if font_size == 0:
-            font_size = self.__painter.timeline_font_size
-        if font_colour == "":
-            font_colour = self.__painter.timeline_font_colour
-        if fill_colour == "":
-            fill_colour = self.__painter.timeline_fill_colour
+        if year_font == "":
+            year_font = self.__painter.timeline_year_font
+        if year_font_size == 0:
+            year_font_size = self.__painter.timeline_year_font_size
+        if year_font_colour == "":
+            year_font_colour = self.__painter.timeline_year_font_colour
+        if year_fill_colour == "":
+            year_fill_colour = self.__painter.timeline_year_fill_colour
+
+        if item_font == "":
+            item_font = self.__painter.timeline_item_font
+        if item_font_size == 0:
+            item_font_size = self.__painter.timeline_item_font_size
+        if item_font_colour == "":
+            item_font_colour = self.__painter.timeline_item_font_colour
+        if item_fill_colour == "":
+            item_fill_colour = self.__painter.timeline_item_fill_colour
 
         self.show_generic_dates = show_generic_dates
         start_date = datetime.strptime(start, "%Y-%m-%d")
@@ -268,14 +289,37 @@ class Roadmap:
             number_of_items=number_of_items,
             show_generic_dates=show_generic_dates,
             show_first_day_of_week=show_first_day_of_week,
-            font=font,
-            font_size=font_size,
-            font_colour=font_colour,
-            fill_colour=fill_colour,
+            year_font=year_font,
+            year_font_size=year_font_size,
+            year_font_colour=year_font_colour,
+            year_fill_colour=year_fill_colour,
+            item_font=item_font,
+            item_font_size=item_font_size,
+            item_font_colour=item_font_colour,
+            item_fill_colour=item_fill_colour,
         )
         self.timeline.set_draw_position(self.__painter)
         if self.marker != None:
             self.marker.set_label_draw_position(self.__painter, self.timeline)
+
+    def add_logo(
+        self,
+        image: str,
+        position: str = "top-right",
+        width: int = 0,
+        height: int = 0,
+    ) -> None:
+        """Add a logo to the roadmap
+
+        Args:
+            image (str): Image file path. See this page for supported image formats: https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html
+            position (str): Position of the logo. Defaults to "top_right".
+                            Options are top_left, top_centre, top_right, bottom_left, bottom_centre, bottom_right
+            width (int, optional): Logo width. Defaults to image width.
+            height (int, optional): Logo height. Defaults to image height.
+        """
+        self.logo = Logo(image=image, position=position, width=width, height=height)
+        self.logo.set_draw_position(self.__painter)
 
     def add_group(
         self,
@@ -323,10 +367,12 @@ class Roadmap:
     def draw(self) -> None:
         """Draw the roadmap"""
 
-        start_time = time.time()
-
         ### Set the surface background colour
         self.__painter.set_background_colour()
+
+        ### Draw logo
+        if self.logo != None:
+            self.logo.draw(self.__painter)
 
         ### Draw the roadmap title
         if self.title == None:
@@ -371,9 +417,6 @@ class Roadmap:
                 self.__painter.width, int(self.__painter.last_drawn_y_pos)
             )
 
-        elapsed_time = (time.time() - start_time) * 1000
-        print("Drawing time: %.3f ms" % elapsed_time)
-
     def save(self, filename: str) -> None:
         """Save surface to PNG file
 
@@ -381,6 +424,9 @@ class Roadmap:
             filename (str): PNG file name
         """
         self.__painter.save_surface(filename)
+
+        elapsed_time = (time.time() - self.start_time) * 1000
+        print(f"Took [{elapsed_time:.2f}ms] to generate '{filename}' roadmap")
 
     def print_roadmap(self, print_area: str = "all") -> None:
         """Print the content of the roadmap
