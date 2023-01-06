@@ -24,8 +24,10 @@ def colour_theme_demo(
         start_date,
         number_of_items,
         show_generic_dates=show_generic_dates,
-        fill_colour="#404040",
-        font_colour="white",
+        year_fill_colour="#404040",
+        item_fill_colour="#404040",
+        year_font_colour="white",
+        item_font_colour="white",
     )
 
     group = roadmap.add_group("Planning", fill_colour="#FFC000", font_colour="black")
@@ -206,8 +208,10 @@ def unicode_demo(
         start_date,
         number_of_items,
         show_generic_dates=show_generic_dates,
-        fill_colour="#404040",
-        font_colour="white",
+        year_fill_colour="#404040",
+        item_fill_colour="#404040",
+        year_font_colour="white",
+        item_font_colour="white",
     )
 
     group = roadmap.add_group("規劃", fill_colour="#FFC000", font_colour="black")
@@ -366,8 +370,8 @@ def unicode_demo(
 def test_sample_case1():
     colour_theme_demo(
         width=2500,
-        file_name="src/test/baseline/test-ORANGEPEEL-weekly.png",
-        # colour_theme="ORANGEPEEL",
+        file_name="images/test/test-ORANGEPEEL-weekly.png",
+        colour_theme="ORANGEPEEL",
         mode=TimelineMode.WEEKLY,
         number_of_items=52,
         start_date="2023-01-01",
@@ -377,8 +381,8 @@ def test_sample_case1():
 
 def test_sample_case2():
     colour_theme_demo(
-        file_name="src/test/baseline/test-ORANGEPEEL-monthly.png",
-        # colour_theme="ORANGEPEEL",
+        file_name="images/test/test-ORANGEPEEL-monthly.png",
+        colour_theme="ORANGEPEEL",
         mode=TimelineMode.MONTHLY,
         number_of_items=12,
         start_date="2023-01-01",
@@ -388,8 +392,8 @@ def test_sample_case2():
 
 def test_sample_case3():
     colour_theme_demo(
-        file_name="src/test/baseline/test-ORANGEPEEL-quarter.png",
-        # colour_theme="ORANGEPEEL",
+        file_name="images/test/test-ORANGEPEEL-quarter.png",
+        colour_theme="ORANGEPEEL",
         mode=TimelineMode.QUARTERLY,
         number_of_items=4,
         start_date="2023-01-01",
@@ -399,7 +403,7 @@ def test_sample_case3():
 
 def test_sample_unicase1():
     unicode_demo(
-        file_name="src/test/baseline/test-unicode-monthly.png",
+        file_name="images/test/test-unicode-monthly.png",
         # colour_theme="ORANGEPEEL",
         mode=TimelineMode.MONTHLY,
         number_of_items=12,
