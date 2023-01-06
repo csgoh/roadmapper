@@ -319,7 +319,10 @@ class Roadmap:
             height (int, optional): Logo height. Defaults to image height.
         """
         self.logo = Logo(image=image, position=position, width=width, height=height)
-        self.logo.set_draw_position(self.__painter)
+        if self.logo != None:
+            ### If logo is positioned at top-centre, it x, y position has to be calculated first before Title.
+            if self.logo.position[:10] == "top-centre":
+                self.logo.set_draw_position(self.__painter, self.auto_height)
 
     def add_group(
         self,
@@ -370,10 +373,6 @@ class Roadmap:
         ### Set the surface background colour
         self.__painter.set_background_colour()
 
-        ### Draw logo
-        if self.logo != None:
-            self.logo.draw(self.__painter)
-
         ### Draw the roadmap title
         if self.title == None:
             raise ValueError("Title is not set. Please call set_title() to set title.")
@@ -410,6 +409,13 @@ class Roadmap:
         if self.footer != None:
             self.footer.set_draw_position(self.__painter)
             self.footer.draw(self.__painter)
+
+        ### Draw logo
+
+        if self.logo != None:
+            if self.logo.position[:10] != "top-centre":
+                self.logo.set_draw_position(self.__painter, self.auto_height)
+            self.logo.draw(self.__painter)
 
         ### Auto adjust the surface height
         if self.auto_height == True:
