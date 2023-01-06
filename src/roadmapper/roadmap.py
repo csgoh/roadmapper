@@ -420,7 +420,7 @@ class Roadmap:
         ### Auto adjust the surface height
         if self.auto_height == True:
             self.__painter.set_surface_size(
-                self.__painter.width, int(self.__painter.last_drawn_y_pos)
+                self.__painter.width, int(self.__painter.next_y_pos)
             )
 
     def save(self, filename: str) -> None:

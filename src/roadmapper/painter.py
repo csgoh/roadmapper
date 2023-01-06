@@ -33,7 +33,7 @@ class Painter:
 
     width = 0
     height = 0
-    last_drawn_y_pos = 0
+    next_y_pos = 0
 
     top_margin = 30
     bottom_margin = 30
@@ -112,7 +112,7 @@ class Painter:
         """
         self.width = width
         self.height = height
-        self.last_drawn_y_pos = 0
+        self.next_y_pos = 0
 
         # Default file format
         self.output_type = "PNG"

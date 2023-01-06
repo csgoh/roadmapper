@@ -82,7 +82,7 @@ class Timeline:
         )
 
         ### Determine timeline starting y position
-        timeline_y = painter.last_drawn_y_pos + painter.gap_between_timeline_and_title
+        timeline_y = painter.next_y_pos + painter.gap_between_timeline_and_title
 
         return timeline_x, timeline_y, timeline_width
 
@@ -175,13 +175,13 @@ class Timeline:
                 )
                 self.timeline_years.append(timelinetimegroup)
 
-            painter.last_drawn_y_pos = (
+            painter.next_y_pos = (
                 timelineitemgroup_y
                 + timelineitemgroup_height
                 + painter.gap_between_timeline_group_item
             )
 
-        timelineitem_y = painter.last_drawn_y_pos
+        timelineitem_y = painter.next_y_pos
         timelineitem_height = painter.timeline_height
 
         for index in range(0, self.number_of_items):
@@ -213,7 +213,7 @@ class Timeline:
             )
 
             self.timeline_items.append(timelineitem)
-        painter.last_drawn_y_pos = timelineitem_y + timelineitem_height
+        painter.next_y_pos = timelineitem_y + timelineitem_height
 
     def __get_monday_from_calendar_week(self, year, calendar_week):
         monday = datetime.strptime(f"{year}-{calendar_week}-1", "%Y-%W-%w").date()

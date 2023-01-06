@@ -90,7 +90,7 @@ class TimelineItem:
         self.box_width = width
         self.box_height = height
         self.text_x, self.text_y = self.__calculate_text_draw_position(painter)
-        painter.last_drawn_y_pos = self.box_y
+        painter.next_y_pos = self.box_y
 
     def get_timeline_period(self, mode: TimelineMode) -> tuple:
         """Get the timeline period based on the timeline mode
@@ -343,7 +343,7 @@ class TimelineItem:
             x_pos,
             self.box_y + self.box_height,
             x_pos,
-            painter.last_drawn_y_pos + 10,
+            painter.next_y_pos + 10,
             "#e6e6e6",
             50,
             1,

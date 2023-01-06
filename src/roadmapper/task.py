@@ -523,7 +523,7 @@ class Task:
                 self.boxes.append(box_coordinates)
 
                 bar_width = self.box_x + self.box_width - bar_start_x_pos
-                painter.last_drawn_y_pos = self.box_y + self.box_height + 5
+                painter.next_y_pos = self.box_y + self.box_height + 5
 
         if row_match > 0:
             text_x_pos, text_y_pos = painter.get_display_text_position(

@@ -77,13 +77,13 @@ class Marker:
         self.line_from_x = timeline_item.box_x + (
             timeline_item.box_width * label_pos_percentage
         )
-        self.label_y = painter.last_drawn_y_pos + 8
+        self.label_y = painter.next_y_pos + 8
         self.label_width, self.label_height = painter.get_text_dimension(
             self.text, self.font, self.font_size
         )
         self.label_x = self.line_from_x - (self.label_width / 2) + 1
         self.line_from_y = self.label_y + self.label_height + 4
-        painter.last_drawn_y_pos = self.label_y + self.label_height
+        painter.next_y_pos = self.label_y + self.label_height
 
     def set_line_draw_position(self, painter: Painter) -> None:
         """Set marker line draw position
@@ -92,7 +92,7 @@ class Marker:
             painter (Painter): Pillow wrapper class instance
         """
         self.line_to_x = self.line_from_x
-        self.line_to_y = painter.last_drawn_y_pos + 10
+        self.line_to_y = painter.next_y_pos + 10
 
     def draw(self, painter: Painter) -> None:
         """Draw marker
@@ -120,5 +120,3 @@ class Marker:
                 line_width=self.line_width,
                 line_style=self.line_style,
             )
-
-        

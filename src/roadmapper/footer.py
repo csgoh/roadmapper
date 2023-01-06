@@ -49,7 +49,7 @@ class Footer:
         # 20px is the marging between the last drawn item and the footer
         return (
             painter.width / 2
-        ) - self.width / 2, painter.last_drawn_y_pos + self.height + 20
+        ) - self.width / 2, painter.next_y_pos + self.height + 20
 
     def set_draw_position(self, painter: Painter) -> None:
         """Set footer draw position
@@ -59,7 +59,7 @@ class Footer:
             last_y_pos (int): Last drawn item y position
         """
         self.x, self.y = self.__calculate_draw_position(painter)
-        painter.last_drawn_y_pos = self.y + self.height + 35
+        painter.next_y_pos = self.y + self.height + 35
 
     def draw(self, painter: Painter) -> None:
         """Draw footer

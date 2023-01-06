@@ -55,9 +55,7 @@ class Title:
         # return (painter.width / 2) - self.width / 2, self.__TITLE_Y_POS + self.height
         return (
             (painter.width / 2) - self.width / 2,
-            painter.top_margin
-            if painter.last_drawn_y_pos == 0
-            else painter.last_drawn_y_pos,
+            painter.top_margin if painter.next_y_pos == 0 else painter.next_y_pos,
         )
 
     def set_draw_position(self, painter: Painter) -> None:
@@ -67,7 +65,7 @@ class Title:
             painter (Painter): Pillow wrapper class instance
         """
         self.x, self.y = self.__calculate_draw_position(painter)
-        painter.last_drawn_y_pos = self.y + self.height
+        painter.next_y_pos = self.y + self.height
 
     def draw(self, painter: Painter) -> None:
         """Draw the title

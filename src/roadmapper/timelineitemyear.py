@@ -90,7 +90,7 @@ class TimelineYear:
         self.box_width = width
         self.box_height = height
         self.text_x, self.text_y = self.__calculate_text_draw_position(painter)
-        painter.last_drawn_y_pos = self.box_y
+        painter.next_y_pos = self.box_y
 
     def draw(self, painter: Painter) -> None:
         """Draw the timeline

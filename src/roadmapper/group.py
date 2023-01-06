@@ -136,7 +136,7 @@ class Group:
 
         self.box_x = painter.left_margin
 
-        self.box_y = painter.last_drawn_y_pos + painter.additional_height_for_milestone
+        self.box_y = painter.next_y_pos + painter.additional_height_for_milestone
 
         self.text_x, self.text_y = painter.get_display_text_position(
             self.box_x,
@@ -149,12 +149,10 @@ class Group:
             self.font_size,
         )
 
-        painter.last_drawn_y_pos = self.box_y
+        painter.next_y_pos = self.box_y
         for task in self.tasks:
-            task.set_draw_position(
-                painter, self.box_x, painter.last_drawn_y_pos, timeline
-            )
-        painter.last_drawn_y_pos = self.box_y + self.box_height
+            task.set_draw_position(painter, self.box_x, painter.next_y_pos, timeline)
+        painter.next_y_pos = self.box_y + self.box_height
 
     def draw(self, painter: Painter) -> None:
         """Draw group
