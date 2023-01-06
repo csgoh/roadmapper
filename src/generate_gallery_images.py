@@ -1,4 +1,3 @@
-from datetime import datetime
 from roadmapper.roadmap import Roadmap
 from roadmapper.timelinemode import TimelineMode
 
