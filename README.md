@@ -98,7 +98,6 @@ roadmap.save("demo01.png")
 
 ### Output
 
-![Roadmapper](https://github.com/csgoh/roadmapper/blob/main/images/demo01.png?raw=true)
 ![Roadmapper](images/demo01.png?raw=true)
 
 
