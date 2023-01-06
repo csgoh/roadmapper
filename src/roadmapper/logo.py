@@ -33,12 +33,12 @@ class Logo:
     width: str = field(default=0)
     height: str = field(default=0)
 
-    def set_draw_position(self, painter: Painter) -> None:
+    def set_draw_position(self, painter: Painter, auto_height: bool) -> None:
         """Set logo draw position
 
         Args:
             painter (Painter): Pillow wrapper class instance
-            timeline (Timeline): Timeline instance
+            auto_height (bool): Auto height flag
         """
         ### Find image width and height
         self.image_width, self.image_height = painter.get_image_size(self.image)
@@ -48,6 +48,7 @@ class Logo:
             self.height = self.image_height
 
         ### Calc top right corner position
+        logo_offset = 10
         match self.position:
             case "top-left":
                 self.x = painter.left_margin
@@ -55,19 +56,36 @@ class Logo:
             case "top-centre":
                 self.x = int((painter.width - self.width) / 2)
                 self.y = painter.top_margin
+                ### Please note that if logo is positioned at the top-centre, we need to update last_drawn_y_pos
+                ### to push the Title down.
                 painter.last_drawn_y_pos = self.y + self.height
             case "top-right":
                 self.x = int(painter.width - self.width - painter.right_margin)
                 self.y = painter.top_margin
             case "bottom-left":
                 self.x = painter.left_margin
-                self.y = painter.height - self.height - painter.bottom_margin
+                self.y = (
+                    painter.last_drawn_y_pos + logo_offset
+                    if auto_height == True
+                    else painter.height - self.height - painter.bottom_margin
+                )
+                painter.last_drawn_y_pos = self.y + self.height
             case "bottom-centre":
                 self.x = int((painter.width - self.width) / 2)
-                self.y = painter.height - self.height - painter.bottom_margin
+                self.y = (
+                    painter.last_drawn_y_pos + logo_offset
+                    if auto_height == True
+                    else painter.height - self.height - painter.bottom_margin
+                )
+                painter.last_drawn_y_pos = self.y + self.height
             case "bottom-right":
                 self.x = painter.width - self.width - painter.right_margin
-                self.y = painter.height - self.height - painter.bottom_margin
+                self.y = (
+                    painter.last_drawn_y_pos + logo_offset
+                    if auto_height == True
+                    else painter.height - self.height - painter.bottom_margin
+                )
+                painter.last_drawn_y_pos = self.y + self.height
             case _:  # Default to top right
                 self.x = painter.width - self.width - painter.right_margin
                 self.y = painter.top_margin
