@@ -59,7 +59,7 @@ class Footer:
             last_y_pos (int): Last drawn item y position
         """
         self.x, self.y = self.__calculate_draw_position(painter)
-        painter.last_drawn_y_pos = self.y
+        painter.last_drawn_y_pos = self.y + self.height + 35
 
     def draw(self, painter: Painter) -> None:
         """Draw footer
