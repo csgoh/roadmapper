@@ -13,6 +13,7 @@ def demo01(
     number_of_items: int = 12,
     file_name: str = "demo01.png",
 ) -> None:
+    file_name = "T_" + file_name
     roadmap = Roadmap(1200, 312)
     roadmap.set_title("My Demo Roadmap")
     roadmap.set_timeline(mode, start_date, number_of_items)
@@ -49,6 +50,7 @@ def demo02_barestyle(
     number_of_items: int = 12,
     file_name: str = "demo01.png",
 ) -> None:
+    file_name = "T_" + file_name
     roadmap = Roadmap(1200, 312)
 
     roadmap.set_title("My Demo Roadmap")
@@ -89,6 +91,7 @@ def demo03(
     number_of_items: int = 12,
     file_name: str = "demo01.png",
 ) -> None:
+    file_name = "T_" + file_name
     roadmap = Roadmap(1200, 312)
     roadmap.set_colour_palette("DEFAULT")
     roadmap.set_title("My Demo Roadmap!!!")
@@ -118,6 +121,7 @@ def colour_theme_demo(
     file_name: str = "demo01.png",
     colour_theme: str = "DEFAULT",
 ) -> None:
+    file_name = "T_" + file_name
     roadmap = Roadmap(
         1200, 1000, auto_height=True, colour_theme=colour_theme, show_marker=True
     )
@@ -155,6 +159,7 @@ def generic_date_test(
     file_name: str = "demo01.png",
     colour_theme: str = "DEFAULT",
 ) -> None:
+    file_name = "T_" + file_name
     roadmap = Roadmap(4400, 2000, colour_theme=colour_theme, show_marker=True)
     roadmap.set_title("My Demo Roadmap!!!")
     roadmap.set_timeline(
@@ -190,6 +195,7 @@ def parallel_task_demo(
     file_name: str = "demo01.png",
     colour_theme: str = "DEFAULT",
 ) -> None:
+    file_name = "T_" + file_name
     roadmap = Roadmap(
         1200,
         612,
@@ -231,6 +237,7 @@ def singleton_demo(
     file_name: str = "demo01.png",
     colour_theme: str = "BLUEMOUNTAIN",
 ) -> None:
+    file_name = "T_" + file_name
     roadmap = Roadmap(
         600,
         612,
@@ -269,6 +276,7 @@ def logo_demo(
     auto_height: bool = True,
     logo_position: str = "top-left",
 ) -> None:
+    file_name = "T_" + file_name
     roadmap = Roadmap(
         800,
         612,
@@ -279,7 +287,7 @@ def logo_demo(
     frameinfo = inspect.getframeinfo(inspect.currentframe())
     title = f"{frameinfo.function}(), theme={colour_theme}, mode={mode}"
 
-    roadmap.add_logo("sample-logo1-bg.png", logo_position, 50, 50)
+    roadmap.add_logo("images/logo/matariki-tech-logo.png", logo_position, 50, 50)
     roadmap.set_title(title)
     roadmap.set_subtitle("This is a subtitle")
     roadmap.set_timeline(
