@@ -266,18 +266,20 @@ def logo_demo(
     number_of_items: int = 2,
     file_name: str = "demo01.png",
     colour_theme: str = "BLUEMOUNTAIN",
+    auto_height: bool = True,
+    logo_position: str = "top-left",
 ) -> None:
     roadmap = Roadmap(
         800,
         612,
-        auto_height=False,
+        auto_height=auto_height,
         colour_theme=colour_theme,
         show_marker=False,
     )
     frameinfo = inspect.getframeinfo(inspect.currentframe())
     title = f"{frameinfo.function}(), theme={colour_theme}, mode={mode}"
 
-    roadmap.add_logo("sample-logo1-bg.png", "top-centre", 50, 50)
+    roadmap.add_logo("sample-logo1-bg.png", logo_position, 50, 50)
     roadmap.set_title(title)
     roadmap.set_subtitle("This is a subtitle")
     roadmap.set_timeline(
@@ -293,7 +295,7 @@ def logo_demo(
     # emojized_text = emojize(text)
     task = group.add_task(text, "2023-01-15", "2023-02-15")
 
-    # roadmap.set_footer("Author: CS Goh " + datetime.now().strftime("%Y-%m-%d"))
+    roadmap.set_footer("Author: CS Goh " + datetime.now().strftime("%Y-%m-%d"))
     roadmap.draw()
     roadmap.save(file_name)
 
@@ -483,4 +485,37 @@ show_generic_dates = False
 
 # parallel_task_demo(file_name="parallel-demo01.png")
 # singleton_demo(file_name="singleton-demo01.png")
-logo_demo(file_name="logo_demo.png")
+logo_demo(file_name="logo_demo_top-left.png", logo_position="top-left")
+logo_demo(file_name="logo_demo_top-centre.png", logo_position="top-centre")
+logo_demo(file_name="logo_demo_top_right.png", logo_position="top-right")
+logo_demo(file_name="logo_demo_bottom_left.png", logo_position="bottom-left")
+logo_demo(
+    file_name="logo_demo_bottom_centre.png",
+    logo_position="bottom-centre",
+)
+logo_demo(file_name="logo_demo_bottom_right.png", logo_position="bottom-right")
+
+logo_demo(
+    file_name="Flogo_demo_top-left.png", logo_position="top-left", auto_height=False
+)
+logo_demo(
+    file_name="Flogo_demo_top-centre.png", logo_position="top-centre", auto_height=False
+)
+logo_demo(
+    file_name="Flogo_demo_top_right.png", logo_position="top-right", auto_height=False
+)
+logo_demo(
+    file_name="Flogo_demo_bottom_left.png",
+    logo_position="bottom-left",
+    auto_height=False,
+)
+logo_demo(
+    file_name="Flogo_demo_bottom_centre.png",
+    logo_position="bottom-centre",
+    auto_height=False,
+)
+logo_demo(
+    file_name="Flogo_demo_bottom_right.png",
+    logo_position="bottom-right",
+    auto_height=False,
+),
