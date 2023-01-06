@@ -558,7 +558,7 @@ class Painter:
             width (int): Surface width
             height (int): Surface height
         """
-        height += 100
+        height += self.bottom_margin
         left, top, right, bottom = 0, 0, width, height
         self.__surface = self.__surface.crop((left, top, right, bottom))
 
