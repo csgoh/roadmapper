@@ -29,8 +29,8 @@ from roadmapper.timelinemode import TimelineMode
 
 
 @dataclass(kw_only=True)
-class TimelineItemGroup:
-    """Roadmap TimelineItemGroup class"""
+class TimelineYear:
+    """Roadmap TimelineYear class"""
 
     text: str
     value: str
@@ -90,7 +90,7 @@ class TimelineItemGroup:
         self.box_width = width
         self.box_height = height
         self.text_x, self.text_y = self.__calculate_text_draw_position(painter)
-        painter.last_drawn_y_pos = self.box_y
+        painter.next_y_pos = self.box_y
 
     def draw(self, painter: Painter) -> None:
         """Draw the timeline
@@ -110,29 +110,3 @@ class TimelineItemGroup:
             self.font_size,
             self.font_colour,
         )
-
-    def draw_vertical_line(self, painter: Painter) -> None:
-
-        x_pos = self.box_x - 1
-        # painter.draw_line(
-        #     x_pos,
-        #     self.box_y,
-        #     x_pos,
-        #     self.box_y + self.box_height,
-        #     "#e6e6e6",
-        #     50,
-        #     1,
-        #     "solid",
-        # )
-
-        # painter.draw_line(
-        #     self.box_x + self.box_width,
-        #     self.box_y,
-        #     self.box_x + self.box_width,
-        #     self.box_y + self.box_height,
-        #     "#e6e6e6",
-        #     50,
-        #     1,
-        #     "solid",
-        # )
-        

@@ -73,7 +73,7 @@ class Milestone:
         """Draw milestone
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
         """
         if (self.diamond_x != 0) and (self.diamond_y != 0):
             painter.draw_diamond(

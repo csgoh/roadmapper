@@ -38,7 +38,7 @@ class Footer:
         """Calculate footer draw position
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
 
         Returns:
             tuple[int, int]: Footer x and y position
@@ -49,23 +49,23 @@ class Footer:
         # 20px is the marging between the last drawn item and the footer
         return (
             painter.width / 2
-        ) - self.width / 2, painter.last_drawn_y_pos + self.height + 20
+        ) - self.width / 2, painter.next_y_pos + self.height + 20
 
     def set_draw_position(self, painter: Painter) -> None:
         """Set footer draw position
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
             last_y_pos (int): Last drawn item y position
         """
         self.x, self.y = self.__calculate_draw_position(painter)
-        painter.last_drawn_y_pos = self.y
+        painter.next_y_pos = self.y + self.height + 35
 
     def draw(self, painter: Painter) -> None:
         """Draw footer
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
         """
 
         # add 35px top margin before drawing the footer

@@ -3,6 +3,8 @@ from roadmapper.roadmap import Roadmap
 from roadmapper.timelinemode import TimelineMode
 from roadmapper.group import Group
 from roadmapper.task import Task
+import inspect
+from emoji import emojize
 
 
 def demo01(
@@ -11,6 +13,7 @@ def demo01(
     number_of_items: int = 12,
     file_name: str = "demo01.png",
 ) -> None:
+    file_name = "T_" + file_name
     roadmap = Roadmap(1200, 312)
     roadmap.set_title("My Demo Roadmap")
     roadmap.set_timeline(mode, start_date, number_of_items)
@@ -47,6 +50,7 @@ def demo02_barestyle(
     number_of_items: int = 12,
     file_name: str = "demo01.png",
 ) -> None:
+    file_name = "T_" + file_name
     roadmap = Roadmap(1200, 312)
 
     roadmap.set_title("My Demo Roadmap")
@@ -87,6 +91,7 @@ def demo03(
     number_of_items: int = 12,
     file_name: str = "demo01.png",
 ) -> None:
+    file_name = "T_" + file_name
     roadmap = Roadmap(1200, 312)
     roadmap.set_colour_palette("DEFAULT")
     roadmap.set_title("My Demo Roadmap!!!")
@@ -116,6 +121,7 @@ def colour_theme_demo(
     file_name: str = "demo01.png",
     colour_theme: str = "DEFAULT",
 ) -> None:
+    file_name = "T_" + file_name
     roadmap = Roadmap(
         1200, 1000, auto_height=True, colour_theme=colour_theme, show_marker=True
     )
@@ -153,6 +159,7 @@ def generic_date_test(
     file_name: str = "demo01.png",
     colour_theme: str = "DEFAULT",
 ) -> None:
+    file_name = "T_" + file_name
     roadmap = Roadmap(4400, 2000, colour_theme=colour_theme, show_marker=True)
     roadmap.set_title("My Demo Roadmap!!!")
     roadmap.set_timeline(
@@ -188,6 +195,7 @@ def parallel_task_demo(
     file_name: str = "demo01.png",
     colour_theme: str = "DEFAULT",
 ) -> None:
+    file_name = "T_" + file_name
     roadmap = Roadmap(
         1200,
         612,
@@ -204,7 +212,7 @@ def parallel_task_demo(
         show_generic_dates=False,
     )
 
-    group = roadmap.add_group("TBCore Product Work Stream")
+    group = roadmap.add_group("Core Product Work Stream")
 
     task = group.add_task("Base Functionality", "2022-11-01", "2023-01-31")
     parellel_task = task.add_parallel_task("Enhancements", "2023-02-15", "2024-03-31")
@@ -213,6 +221,87 @@ def parallel_task_demo(
     task = group.add_task("Showcase #1", "2023-01-01", "2023-01-31")
     parellel_task = task.add_parallel_task("Showcase #2", "2023-02-02", "2023-03-15")
     parellel_task.add_milestone("v.2.0", "2023-04-15")
+
+    # group = roadmap.add_group("Core Product Work Stream 2")
+    # task = group.add_task("Base Functionality", "2022-11-01", "2023-01-31")
+
+    roadmap.set_footer("Author: CS Goh " + datetime.now().strftime("%Y-%m-%d"))
+    roadmap.draw()
+    roadmap.save(file_name)
+
+
+def singleton_demo(
+    mode: TimelineMode = TimelineMode.MONTHLY,
+    start_date: str = "2023-01-01",
+    number_of_items: int = 2,
+    file_name: str = "demo01.png",
+    colour_theme: str = "BLUEMOUNTAIN",
+) -> None:
+    file_name = "T_" + file_name
+    roadmap = Roadmap(
+        600,
+        612,
+        auto_height=True,
+        colour_theme=colour_theme,
+        show_marker=False,
+    )
+    roadmap.set_title("ROADMAP EXAMPLE")
+    # roadmap.set_subtitle("This is a subtitle")
+    roadmap.set_timeline(
+        mode,
+        start_date,
+        number_of_items,
+        show_generic_dates=False,
+    )
+
+    group = roadmap.add_group("Showcase Task Styles")
+
+    task = group.add_task("Rectangle Style", "2023-01-15", "2023-02-15")
+    task = group.add_task("Rounded Style", "2023-01-15", "2023-02-15", style="rounded")
+    task = group.add_task(
+        "Arrowhead Style", "2023-01-15", "2023-02-15", style="arrowhead"
+    )
+
+    # roadmap.set_footer("Author: CS Goh " + datetime.now().strftime("%Y-%m-%d"))
+    roadmap.draw()
+    roadmap.save(file_name)
+
+
+def logo_demo(
+    mode: TimelineMode = TimelineMode.MONTHLY,
+    start_date: str = "2023-01-01",
+    number_of_items: int = 2,
+    file_name: str = "demo01.png",
+    colour_theme: str = "BLUEMOUNTAIN",
+    auto_height: bool = True,
+    logo_position: str = "top-left",
+) -> None:
+    file_name = "T_" + file_name
+    roadmap = Roadmap(
+        800,
+        612,
+        auto_height=auto_height,
+        colour_theme=colour_theme,
+        show_marker=False,
+    )
+    frameinfo = inspect.getframeinfo(inspect.currentframe())
+    title = f"{frameinfo.function}(), theme={colour_theme}, mode={mode}"
+
+    roadmap.add_logo("images/logo/matariki-tech-logo.png", logo_position, 50, 50)
+    roadmap.set_title(title)
+    roadmap.set_subtitle("This is a subtitle")
+    roadmap.set_timeline(
+        mode,
+        start_date,
+        number_of_items,
+        show_generic_dates=False,
+    )
+
+    group = roadmap.add_group("Showcase Task Styles")
+
+    text = "I love Python"
+    # emojized_text = emojize(text)
+    task = group.add_task(text, "2023-01-15", "2023-02-15")
 
     roadmap.set_footer("Author: CS Goh " + datetime.now().strftime("%Y-%m-%d"))
     roadmap.draw()
@@ -255,6 +344,31 @@ show_generic_dates = False
 #     number_of_items=14,
 #     show_generic_dates=show_generic_dates,
 # )
+
+# colour_theme_demo(
+#     file_name="demo-colour-GREYWOOF-monthly-gen.png",
+#     colour_theme="GREYWOOF",
+#     mode=TimelineMode.MONTHLY,
+#     number_of_items=14,
+#     show_generic_dates=show_generic_dates,
+# )
+
+# colour_theme_demo(
+#     file_name="demo-colour-ORANGEPEEL-monthly-gen.png",
+#     colour_theme="ORANGEPEEL",
+#     mode=TimelineMode.MONTHLY,
+#     number_of_items=14,
+#     show_generic_dates=show_generic_dates,
+# )
+
+# colour_theme_demo(
+#     file_name="demo-colour-BLUEMOUNTAIN-monthly-gen.png",
+#     colour_theme="BLUEMOUNTAIN",
+#     mode=TimelineMode.MONTHLY,
+#     number_of_items=14,
+#     show_generic_dates=show_generic_dates,
+# )
+
 # show_generic_dates = False
 # colour_theme_demo(
 #     file_name="demo-colour-GREENTURTLE-monthly.png",
@@ -289,59 +403,59 @@ show_generic_dates = False
 # )
 
 
-generic_date_test(
-    file_name="demo-weekly-1.png",
-    mode=TimelineMode.WEEKLY,
-    start_date="2022-11-01",
-    number_of_items=56,
-    show_generic_dates=True,
-    show_first_day_of_week=True,
-)
+# generic_date_test(
+#     file_name="demo-weekly-1.png",
+#     mode=TimelineMode.WEEKLY,
+#     start_date="2022-11-01",
+#     number_of_items=56,
+#     show_generic_dates=True,
+#     show_first_day_of_week=True,
+# )
 
-generic_date_test(
-    file_name="demo-weekly-2.png",
-    mode=TimelineMode.WEEKLY,
-    start_date="2022-11-01",
-    number_of_items=70,
-    show_generic_dates=False,
-    show_first_day_of_week=True,
-)
-
-
-generic_date_test(
-    file_name="demo-weekly-3.png",
-    mode=TimelineMode.WEEKLY,
-    number_of_items=52,
-    start_date="2023-01-01",
-    show_generic_dates=False,
-    show_first_day_of_week=True,
-)
+# generic_date_test(
+#     file_name="demo-weekly-2.png",
+#     mode=TimelineMode.WEEKLY,
+#     start_date="2022-11-01",
+#     number_of_items=70,
+#     show_generic_dates=False,
+#     show_first_day_of_week=True,
+# )
 
 
-generic_date_test(
-    file_name="demo-weekly-4.png",
-    mode=TimelineMode.WEEKLY,
-    number_of_items=56,
-    start_date="2023-01-01",
-    show_generic_dates=False,
-    show_first_day_of_week=True,
-)
+# generic_date_test(
+#     file_name="demo-weekly-3.png",
+#     mode=TimelineMode.WEEKLY,
+#     number_of_items=52,
+#     start_date="2023-01-01",
+#     show_generic_dates=False,
+#     show_first_day_of_week=True,
+# )
 
-generic_date_test(
-    file_name="demo-weekly-5.png",
-    mode=TimelineMode.WEEKLY,
-    start_date="2022-11-01",
-    number_of_items=63,
-    show_generic_dates=False,
-)
 
-generic_date_test(
-    file_name="demo-weekly-6.png",
-    mode=TimelineMode.WEEKLY,
-    number_of_items=12,
-    start_date="2023-01-01",
-    show_generic_dates=False,
-)
+# generic_date_test(
+#     file_name="demo-weekly-4.png",
+#     mode=TimelineMode.WEEKLY,
+#     number_of_items=56,
+#     start_date="2023-01-01",
+#     show_generic_dates=False,
+#     show_first_day_of_week=True,
+# )
+
+# generic_date_test(
+#     file_name="demo-weekly-5.png",
+#     mode=TimelineMode.WEEKLY,
+#     start_date="2022-11-01",
+#     number_of_items=63,
+#     show_generic_dates=False,
+# )
+
+# generic_date_test(
+#     file_name="demo-weekly-6.png",
+#     mode=TimelineMode.WEEKLY,
+#     number_of_items=12,
+#     start_date="2023-01-01",
+#     show_generic_dates=False,
+# )
 
 
 # generic_date_test(
@@ -378,3 +492,38 @@ generic_date_test(
 
 
 # parallel_task_demo(file_name="parallel-demo01.png")
+# singleton_demo(file_name="singleton-demo01.png")
+logo_demo(file_name="logo_demo_top-left.png", logo_position="top-left")
+logo_demo(file_name="logo_demo_top-centre.png", logo_position="top-centre")
+logo_demo(file_name="logo_demo_top_right.png", logo_position="top-right")
+logo_demo(file_name="logo_demo_bottom_left.png", logo_position="bottom-left")
+logo_demo(
+    file_name="logo_demo_bottom_centre.png",
+    logo_position="bottom-centre",
+)
+logo_demo(file_name="logo_demo_bottom_right.png", logo_position="bottom-right")
+
+logo_demo(
+    file_name="Flogo_demo_top-left.png", logo_position="top-left", auto_height=False
+)
+logo_demo(
+    file_name="Flogo_demo_top-centre.png", logo_position="top-centre", auto_height=False
+)
+logo_demo(
+    file_name="Flogo_demo_top_right.png", logo_position="top-right", auto_height=False
+)
+logo_demo(
+    file_name="Flogo_demo_bottom_left.png",
+    logo_position="bottom-left",
+    auto_height=False,
+)
+logo_demo(
+    file_name="Flogo_demo_bottom_centre.png",
+    logo_position="bottom-centre",
+    auto_height=False,
+)
+logo_demo(
+    file_name="Flogo_demo_bottom_right.png",
+    logo_position="bottom-right",
+    auto_height=False,
+),

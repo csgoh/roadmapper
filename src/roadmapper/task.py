@@ -46,6 +46,7 @@ class Task:
     font_colour: str = "Black"
     fill_colour: str = "LightGreen"
     text_alignment: str = "centre"
+    style: str = "rectangle"
     painter: Painter
 
     def __post_init__(self):
@@ -165,7 +166,7 @@ class Task:
         """Set the draw position of this task
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
             group_x (int): Parent group x position
             last_drawn_y (int): Last drawn y position
             timeline (Timeline): Timeline object
@@ -220,7 +221,7 @@ class Task:
         """Set the draw position of this task's milestones
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
             timeline (Timeline): Timeline object
             task_start_period (datetime): Task start date
             task_end_period (datetime): Task end date
@@ -409,7 +410,7 @@ class Task:
         """Set the draw position of this task
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
             timeline (Timeline): Timeline object
             task_start_period (datetime): Task start date
             task_end_period (datetime): Task end date
@@ -522,7 +523,7 @@ class Task:
                 self.boxes.append(box_coordinates)
 
                 bar_width = self.box_x + self.box_width - bar_start_x_pos
-                painter.last_drawn_y_pos = self.box_y + self.box_height + 5
+                painter.next_y_pos = self.box_y + self.box_height + 5
 
         if row_match > 0:
             text_x_pos, text_y_pos = painter.get_display_text_position(
@@ -542,7 +543,7 @@ class Task:
         """Draw the task
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
         """
         box_x = 0
         box_y = 0
@@ -550,7 +551,8 @@ class Task:
         height = 0
 
         for i, box in enumerate(self.boxes):
-            painter.draw_box(box[0], box[1], box[2], box[3], self.fill_colour)
+            # painter.draw_box(box[0], box[1], box[2], box[3], self.fill_colour)
+            # painter.draw_rounded_box(box[0], box[1], box[2], box[3], self.fill_colour)
             if i == 0:
                 box_x = box[0]
                 box_y = box[1]
@@ -574,6 +576,7 @@ class Task:
                 self.font,
                 self.font_size,
                 self.font_colour,
+                style=self.style,
             )
 
             for task in self.tasks:

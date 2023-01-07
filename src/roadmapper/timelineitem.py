@@ -51,7 +51,7 @@ class TimelineItem:
         """Calculate the text draw position based on the box position and size
 
         A Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
 
         Returns:
             tuple(int, int): (x, y) position of the text
@@ -79,7 +79,7 @@ class TimelineItem:
         """Set the draw position of the timeline item
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
             x (int): x position of the box
             y (int): y position of the box
             width (int): width of the box
@@ -90,7 +90,7 @@ class TimelineItem:
         self.box_width = width
         self.box_height = height
         self.text_x, self.text_y = self.__calculate_text_draw_position(painter)
-        painter.last_drawn_y_pos = self.box_y
+        painter.next_y_pos = self.box_y
 
     def get_timeline_period(self, mode: TimelineMode) -> tuple:
         """Get the timeline period based on the timeline mode
@@ -316,7 +316,7 @@ class TimelineItem:
         """Draws the timeline
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
         """
 
         painter.draw_box_with_text(
@@ -336,14 +336,14 @@ class TimelineItem:
         """Draws the timeline
 
         Args:
-            painter (Painter): PyCairo wrapper class instance
+            painter (Painter): Pillow wrapper class instance
         """
         x_pos = self.box_x - 1
         painter.draw_line(
             x_pos,
             self.box_y + self.box_height,
             x_pos,
-            painter.last_drawn_y_pos + 10,
+            painter.next_y_pos + 10,
             "#e6e6e6",
             50,
             1,

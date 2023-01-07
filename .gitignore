@@ -37,15 +37,16 @@ test.ipynb
 # My exclusion list
 reference/
 *.json
-*.txt
 pwk.py
 pwk_roadmap.png
 temp/
 src/*.png
-*.png
+images/test/
+T_*.png
 src/test/*.png
 .VSCodeCounter/
-scrap.py
+try*.py
+tempCode*.py
 
 # C extensions
 *.so
