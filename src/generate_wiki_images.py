@@ -7,7 +7,9 @@ def readme_roadmap():
     roadmap.set_title("My Demo Roadmap")
     roadmap.set_subtitle("Matariki Technologies Ltd")
     roadmap.set_timeline(TimelineMode.MONTHLY, "2023-01-01", 12)
-    roadmap.add_logo("images/logo/matariki-tech-logo.png", "top-right", 50, 50)
+    roadmap.add_logo(
+        "images/logo/matariki-tech-logo.png", position="top-right", width=50, height=50
+    )
 
     group = roadmap.add_group("Core Product Work Stream")
 
