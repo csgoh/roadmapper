@@ -4,9 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "roadmapper"
-dynamic = ["version", "readme"]
+dynamic = ["version"]
 authors = [{ name = "CS Goh" }]
 description = "Roadmapper. A Roadmap-as-Code (RaC) python library for generating a roadmap by using python code"
+readme = "README.md"
 requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3.10",
