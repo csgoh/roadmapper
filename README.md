@@ -1,4 +1,4 @@
-![Banner](https://github.com/csgoh/roadmapper/blob/main/images/roadmapper.jpg?raw=true)
+![Banner](https://github.com/csgoh/roadmapper/blob/main/images/roadmapper-banner.png?raw=true)
 
 [![license](https://img.shields.io/badge/license-mit-brightgreen.svg?style=plastic)](https://en.wikipedia.org/wiki/MIT_License)
 ![release](https://img.shields.io/pypi/v/roadmapper)
@@ -11,7 +11,7 @@
 # Roadmaper - a Roadmap as Code (RaC) Tool
 
 ## Purpose
-As the repo name implies, this purpose of this python library is used to draw roadmap by using python code. This is the first Roadmap as Code (RaC) library. RaC helps to create and edit roadmap in a more efficient way without having to use any graphical tools that are not always easy to use to create or update a roadmap.
+The purpose of roadmapper python library is used to draw roadmap by using python code. This is the first Roadmap as Code (RaC) library. RaC helps to create and edit roadmap in a more efficient way without having to use any graphical tools that are not always easy to use to create or update a roadmap.
 
 With git repository like GitHub or Bitbucket, roadmaps created using RaC can be version controlled, track changes and can be easily shared with others.
 
@@ -19,13 +19,14 @@ With git repository like GitHub or Bitbucket, roadmaps created using RaC can be 
 ![release](https://img.shields.io/pypi/v/roadmapper)
 
 ### What's new in the latest version of Roadmapper?
-* Replaced problematic pycairo with Pillow library
-* Ability to add subtitle text
-* Display vertical grey lines for timelines
-* Display year on top of the timeline
-* "Now" marker is updated to ▼
-* Auto size surface height
-* Fix defects
+* Provided options to show first day of week instead of W1, W2, etc. in WEEKLY timeline mode.
+* Provided options to configure font and fill colour for year in the timeline section.
+* Changed add_timeline() method parameters. font, font_size and font_colour are now deprecated. 
+  *  To configure timeline year area, use year_font, year_font_size and year_fill_colour
+  *  To configure timlien item area, use item_font, item_font_size and item_fill_colour
+* Provided options to change task appearance in the roadmap. Task can now be displayed rectangular or rounded rectangle or rectangle with arrow head.
+* Ability to add logo to the roadmap.
+* Fix issue with WEEKLY timeline mode
 
 ### Python version requirements:
 * Python 3.10+
