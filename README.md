@@ -6,6 +6,7 @@
 ![download count](https://img.shields.io/pypi/dm/roadmapper?style=plastic)
 ![code size](https://img.shields.io/github/languages/code-size/csgoh/roadmapper?style=plastic)
 ![commit count](https://img.shields.io/github/commit-activity/m/csgoh/roadmapper?style=plastic)
+[![CodeFactor](https://www.codefactor.io/repository/github/csgoh/roadmapper/badge)](https://www.codefactor.io/repository/github/csgoh/roadmapper)
 ![python version](https://img.shields.io/pypi/pyversions/roadmapper?style=plastic)
 
 # Roadmaper - a Roadmap as Code (RaC) Tool
