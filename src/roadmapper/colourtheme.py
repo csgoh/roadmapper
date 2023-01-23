@@ -20,6 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 from dataclasses import dataclass, field
+import json
+import os
 
 ### Font :
 # "Microsoft YaHei UI"
@@ -345,13 +347,28 @@ class ColourTheme:
     def __init__(self, colour_theme_name: str) -> None:
         """Initialise the colour theme."""
 
-        found = False
-        for theme in ColourThemesSettings:
-            if theme["theme"] == colour_theme_name:
-                found = True
+        # check if colour_theme_name is a json file
+        if colour_theme_name.endswith(".json"):
+            if os.path.isfile(colour_theme_name):
+                with open(colour_theme_name, "r") as f:
+                    colour_theme_json = json.load(f)
+                if "theme" in colour_theme_json:
+                    colour_theme_json["theme"] = colour_theme_name
+                    ColourThemesSettings.append(colour_theme_json)
+                else:
+                    raise ValueError(
+                        f"Colour theme {colour_theme_name} not recognised."
+                    )
+            else:
+                raise ValueError(f"Colour theme {colour_theme_name} not recognised.")
+        else:
+            built_in_font_found = False
+            for theme in ColourThemesSettings:
+                if theme["theme"] == colour_theme_name:
+                    built_in_font_found = True
 
-        if found == False:
-            raise ValueError(f"Colour theme {colour_theme_name} not recognised.")
+            if built_in_font_found == False:
+                raise ValueError(f"Colour theme {colour_theme_name} not recognised.")
 
         self._colour_theme_name = colour_theme_name
 
@@ -410,6 +427,7 @@ class ColourTheme:
         for _, value in enumerate(ColourThemesSettings):
             if value["theme"] == self._colour_theme_name:
                 colour_settings = value["settings"]
+
                 break
 
         ### get the colour scheme for the specified roadmap component
