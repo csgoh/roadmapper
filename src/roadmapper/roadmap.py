@@ -61,14 +61,14 @@ class Roadmap:
         """This method is called after __init__() is called"""
         self.start_time = time.time()
         self.__painter = Painter(self.width, self.height)
-        self.__set_colour_palette(self.colour_theme)
+        self.__set_colour_theme(self.colour_theme)
         self.groups = []
         if self.show_marker == True:
             self.__create_marker()
 
-    def __set_colour_palette(self, palette: str) -> None:
+    def __set_colour_theme(self, palette: str) -> None:
         """This method sets the colour palette"""
-        self.__painter.set_colour_palette(palette)
+        self.__painter.set_colour_theme(palette)
 
     def __create_marker(
         self,
@@ -231,11 +231,13 @@ class Roadmap:
         self,
         mode: TimelineMode = TimelineMode.MONTHLY,
         start: datetime = datetime.strptime(
-            datetime.strftime(datetime.today(), "%Y-%m-%d"), "%Y-%m-%d"
+            datetime.strftime(datetime.today(), "%Y-%m-%d"),
+            "%Y-%m-%d",
         ),
         number_of_items: int = 12,
         show_generic_dates: bool = False,
         show_first_day_of_week: bool = False,
+        timeline_locale_file: str = "en_US",
         year_font: str = "",
         year_font_size: int = 0,
         year_font_colour: str = "",
@@ -254,6 +256,7 @@ class Roadmap:
             number_of_items (int, optional): Number of time periods to display on the timeline. Defaults to 12.
             show_generic_dates (bool, optional): Show generic dates. Defaults to False.
             show_first_day_of_week (bool, optional): Show first day of week. Defaults to False. For this to work, show_generic_dates must set to False.
+            timeline_locale_file (str, optional): Timeline locale file. Defaults to "en_US".
             font (str, optional): Timelinegroup font. Defaults to "DEFAULT" colour theme.
             font_size (int, optional): Timelinegroup font size. Defaults to "DEFAULT" colour theme.
             font_colour (str, optional): Timelinegroup font colour. Defaults to "DEFAULT" colour theme.
@@ -286,6 +289,7 @@ class Roadmap:
         self.timeline = Timeline(
             mode=mode,
             start=start_date,
+            locale_name=timeline_locale_file,
             number_of_items=number_of_items,
             show_generic_dates=show_generic_dates,
             show_first_day_of_week=show_first_day_of_week,
