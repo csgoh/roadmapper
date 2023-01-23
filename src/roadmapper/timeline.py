@@ -28,6 +28,7 @@ from roadmapper.painter import Painter
 from roadmapper.timelineitem import TimelineItem
 from roadmapper.timelineitemyear import TimelineYear
 from roadmapper.timelinemode import TimelineMode
+from roadmapper.timelinelocale import TimelineLocale
 
 
 @dataclass(kw_only=True)
@@ -39,19 +40,29 @@ class Timeline:
     number_of_items: int = 12
     show_generic_dates: bool = False
     show_first_day_of_week: bool = False
+    locale_name: str = field(init=True, default="en_US")
     x: int = field(init=False)
     y: int = field(init=False)
     width: int = field(init=False)
-    year_font: str = "Arial"
+    year_font: str = "arial.ttf"
     year_font_size: int = 12
     year_font_colour: str = "Black"
     year_fill_colour: str = "LightGray"
-    item_font: str = "Arial"
+    item_font: str = "arial.ttf"
     item_font_size: int = 12
     item_font_colour: str = "Black"
     item_fill_colour: str = "LightGray"
     timeline_years: list[TimelineYear] = field(default_factory=list)
     timeline_items: list[TimelineItem] = field(default_factory=list)
+
+    year_text_format: str = field(init=False)
+    year_generic_text_format: str = field(init=False)
+    half_year_text_format: str = field(init=False)
+    quarter_text_format: str = field(init=False)
+    month_text_format: str = field(init=False)
+    month_generic_text_format: str = field(init=False)
+    week_text_format: str = field(init=False)
+    week_generic_text_format: str = field(init=False)
 
     def __calculate_draw_position(self, painter: Painter) -> tuple[int, int, int]:
         """Calculate the draw position of the timeline
@@ -86,12 +97,48 @@ class Timeline:
 
         return timeline_x, timeline_y, timeline_width
 
+    def set_locale(self, locale: str) -> None:
+        """Set the locale of the timeline
+
+        Args:
+            locale (str): Locale
+        """
+        self.locale_settings = TimelineLocale(locale)
+        (
+            self.year_text_format,
+            self.year_generic_text_format,
+        ) = self.locale_settings.get_timeline_locale_settings("year")
+        self.half_year_text_format = self.locale_settings.get_timeline_locale_settings(
+            "half_year"
+        )
+        self.quarter_text_format = self.locale_settings.get_timeline_locale_settings(
+            "quarter"
+        )
+        (
+            self.month_text_format,
+            self.month_generic_text_format,
+        ) = self.locale_settings.get_timeline_locale_settings("month")
+        (
+            self.week_text_format,
+            self.week_generic_text_format,
+        ) = self.locale_settings.get_timeline_locale_settings("week")
+
+        print(f"year_text_format: {self.year_text_format}")
+        print(f"year_generic_text_format: {self.year_generic_text_format}")
+        print(f"half_year_text_format: {self.half_year_text_format}")
+        print(f"quarter_text_format: {self.quarter_text_format}")
+        print(f"month_text_format: {self.month_text_format}")
+        print(f"month_generic_text_format: {self.month_generic_text_format}")
+        print(f"week_text_format: {self.week_text_format}")
+        print(f"week_generic_text_format: {self.week_generic_text_format}")
+
     def set_draw_position(self, painter: Painter) -> None:
         """Set the draw position of the timeline
 
         Args:
             painter (Painter): Pillow wrapper class instance
         """
+        self.set_locale(self.locale_name)
         self.x, self.y, self.width = self.__calculate_draw_position(painter)
 
         ### Calculate timelineitemgroup positions
@@ -157,7 +204,10 @@ class Timeline:
                 index += year_groups[year]
 
                 timelinetimegroup = TimelineYear(
-                    text="Year " + str(year),
+                    # text="Year " + str(year),
+                    text=self.year_text_format.format(year)
+                    if self.show_generic_dates == False
+                    else self.year_generic_text_format.format(year),
                     value=year,
                     start=timelineitemgroup_start,
                     end=timelineitemgroup_end,
@@ -236,7 +286,10 @@ class Timeline:
                         self.start
                     ) + relativedelta(weeks=+index)
                     this_week_number = int(this_week.strftime("%W"))
-                    timeline_text = f"W{this_week_number}"
+                    # timeline_text = f"W{this_week_number}"
+                    timeline_text = self.week_generic_text_format.format(
+                        this_week_number
+                    )
                 else:
                     this_week = self.__find_first_day_of_week(
                         self.start
@@ -247,48 +300,55 @@ class Timeline:
                     )
                     this_day = first_day_of_week.strftime("%d")
                     this_month = first_day_of_week.strftime("%b")
-                    timeline_text = f"{this_day} {this_month}"
+                    # timeline_text = f"{this_day} {this_month}"
+                    timeline_text = self.week_text_format.format(this_day, this_month)
 
             else:
                 ### show_generic_dates is True ###
 
                 this_week = index + 1
                 timeline_text = f"W {this_week}"
+                timeline_text = self.week_generic_text_format.format(this_week)
 
         elif self.mode == TimelineMode.MONTHLY:
             if self.show_generic_dates == False:
                 this_month = self.start + relativedelta(months=+index)
-                timeline_text = f"{this_month.strftime('%b')}"
+                # timeline_text = f"{this_month.strftime('%b')}"
+                timeline_text = self.month_text_format.format(this_month.strftime("%b"))
             else:
                 this_month = index + 1
-
-                timeline_text = f"Month {this_month}"
+                # timeline_text = f"Month {this_month}"
+                timeline_text = self.month_generic_text_format.format(this_month)
         elif self.mode == TimelineMode.QUARTERLY:
             if self.show_generic_dates == False:
                 this_month = self.start + relativedelta(months=+(index * 3))
                 this_quarter = (this_month.month - 1) // 3 + 1
-                timeline_text = f"Q{this_quarter}"
+                # timeline_text = f"Q{this_quarter}"
             else:
                 this_month = index * 3 + 1
                 this_quarter = (this_month - 1) // 3 + 1
-                timeline_text = f"Quarter {this_quarter}"
+                # timeline_text = f"Quarter {this_quarter}"
+            timeline_text = self.quarter_text_format.format(this_quarter)
         elif self.mode == TimelineMode.HALF_YEARLY:
             if self.show_generic_dates == False:
                 this_month = self.start + relativedelta(months=+(index * 6))
                 this_halfyear = (this_month.month - 1) // 6 + 1
-                timeline_text = f"H{this_halfyear}"
+                # timeline_text = f"H{this_halfyear}"
             else:
                 this_month = index * 6 + 1
                 this_halfyear = (this_month - 1) // 6 + 1
-                timeline_text = f"H{this_halfyear}"
+                # timeline_text = f"H{this_halfyear}"
+            timeline_text = self.half_year_text_format.format(this_halfyear)
         elif self.mode == TimelineMode.YEARLY:
             if self.show_generic_dates == False:
                 this_month = self.start + relativedelta(months=+(index * 12))
-                timeline_text = f"{this_month.year}"
+                # timeline_text = f"{this_month.year}"
+                timeline_text = self.year_text_format.format(this_month.year)
             else:
                 this_month = index * 12 + 1
                 this_year = (this_month - 1) // 12 + 1
-                timeline_text = f"Year {this_year}"
+                # timeline_text = f"Year {this_year}"
+                timeline_text = self.year_generic_text_format.format(this_year)
 
         return timeline_text
 
