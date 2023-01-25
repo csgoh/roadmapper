@@ -123,14 +123,14 @@ class Timeline:
             self.week_generic_text_format,
         ) = self.locale_settings.get_timeline_locale_settings("week")
 
-        print(f"year_text_format: {self.year_text_format}")
-        print(f"year_generic_text_format: {self.year_generic_text_format}")
-        print(f"half_year_text_format: {self.half_year_text_format}")
-        print(f"quarter_text_format: {self.quarter_text_format}")
-        print(f"month_text_format: {self.month_text_format}")
-        print(f"month_generic_text_format: {self.month_generic_text_format}")
-        print(f"week_text_format: {self.week_text_format}")
-        print(f"week_generic_text_format: {self.week_generic_text_format}")
+        # print(f"year_text_format: {self.year_text_format}")
+        # print(f"year_generic_text_format: {self.year_generic_text_format}")
+        # print(f"half_year_text_format: {self.half_year_text_format}")
+        # print(f"quarter_text_format: {self.quarter_text_format}")
+        # print(f"month_text_format: {self.month_text_format}")
+        # print(f"month_generic_text_format: {self.month_generic_text_format}")
+        # print(f"week_text_format: {self.week_text_format}")
+        # print(f"week_generic_text_format: {self.week_generic_text_format}")
 
     def set_draw_position(self, painter: Painter) -> None:
         """Set the draw position of the timeline
