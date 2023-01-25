@@ -25,6 +25,7 @@ from datetime import datetime
 from roadmapper.painter import Painter
 from roadmapper.timeline import Timeline
 from roadmapper.task import Task
+from roadmapper.milestone import Milestone
 
 
 @dataclass
@@ -101,6 +102,7 @@ class Group:
             style=style,
             painter=self.painter,
         )
+
         self.tasks.append(task)
 
         return task
@@ -152,6 +154,7 @@ class Group:
         painter.next_y_pos = self.box_y
         for task in self.tasks:
             task.set_draw_position(painter, self.box_x, painter.next_y_pos, timeline)
+
         painter.next_y_pos = self.box_y + self.box_height
 
     def draw(self, painter: Painter) -> None:
