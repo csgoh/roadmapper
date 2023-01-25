@@ -522,46 +522,46 @@ colour_theme_demo(
     number_of_items=14,
 )
 
-colour_theme_demo(
-    file_name="demo-my-colour-chocolate.png",
-    colour_theme="chocolate.json",
-    mode=TimelineMode.MONTHLY,
-    number_of_items=14,
-)
+# colour_theme_demo(
+#     file_name="demo-my-colour-chocolate.png",
+#     colour_theme="chocolate.json",
+#     mode=TimelineMode.MONTHLY,
+#     number_of_items=14,
+# )
 
-colour_theme_demo(
-    file_name="demo-my-colour-orangepeel.png",
-    colour_theme="ORANGEPEEL",
-    mode=TimelineMode.MONTHLY,
-    number_of_items=14,
-)
+# colour_theme_demo(
+#     file_name="demo-my-colour-orangepeel.png",
+#     colour_theme="ORANGEPEEL",
+#     mode=TimelineMode.MONTHLY,
+#     number_of_items=14,
+# )
 
-colour_theme_demo(
-    file_name="demo-my-colour-orangepeel-generic.png",
-    colour_theme="ORANGEPEEL",
-    mode=TimelineMode.MONTHLY,
-    number_of_items=14,
-    show_generic_dates=True,
-)
+# colour_theme_demo(
+#     file_name="demo-my-colour-orangepeel-generic.png",
+#     colour_theme="ORANGEPEEL",
+#     mode=TimelineMode.MONTHLY,
+#     number_of_items=14,
+#     show_generic_dates=True,
+# )
 
-chinese_theme_demo(
-    file_name="demo-my-colour-chinese.png",
-    colour_theme="chinese.json",
-    mode=TimelineMode.WEEKLY,
-    start_date="2023-01-01",
-    number_of_items=14,
-    locale_name="zh_TW_timeline_settings.json",
-    show_generic_dates=False,
-    show_first_day_of_week=True,
-)
+# chinese_theme_demo(
+#     file_name="demo-my-colour-chinese.png",
+#     colour_theme="chinese.json",
+#     mode=TimelineMode.WEEKLY,
+#     start_date="2023-01-01",
+#     number_of_items=14,
+#     locale_name="zh_TW_timeline_settings.json",
+#     show_generic_dates=False,
+#     show_first_day_of_week=True,
+# )
 
-japanese_theme_demo(
-    file_name="demo-my-colour-japanese.png",
-    colour_theme="chinese.json",
-    mode=TimelineMode.MONTHLY,
-    start_date="2023-01-01",
-    number_of_items=14,
-    locale_name="ja_JP_timeline_settings.json",
-    show_generic_dates=False,
-    show_first_day_of_week=True,
-)
+# japanese_theme_demo(
+#     file_name="demo-my-colour-japanese.png",
+#     colour_theme="chinese.json",
+#     mode=TimelineMode.MONTHLY,
+#     start_date="2023-01-01",
+#     number_of_items=14,
+#     locale_name="ja_JP_timeline_settings.json",
+#     show_generic_dates=False,
+#     show_first_day_of_week=True,
+# )
