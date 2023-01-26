@@ -27,12 +27,12 @@ from roadmapper.painter import Painter
 class Footer:
     """Roadmap Footer class"""
 
-    text: str
-    font: str = "Arial"
-    font_size: int = 12
-    font_colour: str = "Black"
-    x: int = field(init=False)
-    y: int = field(init=False)
+    text: str = field(init=True, default=None)
+    font: str = field(init=True, default=None)
+    font_size: int = field(init=True, default=None)
+    font_colour: str = field(init=True, default=None)
+    x: int = field(init=False, default=0)
+    y: int = field(init=False, default=0)
 
     def __calculate_draw_position(self, painter: Painter) -> tuple[int, int]:
         """Calculate footer draw position
