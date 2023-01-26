@@ -30,25 +30,36 @@ from roadmapper.group import Group
 class Marker:
     """A marker used to show the "Now" vertical line on the timeline"""
 
-    font: str = field(default="Arial")
-    font_size: int = field(default=12)
-    font_colour: str = field(default="#004d80")
-    line_colour: str = field(default="#007acc")
-    line_width: int = field(default=1)
-    line_style: str = field(default="dashed")
+    font: str = field(init=True, default=None)
+    font_size: int = field(init=True, default=None)
+    font_colour: str = field(init=True, default=None)
+    line_colour: str = field(init=True, default=None)
+    line_width: int = field(init=True, default=None)
+    line_style: str = field(init=True, default=None)
 
-    def __post_init__(self):
-        """This method is called after __init__() is called"""
-        self.text = "▼"
-        self.label_x = 0
-        self.label_y = 0
-        self.label_width = 0
-        self.label_height = 0
-        self.line_from_x = 0
-        self.line_from_y = 0
-        self.line_to_x = 0
-        self.line_to_y = 0
-        self.not_in_timeline_range = False
+    text: str = field(init=False, default="▼")
+    label_x: int = field(init=False, default=0)
+    label_y: int = field(init=False, default=0)
+    label_width: int = field(init=False, default=0)
+    label_height: int = field(init=False, default=0)
+    line_from_x: int = field(init=False, default=0)
+    line_from_y: int = field(init=False, default=0)
+    line_to_x: int = field(init=False, default=0)
+    line_to_y: int = field(init=False, default=0)
+    not_in_timeline_range: bool = field(init=False, default=False)
+
+    # def __post_init__(self):
+    #     """This method is called after __init__() is called"""
+    #     self.text = "▼"
+    #     self.label_x = 0
+    #     self.label_y = 0
+    #     self.label_width = 0
+    #     self.label_height = 0
+    #     self.line_from_x = 0
+    #     self.line_from_y = 0
+    #     self.line_to_x = 0
+    #     self.line_to_y = 0
+    #     self.not_in_timeline_range = False
 
     def set_label_draw_position(self, painter: Painter, timeline: Timeline) -> None:
         """Set marker label draw position
