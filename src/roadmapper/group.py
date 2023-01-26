@@ -32,23 +32,27 @@ from roadmapper.milestone import Milestone
 class Group:
     """Roadmap Group class"""
 
-    text: str
-    box_x: int = 0
-    box_y: int = 0
-    box_width: int = 0
-    box_height: int = 0
-    font: str = "Arial"
-    font_size: int = 10
-    font_colour: str = "black"
-    fill_colour: str = "lightgrey"
-    text_alignment: str = "centre"
+    text: str = field(init=True, default=None)
+    font: str = field(init=True, default=None)
+    font_size: int = field(init=True, default=None)
+    font_colour: str = field(init=True, default=None)
+    fill_colour: str = field(init=True, default=None)
+    text_alignment: str = field(init=True, default=None)
+
+    box_x: int = field(init=False, default=0)
+    box_y: int = field(init=False, default=0)
+    box_width: int = field(init=False, default=0)
+    box_height: int = field(init=False, default=0)
+    tasks: list = field(init=False, default_factory=list)
+    text_x: int = field(init=False, default=0)
+    text_y: int = field(init=False, default=0)
     painter: Painter = None
 
-    def __post_init__(self):
-        """This method is called after __init__() is called"""
-        self.tasks = []
-        self.text_x = 0
-        self.text_y = 0
+    # def __post_init__(self):
+    #     """This method is called after __init__() is called"""
+    #     self.tasks = []
+    #     self.text_x = 0
+    #     self.text_y = 0
 
     def add_task(
         self,
