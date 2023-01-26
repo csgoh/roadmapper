@@ -1,0 +1,21 @@
+{
+    "locale" : "en_US",
+    "year" : {
+        "text" : "##{%Y}",
+    },
+    "half_year" : {
+        "text" : "H{:01d}",
+    },
+    "quarter" : {
+        "text": "Q{:01d}"
+    },
+    "month" : {
+        "text" : "{%b}",
+        "generic_text" : "Month {:02d}",
+    },
+   
+    "week" : {
+        "text" : "Week {:01d}",
+        "generic_text" : "{:01d} {:01d}",
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "locale": "zh_CN",
+    "settings": {
+        "year": {
+            "text": "{0} 年",
+            "generic_text": "第{0}年"
+        },
+        "half_year": {"text": "第{0}个半年"},
+        "quarter": {"text": "第{0}季度"},
+        "month": {
+            "text": "{0}",
+            "generic_text": "{0} 月"
+        },
+        "week": {
+            "text": "{1}{0}",
+            "generic_text": "星期{0}"
+        }
+    }
+}
