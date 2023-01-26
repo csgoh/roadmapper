@@ -27,14 +27,15 @@ from roadmapper.painter import Painter
 class Title:
     """Roadmap title class"""
 
-    text: str
-    x: int = field(init=False)
-    y: int = field(init=False)
-    width: int = field(init=False)
-    height: int = field(init=False)
-    font: str = field(default="Arial")
-    font_size: int = 12
-    font_colour: str = "Black"
+    text: str = field(init=True, default=None)
+    font: str = field(init=True, default=None)
+    font_size: int = field(init=True, default=None)
+    font_colour: str = field(init=True, default=None)
+
+    x: int = field(init=False, default=0)
+    y: int = field(init=False, default=0)
+    width: int = field(init=False, default=0)
+    height: int = field(init=False, default=0)
 
     # CONSTANT
     __TITLE_Y_POS = 0
