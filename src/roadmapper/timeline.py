@@ -35,25 +35,27 @@ from roadmapper.timelinelocale import TimelineLocale
 class Timeline:
     """Roadmap Timeline Class"""
 
-    mode: str = TimelineMode.MONTHLY
-    start: datetime = datetime.today()
-    number_of_items: int = 12
-    show_generic_dates: bool = False
-    show_first_day_of_week: bool = False
-    locale_name: str = field(init=True, default="en_US")
-    x: int = field(init=False)
-    y: int = field(init=False)
-    width: int = field(init=False)
-    year_font: str = "arial.ttf"
-    year_font_size: int = 12
-    year_font_colour: str = "Black"
-    year_fill_colour: str = "LightGray"
-    item_font: str = "arial.ttf"
-    item_font_size: int = 12
-    item_font_colour: str = "Black"
-    item_fill_colour: str = "LightGray"
-    timeline_years: list[TimelineYear] = field(default_factory=list)
-    timeline_items: list[TimelineItem] = field(default_factory=list)
+    mode: str = field(init=True, default=None)
+    start: datetime = field(init=True, default=None)
+    locale_name: str = field(init=True, default=None)
+    number_of_items: int = field(init=True, default=None)
+    show_generic_dates: bool = field(init=True, default=None)
+    show_first_day_of_week: bool = field(init=True, default=None)
+
+    year_font: str = field(init=True, default=None)
+    year_font_size: int = field(init=True, default=None)
+    year_font_colour: str = field(init=True, default=None)
+    year_fill_colour: str = field(init=True, default=None)
+    item_font: str = field(init=True, default=None)
+    item_font_size: int = field(init=True, default=None)
+    item_font_colour: str = field(init=True, default=None)
+    item_fill_colour: str = field(init=True, default=None)
+
+    x: int = field(init=False, default=0)
+    y: int = field(init=False, default=0)
+    width: int = field(init=False, default=0)
+    timeline_years: list[TimelineYear] = field(init=False, default_factory=list)
+    timeline_items: list[TimelineItem] = field(init=False, default_factory=list)
 
     year_text_format: str = field(init=False)
     year_generic_text_format: str = field(init=False)
