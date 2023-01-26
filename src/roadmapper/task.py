@@ -33,6 +33,17 @@ from roadmapper.milestone import Milestone
 class Task:
     """Roadmap Task class"""
 
+    text: str = field(init=True, default=None)
+    start: datetime = field(init=True, default=None)
+    end: datetime = field(init=True, default=None)
+    font: str = field(init=True, default=None)
+    font_size: int = field(init=True, default=0)
+    font_colour: str = field(init=True, default=None)
+    fill_colour: str = field(init=True, default=None)
+    text_alignment: str = field(init=True, default=None)
+    style: str = field(init=True, default=None)
+    painter: Painter = field(init=True, default=None)
+
     width: int = field(init=False, default=0)
     height: int = field(init=False, default=0)
     tasks: list = field(init=False, default_factory=list)
@@ -44,17 +55,6 @@ class Task:
     box_height: int = field(init=False, default=0)
     text_x: int = field(init=False, default=0)
     text_y: int = field(init=False, default=0)
-
-    text: str = field(init=True, default=None)
-    start: datetime = field(init=True, default=None)
-    end: datetime = field(init=True, default=None)
-    font: str = field(init=True, default=None)
-    font_size: int = field(init=True, default=0)
-    font_colour: str = field(init=True, default=None)
-    fill_colour: str = field(init=True, default=None)
-    text_alignment: str = field(init=True, default=None)
-    style: str = field(init=True, default=None)
-    painter: Painter = field(init=True, default=None)
 
     # def __post_init__(self):
     #     """This method is called after __init__() is called"""
