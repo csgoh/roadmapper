@@ -26,7 +26,7 @@ def colour_theme_demo(
         start_date,
         number_of_items,
         show_generic_dates=show_generic_dates,
-        timeline_locale_file=locale_name,
+        timeline_locale=locale_name,
     )
 
     group = roadmap.add_group("Core Product Work Stream", text_alignment="left")
@@ -69,7 +69,7 @@ def chinese_theme_demo(
         start_date,
         number_of_items,
         show_generic_dates=show_generic_dates,
-        timeline_locale_file=locale_name,
+        timeline_locale=locale_name,
         show_first_day_of_week=show_first_day_of_week,
     )
 
@@ -113,7 +113,7 @@ def japanese_theme_demo(
         start_date,
         number_of_items,
         show_generic_dates=show_generic_dates,
-        timeline_locale_file=locale_name,
+        timeline_locale=locale_name,
         show_first_day_of_week=show_first_day_of_week,
     )
 
