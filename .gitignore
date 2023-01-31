@@ -36,7 +36,7 @@ test.ipynb
 
 # My exclusion list
 reference/
-*.json
+#*.json
 pwk.py
 pwk_roadmap.png
 temp/
@@ -218,3 +218,4 @@ Training
 Blog
 About
 gitignore/Python.gitignore at main · github/gitignore
+test_*.py

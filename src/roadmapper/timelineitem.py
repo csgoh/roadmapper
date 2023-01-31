@@ -32,20 +32,21 @@ from roadmapper.timelinemode import TimelineMode
 class TimelineItem:
     """Roadmap TimelineItem class"""
 
-    text: str
-    value: str
-    start: datetime
-    end: datetime
-    box_x: int = field(init=False)
-    box_y: int = field(init=False)
-    box_width: int = field(init=False)
-    box_height: int = field(init=False)
-    text_x: int = field(init=False)
-    text_y: int = field(init=False)
-    font: str
-    font_size: int
-    font_colour: str
-    fill_colour: str
+    text: str = field(init=True, default=None)
+    value: str = field(init=True, default=None)
+    start: datetime = field(init=True, default=None)
+    end: datetime = field(init=True, default=None)
+    font: str = field(init=True, default=None)
+    font_size: int = field(init=True, default=None)
+    font_colour: str = field(init=True, default=None)
+    fill_colour: str = field(init=True, default=None)
+
+    box_x: int = field(init=False, default=0)
+    box_y: int = field(init=False, default=0)
+    box_width: int = field(init=False, default=0)
+    box_height: int = field(init=False, default=0)
+    text_x: int = field(init=False, default=0)
+    text_y: int = field(init=False, default=0)
 
     def __calculate_text_draw_position(self, painter: Painter) -> tuple:
         """Calculate the text draw position based on the box position and size

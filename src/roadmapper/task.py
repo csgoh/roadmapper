@@ -26,9 +26,6 @@ from contextlib import contextmanager
 
 from roadmapper.painter import Painter
 from roadmapper.timeline import Timeline
-from roadmapper.timelineitem import TimelineItem
-
-# from roadmapper.task import Task
 from roadmapper.milestone import Milestone
 
 
@@ -36,30 +33,40 @@ from roadmapper.milestone import Milestone
 class Task:
     """Roadmap Task class"""
 
-    text: str
-    start: datetime
-    end: datetime
-    width: int = 0
-    height: int = 0
-    font: str = "Arial"
-    font_size: int = 12
-    font_colour: str = "Black"
-    fill_colour: str = "LightGreen"
-    text_alignment: str = "centre"
-    style: str = "rectangle"
-    painter: Painter
+    text: str = field(init=True, default=None)
+    start: datetime = field(init=True, default=None)
+    end: datetime = field(init=True, default=None)
+    font: str = field(init=True, default=None)
+    font_size: int = field(init=True, default=0)
+    font_colour: str = field(init=True, default=None)
+    fill_colour: str = field(init=True, default=None)
+    text_alignment: str = field(init=True, default=None)
+    style: str = field(init=True, default=None)
+    painter: Painter = field(init=True, default=None)
 
-    def __post_init__(self):
-        """This method is called after __init__() is called"""
-        self.milestones = []
-        self.tasks = []
-        self.boxes = []
-        self.box_x = 0
-        self.box_y = 0
-        self.box_width = 0
-        self.box_height = 0
-        self.text_x = 0
-        self.text_y = 0
+    width: int = field(init=False, default=0)
+    height: int = field(init=False, default=0)
+    tasks: list = field(init=False, default_factory=list)
+    boxes: list = field(init=False, default_factory=list)
+    milestones: list = field(init=False, default_factory=list)
+    box_x: int = field(init=False, default=0)
+    box_y: int = field(init=False, default=0)
+    box_width: int = field(init=False, default=0)
+    box_height: int = field(init=False, default=0)
+    text_x: int = field(init=False, default=0)
+    text_y: int = field(init=False, default=0)
+
+    # def __post_init__(self):
+    #     """This method is called after __init__() is called"""
+    #     self.milestones = []
+    #     self.tasks = []
+    #     self.boxes = []
+    #     self.box_x = 0
+    #     self.box_y = 0
+    #     self.box_width = 0
+    #     self.box_height = 0
+    #     self.text_x = 0
+    #     self.text_y = 0
 
     def add_parallel_task(
         self,
@@ -71,6 +78,7 @@ class Task:
         font_colour: str = "",
         fill_colour: str = "",
         text_alignment: str = "centre",
+        style: str = "rectangle",
     ):
         """Add a parallel task to this task
 
@@ -95,6 +103,9 @@ class Task:
         if fill_colour == "":
             fill_colour = self.painter.task_fill_colour
 
+        if style == "":
+            style = self.painter.task_style
+
         task = Task(
             text=text,
             start=start,
@@ -104,6 +115,7 @@ class Task:
             font_colour=font_colour,
             fill_colour=fill_colour,
             text_alignment=text_alignment,
+            style=style,
             painter=self.painter,
         )
         self.tasks.append(task)
@@ -207,16 +219,12 @@ class Task:
             )
 
         ### Set milestones position
-        self.set_milestones_position(
-            painter, timeline, task_start_period, task_end_period
-        )
+        self.set_milestones_position(painter, timeline)
 
     def set_milestones_position(
         self,
         painter: Painter,
         timeline: Timeline,
-        task_start_period: datetime,
-        task_end_period: datetime,
     ) -> None:
         """Set the draw position of this task's milestones
 

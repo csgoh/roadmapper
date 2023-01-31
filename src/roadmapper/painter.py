@@ -124,13 +124,13 @@ class Painter:
         self.__new_cr = None
         self.__new_surface = None
 
-    def set_colour_palette(self, colour_palette: str) -> None:
+    def set_colour_theme(self, colour_theme: str) -> None:
         """Set colour palette
 
         Args:
             colour_palette (str): Name of the colour palette. Eg. OrangePeel
         """
-        self.colour_theme = ColourTheme(colour_palette)
+        self.colour_theme = ColourTheme(colour_theme)
         (self.background_colour,) = self.colour_theme.get_colour_theme_settings(
             "background"
         )

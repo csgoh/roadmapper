@@ -1,0 +1,56 @@
+{
+    "theme": "CHINESE",
+    "settings": {
+        "background": {
+            "background_fill_colour": "#FFFFFF"
+        },
+        "title": {
+            "title_font": "fonts/SourceHanSerifTC-Regular.otf",
+            "title_font_size": 26,
+            "title_font_colour": "#000000",
+            "subtitle_font": "fonts/SourceHanSerifTC-Regular.otf",
+            "subtitle_font_size": 18,
+            "subtitle_font_colour": "#000000"
+        },
+        "timeline": {
+            "timeline_year_font": "fonts/SourceHanSerifTC-Regular.otf",
+            "timeline_year_font_size": 12,
+            "timeline_year_font_colour": "#FFFFFF",
+            "timeline_year_fill_colour": "#4C5B5C",
+            "timeline_item_font": "fonts/SourceHanSerifTC-Regular.otf",
+            "timeline_item_font_size": 12,
+            "timeline_item_font_colour": "#FFFFFF",
+            "timeline_item_fill_colour": "#4C5B5C"
+        },
+        "marker": {
+            "marker_font": "fonts/SourceHanSerifTC-Regular.otf",
+            "marker_font_size": 12,
+            "marker_font_colour": "#000000",
+            "marker_line_colour": "#000000"
+        },
+        "group": {
+            "group_font": "fonts/SourceHanSerifTC-Regular.otf",
+            "group_font_size": 12,
+            "group_font_colour": "#FFFFFF",
+            "group_fill_colour": "#FCA311"
+        },
+        "task": {
+            "task_font": "fonts/SourceHanSerifTC-Regular.otf",
+            "task_font_size": 12,
+            "task_font_colour": "#000000",
+            "task_fill_colour": "#8FBC94",
+            "task_style": "rectangle"
+        },
+        "milestone": {
+            "milestone_font": "fonts/SourceHanSerifTC-Regular.otf",
+            "milestone_font_size": 12,
+            "milestone_font_colour": "#000000",
+            "milestone_fill_colour": "#4D8052"
+        },
+        "footer": {
+            "footer_font": "fonts/SourceHanSerifTC-Regular.otf",
+            "footer_font_size": 12,
+            "footer_font_colour": "#000000"
+        }
+    }
+}

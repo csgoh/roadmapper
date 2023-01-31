@@ -28,10 +28,10 @@ from roadmapper.painter import Painter
 class Logo:
     """Logo class - used to show the logo on the roadmap"""
 
-    image: str
-    position: int = field(default="top_right")
-    width: str = field(default=0)
-    height: str = field(default=0)
+    image: str = field(init=True, default=None)
+    position: int = field(init=True, default=None)
+    width: str = field(init=True, default=0)
+    height: str = field(init=True, default=0)
 
     def set_draw_position(self, painter: Painter, auto_height: bool) -> None:
         """Set logo draw position
