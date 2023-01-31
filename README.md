@@ -20,20 +20,15 @@ With git repository like GitHub or Bitbucket, roadmaps created using RaC can be 
 ![release](https://img.shields.io/pypi/v/roadmapper)
 
 ### What's new in the latest version of Roadmapper?
-* Provided options to show first day of week instead of W1, W2, etc. in WEEKLY timeline mode.
-* Provided options to configure font and fill colour for year in the timeline section.
-* Changed add_timeline() method parameters. font, font_size and font_colour are now deprecated. 
-  *  To configure timeline year area, use year_font, year_font_size and year_fill_colour
-  *  To configure timlien item area, use item_font, item_font_size and item_fill_colour
-* Provided options to change task appearance in the roadmap. Task can now be displayed rectangular or rounded rectangle or rectangle with arrow head.
-* Ability to add logo to the roadmap.
-* Fix issue with WEEKLY timeline mode
+* Unicode, multilingual support
+* Ability to change timeline locale and labels
+* Ability to add your own custom colour scheme
 
 ### Python version requirements:
 * Python 3.10+
   
 ### Library Dependencies
-* Pillow 9.3.0
+* Pillow 9.4.0
 * python-dateutil
 
 ## Future plans :bulb:
