@@ -19,6 +19,8 @@ With git repository like GitHub or Bitbucket, roadmaps created using RaC can be 
 ### Latest version
 ![release](https://img.shields.io/pypi/v/roadmapper)
 
+:book: For usage documentation, how-to guides and code examples, refer to [Roadmapper Wiki](https://github.com/csgoh/roadmap-generator/wiki).
+
 ### What's new in the latest version of Roadmapper?
 * Unicode, multilingual support
 * Ability to change timeline locale and labels
