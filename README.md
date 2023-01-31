@@ -24,6 +24,8 @@ With git repository like GitHub or Bitbucket, roadmaps created using RaC can be 
 * Ability to change timeline locale and labels
 * Ability to add your own custom colour scheme
 
+![multilingual roadmappper](https://github.com/csgoh/roadmapper/blob/main/images/roadmapper-banner-multilingual.png?raw=true)
+
 ### Python version requirements:
 * Python 3.10+
   
