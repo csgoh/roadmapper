@@ -100,13 +100,41 @@ def en_NZ_roadmap(filename: str, colour_theme: str, locale_name: str):
     roadmap.save(filename)
 
 
-def zh_TW_roadmap(filename: str, colour_theme: str, locale_name: str):
+def zh_TW_with_locale_roadmap(filename: str, colour_theme: str, locale_name: str):
     roadmap = Roadmap(800, 700, colour_theme=colour_theme, show_marker=True)
     roadmap.set_title("戰略路線圖 2023")
     roadmap.set_subtitle("瑪塔里奇太陽科技有限公司")
     roadmap.set_timeline(
         TimelineMode.QUARTERLY, "2023-01-01", 4, timeline_locale=locale_name
     )
+    roadmap.set_footer("由 Roadmapper 生成")
+
+    group = roadmap.add_group("人員流程")
+    task = group.add_task("制定包容戰略", "2023-01-01", "2023-04-30")
+    task.add_parallel_task("促進多樣性、公平性和包容性", "2023-05-01", "2023-12-30")
+    group.add_task("實施可持續發展計劃", "2023-03-01", "2023-11-30")
+
+    group = roadmap.add_group("工作流程")
+    group.add_task("實施業務改進計劃", "2023-02-01", "2023-11-30")
+    task = group.add_task("自動化流程", "2023-07-01", "2023-12-30")
+    task.add_milestone("30%自動化 ", "2023-8-01")
+    task.add_milestone("60%自動化 ", "2023-12-01")
+
+    group = roadmap.add_group("工具流程")
+    group.add_task("實施工具選擇策略", "2023-01-01", "2023-04-30")
+    group.add_task("工具選擇", "2023-02-01", "2023-08-30")
+    task = group.add_task("集中工具管理", "2023-04-01", "2023-11-30")
+    task.add_milestone("系統集中完成", "2023-12-01")
+
+    roadmap.draw()
+    roadmap.save(filename)
+
+
+def zh_TW_roadmap(filename: str, colour_theme: str):
+    roadmap = Roadmap(800, 700, colour_theme=colour_theme, show_marker=True)
+    roadmap.set_title("戰略路線圖 2023")
+    roadmap.set_subtitle("瑪塔里奇太陽科技有限公司")
+    roadmap.set_timeline(TimelineMode.QUARTERLY, "2023-01-01", 4)
     roadmap.set_footer("由 Roadmapper 生成")
 
     group = roadmap.add_group("人員流程")
@@ -200,10 +228,14 @@ def banner_roadmap():
 
 def multilingual_roadmap():
     en_NZ_roadmap("images/en_NZ-roadmap.png", "rainbow.json", "en_US")
-    zh_TW_roadmap(
+    zh_TW_with_locale_roadmap(
         "images/zh_TW-roadmap.png",
         "rainbow-unicode.json",
         "zh_TW_timeline_settings.json",
+    )
+    zh_TW_roadmap(
+        "images/zh_TW-timeline-roadmap.png",
+        "rainbow-unicode.json",
     )
     ja_JP_roadmap(
         "images/ja_JP-roadmap.png",
