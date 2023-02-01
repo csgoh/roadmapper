@@ -43,12 +43,6 @@ With git repository like GitHub or Bitbucket, roadmaps created using RaC can be 
 
 Any feedback or suggestions are welcome. Please feel free to create an issue or pull request.
 <br/>
-<br/>
-If you've been enjoying my contributions, consider buying me a coffee. It'll be like a virtual pat on the back for all the hard work. Thanks in advance! :coffee: :heart:
-
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/csgoh)
-
-<br/>
 <hr>
 
 
