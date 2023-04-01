@@ -44,9 +44,32 @@ default_timeline_locale_settings = {
     },
 }
 
+### v1.1.1 Add generic timeline locale settings
+generic_timeline_locale_settings = {
+    "locale": "",
+    "settings": {
+        "year": {
+            "text": "Year {0}",
+            "generic_text": "Year {0}",
+        },
+        "half_year": {"text": "H{0}"},
+        "quarter": {"text": "Q{0}"},
+        "month": {
+            "text": "{0}",
+            "generic_text": "Month {0}",
+        },
+        "week": {
+            "text": "{0} {1}",
+            "generic_text": "W{0}",
+        },
+    },
+}
+
 
 TimelineLocaleSettings = [
     default_timeline_locale_settings,
+    ### v1.1.1 Add generic timeline locale settings
+    generic_timeline_locale_settings,
     ### Add more themes here
 ]
 
@@ -64,24 +87,19 @@ class TimelineLocale:
                 with open(locale_name, "r", encoding="utf8") as f:
                     timeline_locale_json = json.load(f)
                 if "locale" in timeline_locale_json:
-                    # timeline_locale_json["locale"] = locale_name
                     locale_name = timeline_locale_json["locale"]
                     TimelineLocaleSettings.append(timeline_locale_json)
                 else:
                     raise ValueError(f"Locale {locale_name} not recognised.")
             else:
                 raise ValueError(f"Locale {locale_name} not recognised.")
+
+            self._timeline_locale_name = locale_name
+            locale.setlocale(locale.LC_ALL, locale_name)
         else:
-            built_in_locale_found = False
-            for theme in TimelineLocaleSettings:
-                if theme["locale"] == locale_name:
-                    built_in_locale_found = True
-
-            if built_in_locale_found == False:
-                raise ValueError(f"Locale {locale_name} not recognised.")
-
-        self._timeline_locale_name = locale_name
-        locale.setlocale(locale.LC_ALL, locale_name)
+            ## v1.1.1 accept all non-json locale names
+            self._timeline_locale_name = locale_name
+            locale.setlocale(locale.LC_ALL, locale_name)
 
     def get_timeline_locale_settings(self, timeline_mode: str) -> tuple:
         """ "Get the timeline locale settings for the specified timeline mode.
@@ -98,7 +116,6 @@ class TimelineLocale:
         for _, value in enumerate(TimelineLocaleSettings):
             if value["locale"] == self._timeline_locale_name:
                 locale_settings = value["settings"]
-                # print(f"Using locale {self._timeline_locale_name}, {timeline_mode}")
                 break
 
         ### get the colour scheme for the specified roadmap component
@@ -107,5 +124,3 @@ class TimelineLocale:
             return tuple(locale_settings[timeline_mode].values())
         else:
             return tuple(locale_settings[timeline_mode].values())[0]
-
-        # return tuple(locale_settings[timeline_mode].values())

@@ -237,7 +237,8 @@ class Roadmap:
         number_of_items: int = 12,
         show_generic_dates: bool = False,
         show_first_day_of_week: bool = False,
-        timeline_locale: str = "en_US",
+        ### v1.1.1 Remove default locale "en_US"
+        timeline_locale: str = "",
         year_font: str = "",
         year_font_size: int = 0,
         year_font_colour: str = "",
