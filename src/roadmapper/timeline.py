@@ -19,16 +19,17 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
 from dataclasses import dataclass, field
 import calendar
 
-from roadmapper.painter import Painter
-from roadmapper.timelineitem import TimelineItem
-from roadmapper.timelineitemyear import TimelineYear
-from roadmapper.timelinemode import TimelineMode
-from roadmapper.timelinelocale import TimelineLocale
+from src.roadmapper.painter import Painter
+from src.roadmapper.timelineitem import TimelineItem
+from src.roadmapper.timelineitemyear import TimelineYear
+from src.roadmapper.timelinemode import TimelineMode
+from src.roadmapper.timelinelocale import TimelineLocale
 
 
 @dataclass(kw_only=True)

@@ -23,7 +23,8 @@
 
 # import cairo
 # from colour import Color
-from roadmapper.colourtheme import ColourTheme
+
+from src.roadmapper.colourtheme import ColourTheme
 from PIL import Image, ImageDraw, ImageFont, ImageColor
 import textwrap
 

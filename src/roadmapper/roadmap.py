@@ -23,18 +23,16 @@
 from datetime import datetime
 from dataclasses import dataclass, field
 import time
-import importlib.metadata
 
-
-from roadmapper.painter import Painter
-from roadmapper.title import Title
-from roadmapper.subtitle import SubTitle
-from roadmapper.footer import Footer
-from roadmapper.timelinemode import TimelineMode
-from roadmapper.timeline import Timeline
-from roadmapper.group import Group
-from roadmapper.marker import Marker
-from roadmapper.logo import Logo
+from src.roadmapper.painter import Painter
+from src.roadmapper.title import Title
+from src.roadmapper.subtitle import SubTitle
+from src.roadmapper.footer import Footer
+from src.roadmapper.timelinemode import TimelineMode
+from src.roadmapper.timeline import Timeline
+from src.roadmapper.group import Group
+from src.roadmapper.marker import Marker
+from src.roadmapper.logo import Logo
 
 
 @dataclass()
