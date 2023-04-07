@@ -1,0 +1,42 @@
+name: CI Checks
+
+on:
+
+  push:
+    branches:
+      - main
+
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+
+jobs:
+
+  run-tests:
+    name: Run tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        PYTHON_VERSION: ["3.10", "3.11"]
+    steps:
+
+      - name: Install required Debian packages
+        run: |
+          echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+          sudo apt install --yes ttf-mscorefonts-installer
+          sudo fc-cache -f
+
+      - uses: actions/checkout@v3
+
+      - name: Set up Python ${{ matrix.PYTHON_VERSION }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.PYTHON_VERSION }}
+          cache: "pip"
+
+      - name: Install Python requirements
+        run: pip install -r requirements.txt
+
+      - name: Run pytest
+        run: |
+          pytest src/tests/
