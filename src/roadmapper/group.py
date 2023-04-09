@@ -19,13 +19,12 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+
 from dataclasses import dataclass, field
-from contextlib import contextmanager
 from datetime import datetime
-from roadmapper.painter import Painter
-from roadmapper.timeline import Timeline
-from roadmapper.task import Task
-from roadmapper.milestone import Milestone
+from src.roadmapper.painter import Painter
+from src.roadmapper.timeline import Timeline
+from src.roadmapper.task import Task
 
 
 @dataclass
