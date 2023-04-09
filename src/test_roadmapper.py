@@ -1,8 +1,7 @@
+import os
 from datetime import datetime
-from roadmapper.roadmap import Roadmap
-from roadmapper.timelinemode import TimelineMode
-from roadmapper.group import Group
-from roadmapper.task import Task
+from src.roadmapper.roadmap import Roadmap
+from src.roadmapper.timelinemode import TimelineMode
 import inspect
 
 
@@ -15,7 +14,6 @@ def colour_theme_demo(
     colour_theme: str = "DEFAULT",
     locale_name: str = "en_US",
 ) -> None:
-    file_name = "T_" + file_name
     roadmap = Roadmap(
         1200, 1000, auto_height=True, colour_theme=colour_theme, show_marker=True
     )
@@ -56,7 +54,6 @@ def colour_theme_demo_without_locale(
     file_name: str = "demo01.png",
     colour_theme: str = "DEFAULT",
 ) -> None:
-    file_name = "T_" + file_name
     roadmap = Roadmap(
         1200, 1000, auto_height=True, colour_theme=colour_theme, show_marker=True
     )
@@ -98,7 +95,6 @@ def chinese_theme_demo(
     colour_theme: str = "DEFAULT",
     locale_name: str = "en_US",
 ) -> None:
-    file_name = "T_" + file_name
     roadmap = Roadmap(
         1200, 1000, auto_height=True, colour_theme=colour_theme, show_marker=True
     )
@@ -142,7 +138,6 @@ def japanese_theme_demo(
     colour_theme: str = "DEFAULT",
     locale_name: str = "en_US",
 ) -> None:
-    file_name = "T_" + file_name
     roadmap = Roadmap(
         1200, 1000, auto_height=True, colour_theme=colour_theme, show_marker=True
     )
@@ -185,7 +180,6 @@ def generic_date_test(
     file_name: str = "demo01.png",
     colour_theme: str = "DEFAULT",
 ) -> None:
-    file_name = "T_" + file_name
     roadmap = Roadmap(4400, 2000, colour_theme=colour_theme, show_marker=True)
     roadmap.set_title("My Demo Roadmap!!!")
     roadmap.set_timeline(
@@ -221,7 +215,6 @@ def parallel_task_demo(
     file_name: str = "demo01.png",
     colour_theme: str = "DEFAULT",
 ) -> None:
-    file_name = "T_" + file_name
     roadmap = Roadmap(
         1200,
         612,
@@ -263,7 +256,7 @@ def singleton_demo(
     file_name: str = "demo01.png",
     colour_theme: str = "BLUEMOUNTAIN",
 ) -> None:
-    file_name = "T_" + file_name
+
     roadmap = Roadmap(
         600,
         612,
@@ -334,273 +327,49 @@ def logo_demo(
     roadmap.save(file_name)
 
 
-# # demo01(file_name="demo01.png")
-# # demo01(TimelineMode.WEEKLY, "2023-02-01", 16, "demo02.png")
-# # demo01(TimelineMode.QUARTERLY, "2023-02-01", 4, "demo03.png")
-# # demo01(TimelineMode.HALF_YEARLY, "2023-02-01", 3, "demo04.png")
-# # demo01(TimelineMode.YEARLY, "2023-02-01", 2, "demo05.png")
+def test_dev():
+    if not os.path.exists("images"):
+        os.mkdir("images")
 
-# # demo02_barestyle(file_name="demo01.png")
-# # demo02_barestyle(TimelineMode.WEEKLY, "2023-02-01", 16, "demo02.png")
-# # demo02_barestyle(TimelineMode.QUARTERLY, "2023-02-01", 4, "demo03.png")
-# # demo02_barestyle(TimelineMode.HALF_YEARLY, "2023-02-01", 3, "demo04.png")
-# # demo02_barestyle(TimelineMode.YEARLY, "2023-02-01", 2, "demo05.png")
+    if not os.path.exists("images/test"):
+        os.mkdir("images/test")
 
-# colour_theme_demo(file_name="demo-colour-default.png", colour_theme="DEFAULT")
-# colour_theme_demo(file_name="demo-colour-GREYWOOF.png", colour_theme="GREYWOOF")
-# colour_theme_demo(file_name="demo-colour-BLUEMOUNTAIN.png", colour_theme="BLUEMOUNTAIN")
-# colour_theme_demo(file_name="demo-colour-ORANGEPEEL.png", colour_theme="ORANGEPEEL")
-# colour_theme_demo(file_name="demo-colour-GREENTURTLE.png", colour_theme="GREENTURTLE")
+    output_file = "images/test/colour_theme_demo_without_locale.png"
+    # if file exist, then delete it first
+    if os.path.exists(output_file):
+        os.remove(output_file)
 
-show_generic_dates = False
+    colour_theme_demo_without_locale(
+        file_name=output_file,
+        mode=TimelineMode.MONTHLY,
+        number_of_items=14,
+    )
 
-### Problematic test case - To check
-# colour_theme_demo(
-#     file_name="demo-colour-GREENTURTLE-weekly.png",
-#     colour_theme="GREENTURTLE",
-#     mode=TimelineMode.WEEKLY,
-#     number_of_items=53,
-#     show_generic_dates=show_generic_dates,
-# )
+    assert os.path.exists(output_file)
 
-# colour_theme_demo(
-#     file_name="demo-colour-GREENTURTLE-monthly-gen.png",
-#     colour_theme="GREENTURTLE",
-#     mode=TimelineMode.MONTHLY,
-#     number_of_items=14,
-#     show_generic_dates=show_generic_dates,
-# )
+    output_file = "images/test/demo-my-colour-chinese.png"
+    chinese_theme_demo(
+        file_name=output_file,
+        colour_theme="src/json/chinese.json",
+        mode=TimelineMode.WEEKLY,
+        start_date="2023-01-01",
+        number_of_items=14,
+        locale_name="src/json/zh_TW_timeline_settings.json",
+        show_generic_dates=False,
+        show_first_day_of_week=True,
+    )
+    assert os.path.exists(output_file)
 
-# colour_theme_demo(
-#     file_name="demo-colour-GREYWOOF-monthly-gen.png",
-#     colour_theme="GREYWOOF",
-#     mode=TimelineMode.MONTHLY,
-#     number_of_items=14,
-#     show_generic_dates=show_generic_dates,
-# )
+    output_file = "images/test/demo-my-colour-japanese.png"
+    japanese_theme_demo(
+        file_name=output_file,
+        colour_theme="src/json/chinese.json",
+        mode=TimelineMode.MONTHLY,
+        start_date="2023-01-01",
+        number_of_items=14,
+        locale_name="src/json/ja_JP_timeline_settings.json",
+        show_generic_dates=False,
+        show_first_day_of_week=True,
+    )
 
-# colour_theme_demo(
-#     file_name="demo-colour-ORANGEPEEL-monthly-gen.png",
-#     colour_theme="ORANGEPEEL",
-#     mode=TimelineMode.MONTHLY,
-#     number_of_items=14,
-#     show_generic_dates=show_generic_dates,
-# )
-
-# colour_theme_demo(
-#     file_name="demo-colour-BLUEMOUNTAIN-monthly-gen.png",
-#     colour_theme="BLUEMOUNTAIN",
-#     mode=TimelineMode.MONTHLY,
-#     number_of_items=14,
-#     show_generic_dates=show_generic_dates,
-# )
-
-# show_generic_dates = False
-# colour_theme_demo(
-#     file_name="demo-colour-GREENTURTLE-monthly.png",
-#     colour_theme="GREENTURTLE",
-#     mode=TimelineMode.MONTHLY,
-#     number_of_items=14,
-#     show_generic_dates=show_generic_dates,
-# )
-# show_generic_dates = True
-# colour_theme_demo(
-#     file_name="demo-colour-GREENTURTLE-quarter.png",
-#     colour_theme="GREENTURTLE",
-#     mode=TimelineMode.QUARTERLY,
-#     number_of_items=6,
-#     show_generic_dates=show_generic_dates,
-# )
-
-# colour_theme_demo(
-#     file_name="demo-colour-GREENTURTLE-halfyearly.png",
-#     colour_theme="GREENTURTLE",
-#     mode=TimelineMode.HALF_YEARLY,
-#     number_of_items=6,
-#     show_generic_dates=show_generic_dates,
-# )
-
-# colour_theme_demo(
-#     file_name="demo-colour-GREENTURTLE-yearly.png",
-#     colour_theme="GREENTURTLE",
-#     mode=TimelineMode.YEARLY,
-#     number_of_items=4,
-#     show_generic_dates=show_generic_dates,
-# )
-
-
-# generic_date_test(
-#     file_name="demo-weekly-1.png",
-#     mode=TimelineMode.WEEKLY,
-#     start_date="2022-11-01",
-#     number_of_items=56,
-#     show_generic_dates=True,
-#     show_first_day_of_week=True,
-# )
-
-# generic_date_test(
-#     file_name="demo-weekly-2.png",
-#     mode=TimelineMode.WEEKLY,
-#     start_date="2022-11-01",
-#     number_of_items=70,
-#     show_generic_dates=False,
-#     show_first_day_of_week=True,
-# )
-
-
-# generic_date_test(
-#     file_name="demo-weekly-3.png",
-#     mode=TimelineMode.WEEKLY,
-#     number_of_items=52,
-#     start_date="2023-01-01",
-#     show_generic_dates=False,
-#     show_first_day_of_week=True,
-# )
-
-
-# generic_date_test(
-#     file_name="demo-weekly-4.png",
-#     mode=TimelineMode.WEEKLY,
-#     number_of_items=56,
-#     start_date="2023-01-01",
-#     show_generic_dates=False,
-#     show_first_day_of_week=True,
-# )
-
-# generic_date_test(
-#     file_name="demo-weekly-5.png",
-#     mode=TimelineMode.WEEKLY,
-#     start_date="2022-11-01",
-#     number_of_items=63,
-#     show_generic_dates=False,
-# )
-
-# generic_date_test(
-#     file_name="demo-weekly-6.png",
-#     mode=TimelineMode.WEEKLY,
-#     number_of_items=12,
-#     start_date="2023-01-01",
-#     show_generic_dates=False,
-# )
-
-
-# generic_date_test(
-#     file_name="demo-monthly.png",
-#     mode=TimelineMode.MONTHLY,
-#     start_date="2022-11-01",
-#     number_of_items=55,
-#     show_generic_dates=show_generic_dates,
-# )
-
-# generic_date_test(
-#     file_name="demo-quarterly.png",
-#     mode=TimelineMode.QUARTERLY,
-#     start_date="2022-11-01",
-#     number_of_items=55,
-#     show_generic_dates=show_generic_dates,
-# )
-
-# generic_date_test(
-#     file_name="demo-half-yearly.png",
-#     mode=TimelineMode.HALF_YEARLY,
-#     start_date="2022-11-01",
-#     number_of_items=12,
-#     show_generic_dates=show_generic_dates,
-# )
-
-# generic_date_test(
-#     file_name="demo-yearly.png",
-#     mode=TimelineMode.YEARLY,
-#     start_date="2022-11-01",
-#     number_of_items=12,
-#     show_generic_dates=show_generic_dates,
-# )
-
-
-# parallel_task_demo(file_name="parallel-demo01.png")
-# singleton_demo(file_name="singleton-demo01.png")
-# logo_demo(file_name="logo_demo_top-left.png", logo_position="top-left")
-# logo_demo(file_name="logo_demo_top-centre.png", logo_position="top-centre")
-# logo_demo(file_name="logo_demo_top_right.png", logo_position="top-right")
-# logo_demo(file_name="logo_demo_bottom_left.png", logo_position="bottom-left")
-# logo_demo(
-#     file_name="logo_demo_bottom_centre.png",
-#     logo_position="bottom-centre",
-# )
-# logo_demo(file_name="logo_demo_bottom_right.png", logo_position="bottom-right")
-
-# logo_demo(
-#     file_name="Flogo_demo_top-left.png", logo_position="top-left", auto_height=False
-# )
-# logo_demo(
-#     file_name="Flogo_demo_top-centre.png", logo_position="top-centre", auto_height=False
-# )
-# logo_demo(
-#     file_name="Flogo_demo_top_right.png", logo_position="top-right", auto_height=False
-# )
-# logo_demo(
-#     file_name="Flogo_demo_bottom_left.png",
-#     logo_position="bottom-left",
-#     auto_height=False,
-# )
-# logo_demo(
-#     file_name="Flogo_demo_bottom_centre.png",
-#     logo_position="bottom-centre",
-#     auto_height=False,
-# )
-# logo_demo(
-#     file_name="Flogo_demo_bottom_right.png",
-#     logo_position="bottom-right",
-#     auto_height=False,
-# ),
-
-
-colour_theme_demo_without_locale(
-    file_name="demo-my-colour-rainbow-no-locale.png",
-    mode=TimelineMode.MONTHLY,
-    number_of_items=14,
-)
-
-# colour_theme_demo(
-#     file_name="demo-my-colour-chocolate.png",
-#     colour_theme="chocolate.json",
-#     mode=TimelineMode.MONTHLY,
-#     number_of_items=14,
-# )
-
-# colour_theme_demo(
-#     file_name="demo-my-colour-orangepeel.png",
-#     colour_theme="ORANGEPEEL",
-#     mode=TimelineMode.MONTHLY,
-#     number_of_items=14,
-# )
-
-# colour_theme_demo(
-#     file_name="demo-my-colour-orangepeel-generic.png",
-#     colour_theme="ORANGEPEEL",
-#     mode=TimelineMode.MONTHLY,
-#     number_of_items=14,
-#     show_generic_dates=True,
-# )
-
-chinese_theme_demo(
-    file_name="demo-my-colour-chinese.png",
-    colour_theme="chinese.json",
-    mode=TimelineMode.WEEKLY,
-    start_date="2023-01-01",
-    number_of_items=14,
-    locale_name="zh_TW_timeline_settings.json",
-    show_generic_dates=False,
-    show_first_day_of_week=True,
-)
-
-japanese_theme_demo(
-    file_name="demo-my-colour-japanese.png",
-    colour_theme="chinese.json",
-    mode=TimelineMode.MONTHLY,
-    start_date="2023-01-01",
-    number_of_items=14,
-    locale_name="ja_JP_timeline_settings.json",
-    show_generic_dates=False,
-    show_first_day_of_week=True,
-)
+    assert os.path.exists(output_file)
