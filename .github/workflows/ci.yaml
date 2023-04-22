@@ -24,6 +24,10 @@ jobs:
         echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
         sudo apt install --yes ttf-mscorefonts-installer
         sudo fc-cache -f
+        sudo locale-gen zh_TW.UTF-8
+        sudo update-locale LANG=zh_TW.UTF-8
+        export LC_ALL=zh_TW.UTF-8
+        export LANG=zh_TW.UTF-8
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
