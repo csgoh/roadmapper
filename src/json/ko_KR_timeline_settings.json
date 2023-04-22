@@ -1,5 +1,5 @@
 {
-    "locale": "ko_KR",
+    "locale": "ko_KR.UTF-8",
     "settings": {
         "year": {
             "text": "{0} 년",

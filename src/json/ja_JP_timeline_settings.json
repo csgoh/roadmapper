@@ -1,5 +1,5 @@
 {
-    "locale": "ja_JP",
+    "locale": "ja_JP.UTF-8",
     "settings": {
         "year": {
             "text": "{0} 年",
