@@ -47,7 +47,7 @@ def colour_theme_demo(
 
 
 def colour_theme_demo_without_locale(
-    mode: TimelineMode = TimelineMode.MONTHLY,
+    timelinemode: TimelineMode = TimelineMode.MONTHLY,
     start_date: str = "2022-12-01",
     number_of_items: int = 12,
     show_generic_dates: bool = False,
@@ -60,9 +60,9 @@ def colour_theme_demo_without_locale(
     roadmap.set_title("SAMPLE ROADMAP 2022/2023")
     roadmap.set_subtitle("ABC Corporation")
     roadmap.set_timeline(
-        mode,
-        start_date,
-        number_of_items,
+        timelinemode,
+        start=start_date,
+        number_of_items=number_of_items,
         show_generic_dates=show_generic_dates,
     )
 
@@ -86,7 +86,7 @@ def colour_theme_demo_without_locale(
 
 
 def chinese_theme_demo(
-    mode: TimelineMode = TimelineMode.MONTHLY,
+    timelinemode: TimelineMode = TimelineMode.MONTHLY,
     start_date: str = "2022-12-01",
     number_of_items: int = 12,
     show_generic_dates: bool = False,
@@ -101,9 +101,9 @@ def chinese_theme_demo(
     roadmap.set_title("示例路線圖 2022/2023")
     roadmap.set_subtitle("甲乙丙有限公司")
     roadmap.set_timeline(
-        mode,
-        start_date,
-        number_of_items,
+        timelinemode,
+        start=start_date,
+        number_of_items=number_of_items,
         show_generic_dates=show_generic_dates,
         timeline_locale=locale_name,
         show_first_day_of_week=show_first_day_of_week,
@@ -129,7 +129,7 @@ def chinese_theme_demo(
 
 
 def japanese_theme_demo(
-    mode: TimelineMode = TimelineMode.MONTHLY,
+    timelinemode: TimelineMode = TimelineMode.MONTHLY,
     start_date: str = "2022-12-01",
     number_of_items: int = 12,
     show_generic_dates: bool = False,
@@ -144,9 +144,9 @@ def japanese_theme_demo(
     roadmap.set_title("ロードマップの例 2022/2023")
     roadmap.set_subtitle("株式会社エー・ビー・シー")
     roadmap.set_timeline(
-        mode,
-        start_date,
-        number_of_items,
+        timelinemode,
+        start=start_date,
+        number_of_items=number_of_items,
         show_generic_dates=show_generic_dates,
         timeline_locale=locale_name,
         show_first_day_of_week=show_first_day_of_week,
@@ -172,7 +172,7 @@ def japanese_theme_demo(
 
 
 def generic_date_test(
-    mode: TimelineMode = TimelineMode.MONTHLY,
+    timelinemode: TimelineMode = TimelineMode.MONTHLY,
     start_date: str = "2022-11-01",
     number_of_items: int = 24,
     show_generic_dates: bool = False,
@@ -183,9 +183,9 @@ def generic_date_test(
     roadmap = Roadmap(4400, 2000, colour_theme=colour_theme, show_marker=True)
     roadmap.set_title("My Demo Roadmap!!!")
     roadmap.set_timeline(
-        mode,
-        start_date,
-        number_of_items,
+        timelinemode,
+        start=start_date,
+        number_of_items=number_of_items,
         show_generic_dates=show_generic_dates,
         show_first_day_of_week=show_first_day_of_week,
     )
@@ -209,7 +209,7 @@ def generic_date_test(
 
 
 def parallel_task_demo(
-    mode: TimelineMode = TimelineMode.MONTHLY,
+    timelinemode: TimelineMode = TimelineMode.MONTHLY,
     start_date: str = "2022-12-01",
     number_of_items: int = 14,
     file_name: str = "demo01.png",
@@ -225,9 +225,9 @@ def parallel_task_demo(
     roadmap.set_title("ROADMAP EXAMPLE 2022/2023")
     roadmap.set_subtitle("This is a subtitle")
     roadmap.set_timeline(
-        mode,
-        start_date,
-        number_of_items,
+        timelinemode,
+        start=start_date,
+        number_of_items=number_of_items,
         show_generic_dates=False,
     )
 
@@ -250,7 +250,7 @@ def parallel_task_demo(
 
 
 def singleton_demo(
-    mode: TimelineMode = TimelineMode.MONTHLY,
+    timelinemode: TimelineMode = TimelineMode.MONTHLY,
     start_date: str = "2023-01-01",
     number_of_items: int = 2,
     file_name: str = "demo01.png",
@@ -267,9 +267,9 @@ def singleton_demo(
     roadmap.set_title("ROADMAP EXAMPLE")
     # roadmap.set_subtitle("This is a subtitle")
     roadmap.set_timeline(
-        mode,
-        start_date,
-        number_of_items,
+        timelinemode,
+        start=start_date,
+        number_of_items=number_of_items,
         show_generic_dates=False,
     )
 
@@ -287,7 +287,7 @@ def singleton_demo(
 
 
 def logo_demo(
-    mode: TimelineMode = TimelineMode.MONTHLY,
+    timelinemode: TimelineMode = TimelineMode.MONTHLY,
     start_date: str = "2023-01-01",
     number_of_items: int = 2,
     file_name: str = "demo01.png",
@@ -304,15 +304,15 @@ def logo_demo(
         show_marker=False,
     )
     frameinfo = inspect.getframeinfo(inspect.currentframe())
-    title = f"{frameinfo.function}(), theme={colour_theme}, mode={mode}"
+    title = f"{frameinfo.function}(), theme={colour_theme}, mode={timelinemode}"
 
     roadmap.add_logo("images/logo/matariki-tech-logo.png", logo_position, 50, 50)
     roadmap.set_title(title)
     roadmap.set_subtitle("This is a subtitle")
     roadmap.set_timeline(
-        mode,
-        start_date,
-        number_of_items,
+        timelinemode,
+        start=start_date,
+        number_of_items=number_of_items,
         show_generic_dates=False,
     )
 
@@ -341,7 +341,7 @@ def test_dev():
 
     colour_theme_demo_without_locale(
         file_name=output_file,
-        mode=TimelineMode.MONTHLY,
+        timelinemode=TimelineMode.MONTHLY,
         number_of_items=14,
     )
 
@@ -351,7 +351,7 @@ def test_dev():
     chinese_theme_demo(
         file_name=output_file,
         colour_theme="src/json/chinese.json",
-        mode=TimelineMode.WEEKLY,
+        timelinemode=TimelineMode.WEEKLY,
         start_date="2023-01-01",
         number_of_items=14,
         locale_name="src/json/zh_TW_timeline_settings.json",
@@ -364,7 +364,7 @@ def test_dev():
     japanese_theme_demo(
         file_name=output_file,
         colour_theme="src/json/chinese.json",
-        mode=TimelineMode.MONTHLY,
+        timelinemode=TimelineMode.MONTHLY,
         start_date="2023-01-01",
         number_of_items=14,
         locale_name="src/json/ja_JP_timeline_settings.json",
