@@ -591,3 +591,11 @@ class Task:
 
             for milestone in self.milestones:
                 milestone.draw(painter)
+
+    def __enter__(self):
+        """This method is called when the 'with' statement is used"""
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback) -> None:
+        """This method is called when the 'with' statement is used"""
+        pass
