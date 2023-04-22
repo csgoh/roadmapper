@@ -183,3 +183,11 @@ class Group:
         # Step 2: draw tasks
         for tasks in self.tasks:
             tasks.draw(painter)
+
+    def __enter__(self):
+        """This method is called when the 'with' statement is used"""
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback) -> None:
+        """This method is called when the 'with' statement is used"""
+        pass
