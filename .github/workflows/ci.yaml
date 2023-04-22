@@ -25,10 +25,10 @@ jobs:
         sudo apt install --yes ttf-mscorefonts-installer
         sudo fc-cache -f
         sudo apt-get install -y locales
-        sudo locale-gen zh_TW.UTF-8
-        sudo update-locale LANG=zh_TW.UTF-8
-        echo "LC_ALL=zh_TW.UTF-8" >> $GITHUB_ENV
-        echo "LANG=zh_TW.UTF-8" >> $GITHUB_ENV
+        sudo locale-gen zh_TW.UTF-8 en_US.UTF-8
+        sudo update-locale LANG=en_US.UTF-8
+        echo "LC_ALL=en_US.UTF-8" >> $GITHUB_ENV
+        echo "LANG=en_US.UTF-8" >> $GITHUB_ENV
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
