@@ -26,7 +26,7 @@ jobs:
         sudo fc-cache -f
         sudo apt-get update
         sudo apt-get install -y locales
-        sudo locale-gen zh_TW en_US
+        sudo locale-gen zh_TW ja_JP ko_KR en_US
         sudo update-locale LANG=en_US
         echo "LC_ALL=en_US" >> $GITHUB_ENV
         echo "LANG=en_US" >> $GITHUB_ENV
