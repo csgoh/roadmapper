@@ -1,42 +1,45 @@
 name: CI Checks
 
 on:
-
   push:
-    branches:
-      - main
-
+    branches: [ "main" ]
   pull_request:
     types: [opened, reopened, synchronize]
 
-
 jobs:
+  build:
 
-  run-tests:
-    name: Run tests
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
-        PYTHON_VERSION: ["3.10", "3.11"]
+        os: [macos-latest, windows-latest, ubuntu-latest]
+        python-version: ["3.10", "3.11"]
+
     steps:
 
-      - name: Install required Debian packages
-        run: |
-          echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
-          sudo apt install --yes ttf-mscorefonts-installer
-          sudo fc-cache -f
-
-      - uses: actions/checkout@v3
-
-      - name: Set up Python ${{ matrix.PYTHON_VERSION }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.PYTHON_VERSION }}
-          cache: "pip"
-
-      - name: Install Python requirements
-        run: pip install -r requirements.txt
-
-      - name: Run pytest
-        run: |
-          pytest src/tests/
+    - name: Install required packages
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+        sudo apt install --yes ttf-mscorefonts-installer
+        sudo fc-cache -f
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: "pip"
+    - name: Install dependencies
+      if: matrix.os != 'windows-latest'
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Install dependencies (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        python -m pip install --upgrade pip
+        if (Test-Path requirements.txt) { pip install -r requirements.txt }
+    - name: Test with pytest
+      run: |
+        pytest src/tests/
