@@ -8,6 +8,7 @@
 ![commit count](https://img.shields.io/github/commit-activity/m/csgoh/roadmapper?style=plastic)
 [![CodeFactor](https://www.codefactor.io/repository/github/csgoh/roadmapper/badge)](https://www.codefactor.io/repository/github/csgoh/roadmapper)
 ![python version](https://img.shields.io/pypi/pyversions/roadmapper?style=plastic)
+![CI](https://github.com/csgoh/roadmapper/actions/workflows/ci.yaml/badge.svg)
 
 # Roadmaper - a Roadmap as Code (RaC) Tool
 
@@ -74,7 +75,7 @@ from roadmapper.timelinemode import TimelineMode
 roadmap = Roadmap(1200, 400, colour_theme="BLUEMOUNTAIN")
 roadmap.set_title("My Demo Roadmap")
 roadmap.set_subtitle("Matariki Technologies Ltd")
-roadmap.set_timeline(TimelineMode.MONTHLY, "2023-01-01", 12)
+roadmap.set_timeline(TimelineMode.MONTHLY, start="2023-01-01", number_of_items=12)
 roadmap.add_logo("matariki-tech-logo.png", "top-right", 50, 50)
 
 group = roadmap.add_group("Core Product Work Stream")
