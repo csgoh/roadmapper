@@ -21,9 +21,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# import cairo
-# from colour import Color
-
+import os
+import sys
 from src.roadmapper.colourtheme import ColourTheme
 from PIL import Image, ImageDraw, ImageFont, ImageColor
 import textwrap
@@ -184,6 +183,31 @@ class Painter:
             self.footer_font_colour,
         ) = self.colour_theme.get_colour_theme_settings("footer")
 
+    def get_font_path(self, font_name: str) -> str:
+        """Get the path to the font file"""
+        # Check if font_name contained ttf or otf extension
+        if font_name.endswith(".ttf") or font_name.endswith(".otf"):
+            return font_name
+        # Check if font_name contained ttf or otf extension
+        if sys.platform.startswith("win"):  # Windows
+            return os.path.join("C:\\", "Windows", "Fonts", f"{font_name}.ttf")
+        elif sys.platform.startswith("darwin"):  # macOS
+            return os.path.join(
+                "/", "System", "Library", "Fonts", "Supplemental", f"{font_name}.ttf"
+            )
+        elif sys.platform.startswith("linux"):  # Linux
+            return os.path.join(
+                "/",
+                "usr",
+                "share",
+                "fonts",
+                "truetype",
+                "msttcorefonts",
+                f"{font_name}.ttf",
+            )
+        else:
+            raise Exception("Unsupported operating system")
+
     def draw_box(
         self, x: int, y: int, width: int, height: int, box_fill_colour: str
     ) -> None:
@@ -260,7 +284,7 @@ class Painter:
         text_font_colour: str,
         style: str = "rectangle",
     ) -> None:
-        font = ImageFont.truetype(text_font, size=text_font_size)
+        font = ImageFont.truetype(self.get_font_path(text_font), size=text_font_size)
 
         multi_lines = []
         wrap_lines = []
@@ -368,7 +392,7 @@ class Painter:
         self.__cr.text(
             (x, y),
             text,
-            font=ImageFont.truetype(font, font_size),
+            font=ImageFont.truetype(self.get_font_path(font), font_size),
             anchor="la",
             fill=(font_colour),
         )
@@ -497,7 +521,7 @@ class Painter:
             (text_width (int), text_height (int)): Text dimension (width, height)
         """
         # Use Pillow's ImageFont module to get the dimensions of the text.
-        image_font = ImageFont.truetype(font, font_size)
+        image_font = ImageFont.truetype(self.get_font_path(font), font_size)
 
         ascent, descent = image_font.getmetrics()
 
