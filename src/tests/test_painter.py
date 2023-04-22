@@ -60,5 +60,6 @@ class TestPainter:
         painter = Painter(800, 600)
         text_width, text_height = painter.get_text_dimension("Hello World", "Arial", 12)
         print(f"text_width: {text_width}, text_height: {text_height}")
-        assert text_width == 64
+        # Linux returns different text width
+        assert (text_width == 62) or (text_width == 64)
         assert text_height == 11
