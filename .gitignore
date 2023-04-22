@@ -47,8 +47,8 @@ src/test/*.png
 .VSCodeCounter/
 try*.py
 tempCode*.py
-fonts/
-*.json
+
+
 
 # C extensions
 *.so
