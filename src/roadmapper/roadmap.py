@@ -24,15 +24,15 @@ from datetime import datetime
 from dataclasses import dataclass, field
 import time
 
-from src.roadmapper.painter import Painter
-from src.roadmapper.title import Title
-from src.roadmapper.subtitle import SubTitle
-from src.roadmapper.footer import Footer
-from src.roadmapper.timelinemode import TimelineMode
-from src.roadmapper.timeline import Timeline
-from src.roadmapper.group import Group
-from src.roadmapper.marker import Marker
-from src.roadmapper.logo import Logo
+from .painter import Painter
+from .title import Title
+from .subtitle import SubTitle
+from .footer import Footer
+from .timelinemode import TimelineMode
+from .timeline import Timeline
+from .group import Group
+from .marker import Marker
+from .logo import Logo
 
 
 @dataclass()

@@ -23,7 +23,7 @@
 
 import os
 import sys
-from src.roadmapper.colourtheme import ColourTheme
+from .colourtheme import ColourTheme
 from PIL import Image, ImageDraw, ImageFont, ImageColor
 import textwrap
 

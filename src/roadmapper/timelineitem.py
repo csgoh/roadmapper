@@ -24,8 +24,8 @@ import calendar
 from dataclasses import dataclass, field
 from datetime import datetime, date, timedelta
 
-from src.roadmapper.painter import Painter
-from src.roadmapper.timelinemode import TimelineMode
+from .painter import Painter
+from .timelinemode import TimelineMode
 
 
 @dataclass(kw_only=True)

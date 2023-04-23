@@ -22,8 +22,8 @@
 
 from datetime import datetime
 from dataclasses import dataclass, field
-from src.roadmapper.painter import Painter
-from src.roadmapper.timeline import Timeline
+from .painter import Painter
+from .timeline import Timeline
 
 
 @dataclass(kw_only=True)

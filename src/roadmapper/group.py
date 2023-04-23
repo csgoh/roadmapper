@@ -22,9 +22,9 @@
 
 from dataclasses import dataclass, field
 from datetime import datetime
-from src.roadmapper.painter import Painter
-from src.roadmapper.timeline import Timeline
-from src.roadmapper.task import Task
+from .painter import Painter
+from .timeline import Timeline
+from .task import Task
 
 
 @dataclass

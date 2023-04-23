@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 from dataclasses import dataclass, field
-from src.roadmapper.painter import Painter
+from .painter import Painter
 
 
 @dataclass(kw_only=True)

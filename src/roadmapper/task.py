@@ -23,9 +23,9 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 
-from src.roadmapper.milestone import Milestone
-from src.roadmapper.painter import Painter
-from src.roadmapper.timeline import Timeline
+from .milestone import Milestone
+from .painter import Painter
+from .timeline import Timeline
 
 
 @dataclass(kw_only=True)

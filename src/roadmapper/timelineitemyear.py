@@ -23,7 +23,7 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 
-from src.roadmapper.painter import Painter
+from .painter import Painter
 
 
 @dataclass(kw_only=True)

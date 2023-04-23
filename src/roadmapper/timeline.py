@@ -25,11 +25,11 @@ from dateutil.relativedelta import relativedelta
 from dataclasses import dataclass, field
 import calendar
 
-from src.roadmapper.painter import Painter
-from src.roadmapper.timelineitem import TimelineItem
-from src.roadmapper.timelineitemyear import TimelineYear
-from src.roadmapper.timelinemode import TimelineMode
-from src.roadmapper.timelinelocale import TimelineLocale
+from .painter import Painter
+from .timelineitem import TimelineItem
+from .timelineitemyear import TimelineYear
+from .timelinemode import TimelineMode
+from .timelinelocale import TimelineLocale
 
 
 @dataclass(kw_only=True)
