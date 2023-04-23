@@ -3,8 +3,18 @@ name: CI Checks
 on:
   push:
     branches: [ "main" ]
+    paths-ignore:
+      - '*.md'
+      - '*.png'
+      - '*.toml'
+      - '.gitignore'
   pull_request:
     types: [opened, reopened, synchronize]
+    paths-ignore:
+      - '*.md'
+      - '*.png'
+      - '*.toml'
+      - '.gitignore'
 
 jobs:
   build:
