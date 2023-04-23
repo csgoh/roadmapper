@@ -22,10 +22,7 @@ With git repository like GitHub or Bitbucket, roadmaps created using RaC can be 
 
 :book: For usage documentation, how-to guide and code examples, refer to [Roadmapper Wiki](https://github.com/csgoh/roadmap-generator/wiki).
 
-### What's new in the latest version of Roadmapper?
-* Unicode, multilingual support
-* Ability to change timeline locale and labels
-* Ability to add your own custom colour scheme
+View the [Change Logs](https://github.com/csgoh/processpiper/wiki/Change-Logs) to find out the latest updates and additions in the most recent version.
 
 ![multilingual roadmappper](https://github.com/csgoh/roadmapper/blob/main/images/roadmapper-banner-multilingual.png?raw=true)
 
@@ -35,12 +32,6 @@ With git repository like GitHub or Bitbucket, roadmaps created using RaC can be 
 ### Library Dependencies
 * Pillow 9.4.0
 * python-dateutil
-
-## Future plans :bulb:
-* Create roadmap with plain english text like PlantUML
-* GUI and Web frontend for this roadmapper library
-* Visual Studio Code extension to create and edit roadmap
-<br/>
 
 Any feedback or suggestions are welcome. Please feel free to create an issue or pull request.
 <br/>
