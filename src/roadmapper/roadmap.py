@@ -288,6 +288,7 @@ class Roadmap:
         self._timeline = Timeline(
             mode=mode,
             start=start_date,
+            end=end_date,
             locale_name=timeline_locale,
             number_of_items=number_of_items,
             show_generic_dates=show_generic_dates,
