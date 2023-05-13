@@ -32,3 +32,9 @@ exclude = [
 [tool.setuptools.dynamic]
 version = { attr = "roadmapper.version.__version__" }
 readme = { file = ["README.md"] }
+
+[tool.pytest.ini_options]
+addopts ="-v"
+markers = [
+    "unit: Unit tests which are not dependent on environment",
+]
