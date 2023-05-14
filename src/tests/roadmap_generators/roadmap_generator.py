@@ -30,7 +30,7 @@ def ensure_presence_of_file_directory(directory):
 
 
 def get_roadmap_name_for(roadmap_class: Type[RoadmapABC]) -> str:
-    return roadmap_class.__name__ + "Ubuntu"    # TODO: Make OS agnostic
+    return roadmap_class.__name__ + "Ubuntu"  # TODO: Make OS agnostic
 
 
 def get_generated_file_path_for(roadmap_class: Type[RoadmapABC]) -> str:
