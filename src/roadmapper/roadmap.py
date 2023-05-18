@@ -86,14 +86,11 @@ class Roadmap:
             line_width (int, optional): Line width. Defaults to 2.
             line_style (str, optional): Line style. Defaults to "solid". Options are "solid", "dashed"
         """
-        if label_text_font == "":
-            label_text_font = self._painter.marker_font
-        if label_text_size == 0:
-            label_text_size = self._painter.marker_font_size
-        if label_text_colour == "":
-            label_text_colour = self._painter.marker_font_colour
-        if line_colour == "":
-            line_colour = self._painter.marker_line_colour
+        label_text_font = label_text_font or self._painter.marker_font
+        label_text_size = label_text_size or self._painter.marker_font_size
+        label_text_colour = label_text_colour or self._painter.marker_font_colour
+        line_colour = line_colour or self._painter.marker_line_colour
+
 
         self._marker = Marker(
             font=label_text_font,
@@ -123,14 +120,11 @@ class Roadmap:
             line_width (int, optional): Line width. Defaults to 2.
             line_style (str, optional): Line style. Defaults to "solid". Options are "solid", "dashed"
         """
-        if label_text_font == "":
-            label_text_font = self._painter.marker_font
-        if label_text_size == 0:
-            label_text_size = self._painter.marker_font_size
-        if label_text_colour == "":
-            label_text_colour = self._painter.marker_font_colour
-        if line_colour == "":
-            line_colour = self._painter.marker_line_colour
+            
+        label_text_font = label_text_font or self._painter.marker_font
+        label_text_size = label_text_size or self._painter.marker_font_size
+        label_text_colour = label_text_colour or self._painter.marker_font_colour
+        line_colour = line_colour or self._painter.marker_line_colour
 
         self._marker.font = label_text_font
         self._marker.font_size = label_text_size
@@ -154,12 +148,11 @@ class Roadmap:
             font_size (int, optional): Title font size. Defaults to 18.
             font_colour (str, optional): Title font colour. Defaults to "Black".
         """
-        if font == "":
-            font = self._painter.title_font
-        if font_size == 0:
-            font_size = self._painter.title_font_size
-        if font_colour == "":
-            font_colour = self._painter.title_font_colour
+            
+        font = font or self._painter.title_font
+        font_size = font_size or self._painter.title_font_size
+        font_colour = font_colour or self._painter.title_font_colour
+        
 
         self._title = Title(
             text=text, font=font, font_size=font_size, font_colour=font_colour
@@ -183,12 +176,10 @@ class Roadmap:
             font_size (int, optional): Title font size. Defaults to 18.
             font_colour (str, optional): Title font colour. Defaults to "Black".
         """
-        if font == "":
-            font = self._painter.subtitle_font
-        if font_size == 0:
-            font_size = self._painter.subtitle_font_size
-        if font_colour == "":
-            font_colour = self._painter.subtitle_font_colour
+            
+        font = font or self._painter.subtitle_font
+        font_size = font_size or self._painter.subtitle_font_size
+        font_colour = font_colour or self._painter.subtitle_font_colour
 
         self._subtitle = SubTitle(
             text=text, font=font, font_size=font_size, font_colour=font_colour
@@ -212,12 +203,10 @@ class Roadmap:
             font_size (int, optional): Footer font size. Defaults to 18.
             font_colour (str, optional): Footer font colour. Defaults to "Black".
         """
-        if font == "":
-            font = self._painter.footer_font
-        if font_size == 0:
-            font_size = self._painter.footer_font_size
-        if font_colour == "":
-            font_colour = self._painter.footer_font_colour
+            
+        font = font or self._painter.footer_font
+        font_size = font_size or self._painter.footer_font_size
+        font_colour = font_colour or self._painter.footer_font_colour
 
         self._footer = Footer(
             text=text, font=font, font_size=font_size, font_colour=font_colour
@@ -265,23 +254,16 @@ class Roadmap:
             font_colour (str, optional): Timeline font colour. Defaults to "DEFAULT" colour theme.
             fill_colour (str, optional): Timeline fill colour. Defaults to "DEFAULT" colour theme.
         """
-        if year_font == "":
-            year_font = self._painter.timeline_year_font
-        if year_font_size == 0:
-            year_font_size = self._painter.timeline_year_font_size
-        if year_font_colour == "":
-            year_font_colour = self._painter.timeline_year_font_colour
-        if year_fill_colour == "":
-            year_fill_colour = self._painter.timeline_year_fill_colour
-
-        if item_font == "":
-            item_font = self._painter.timeline_item_font
-        if item_font_size == 0:
-            item_font_size = self._painter.timeline_item_font_size
-        if item_font_colour == "":
-            item_font_colour = self._painter.timeline_item_font_colour
-        if item_fill_colour == "":
-            item_fill_colour = self._painter.timeline_item_fill_colour
+            
+        year_font = year_font or self._painter.timeline_year_font
+        year_font_size = year_font_size or self._painter.timeline_year_font_size
+        year_font_colour = year_font_colour or self._painter.timeline_year_font_colour
+        year_fill_colour = year_fill_colour or self._painter.timeline_year_fill_colour
+        
+        item_font = item_font or self._painter.timeline_item_font
+        item_font_size = item_font_size or self._painter.timeline_item_font_size
+        item_font_colour = item_font_colour or self._painter.timeline_item_font_colour
+        item_fill_colour = item_fill_colour or self._painter.timeline_item_fill_colour
 
         self._show_generic_dates = show_generic_dates
         start_date = datetime.strptime(start, "%Y-%m-%d")
@@ -349,14 +331,10 @@ class Roadmap:
         Return:
             Group: A new group instance. Use this to add taks to the group
         """
-        if font == "":
-            font = self._painter.group_font
-        if font_size == 0:
-            font_size = self._painter.group_font_size
-        if font_colour == "":
-            font_colour = self._painter.group_font_colour
-        if fill_colour == "":
-            fill_colour = self._painter.group_fill_colour
+        font = font or self._painter.group_font
+        font_size = font_size or self._painter.group_font_size
+        font_colour = font_colour or self._painter.group_font_colour
+        fill_colour = fill_colour or self._painter.group_fill_colour
 
         group = Group(
             text=text,
