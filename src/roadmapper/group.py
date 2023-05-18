@@ -80,18 +80,12 @@ class Group:
         Return:
             Task: Task instance to be used in with statement
         """
-
-        if font == "":
-            font = self.painter.task_font
-        if font_size == 0:
-            font_size = self.painter.task_font_size
-        if font_colour == "":
-            font_colour = self.painter.task_font_colour
-        if fill_colour == "":
-            fill_colour = self.painter.task_fill_colour
-
-        if style == "":
-            style = self.painter.task_style
+            
+        font = font or self.painter.task_font
+        font_size = font_size or self.painter.task_font_size
+        font_colour = font_colour or self.painter.task_font_colour
+        fill_colour = fill_colour or self.painter.task_fill_colour
+        style = style or self.painter.task_style
 
         task = Task(
             text=text,
