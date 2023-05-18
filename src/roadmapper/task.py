@@ -55,18 +55,6 @@ class Task:
     text_x: int = field(init=False, default=0)
     text_y: int = field(init=False, default=0)
 
-    # def __post_init__(self):
-    #     """This method is called after __init__() is called"""
-    #     self.milestones = []
-    #     self.tasks = []
-    #     self.boxes = []
-    #     self.box_x = 0
-    #     self.box_y = 0
-    #     self.box_width = 0
-    #     self.box_height = 0
-    #     self.text_x = 0
-    #     self.text_y = 0
-
     def add_parallel_task(
         self,
         text: str,
@@ -93,17 +81,11 @@ class Task:
         Return:
             Task: A task object that can be used to add milestones
         """
-        if font == "":
-            font = self.painter.task_font
-        if font_size == 0:
-            font_size = self.painter.task_font_size
-        if font_colour == "":
-            font_colour = self.painter.task_font_colour
-        if fill_colour == "":
-            fill_colour = self.painter.task_fill_colour
-
-        if style == "":
-            style = self.painter.task_style
+        font = font or self.painter.task_font
+        font_size = font_size or self.painter.task_font_size
+        font_colour = font_colour or self.painter.task_font_colour
+        fill_colour = fill_colour or self.painter.task_fill_colour
+        style = style or self.painter.task_style
 
         task = Task(
             text=text,
@@ -145,14 +127,12 @@ class Task:
 
         if self.painter is None:
             print("Painter is None")
-        if font == "":
-            font = self.painter.milestone_font
-        if font_size == 0:
-            font_size = self.painter.milestone_font_size
-        if font_colour == "":
-            font_colour = self.painter.milestone_font_colour
-        if fill_colour == "":
-            fill_colour = self.painter.milestone_fill_colour
+            
+        font = font or self.painter.milestone_font
+        font_size = font_size or self.painter.milestone_font_size
+        font_colour = font_colour or self.painter.milestone_font_colour
+        fill_colour = fill_colour or self.painter.milestone_fill_colour
+        
 
         self.milestones.append(
             Milestone(
@@ -558,8 +538,6 @@ class Task:
         height = 0
 
         for i, box in enumerate(self.boxes):
-            # painter.draw_box(box[0], box[1], box[2], box[3], self.fill_colour)
-            # painter.draw_rounded_box(box[0], box[1], box[2], box[3], self.fill_colour)
             if i == 0:
                 box_x = box[0]
                 box_y = box[1]
