@@ -3,6 +3,7 @@ from typing import Type
 
 from src.tests.roadmap_generators.colour_theme_extensive import ColourThemeExtensive
 from src.tests.roadmap_generators.roadmap_abc import RoadmapABC
+import pytest
 
 file_ending = ".png"
 file_directory = ""
@@ -58,3 +59,9 @@ def generate_and_save_all_roadmaps_in(target_directory: str = ""):
 
 if __name__ == "__main__":
     generate_and_save_all_roadmaps_in()
+
+
+@pytest.mark.genimage
+class TestGenerateRoadmaps:
+    generate_and_save_all_roadmaps_in()
+    assert True
