@@ -40,6 +40,7 @@ jobs:
       run: |
         pwd
         ls
+        python /home/runner/work/roadmapper/roadmapper/src/tests/roadmap_generators/roadmap_generator.py
     - name: Generate test image
       if: matrix.os == 'ubuntu-latest'
       run: |
