@@ -1,0 +1,47 @@
+name: CI Checks
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.10"]
+
+    steps:
+
+    - name: Install required packages
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y locales
+        sudo locale-gen zh_TW ja_JP ko_KR en_US
+        sudo update-locale LANG=en_US
+        echo "LC_ALL=en_US" >> $GITHUB_ENV
+        echo "LANG=en_US" >> $GITHUB_ENV
+        echo "LANGUAGE=en_US" >> $GITHUB_ENV
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: "pip"
+    - name: Install dependencies
+      if: matrix.os != 'windows-latest'
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Generate test image
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        python -m src/tests/roadmap_generator_test.py
+    - name: Upload File
+      uses: actions/upload-artifact@v2
+      with:
+          name: Generated image for test
+          path: Example.png

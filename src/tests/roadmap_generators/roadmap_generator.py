@@ -30,6 +30,7 @@ def ensure_presence_of_file_directory(directory):
 
 
 def get_roadmap_name_for(roadmap_class: Type[RoadmapABC]) -> str:
+    print(roadmap_class.__name__ + "Ubuntu")
     return roadmap_class.__name__ + "Ubuntu"  # TODO: Make OS agnostic
 
 
@@ -38,7 +39,9 @@ def get_generated_file_path_for(roadmap_class: Type[RoadmapABC]) -> str:
     return file_directory + get_roadmap_name_for(roadmap_class) + file_ending
 
 
-def generate_and_save_roadmap_in(roadmap_class: Type[RoadmapABC], target_directory: str = ""):
+def generate_and_save_roadmap_in(
+    roadmap_class: Type[RoadmapABC], target_directory: str = ""
+):
     set_file_directory(target_directory)
     file_path = get_generated_file_path_for(roadmap_class)
     generating_object = roadmap_class()
@@ -53,5 +56,5 @@ def generate_and_save_all_roadmaps_in(target_directory: str = ""):
         generating_object.generate_and_save_as(file_path)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     generate_and_save_all_roadmaps_in()
