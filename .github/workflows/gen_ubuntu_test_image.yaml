@@ -48,7 +48,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
           name: Generated image for test - try 1
-          path: /home/runner/work/roadmapper/roadmapper/src/tests/ColourThemeExtensiveUbuntuExample.png
+          path: /home/runner/work/roadmapper/roadmapper/src/tests/ColourThemeExtensiveUbuntu.png
     - name: Display test folder content 
       run: |
         pwd
