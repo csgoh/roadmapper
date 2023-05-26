@@ -39,7 +39,7 @@ jobs:
     - name: Generate test image
       if: matrix.os == 'ubuntu-latest'
       run: |
-        python -m src/tests/roadmap_generator.py
+        python -m src/tests/roadmap_generator
     - name: Upload File
       uses: actions/upload-artifact@v2
       with:
