@@ -185,10 +185,8 @@ class Painter:
 
     def get_font_path(self, font_name: str) -> str:
         """Get the path to the font file"""
-        # Check if font_name contained ttf or otf extension
         if font_name.endswith(".ttf") or font_name.endswith(".otf"):
             return font_name
-        # Check if font_name contained ttf or otf extension
         if sys.platform.startswith("win"):  # Windows
             return os.path.join("C:\\", "Windows", "Fonts", f"{font_name}.ttf")
         elif sys.platform.startswith("darwin"):  # macOS
@@ -196,15 +194,22 @@ class Painter:
                 "/", "System", "Library", "Fonts", "Supplemental", f"{font_name}.ttf"
             )
         elif sys.platform.startswith("linux"):  # Linux
-            return os.path.join(
-                "/",
-                "usr",
-                "share",
-                "fonts",
-                "truetype",
-                "msttcorefonts",
-                f"{font_name}.ttf",
-            )
+            font_dir = f"/usr/share/fonts/truetype/msttcorefonts"
+
+            if os.path.exists(os.path.join(font_dir, f"{font_name}.ttf")):
+                return os.path.join(font_dir, f"{font_name}.ttf")
+            else:
+                ### This is cater for cases where msttcorefonts is not installed
+                linux_font_name = "DejaVuSans"  # Default font for Linux
+                return os.path.join(
+                    "/",
+                    "usr",
+                    "share",
+                    "fonts",
+                    "truetype",
+                    "dejavu",  # Use the DejaVu font directory instead of msttcorefonts
+                    f"{linux_font_name}.ttf",
+                )
         else:
             raise Exception("Unsupported operating system")
 

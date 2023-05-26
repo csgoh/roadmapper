@@ -48,19 +48,6 @@ class Marker:
     line_to_y: int = field(init=False, default=0)
     not_in_timeline_range: bool = field(init=False, default=False)
 
-    # def __post_init__(self):
-    #     """This method is called after __init__() is called"""
-    #     self.text = "▼"
-    #     self.label_x = 0
-    #     self.label_y = 0
-    #     self.label_width = 0
-    #     self.label_height = 0
-    #     self.line_from_x = 0
-    #     self.line_from_y = 0
-    #     self.line_to_x = 0
-    #     self.line_to_y = 0
-    #     self.not_in_timeline_range = False
-
     def set_label_draw_position(self, painter: Painter, timeline: Timeline) -> None:
         """Set marker label draw position
 

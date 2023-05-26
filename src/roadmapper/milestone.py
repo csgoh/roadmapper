@@ -44,30 +44,6 @@ class Milestone:
     text_x: int = field(init=False, default=0)
     text_y: int = field(init=False, default=0)
 
-    # def __init__(
-    #     self,
-    #     text: str,
-    #     date: datetime,
-    #     font: str,
-    #     font_size: int,
-    #     font_colour: str,
-    #     fill_colour: str,
-    #     text_alignment: str,
-    # ) -> None:
-    #     self.text = text
-    #     self.date = date
-    #     self.font = font
-    #     self.font_size = font_size
-    #     self.font_colour = font_colour
-    #     self.fill_colour = fill_colour
-    #     self.text_alignment = text_alignment
-
-    #     self.diamond_x = 0
-    #     self.diamond_y = 0
-    #     self.diamond_width = 0
-    #     self.diamond_height = 0
-    #     self.text_x = 0
-    #     self.text_y = 0
 
     def draw(self, painter: Painter) -> None:
         """Draw milestone
