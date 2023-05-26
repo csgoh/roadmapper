@@ -49,3 +49,7 @@ jobs:
       with:
           name: Generated image for test - try 1
           path: /home/runner/work/roadmapper/roadmapper/src/tests/ColourThemeExtensiveUbuntuExample.png
+    - name: Display test folder content 
+      run: |
+        pwd
+        ls /home/runner/work/roadmapper/roadmapper/src/tests/
