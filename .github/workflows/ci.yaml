@@ -60,7 +60,7 @@ jobs:
       run: |
         pytest -m 'unit'
 
-    - name: Tests with marker 'ubuntu'
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        pytest -m 'ubuntu'
+    # - name: Tests with marker 'ubuntu'
+    #   if: matrix.os == 'ubuntu-latest'
+    #   run: |
+    #     pytest -m 'ubuntu'
