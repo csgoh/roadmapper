@@ -40,7 +40,6 @@ jobs:
       run: |
         pwd
         ls
-        python /home/runner/work/roadmapper/roadmapper/src/tests/roadmap_generators/roadmap_generator.py
     - name: Generate test image
       if: matrix.os == 'ubuntu-latest'
       run: |
@@ -48,5 +47,5 @@ jobs:
     - name: Upload File
       uses: actions/upload-artifact@v2
       with:
-          name: Generated image for test
-          path: src\tests\ColourThemeExtensiveUbuntuExample.png
+          name: Generated image for test - try 1
+          path: /home/runner/work/roadmapper/roadmapper/src/tests/ColourThemeExtensiveUbuntuExample.png
