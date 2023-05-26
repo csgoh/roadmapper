@@ -61,7 +61,3 @@ if __name__ == "__main__":
     generate_and_save_all_roadmaps_in()
 
 
-@pytest.mark.genimage
-class TestGenerateRoadmaps:
-    generate_and_save_all_roadmaps_in()
-    assert True
