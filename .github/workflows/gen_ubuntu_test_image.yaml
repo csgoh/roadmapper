@@ -1,4 +1,4 @@
-name: CI Checks
+name: Generate Test Image on Ubuntu
 
 on:
   workflow_dispatch:
