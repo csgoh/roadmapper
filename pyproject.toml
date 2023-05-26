@@ -34,8 +34,9 @@ version = { attr = "roadmapper.version.__version__" }
 readme = { file = ["README.md"] }
 
 [tool.pytest.ini_options]
-addopts ="-v"
+addopts = "-v"
 markers = [
     "unit: Unit tests which are not dependent on environment",
     "ubuntu: Test which only apply to Ubuntu environment",
+    "genimage: To generate test image",
 ]

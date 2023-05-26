@@ -44,4 +44,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
           name: Generated image for test
-          path: Example.png
+          path: ColourThemeExtensiveUbuntu.png
