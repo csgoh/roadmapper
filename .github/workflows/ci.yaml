@@ -8,7 +8,6 @@ on:
       - '*.png'
       - '*.toml'
       - '.gitignore'
-      - 'gen_ubuntu_test_image.yaml'
   pull_request:
     types: [opened, reopened, synchronize]
     paths-ignore:
