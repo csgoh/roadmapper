@@ -47,7 +47,7 @@ jobs:
     - name: Upload File
       uses: actions/upload-artifact@v2
       with:
-          name: Generated image for test - try 1
+          name: Generated image for test
           path: /home/runner/work/roadmapper/roadmapper/src/tests/ColourThemeExtensiveUbuntu.png
     - name: Display test folder content 
       run: |
