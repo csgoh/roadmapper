@@ -306,7 +306,7 @@ def logo_demo(
     frameinfo = inspect.getframeinfo(inspect.currentframe())
     title = f"{frameinfo.function}(), theme={colour_theme}, mode={timelinemode}"
 
-    roadmap.add_logo("images/logo/matariki-tech-logo.png", logo_position, 50, 50)
+    roadmap.add_logo("../../images/logo/matariki-tech-logo.png", logo_position, 50, 50)
     roadmap.set_title(title)
     roadmap.set_subtitle("This is a subtitle")
     roadmap.set_timeline(
@@ -331,10 +331,10 @@ def test_dev():
     if not os.path.exists("images"):
         os.mkdir("images")
 
-    if not os.path.exists("images/test"):
-        os.mkdir("images/test")
+    if not os.path.exists("../../images/test"):
+        os.mkdir("../../images/test")
 
-    output_file = "images/test/colour_theme_demo_without_locale.png"
+    output_file = "../../images/test/colour_theme_demo_without_locale.png"
     # if file exist, then delete it first
     if os.path.exists(output_file):
         os.remove(output_file)
@@ -347,27 +347,27 @@ def test_dev():
 
     assert os.path.exists(output_file)
 
-    output_file = "images/test/demo-my-colour-chinese.png"
+    output_file = "../../images/test/demo-my-colour-chinese.png"
     chinese_theme_demo(
         file_name=output_file,
-        colour_theme="src/json/chinese.json",
+        colour_theme="../json/chinese.json",
         timelinemode=TimelineMode.WEEKLY,
         start_date="2023-01-01",
         number_of_items=14,
-        locale_name="src/json/zh_TW_timeline_settings.json",
+        locale_name="../json/zh_TW_timeline_settings.json",
         show_generic_dates=False,
         show_first_day_of_week=True,
     )
     assert os.path.exists(output_file)
 
-    output_file = "images/test/demo-my-colour-japanese.png"
+    output_file = "../../images/test/demo-my-colour-japanese.png"
     japanese_theme_demo(
         file_name=output_file,
-        colour_theme="src/json/chinese.json",
+        colour_theme="../json/chinese.json",
         timelinemode=TimelineMode.MONTHLY,
         start_date="2023-01-01",
         number_of_items=14,
-        locale_name="src/json/ja_JP_timeline_settings.json",
+        locale_name="../json/ja_JP_timeline_settings.json",
         show_generic_dates=False,
         show_first_day_of_week=True,
     )

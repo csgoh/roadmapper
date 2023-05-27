@@ -675,33 +675,33 @@ def custom_colour_roadmap(
 
 
 def banner_roadmap():
-    color_theme_roadmap("images/color-theme01.png", "DEFAULT")
-    color_theme_roadmap("images/color-theme02.png", "GREYWOOF")
-    color_theme_roadmap("images/color-theme03.png", "ORANGEPEEL")
-    color_theme_roadmap("images/color-theme04.png", "BLUEMOUNTAIN")
-    color_theme_roadmap("images/color-theme05.png", "GREENTURTLE")
+    color_theme_roadmap("../../images/color-theme01.png", "DEFAULT")
+    color_theme_roadmap("../../images/color-theme02.png", "GREYWOOF")
+    color_theme_roadmap("../../images/color-theme03.png", "ORANGEPEEL")
+    color_theme_roadmap("../../images/color-theme04.png", "BLUEMOUNTAIN")
+    color_theme_roadmap("../../images/color-theme05.png", "GREENTURTLE")
 
 
 def multilingual_roadmap():
-    en_NZ_roadmap("images/en_NZ-roadmap.png", "src/json/rainbow.json", "en_US")
+    en_NZ_roadmap("../../images/en_NZ-roadmap.png", "../json/rainbow.json", "en_US")
     zh_TW_with_locale_roadmap(
-        "images/zh_TW-roadmap.png",
-        "src/json/rainbow-unicode.json",
-        "src/json/zh_TW_timeline_settings.json",
+        "../../images/zh_TW-roadmap.png",
+        "../json/rainbow-unicode.json",
+        "../json/zh_TW_timeline_settings.json",
     )
     zh_TW_roadmap(
-        "images/zh_TW-timeline-roadmap.png",
-        "src/json/rainbow-unicode.json",
+        "../../images/zh_TW-timeline-roadmap.png",
+        "../json/rainbow-unicode.json",
     )
     ja_JP_roadmap(
-        "images/ja_JP-roadmap.png",
-        "src/json/rainbow-unicode.json",
-        "src/json/ja_JP_timeline_settings.json",
+        "../../images/ja_JP-roadmap.png",
+        "../json/rainbow-unicode.json",
+        "../json/ja_JP_timeline_settings.json",
     )
     ko_KR_roadmap(
-        "images/ko-KR-roadmap.png",
-        "src/json/rainbow-unicode.json",
-        "src/json/ko_KR_timeline_settings.json",
+        "../../images/ko-KR-roadmap.png",
+        "../json/rainbow-unicode.json",
+        "../json/ko_KR_timeline_settings.json",
     )
 
 
@@ -710,7 +710,7 @@ def home_roadmap():
     if not os.path.exists("images"):
         os.mkdir("images")
 
-    output_file = "images/my_roadmap.png"
+    output_file = "../../images/my_roadmap.png"
     # if file exist, then delete it first
     if os.path.exists(output_file):
         os.remove(output_file)
@@ -736,7 +736,7 @@ def readme_roadmap():
     if not os.path.exists("images"):
         os.mkdir("images")
 
-    output_file = "images/demo01.png"
+    output_file = "../../images/demo01.png"
     # if file exist, then delete it first
     if os.path.exists(output_file):
         os.remove(output_file)
@@ -746,7 +746,7 @@ def readme_roadmap():
     roadmap.set_subtitle("Matariki Technologies Ltd")
     roadmap.set_timeline(TimelineMode.MONTHLY, start="2023-01-01", number_of_items=12)
     roadmap.add_logo(
-        "images/logo/matariki-tech-logo.png", position="top-right", width=50, height=50
+        "../../images/logo/matariki-tech-logo.png", position="top-right", width=50, height=50
     )
 
     group = roadmap.add_group("Core Product Work Stream")
@@ -995,11 +995,11 @@ def ko_KR_roadmap(filename: str, colour_theme: str, locale_name: str):
 
 
 def test_sample_case1():
-    if not os.path.exists("images/test"):
-        os.mkdir("images/test")
+    if not os.path.exists("../../images/test"):
+        os.mkdir("../../images/test")
     colour_theme_demo(
         width=2500,
-        file_name="images/test/test-ORANGEPEEL-weekly.png",
+        file_name="../../images/test/test-ORANGEPEEL-weekly.png",
         colour_theme="ORANGEPEEL",
         timelinemode=TimelineMode.WEEKLY,
         number_of_items=52,
@@ -1008,10 +1008,10 @@ def test_sample_case1():
 
 
 def test_sample_case2():
-    if not os.path.exists("images/test"):
-        os.mkdir("images/test")
+    if not os.path.exists("../../images/test"):
+        os.mkdir("../../images/test")
     colour_theme_demo(
-        file_name="images/test/test-ORANGEPEEL-monthly.png",
+        file_name="../../images/test/test-ORANGEPEEL-monthly.png",
         colour_theme="ORANGEPEEL",
         timelinemode=TimelineMode.MONTHLY,
         number_of_items=12,
@@ -1020,10 +1020,10 @@ def test_sample_case2():
 
 
 def test_sample_case3():
-    if not os.path.exists("images/test"):
-        os.mkdir("images/test")
+    if not os.path.exists("../../images/test"):
+        os.mkdir("../../images/test")
     colour_theme_demo(
-        file_name="images/test/test-ORANGEPEEL-quarter.png",
+        file_name="../../images/test/test-ORANGEPEEL-quarter.png",
         colour_theme="ORANGEPEEL",
         timelinemode=TimelineMode.QUARTERLY,
         number_of_items=4,
@@ -1032,10 +1032,10 @@ def test_sample_case3():
 
 
 def test_sample_unicase1():
-    if not os.path.exists("images/test"):
-        os.mkdir("images/test")
+    if not os.path.exists("../../images/test"):
+        os.mkdir("../../images/test")
     unicode_demo(
-        file_name="images/test/test-unicode-monthly.png",
+        file_name="../../images/test/test-unicode-monthly.png",
         # colour_theme="ORANGEPEEL",
         timelinemode=TimelineMode.MONTHLY,
         number_of_items=12,
@@ -1048,7 +1048,7 @@ def test_draw_anatomy():
     if not os.path.exists("images"):
         os.mkdir("images")
 
-    output_file = "images/roadmapper-anatomy-base.png"
+    output_file = "../../images/roadmapper-anatomy-base.png"
     # if file exist, then delete it first
     if os.path.exists(output_file):
         os.remove(output_file)
@@ -1075,7 +1075,7 @@ def test_draw_banner_theme():
     if not os.path.exists("images"):
         os.mkdir("images")
 
-    output_file = "images/theme-demo01.png"
+    output_file = "../../images/theme-demo01.png"
     # if file exist, then delete it first
     if os.path.exists(output_file):
         os.remove(output_file)
@@ -1104,7 +1104,7 @@ def test_draw_banner():
     if not os.path.exists("images"):
         os.mkdir("images")
 
-    output_file = "images/demo01.png"
+    output_file = "../../images/demo01.png"
     # if file exist, then delete it first
     if os.path.exists(output_file):
         os.remove(output_file)
@@ -1180,7 +1180,7 @@ def test_gallery_images():
     ### Sample Roadmap ###
     sample_roadmap(
         width=1400,
-        file_name="images/gallery/gallery-sample-01.png",
+        file_name="../../images/gallery/gallery-sample-01.png",
         timelinemode=TimelineMode.MONTHLY,
         number_of_items=12,
         start_date="2023-01-01",
@@ -1189,7 +1189,7 @@ def test_gallery_images():
     ### Colour Theme Roadmap ###
 
     colour_theme_roadmap(
-        file_name="images/gallery/gallery-DEFAULT-monthly.png",
+        file_name="../../images/gallery/gallery-DEFAULT-monthly.png",
         # colour_theme="ORANGEPEEL",
         timelinemode=TimelineMode.MONTHLY,
         number_of_items=12,
@@ -1197,7 +1197,7 @@ def test_gallery_images():
     )
 
     colour_theme_roadmap(
-        file_name="images/gallery/gallery-ORANGEPEEL-monthly.png",
+        file_name="../../images/gallery/gallery-ORANGEPEEL-monthly.png",
         colour_theme="ORANGEPEEL",
         timelinemode=TimelineMode.MONTHLY,
         number_of_items=12,
@@ -1205,7 +1205,7 @@ def test_gallery_images():
     )
 
     colour_theme_roadmap(
-        file_name="images/gallery/gallery-BLUEMOUNTAIN-monthly.png",
+        file_name="../../images/gallery/gallery-BLUEMOUNTAIN-monthly.png",
         colour_theme="BLUEMOUNTAIN",
         timelinemode=TimelineMode.MONTHLY,
         number_of_items=12,
@@ -1213,7 +1213,7 @@ def test_gallery_images():
     )
 
     colour_theme_roadmap(
-        file_name="images/gallery/gallery-GREENTURTLE-monthly.png",
+        file_name="../../images/gallery/gallery-GREENTURTLE-monthly.png",
         colour_theme="GREENTURTLE",
         timelinemode=TimelineMode.MONTHLY,
         number_of_items=12,
@@ -1221,7 +1221,7 @@ def test_gallery_images():
     )
 
     colour_theme_roadmap(
-        file_name="images/gallery/gallery-GREYWOOF-monthly.png",
+        file_name="../../images/gallery/gallery-GREYWOOF-monthly.png",
         colour_theme="GREYWOOF",
         timelinemode=TimelineMode.MONTHLY,
         number_of_items=12,
@@ -1231,7 +1231,7 @@ def test_gallery_images():
     ### Marker Roadmap ###
     custom_colour_roadmap(
         width=1200,
-        file_name="images/gallery/gallery-marker-monthly.png",
+        file_name="../../images/gallery/gallery-marker-monthly.png",
         timelinemode=TimelineMode.MONTHLY,
         number_of_items=12,
         start_date="2022-11-01",
@@ -1242,7 +1242,7 @@ def test_gallery_images():
     ### WEEKLY Timeline Roadmap ###
     colour_theme_roadmap(
         width=2400,
-        file_name="images/gallery/gallery-DEFAULT-weekly.png",
+        file_name="../../images/gallery/gallery-DEFAULT-weekly.png",
         colour_theme="DEFAULT",
         timelinemode=TimelineMode.WEEKLY,
         number_of_items=52,
@@ -1253,7 +1253,7 @@ def test_gallery_images():
     ### QUARTERLY Timeline Roadmap ###
     colour_theme_roadmap(
         width=1400,
-        file_name="images/gallery/gallery-DEFAULT-quarterly.png",
+        file_name="../../images/gallery/gallery-DEFAULT-quarterly.png",
         colour_theme="DEFAULT",
         timelinemode=TimelineMode.QUARTERLY,
         number_of_items=6,
@@ -1264,7 +1264,7 @@ def test_gallery_images():
     ### HALF-YEARLY Timeline Roadmap ###
     colour_theme_roadmap(
         width=1400,
-        file_name="images/gallery/gallery-DEFAULT-halfyearly.png",
+        file_name="../../images/gallery/gallery-DEFAULT-halfyearly.png",
         colour_theme="DEFAULT",
         timelinemode=TimelineMode.HALF_YEARLY,
         number_of_items=4,
@@ -1275,7 +1275,7 @@ def test_gallery_images():
     ### YEARLY Timeline Roadmap ###
     colour_theme_roadmap(
         width=1400,
-        file_name="images/gallery/gallery-DEFAULT-yearly.png",
+        file_name="../../images/gallery/gallery-DEFAULT-yearly.png",
         colour_theme="DEFAULT",
         timelinemode=TimelineMode.YEARLY,
         number_of_items=2,
@@ -1286,7 +1286,7 @@ def test_gallery_images():
     ### Generic Dates Roadmap ###
     colour_theme_roadmap(
         width=1400,
-        file_name="images/gallery/gallery-DEFAULT-generic-monthly.png",
+        file_name="../../images/gallery/gallery-DEFAULT-generic-monthly.png",
         colour_theme="DEFAULT",
         timelinemode=TimelineMode.MONTHLY,
         number_of_items=12,
@@ -1325,4 +1325,4 @@ def test_with_context_manager():
                     "2023-04-01",
                 )
         my_roadmap.draw()
-        my_roadmap.save("images/with_context_manager.png")
+        my_roadmap.save("../../images/with_context_manager.png")
