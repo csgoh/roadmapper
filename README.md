@@ -30,8 +30,8 @@ View the [Change Logs](https://github.com/csgoh/roadmapper/wiki/Change-Logs) to 
 * Python 3.10+
   
 ### Library Dependencies
-* Pillow 9.4.0
-* python-dateutil
+* Pillow 9.5.0
+* python-dateutil 2.8.2
 
 Any feedback or suggestions are welcome. Please feel free to create an issue or pull request.
 <br/>
