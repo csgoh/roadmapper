@@ -9,10 +9,6 @@ file_directory = ""
 all_roadmaps_to_generate: [RoadmapABC] = [ColourThemeExtensive]
 
 
-def get_all_roadmap_names_to_generate_for(operating_system: str) -> [str]:
-    return [get_roadmap_name_for(cls, operating_system) for cls in all_roadmaps_to_generate]
-
-
 def append_trailing_slash_if_necessary(directory) -> str:
     if directory and not directory.endswith(os.path.sep):
         return directory + os.path.sep
@@ -38,7 +34,7 @@ def get_generated_file_path_for(roadmap_class: Type[RoadmapABC], operating_syste
     return file_directory + get_roadmap_name_for(roadmap_class, operating_system) + file_ending
 
 
-def generate_and_save_roadmap_in(roadmap_class: Type[RoadmapABC], operating_system: str, target_directory: str = ""):
+def generate_and_save_roadmap(roadmap_class: Type[RoadmapABC], operating_system: str, target_directory: str = ""):
     set_file_directory(target_directory)
     file_path = get_generated_file_path_for(roadmap_class, operating_system)
     generating_object = roadmap_class()
@@ -48,9 +44,7 @@ def generate_and_save_roadmap_in(roadmap_class: Type[RoadmapABC], operating_syst
 def generate_and_save_all_roadmaps_in(target_directory: str = "", operating_system: str = "Ubuntu"):
     set_file_directory(target_directory)
     for generating_class in all_roadmaps_to_generate:
-        file_path = get_generated_file_path_for(generating_class, operating_system)
-        generating_object = generating_class()
-        generating_object.generate_and_save_as(file_path)
+        generate_and_save_roadmap(generating_class, operating_system, target_directory)
 
 
 if __name__ == "__main__":
