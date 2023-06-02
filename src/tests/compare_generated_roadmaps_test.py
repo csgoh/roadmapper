@@ -5,6 +5,7 @@ import pytest
 from PIL import Image, ImageChops
 
 from src.tests.roadmap_generators import roadmap_generator
+from src.tests.roadmap_generators.colour_theme import ColourTheme
 from src.tests.roadmap_generators.colour_theme_extensive import ColourThemeExtensive
 from src.tests.roadmap_generators.roadmap_abc import RoadmapABC
 
@@ -61,8 +62,9 @@ def get_example_roadmap_image_for(roadmap_class: Type[RoadmapABC], operating_sys
 @pytest.mark.ubuntu
 class TestCompareGeneratedRoadmaps:
 
-    def test_colour_theme_extensive(self, operating_system_ubuntu):
-        roadmap_class_to_test = ColourThemeExtensive
+    @pytest.mark.parametrize("roadmap_class_to_test", [ColourThemeExtensive, ColourTheme])
+    def test_generate_correct_roadmaps_on_ubuntu(self, roadmap_class_to_test, operating_system_ubuntu):
+
         roadmap_generator.generate_and_save_roadmap(roadmap_class_to_test, operating_system_ubuntu, dir_for_generated)
         example_roadmap = get_example_roadmap_image_for(roadmap_class_to_test, operating_system_ubuntu)
         generated_roadmap = get_generated_roadmap_image_for(roadmap_class_to_test, operating_system_ubuntu)

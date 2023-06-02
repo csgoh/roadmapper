@@ -1,12 +1,13 @@
 import os.path
 from typing import Type
 
+from src.tests.roadmap_generators.colour_theme import ColourTheme
 from src.tests.roadmap_generators.colour_theme_extensive import ColourThemeExtensive
 from src.tests.roadmap_generators.roadmap_abc import RoadmapABC
 
 file_ending = ".png"
 file_directory = ""
-all_roadmaps_to_generate: [RoadmapABC] = [ColourThemeExtensive]
+all_roadmaps_to_generate: [RoadmapABC] = [ColourThemeExtensive, ColourTheme]
 
 
 def append_trailing_slash_if_necessary(directory) -> str:
