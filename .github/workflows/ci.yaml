@@ -28,7 +28,7 @@ jobs:
 
     steps:
 
-    - name: Install required packages
+    - name: Install required packages (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
       run: |
         sudo apt-get update
@@ -38,17 +38,21 @@ jobs:
         echo "LC_ALL=en_US" >> $GITHUB_ENV
         echo "LANG=en_US" >> $GITHUB_ENV
         echo "LANGUAGE=en_US" >> $GITHUB_ENV
+
     - uses: actions/checkout@v2
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
         cache: "pip"
-    - name: Install dependencies
+
+    - name: Install dependencies (non-Windows)
       if: matrix.os != 'windows-latest'
       run: |
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
     - name: Install dependencies (Windows)
       if: matrix.os == 'windows-latest'
       run: |
@@ -63,3 +67,8 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: |
         pytest -m 'ubuntu'
+
+    - name: Tests with marker 'macos'
+      if: matrix.os == 'macos-latest'
+      run: |
+        pytest -m 'macos'

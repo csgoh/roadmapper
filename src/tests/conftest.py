@@ -16,3 +16,11 @@ def operating_system_ubuntu():
     This fixture can be used as test argument to provide string of used OS `Ubuntu`.
     """
     return "Ubuntu"
+
+
+@pytest.fixture(scope="session")
+def operating_system_macos():
+    """
+    This fixture can be used as test argument to provide string of used OS `Macos`.
+    """
+    return "Macos"
