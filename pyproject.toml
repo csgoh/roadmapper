@@ -38,5 +38,4 @@ addopts = "-v"
 markers = [
     "unit: Unit tests which are not dependent on environment",
     "ubuntu: Test which only apply to Ubuntu environment",
-    "genimage: To generate test image",
 ]
