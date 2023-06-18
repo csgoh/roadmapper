@@ -76,7 +76,7 @@ def is_arg_given():
 
 if __name__ == '__main__':
     if is_arg_given():
-        example_name = sys.argv[0]
+        example_name = sys.argv[1]
         ColourTheme().generate_and_save_as(file_name=example_name)
     else:
         ColourTheme.generate_and_save_as()
