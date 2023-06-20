@@ -1,0 +1,42 @@
+name: Generate example roadmaps
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+        python-version: ["3.10"]
+
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: "pip"
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Generate roadmaps
+      run: |
+        os=$(echo "${{ matrix.os }}" | cut -d- -f1)
+        os="$(tr '[:lower:]' '[:upper:]' <<< ${os:0:1})${os:1}"
+        mkdir "examples"
+        python -m src.tests.roadmap_generators.roadmap_generator --operating-system $os --target-directory examples
+
+    - name: Upload generated roadmaps
+      uses: actions/upload-artifact@v2
+      with:
+          name: example-roadmaps-${{ matrix.os }}
+          path: examples/

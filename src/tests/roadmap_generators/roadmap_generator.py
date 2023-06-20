@@ -1,3 +1,4 @@
+import argparse
 import os.path
 from typing import Type
 
@@ -42,11 +43,19 @@ def generate_and_save_roadmap(roadmap_class: Type[RoadmapABC], operating_system:
     generating_object.generate_and_save_as(file_path)
 
 
-def generate_and_save_all_roadmaps_in(target_directory: str = "", operating_system: str = "Ubuntu"):
+def generate_and_save_all_roadmaps(target_directory: str = "", operating_system: str = "Ubuntu"):
     set_file_directory(target_directory)
     for generating_class in all_roadmaps_to_generate:
         generate_and_save_roadmap(generating_class, operating_system, target_directory)
 
 
 if __name__ == "__main__":
-    generate_and_save_all_roadmaps_in()
+    parser = argparse.ArgumentParser(description="Generate roadmaps")
+    parser.add_argument("--target-directory", "-td", help="Directory in which the generated roadmaps should be saved",
+                        type=str, default="")
+    parser.add_argument("--operating-system", "-os", help="Operating system for which the roadmaps are generated",
+                        type=str, default="")
+
+    args = parser.parse_args()
+
+    generate_and_save_all_roadmaps(target_directory=args.target_directory, operating_system=args.operating_system)
