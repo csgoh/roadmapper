@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+
 from src.roadmapper.roadmap import Roadmap
 from src.roadmapper.timelinemode import TimelineMode
 import inspect
@@ -373,3 +374,14 @@ def test_dev():
     )
 
     assert os.path.exists(output_file)
+
+
+
+# check if calling from main
+if __name__ == "__main__":
+    output_file = "../../images/test/colour_theme_demo_without_locale.png"
+    colour_theme_demo_without_locale(
+        file_name=output_file,
+        timelinemode=TimelineMode.MONTHLY,
+        number_of_items=14,
+    )
