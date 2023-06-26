@@ -66,6 +66,11 @@ class Roadmap:
     def _set_colour_theme(self, palette: str) -> None:
         """This method sets the colour palette"""
         self._painter.set_colour_theme(palette)
+        
+    def set_background_colour(self, colour: str) -> None:
+        """This method sets the background colour"""
+        self._painter.background_colour = colour
+        self._painter.set_background_colour()
 
     def _create_marker(
         self,
