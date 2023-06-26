@@ -27,6 +27,8 @@ from .colourtheme import ColourTheme
 from PIL import Image, ImageDraw, ImageFont, ImageColor
 import textwrap
 
+class UnsupportedOSException(Exception):
+    pass
 
 class Painter:
     """A wrapper class for Pillow library"""
@@ -121,8 +123,6 @@ class Painter:
 
         self.__cr = ImageDraw.Draw(self.__surface)
 
-        self.__new_cr = None
-        self.__new_surface = None
 
     def set_colour_theme(self, colour_theme: str) -> None:
         """Set colour palette
@@ -194,24 +194,23 @@ class Painter:
                 "/", "System", "Library", "Fonts", "Supplemental", f"{font_name}.ttf"
             )
         elif sys.platform.startswith("linux"):  # Linux
-            font_dir = f"/usr/share/fonts/truetype/msttcorefonts"
+            font_dir = "/usr/share/fonts/truetype/msttcorefonts"
 
             if os.path.exists(os.path.join(font_dir, f"{font_name}.ttf")):
                 return os.path.join(font_dir, f"{font_name}.ttf")
-            else:
-                ### This is cater for cases where msttcorefonts is not installed
-                linux_font_name = "DejaVuSans"  # Default font for Linux
-                return os.path.join(
-                    "/",
-                    "usr",
-                    "share",
-                    "fonts",
-                    "truetype",
-                    "dejavu",  # Use the DejaVu font directory instead of msttcorefonts
-                    f"{linux_font_name}.ttf",
-                )
+            ### This is cater for cases where msttcorefonts is not installed
+            linux_font_name = "DejaVuSans"  # Default font for Linux
+            return os.path.join(
+                "/",
+                "usr",
+                "share",
+                "fonts",
+                "truetype",
+                "dejavu",  # Use the DejaVu font directory instead of msttcorefonts
+                f"{linux_font_name}.ttf",
+            )
         else:
-            raise Exception("Unsupported operating system")
+            raise UnsupportedOSException("Unsupported operating system")
 
     def draw_box(
         self, x: int, y: int, width: int, height: int, box_fill_colour: str
@@ -257,7 +256,7 @@ class Painter:
             box_fill_colour (str: HTML colour name or hex code. Eg. #FFFFFF or LightGreen)
         """
         arrowhead_width = 10
-        width = width - arrowhead_width
+        width -= arrowhead_width
         shape = [(x, y), (x + width, y + height)]
 
         # Draw the rectangle
