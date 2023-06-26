@@ -538,9 +538,17 @@ class Painter:
 
     def set_background_colour(self) -> None:
         """Set surface background colour"""
-        self.__cr.rectangle(
-            (0, 0, self.width, self.height), fill=self.background_colour
-        )
+        if self.background_colour == "transparent":
+            # Set transparent background
+            self.__cr.rectangle(
+                (0, 0, self.width, self.height), fill=(0, 0, 0, 0)
+            )
+        else:
+            self.__cr.rectangle(
+                (0, 0, self.width, self.height), fill=self.background_colour
+            )
+        
+        
 
     def get_display_text_position(
         self,
