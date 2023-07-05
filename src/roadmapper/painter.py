@@ -25,14 +25,15 @@ import os
 import sys
 from .colourtheme import ColourTheme
 from PIL import Image, ImageDraw, ImageFont, ImageColor
+from drawsvg import Drawing, Rectangle, Line, Text
+
 import textwrap
 
 class UnsupportedOSException(Exception):
     pass
 
-class Painter:
-    """A wrapper class for Pillow library"""
 
+class Painter:
     width = 0
     height = 0
     next_y_pos = 0
@@ -104,7 +105,6 @@ class Painter:
     font: str
     font_size: int
 
-    # initialise code
     def __init__(self, width: int, height: int):
         """__init__ method
 
@@ -115,15 +115,7 @@ class Painter:
         self.width = width
         self.height = height
         self.next_y_pos = 0
-
-        # Default file format
-        self.output_type = "PNG"
-
-        self.__surface = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-
-        self.__cr = ImageDraw.Draw(self.__surface)
-
-
+        
     def set_colour_theme(self, colour_theme: str) -> None:
         """Set colour palette
 
@@ -211,6 +203,218 @@ class Painter:
             )
         else:
             raise UnsupportedOSException("Unsupported operating system")
+    
+    def get_display_text_position(
+        self,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+        text: str,
+        alignment: str,
+        text_font: str,
+        text_font_size: int,
+    ) -> tuple:
+        """Get text position relative to the rectangle box
+
+        Args:
+            x (int): Rectangle X coordinate
+            y (int): Rectangle Y coordinate
+            width (int): Rectangle width
+            height (int): Rectangle height
+            text (str): Text used to calculate position
+            alignment (str): Text alignment. Eg. left, center, right
+
+        Returns:
+            (text_x (int), text_y (int)): Text x and y coordinates
+        """
+        text_width, text_height = self.get_text_dimension(
+            text, text_font, text_font_size
+        )
+
+        if alignment == "centre":
+            text_x_pos = (width / 2) - (text_width / 2)
+        elif alignment == "right":
+            text_x_pos = width - text_width - 5
+        elif alignment == "left":
+            text_x_pos = 0 + 5
+
+        text_y_pos = (height / 2) + (text_height / 2)
+
+        return x + text_x_pos, y + text_y_pos
+
+    def get_text_dimension(self, text: str, font: str, font_size: int) -> tuple:
+        raise NotImplementedError
+
+    def set_line_style(self, style: str = "solid") -> None:
+        """Set line style
+
+        Args:
+            style (str, optional): Line style. Defaults to "solid". Options: "solid", "dashed"
+        """
+        self.dash = (10.0, 5.0) if style == "dashed" else None
+        
+    def draw_box(
+        self, x: int, y: int, width: int, height: int, box_fill_colour: str
+    ) -> list:
+        """Draw a rectagle
+
+        Args:
+            x (int): X coordinate
+            y (int): Y coordinate
+            width (int): Rectangle width
+            height (int): Rectangle height
+            box_fill_colour (str: HTML colour name or hex code. Eg. #FFFFFF or LightGreen)
+        """
+        return [(x, y), (x + width, y + height)]
+        
+    def draw_rounded_box(
+        self, x: int, y: int, width: int, height: int, box_fill_colour: str
+    ) -> list:
+        """Draw a rounded rectagle
+
+        Args:
+            x (int): X coordinate
+            y (int): Y coordinate
+            width (int): Rectangle width
+            height (int): Rectangle height
+            box_fill_colour (str: HTML colour name or hex code. Eg. #FFFFFF or LightGreen)
+        """
+        return [(x, y), (x + width, y + height)]
+
+    def draw_arrowhead_box(
+            self, x: int, y: int, width: int, height: int, box_fill_colour: str
+        ) -> list:
+        """Draw a rounded rectagle
+
+        Args:
+            x (int): X coordinate
+            y (int): Y coordinate
+            width (int): Rectangle width
+            height (int): Rectangle height
+            box_fill_colour (str: HTML colour name or hex code. Eg. #FFFFFF or LightGreen)
+        """
+        arrowhead_width = 10
+        width -= arrowhead_width
+        box_shape = [(x, y), (x + width, y + height)]
+        
+        # Set the coordinates of the arrowhead
+        vertical_midpoint = (height / 2) + y
+        arrowhead_endpoint = x + width + arrowhead_width
+        arrowhead_shape = [
+            (x + width, y),
+            (arrowhead_endpoint, vertical_midpoint),
+            (x + width, y + height),
+        ]
+        
+        return box_shape, arrowhead_shape
+        
+    def draw_box_with_text(
+            self,
+            box_x: int,
+            box_y: int,
+            box_width: int,
+            box_height: int,
+            box_fill_colour: int,
+            text: str,
+            text_alignment: str,
+            text_font: str,
+            text_font_size: int,
+            text_font_colour: str,
+            style: str = "rectangle",
+        ) -> tuple:
+        return  (
+            box_x,
+            box_y,
+            box_x + box_width,
+            box_y + box_height,
+        )
+        
+    def draw_diamond(
+        self, x: int, y: int, width: int, height: int, fill_colour: str
+    ) -> list:
+        """Draw a diamond
+
+        Args:
+            x (int): X coordinate
+            y (int): Y coordinate
+            width (int): Diamond width
+            height (int): Diamond height
+            fill_colour (str): Diamond fill colour in HTML colour name or hex code. Eg. #FFFFFF or LightGreen
+        """
+
+        # Calculate the coordinates of the four points of the diamond.
+        return [
+            (x + width / 2, y),
+            (x + width, y + height / 2),
+            (x + width / 2, y + height),
+            (x, y + height / 2),
+        ]
+
+    def draw_text(
+        self, x: int, y: int, text: str, font: str, font_size: int, font_colour: str
+    ) -> None:
+        raise NotImplementedError
+    
+    def draw_line(
+        self,
+        x1: int,
+        y1: int,
+        x2: int,
+        y2: int,
+        line_colour: str,
+        line_transparency: int,
+        line_width: int,
+        line_style: str = "dashed",
+    ) -> None:
+        raise NotImplementedError
+    
+    def draw_cross_on_box(
+        self, x1: int, y1: int, x2: int, y2: int, colour: str
+    ) -> None:
+        raise NotImplementedError
+    
+    def draw_logo(self, image: str, x: int, y: int, width: int, height: int) -> None:
+        raise NotImplementedError
+    
+    def get_text_dimension(self, text: str, font: str, font_size: int) -> tuple:
+        raise NotImplementedError
+    
+    def set_background_colour(self) -> None:
+        raise NotImplementedError
+    
+    def set_surface_size(self, width: int, height: int) -> tuple:
+        """Set surface size
+
+        Args:
+            width (int): Surface width
+            height (int): Surface height
+        """
+        height += self.bottom_margin
+        return 0, 0, width, height
+        
+    def get_image_size(self, image: str) -> tuple:
+        raise NotImplementedError
+    
+    def save_surface(self, filename: str) -> None:
+        raise NotImplementedError
+
+class PNGPainter(Painter):
+    """A wrapper class for Pillow library"""
+
+    # initialise code
+    def __init__(self, width: int, height: int):
+        """__init__ method
+
+        Args:
+            width (int): Width of the surface
+            height (int): Height of the surface
+        """
+        super().__init__(width, height)
+
+        self.__surface = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+
+        self.__cr = ImageDraw.Draw(self.__surface)
 
     def draw_box(
         self, x: int, y: int, width: int, height: int, box_fill_colour: str
@@ -224,7 +428,8 @@ class Painter:
             height (int): Rectangle height
             box_fill_colour (str: HTML colour name or hex code. Eg. #FFFFFF or LightGreen)
         """
-        shape = [(x, y), (x + width, y + height)]
+        
+        shape = super().draw_box(x, y, width, height, box_fill_colour)
         self.__cr.rectangle(shape, fill=box_fill_colour)
 
     def draw_rounded_box(
@@ -239,7 +444,7 @@ class Painter:
             height (int): Rectangle height
             box_fill_colour (str: HTML colour name or hex code. Eg. #FFFFFF or LightGreen)
         """
-        shape = [(x, y), (x + width, y + height)]
+        shape = super().draw_rounded_box(x, y, width, height, box_fill_colour)
         radius = 20
         self.__cr.rounded_rectangle(shape, radius, fill=box_fill_colour)
 
@@ -255,24 +460,13 @@ class Painter:
             height (int): Rectangle height
             box_fill_colour (str: HTML colour name or hex code. Eg. #FFFFFF or LightGreen)
         """
-        arrowhead_width = 10
-        width -= arrowhead_width
-        shape = [(x, y), (x + width, y + height)]
+        box_shape, arrowhead_shape = super().draw_arrowhead_box(x, y, width, height, box_fill_colour)
 
         # Draw the rectangle
-        self.__cr.rectangle(shape, fill=box_fill_colour)
-
-        # Set the coordinates of the arrowhead
-        vertical_midpoint = (height / 2) + y
-        arrowhead_endpoint = x + width + arrowhead_width
-        arrowhead = [
-            (x + width, y),
-            (arrowhead_endpoint, vertical_midpoint),
-            (x + width, y + height),
-        ]
+        self.__cr.rectangle(box_shape, fill=box_fill_colour)
 
         # Draw the arrowhead
-        self.__cr.polygon(arrowhead, fill=box_fill_colour)
+        self.__cr.polygon(arrowhead_shape, fill=box_fill_colour)
 
     def draw_box_with_text(
         self,
@@ -288,26 +482,19 @@ class Painter:
         text_font_colour: str,
         style: str = "rectangle",
     ) -> None:
-        font = ImageFont.truetype(self.get_font_path(text_font), size=text_font_size)
 
-        multi_lines = []
-        wrap_lines = []
-
-        ### Make '\n' work
-        multi_lines = text.splitlines()
-
-        left, _, right, bottom = font.getbbox("a")
-        single_char_width = right - left
-
-        ### wrap text
-        for line in multi_lines:
-            wrap_lines.extend(textwrap.wrap(line, int(box_width / single_char_width)))
-
-        box_x1, box_y1, box_x2, box_y2 = (
+        box_x1, box_y1, box_x2, box_y2 = super().draw_box_with_text(
             box_x,
             box_y,
-            box_x + box_width,
-            box_y + box_height,
+            box_width,
+            box_height,
+            box_fill_colour,
+            text,
+            text_alignment,
+            text_font,
+            text_font_size,
+            text_font_colour,
+            style,
         )
         match style:
             case "rectangle":
@@ -329,6 +516,21 @@ class Painter:
             case _:
                 raise ValueError("Invalid style")
 
+        font = ImageFont.truetype(self.get_font_path(text_font), size=text_font_size)
+
+        multi_lines = []
+        wrap_lines = []
+
+        ### Make '\n' work
+        multi_lines = text.splitlines()
+
+        left, _, right, _ = font.getbbox("a")
+        single_char_width = right - left
+
+        ### wrap text
+        for line in multi_lines:
+            wrap_lines.extend(textwrap.wrap(line, int(box_width / single_char_width)))
+            
         pad = 4
         line_count = len(wrap_lines)
 
@@ -373,12 +575,7 @@ class Painter:
         """
 
         # Calculate the coordinates of the four points of the diamond.
-        points = [
-            (x + width / 2, y),
-            (x + width, y + height / 2),
-            (x + width / 2, y + height),
-            (x, y + height / 2),
-        ]
+        points = super().draw_diamond(x, y, width, height, fill_colour)
 
         # Use Pillow's ImageDraw module to draw a polygon with the given points and fill color.
         self.__cr.polygon(points, fill=fill_colour)
@@ -400,19 +597,6 @@ class Painter:
             anchor="la",
             fill=(font_colour),
         )
-
-    def set_line_style(self, style: str = "solid") -> None:
-        """Set line style
-
-        Args:
-            style (str, optional): Line style. Defaults to "solid". Options: "solid", "dashed"
-        """
-        if style == "solid":
-            self.dash = None
-        elif style == "dashed":
-            self.dash = (10.0, 5.0)
-        else:
-            self.dash = None
 
     def draw_line(
         self,
@@ -527,8 +711,6 @@ class Painter:
         # Use Pillow's ImageFont module to get the dimensions of the text.
         image_font = ImageFont.truetype(self.get_font_path(font), font_size)
 
-        ascent, descent = image_font.getmetrics()
-
         left, _, right, bottom = image_font.getbbox(text)
         font_width = right
         font_height = bottom
@@ -547,47 +729,6 @@ class Painter:
                 (0, 0, self.width, self.height), fill=self.background_colour
             )
         
-        
-
-    def get_display_text_position(
-        self,
-        x: int,
-        y: int,
-        width: int,
-        height: int,
-        text: str,
-        alignment: str,
-        text_font: str,
-        text_font_size: int,
-    ) -> tuple:
-        """Get text position relative to the rectangle box
-
-        Args:
-            x (int): Rectangle X coordinate
-            y (int): Rectangle Y coordinate
-            width (int): Rectangle width
-            height (int): Rectangle height
-            text (str): Text used to calculate position
-            alignment (str): Text alignment. Eg. left, center, right
-
-        Returns:
-            (text_x (int), text_y (int)): Text x and y coordinates
-        """
-        text_width, text_height = self.get_text_dimension(
-            text, text_font, text_font_size
-        )
-
-        if alignment == "centre":
-            text_x_pos = (width / 2) - (text_width / 2)
-        elif alignment == "right":
-            text_x_pos = width - text_width - 5
-        elif alignment == "left":
-            text_x_pos = 0 + 5
-
-        text_y_pos = (height / 2) + (text_height / 2)
-
-        return x + text_x_pos, y + text_y_pos
-
     def set_surface_size(self, width: int, height: int) -> None:
         """Set surface size
 
@@ -595,8 +736,7 @@ class Painter:
             width (int): Surface width
             height (int): Surface height
         """
-        height += self.bottom_margin
-        left, top, right, bottom = 0, 0, width, height
+        left, top, right, bottom = super().set_surface_size(width, height)
         self.__surface = self.__surface.crop((left, top, right, bottom))
 
     def get_image_size(self, image: str) -> tuple:
@@ -617,6 +757,68 @@ class Painter:
         Args:
             filename (str): PNG file name
         """
-        if self.output_type == "PNG":
-            if self.__surface is not None:
-                self.__surface.save(filename)
+        
+        if self.__surface is not None:
+            self.__surface.save(filename)
+
+class SVGPainter(Painter):
+    def __init__(self, width: int, height: int):
+        """__init__ method
+
+        Args:
+            width (int): Width of the surface
+            height (int): Height of the surface
+        """
+        super().__init__(width, height)
+        self.__cr = Drawing(width, height)
+        
+    def draw_box(
+        self, x: int, y: int, width: int, height: int, box_fill_colour: str
+    ) -> None:
+        """Draw a rectagle
+
+        Args:
+            x (int): X coordinate
+            y (int): Y coordinate
+            width (int): Rectangle width
+            height (int): Rectangle height
+            box_fill_colour (str: HTML colour name or hex code. Eg. #FFFFFF or LightGreen)
+        """
+        
+        # Create a rectangle shape
+        rectangle = Rectangle(x, y, width, height, fill=box_fill_colour)
+
+        # Add the rectangle to the drawing
+        self.__cr.append(rectangle)
+        
+    def draw_rounded_box(
+        self, x: int, y: int, width: int, height: int, box_fill_colour: str
+    ) -> None:
+        """Draw a rounded rectagle
+
+        Args:
+            x (int): X coordinate
+            y (int): Y coordinate
+            width (int): Rectangle width
+            height (int): Rectangle height
+            box_fill_colour (str: HTML colour name or hex code. Eg. #FFFFFF or LightGreen)
+        """
+        shape = super().draw_rounded_box(x, y, width, height, box_fill_colour)
+        radius = 20
+        rectangle = Rectangle(x, y, width, height, rx=radius, ry=radius, fill=box_fill_colour)
+
+        # Add the rectangle to the drawing
+        self.__cr.append(rectangle)
+
+class PainterFactory:
+    def __init__(self):
+        self._painters = {}
+
+    def get_painter(self, painter_name, width, height):
+        if painter_name not in self._painters:
+            self._painters[painter_name] = self._create_painter(painter_name, width, height)
+        return self._painters[painter_name]
+
+    def _create_painter(self, painter_name, width, height):
+        # Return a painter object based on the painter_name without using if statement
+        return globals()[f"{painter_name.upper()}Painter"](width, height)
