@@ -3,6 +3,7 @@ from datetime import datetime
 from roadmapper.roadmap import Roadmap
 from roadmapper.timelinemode import TimelineMode
 
+
 def colour_theme_demo_without_locale(
     timelinemode: TimelineMode = TimelineMode.MONTHLY,
     start_date: str = "2022-12-01",
@@ -12,8 +13,15 @@ def colour_theme_demo_without_locale(
     colour_theme: str = "DEFAULT",
 ) -> None:
     roadmap = Roadmap(
-        1200, 1000, auto_height=True, colour_theme=colour_theme, show_marker=True
+        1200,
+        405,
+        auto_height=True,
+        colour_theme=colour_theme,
+        show_marker=True,
+        painter_type="SVG",
     )
+    roadmap.set_background_colour("lightblue")
+    roadmap.add_logo("images/logo/matariki-tech-logo.png", "top-left", 50, 50)
     roadmap.set_title("SAMPLE ROADMAP 2022/2023")
     roadmap.set_subtitle("ABC Corporation")
     roadmap.set_timeline(
@@ -40,9 +48,10 @@ def colour_theme_demo_without_locale(
     roadmap.draw()
 
     roadmap.save(file_name)
-    
+
+
 if __name__ == "__main__":
-    output_file = "images/test/colour_theme_demo_without_locale.png"
+    output_file = "images/test/colour_theme_demo_without_locale.svg"
     colour_theme_demo_without_locale(
         file_name=output_file,
         timelinemode=TimelineMode.MONTHLY,
