@@ -25,9 +25,10 @@ import os
 import sys
 from .colourtheme import ColourTheme
 from PIL import Image, ImageDraw, ImageFont, ImageColor
-from drawsvg import Drawing, Rectangle, Line, Text
+import drawsvg as dw
 
 import textwrap
+
 
 class UnsupportedOSException(Exception):
     pass
@@ -115,7 +116,7 @@ class Painter:
         self.width = width
         self.height = height
         self.next_y_pos = 0
-        
+
     def set_colour_theme(self, colour_theme: str) -> None:
         """Set colour palette
 
@@ -203,7 +204,7 @@ class Painter:
             )
         else:
             raise UnsupportedOSException("Unsupported operating system")
-    
+
     def get_display_text_position(
         self,
         x: int,
@@ -253,7 +254,7 @@ class Painter:
             style (str, optional): Line style. Defaults to "solid". Options: "solid", "dashed"
         """
         self.dash = (10.0, 5.0) if style == "dashed" else None
-        
+
     def draw_box(
         self, x: int, y: int, width: int, height: int, box_fill_colour: str
     ) -> list:
@@ -267,7 +268,7 @@ class Painter:
             box_fill_colour (str: HTML colour name or hex code. Eg. #FFFFFF or LightGreen)
         """
         return [(x, y), (x + width, y + height)]
-        
+
     def draw_rounded_box(
         self, x: int, y: int, width: int, height: int, box_fill_colour: str
     ) -> list:
@@ -283,8 +284,8 @@ class Painter:
         return [(x, y), (x + width, y + height)]
 
     def draw_arrowhead_box(
-            self, x: int, y: int, width: int, height: int, box_fill_colour: str
-        ) -> list:
+        self, x: int, y: int, width: int, height: int, box_fill_colour: str
+    ) -> list:
         """Draw a rounded rectagle
 
         Args:
@@ -297,7 +298,7 @@ class Painter:
         arrowhead_width = 10
         width -= arrowhead_width
         box_shape = [(x, y), (x + width, y + height)]
-        
+
         # Set the coordinates of the arrowhead
         vertical_midpoint = (height / 2) + y
         arrowhead_endpoint = x + width + arrowhead_width
@@ -306,30 +307,30 @@ class Painter:
             (arrowhead_endpoint, vertical_midpoint),
             (x + width, y + height),
         ]
-        
+
         return box_shape, arrowhead_shape
-        
+
     def draw_box_with_text(
-            self,
-            box_x: int,
-            box_y: int,
-            box_width: int,
-            box_height: int,
-            box_fill_colour: int,
-            text: str,
-            text_alignment: str,
-            text_font: str,
-            text_font_size: int,
-            text_font_colour: str,
-            style: str = "rectangle",
-        ) -> tuple:
-        return  (
+        self,
+        box_x: int,
+        box_y: int,
+        box_width: int,
+        box_height: int,
+        box_fill_colour: int,
+        text: str,
+        text_alignment: str,
+        text_font: str,
+        text_font_size: int,
+        text_font_colour: str,
+        style: str = "rectangle",
+    ) -> tuple:
+        return (
             box_x,
             box_y,
             box_x + box_width,
             box_y + box_height,
         )
-        
+
     def draw_diamond(
         self, x: int, y: int, width: int, height: int, fill_colour: str
     ) -> list:
@@ -355,7 +356,7 @@ class Painter:
         self, x: int, y: int, text: str, font: str, font_size: int, font_colour: str
     ) -> None:
         raise NotImplementedError
-    
+
     def draw_line(
         self,
         x1: int,
@@ -368,21 +369,21 @@ class Painter:
         line_style: str = "dashed",
     ) -> None:
         raise NotImplementedError
-    
+
     def draw_cross_on_box(
         self, x1: int, y1: int, x2: int, y2: int, colour: str
     ) -> None:
         raise NotImplementedError
-    
+
     def draw_logo(self, image: str, x: int, y: int, width: int, height: int) -> None:
         raise NotImplementedError
-    
+
     def get_text_dimension(self, text: str, font: str, font_size: int) -> tuple:
         raise NotImplementedError
-    
+
     def set_background_colour(self) -> None:
         raise NotImplementedError
-    
+
     def set_surface_size(self, width: int, height: int) -> tuple:
         """Set surface size
 
@@ -392,12 +393,13 @@ class Painter:
         """
         height += self.bottom_margin
         return 0, 0, width, height
-        
+
     def get_image_size(self, image: str) -> tuple:
         raise NotImplementedError
-    
+
     def save_surface(self, filename: str) -> None:
         raise NotImplementedError
+
 
 class PNGPainter(Painter):
     """A wrapper class for Pillow library"""
@@ -428,7 +430,7 @@ class PNGPainter(Painter):
             height (int): Rectangle height
             box_fill_colour (str: HTML colour name or hex code. Eg. #FFFFFF or LightGreen)
         """
-        
+
         shape = super().draw_box(x, y, width, height, box_fill_colour)
         self.__cr.rectangle(shape, fill=box_fill_colour)
 
@@ -460,7 +462,9 @@ class PNGPainter(Painter):
             height (int): Rectangle height
             box_fill_colour (str: HTML colour name or hex code. Eg. #FFFFFF or LightGreen)
         """
-        box_shape, arrowhead_shape = super().draw_arrowhead_box(x, y, width, height, box_fill_colour)
+        box_shape, arrowhead_shape = super().draw_arrowhead_box(
+            x, y, width, height, box_fill_colour
+        )
 
         # Draw the rectangle
         self.__cr.rectangle(box_shape, fill=box_fill_colour)
@@ -482,7 +486,6 @@ class PNGPainter(Painter):
         text_font_colour: str,
         style: str = "rectangle",
     ) -> None:
-
         box_x1, box_y1, box_x2, box_y2 = super().draw_box_with_text(
             box_x,
             box_y,
@@ -530,7 +533,7 @@ class PNGPainter(Painter):
         ### wrap text
         for line in multi_lines:
             wrap_lines.extend(textwrap.wrap(line, int(box_width / single_char_width)))
-            
+
         pad = 4
         line_count = len(wrap_lines)
 
@@ -721,14 +724,12 @@ class PNGPainter(Painter):
         """Set surface background colour"""
         if self.background_colour == "transparent":
             # Set transparent background
-            self.__cr.rectangle(
-                (0, 0, self.width, self.height), fill=(0, 0, 0, 0)
-            )
+            self.__cr.rectangle((0, 0, self.width, self.height), fill=(0, 0, 0, 0))
         else:
             self.__cr.rectangle(
                 (0, 0, self.width, self.height), fill=self.background_colour
             )
-        
+
     def set_surface_size(self, width: int, height: int) -> None:
         """Set surface size
 
@@ -757,9 +758,10 @@ class PNGPainter(Painter):
         Args:
             filename (str): PNG file name
         """
-        
+
         if self.__surface is not None:
             self.__surface.save(filename)
+
 
 class SVGPainter(Painter):
     def __init__(self, width: int, height: int):
@@ -770,8 +772,8 @@ class SVGPainter(Painter):
             height (int): Height of the surface
         """
         super().__init__(width, height)
-        self.__cr = Drawing(width, height)
-        
+        self.__cr = dw.Drawing(width, height)
+
     def draw_box(
         self, x: int, y: int, width: int, height: int, box_fill_colour: str
     ) -> None:
@@ -784,13 +786,13 @@ class SVGPainter(Painter):
             height (int): Rectangle height
             box_fill_colour (str: HTML colour name or hex code. Eg. #FFFFFF or LightGreen)
         """
-        
+
         # Create a rectangle shape
-        rectangle = Rectangle(x, y, width, height, fill=box_fill_colour)
+        rectangle = dw.Rectangle(x, y, width, height, fill=box_fill_colour)
 
         # Add the rectangle to the drawing
         self.__cr.append(rectangle)
-        
+
     def draw_rounded_box(
         self, x: int, y: int, width: int, height: int, box_fill_colour: str
     ) -> None:
@@ -805,18 +807,296 @@ class SVGPainter(Painter):
         """
         shape = super().draw_rounded_box(x, y, width, height, box_fill_colour)
         radius = 20
-        rectangle = Rectangle(x, y, width, height, rx=radius, ry=radius, fill=box_fill_colour)
+        rectangle = dw.Rectangle(
+            x, y, width, height, rx=radius, ry=radius, fill=box_fill_colour
+        )
 
         # Add the rectangle to the drawing
         self.__cr.append(rectangle)
 
+    def draw_arrowhead_box(
+        self, x: int, y: int, width: int, height: int, box_fill_colour: str
+    ) -> None:
+        """Draw a rounded rectagle"""
+        box_shape, arrowhead_shape = super().draw_arrowhead_box(
+            x, y, width, height, box_fill_colour
+        )
+
+        # Draw the rectangle
+        rectangle = dw.Rectangle(x, y, width, height, fill=box_fill_colour)
+        self.__cr.append(rectangle)
+
+        # Draw the arrowhead
+
+        poly = dw.Lines(arrowhead_shape, fill=box_fill_colour)
+        self.__cr.append(poly)
+
+    def draw_box_with_text(
+        self,
+        box_x: int,
+        box_y: int,
+        box_width: int,
+        box_height: int,
+        box_fill_colour: int,
+        text: str,
+        text_alignment: str,
+        text_font: str,
+        text_font_size: int,
+        text_font_colour: str,
+        style: str = "rectangle",
+    ) -> None:
+        box_x1, box_y1, box_x2, box_y2 = super().draw_box_with_text(
+            box_x,
+            box_y,
+            box_width,
+            box_height,
+            box_fill_colour,
+            text,
+            text_alignment,
+            text_font,
+            text_font_size,
+            text_font_colour,
+            style,
+        )
+        match style:
+            case "rectangle":
+                self.draw_box(
+                    box_x1,
+                    box_y1,
+                    box_width,
+                    box_height,
+                    box_fill_colour=box_fill_colour,
+                )
+            case "rounded":
+                self.draw_rounded_box(
+                    box_x1, box_y1, box_width, box_height, box_fill_colour
+                )
+            case "arrowhead":
+                self.draw_arrowhead_box(
+                    box_x1, box_y1, box_width, box_height, box_fill_colour
+                )
+            case _:
+                raise ValueError("Invalid style")
+
+        font = ImageFont.truetype(self.get_font_path(text_font), size=text_font_size)
+
+        multi_lines = []
+        wrap_lines = []
+
+        ### Make '\n' work
+        multi_lines = text.splitlines()
+
+        left, _, right, _ = font.getbbox("a")
+        single_char_width = right - left
+
+        ### wrap text
+        for line in multi_lines:
+            wrap_lines.extend(textwrap.wrap(line, int(box_width / single_char_width)))
+
+        pad = 4
+        line_count = len(wrap_lines)
+
+        for i, line in enumerate(wrap_lines):
+            font_width, font_height = self.get_text_dimension(
+                line, text_font, text_font_size
+            )
+
+            match text_alignment:
+                case "centre":
+                    x = box_x1 + (box_width - font_width) / 2
+                case "left":
+                    x = box_x1 + 15
+                case "right":
+                    x = box_x2 - font_width - 15
+                case _:
+                    x = box_x1 + (box_width - font_width) / 2
+
+            total_line_height = (font_height * line_count) + (pad * (line_count - 1))
+
+            single_line_height = font_height
+
+            y = (
+                box_y1
+                + ((box_height - total_line_height) / 2)
+                + ((single_line_height * i) + (pad * i))
+            )
+
+            self.__cr.append(
+                dw.Text(
+                    line,
+                    x=x,
+                    y=y,
+                    font_size=text_font_size,
+                    stroke=text_font_colour,
+                    text_anchor="start",
+                    dominant_baseline="hanging",
+                    font_family=text_font,
+                ),
+            )
+
+    def draw_diamond(
+        self, x: int, y: int, width: int, height: int, fill_colour: str
+    ) -> None:
+        """Draw a diamond"""
+
+        # Calculate the coordinates of the four points of the diamond.
+        points = super().draw_diamond(x, y, width, height, fill_colour)
+
+        # Use Pillow's ImageDraw module to draw a polygon with the given points and fill color.
+        x1, y1 = points[0]
+        x2, y2 = points[1]
+        x3, y3 = points[2]
+        x4, y4 = points[3]
+        self.__cr.append(dw.Lines(x1, y1, x2, y2, x3, y3, x4, y4, fill=fill_colour))
+
+    def draw_text(
+        self, x: int, y: int, text: str, font: str, font_size: int, font_colour: str
+    ) -> None:
+        """Draw text"""
+        self.__cr.append(
+            dw.Text(
+                text,
+                x=x,
+                y=y,
+                font_size=font_size,
+                text_anchor="middle",
+                dominant_baseline="middle",
+                font_family=font,
+                stroke=font_colour,
+            )
+        )
+
+    def draw_line(
+        self,
+        x1: int,
+        y1: int,
+        x2: int,
+        y2: int,
+        line_colour: str,
+        line_transparency: int,
+        line_width: int,
+        line_style: str = "dashed",
+    ) -> None:
+        """Draw a line"""
+        r, g, b = ImageColor.getrgb(line_colour)
+
+        def linspace(start, stop, n):
+            if n == 1:
+                yield stop
+                return
+            h = (stop - start) / (n - 1)
+            for i in range(n):
+                yield start + h * i
+
+        if line_style == "solid":
+            self.__cr.append(
+                dw.Line(
+                    x1,
+                    y1,
+                    x2,
+                    y2,
+                    width=line_width,
+                    fill=(r, g, b, int(255 * line_transparency)),
+                )
+            )
+        elif line_style == "dashed":
+            # given a line between x1, y1 and x2, y2, divide it into multiple shorter lines
+            # and draw them with a gap in between.
+
+            ### Calculate the number of dashes
+            gap_counts = int((y2 - y1) / 7)
+
+            for i, (x, y) in enumerate(
+                zip(
+                    linspace(x1, x2, gap_counts),
+                    linspace(y1, y2, gap_counts),
+                )
+            ):
+                if i % 2 == 0:
+                    self.__cr.append(dw.Line(x, y, x, y + 10, stroke=line_colour))
+
+    def draw_cross_on_box(
+        self, x1: int, y1: int, x2: int, y2: int, colour: str
+    ) -> None:
+        """Draw a cross (vertical and horizontal lines) on a box"""
+        self.__cr.line(
+            (
+                x1,
+                y1 + (y2 - y1) / 2,
+                x2,
+                y2 - (y2 - y1) / 2,
+            ),
+            fill="red",
+        )
+        self.__cr.append(
+            dw.Line(x1 + ((x2 - x1) / 2), y1, x1 + ((x2 - x1) / 2), y2, stroke="red")
+        )
+
+    def draw_logo(self, image: str, x: int, y: int, width: int, height: int) -> None:
+        """Draw a logo"""
+        logo = Image.open(image)
+        logo = logo.resize((width, height))
+        logo = logo.convert("RGBA")
+        # mask = Image.new("L", logo.size, 0)
+        # mask.paste(255, (0, 0, logo.size[0], logo.size[1]), logo)
+        # logo.putalpha(mask)
+
+        # self.__surface.paste(logo, (x, y))
+        self.__cr.append(dw.Image(x, y, width, height, image, embed=True))
+
+    def get_text_dimension(self, text: str, font: str, font_size: int) -> tuple:
+        """Get text dimension"""
+        # Use Pillow's ImageFont module to get the dimensions of the text.
+        image_font = ImageFont.truetype(self.get_font_path(font), font_size)
+
+        left, _, right, bottom = image_font.getbbox(text)
+        font_width = right
+        font_height = bottom
+
+        return font_width, font_height
+
+    def set_background_colour(self) -> None:
+        """Set surface background colour"""
+        if self.background_colour == "transparent":
+            # Set transparent background
+            self.__cr.append(dw.Rectangle(0, 0, self.width, self.height, fill="white"))
+        else:
+            self.__cr.append(
+                dw.Rectangle(0, 0, self.width, self.height, fill=self.background_colour)
+            )
+
+    def set_surface_size(self, width: int, height: int) -> None:
+        """Set surface size"""
+        left, top, right, bottom = super().set_surface_size(width, height)
+        # self.__surface = self.__surface.crop((left, top, right, bottom))
+        # resize drawsvg drawing
+
+        self.__cr.width = width
+        self.__cr.height = height
+
+    def get_image_size(self, image: str) -> tuple:
+        """Get image size"""
+        with Image.open(image) as img:
+            return img.size
+
+    def save_surface(self, filename: str) -> None:
+        """Save surface to PNG file"""
+
+        if self.__cr is not None:
+            self.__cr.save_svg(filename)
+
+
 class PainterFactory:
+    """A factory class to create painter objects"""
+
     def __init__(self):
         self._painters = {}
 
     def get_painter(self, painter_name, width, height):
         if painter_name not in self._painters:
-            self._painters[painter_name] = self._create_painter(painter_name, width, height)
+            self._painters[painter_name] = self._create_painter(
+                painter_name, width, height
+            )
         return self._painters[painter_name]
 
     def _create_painter(self, painter_name, width, height):
