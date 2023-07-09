@@ -549,7 +549,7 @@ class Task:
             height,
         )
 
-        if (box_x == 0 and box_y == 0 and box_width == 0 and box_height == 0) != True:
+        if box_x != 0 or box_y != 0 or box_width != 0 or box_height != 0:
             painter.draw_box_with_text(
                 box_x,
                 box_y,
@@ -557,7 +557,7 @@ class Task:
                 box_height,
                 self.fill_colour,
                 self.text,
-                "centre",
+                self.text_alignment,
                 self.font,
                 self.font_size,
                 self.font_colour,

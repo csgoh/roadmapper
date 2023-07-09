@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="800" height="589" viewBox="0 0 800 589">
+<defs>
+</defs>
+<rect x="0" y="0" width="800" height="700" fill="#FFFFFF" />
+<text x="301.5" y="30" font-size="26" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">전략 로드맵 2023</text>
+<text x="312.5" y="69" font-size="18" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">마타리키 테크놀로지스</text>
+<rect x="198.0" y="133" width="574.5" height="20" fill="#4C5B5C" />
+<text x="460.25" y="133.5" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">2023 년</text>
+<rect x="198.0" y="156" width="142.5" height="20" fill="#4C5B5C" />
+<text x="246.75" y="158.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">第1 분기</text>
+<rect x="342.0" y="156" width="142.5" height="20" fill="#4C5B5C" />
+<text x="390.25" y="158.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">第2 분기</text>
+<rect x="486.0" y="156" width="142.5" height="20" fill="#4C5B5C" />
+<text x="534.25" y="158.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">第3 분기</text>
+<rect x="630.0" y="156" width="142.5" height="20" fill="#4C5B5C" />
+<text x="678.25" y="158.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">第4 분기</text>
+<path d="M341.0,176 L341.0,482" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M485.0,176 L485.0,482" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M629.0,176 L629.0,482" width="1" fill="(230, 230, 230, 12750)" />
+<rect x="30" y="214" width="148.0" height="52" fill="#FCA311" />
+<text x="60.0" y="230.0" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">인사 프로세스</text>
+<rect x="198" y="214" width="187" height="20" fill="#8FBC94" />
+<text x="246.5" y="216.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">포함 전략을 수립</text>
+<rect x="389" y="214" width="377" height="20" fill="#8FBC94" />
+<text x="503.0" y="216.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">다양성, 공정성, 포괄성 촉진</text>
+<rect x="292" y="239" width="425" height="20" fill="#8FBC94" />
+<text x="432.5" y="241.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">지속 가능한 개발 계획 실시</text>
+<rect x="30" y="281" width="148.0" height="82" fill="#FCA311" />
+<text x="74.0" y="312.0" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">작업 과정</text>
+<rect x="247" y="281" width="469" height="20" fill="#8FBC94" />
+<text x="429.0" y="283.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">업무 개선 계획 실시</text>
+<rect x="486" y="321" width="282" height="20" fill="#8FBC94" />
+<text x="577.5" y="323.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">자동화된 프로세스</text>
+<path d="M536.5439560439561,318 L549.5439560439561,331.0 L536.5439560439561,344 L523.5439560439561,331.0" fill="#3D6642" />
+<text x="513.2106227106227" y="303" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">30% 자동화</text>
+<path d="M727.521978021978,318 L740.521978021978,331.0 L727.521978021978,344 L714.521978021978,331.0" fill="#3D6642" />
+<text x="704.1886446886447" y="303" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">60% 자동화</text>
+<rect x="30" y="378" width="148.0" height="94" fill="#FCA311" />
+<text x="74.0" y="415.0" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">공구 흐름</text>
+<rect x="198" y="378" width="187" height="20" fill="#8FBC94" />
+<text x="239.0" y="380.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">도구 선택 전략 구현</text>
+<rect x="247" y="403" width="327" height="20" fill="#8FBC94" />
+<text x="385.0" y="405.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">도구 선택</text>
+<rect x="342" y="443" width="377" height="20" fill="#8FBC94" />
+<text x="472.0" y="445.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">중앙 집중식 도구 관리</text>
+<path d="M727.521978021978,440 L740.521978021978,453.0 L727.521978021978,466 L714.521978021978,453.0" fill="#3D6642" />
+<text x="687.521978021978" y="425" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">시스템은 중앙 집중식</text>
+<text x="493.5274725274725" y="189" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">▼</text>
+<path d="M498.5274725274725,203.0 L498.5274725274725,213.0" stroke="#000000" />
+<path d="M498.5274725274725,217.68421052631578 L498.5274725274725,227.68421052631578" stroke="#000000" />
+<path d="M498.5274725274725,232.3684210526316 L498.5274725274725,242.3684210526316" stroke="#000000" />
+<path d="M498.5274725274725,247.05263157894737 L498.5274725274725,257.0526315789474" stroke="#000000" />
+<path d="M498.5274725274725,261.7368421052632 L498.5274725274725,271.7368421052632" stroke="#000000" />
+<path d="M498.5274725274725,276.42105263157896 L498.5274725274725,286.42105263157896" stroke="#000000" />
+<path d="M498.5274725274725,291.10526315789474 L498.5274725274725,301.10526315789474" stroke="#000000" />
+<path d="M498.5274725274725,305.7894736842105 L498.5274725274725,315.7894736842105" stroke="#000000" />
+<path d="M498.5274725274725,320.4736842105263 L498.5274725274725,330.4736842105263" stroke="#000000" />
+<path d="M498.5274725274725,335.1578947368421 L498.5274725274725,345.1578947368421" stroke="#000000" />
+<path d="M498.5274725274725,349.8421052631579 L498.5274725274725,359.8421052631579" stroke="#000000" />
+<path d="M498.5274725274725,364.52631578947364 L498.5274725274725,374.52631578947364" stroke="#000000" />
+<path d="M498.5274725274725,379.2105263157895 L498.5274725274725,389.2105263157895" stroke="#000000" />
+<path d="M498.5274725274725,393.89473684210526 L498.5274725274725,403.89473684210526" stroke="#000000" />
+<path d="M498.5274725274725,408.57894736842104 L498.5274725274725,418.57894736842104" stroke="#000000" />
+<path d="M498.5274725274725,423.2631578947369 L498.5274725274725,433.2631578947369" stroke="#000000" />
+<path d="M498.5274725274725,437.9473684210526 L498.5274725274725,447.9473684210526" stroke="#000000" />
+<path d="M498.5274725274725,452.63157894736844 L498.5274725274725,462.63157894736844" stroke="#000000" />
+<path d="M498.5274725274725,467.3157894736842 L498.5274725274725,477.3157894736842" stroke="#000000" />
+<path d="M498.5274725274725,482.0 L498.5274725274725,492.0" stroke="#000000" />
+<text x="350.5" y="543" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">로드매퍼에서 생성</text>
+</svg>

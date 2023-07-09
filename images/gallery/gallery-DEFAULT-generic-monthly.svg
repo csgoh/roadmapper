@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="1400" height="435" viewBox="0 0 1400 435">
+<defs>
+</defs>
+<rect x="0" y="0" width="1400" height="1000" fill="#FFFFFF" />
+<text x="516.0" y="30" font-size="26" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">SAMPLE ROADMAP 2022/2023</text>
+<text x="613.0" y="59" font-size="18" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">GodZone Corporation</text>
+<rect x="318.0" y="120" width="1054.5" height="20" fill="#000000" />
+<text x="827.25" y="124.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Year 1</text>
+<rect x="318.0" y="143" width="86.5" height="20" fill="#000000" />
+<text x="339.25" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 1</text>
+<rect x="406.0" y="143" width="86.5" height="20" fill="#000000" />
+<text x="427.25" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 2</text>
+<rect x="494.0" y="143" width="86.5" height="20" fill="#000000" />
+<text x="515.25" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 3</text>
+<rect x="582.0" y="143" width="86.5" height="20" fill="#000000" />
+<text x="603.25" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 4</text>
+<rect x="670.0" y="143" width="86.5" height="20" fill="#000000" />
+<text x="691.25" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 5</text>
+<rect x="758.0" y="143" width="86.5" height="20" fill="#000000" />
+<text x="779.25" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 6</text>
+<rect x="846.0" y="143" width="86.5" height="20" fill="#000000" />
+<text x="867.25" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 7</text>
+<rect x="934.0" y="143" width="86.5" height="20" fill="#000000" />
+<text x="955.25" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 8</text>
+<rect x="1022.0" y="143" width="86.5" height="20" fill="#000000" />
+<text x="1043.25" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 9</text>
+<rect x="1110.0" y="143" width="86.5" height="20" fill="#000000" />
+<text x="1127.75" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 10</text>
+<rect x="1198.0" y="143" width="86.5" height="20" fill="#000000" />
+<text x="1215.75" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 11</text>
+<rect x="1286.0" y="143" width="86.5" height="20" fill="#000000" />
+<text x="1303.75" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 12</text>
+<path d="M405.0,163 L405.0,330" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M493.0,163 L493.0,330" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M581.0,163 L581.0,330" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M669.0,163 L669.0,330" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M757.0,163 L757.0,330" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M845.0,163 L845.0,330" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M933.0,163 L933.0,330" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M1021.0,163 L1021.0,330" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M1109.0,163 L1109.0,330" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M1197.0,163 L1197.0,330" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M1285.0,163 L1285.0,330" width="1" fill="(230, 230, 230, 12750)" />
+<rect x="30" y="198" width="268.0" height="82" fill="#000000" />
+<text x="45" y="233.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Core Product Work Stream</text>
+<rect x="318" y="213" width="860" height="20" fill="#D9D9D9" />
+<text x="698.0" y="216.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Base Functionality</text>
+<rect x="1241" y="213" width="129" height="20" fill="#D9D9D9" />
+<text x="1264.5" y="217.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Enhancements</text>
+<path d="M451.25,210 L464.25,223.0 L451.25,236 L438.25,223.0" fill="#000000" />
+<text x="441.5833333333333" y="195" font-size="10" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">v.1.0</text>
+<path d="M936.0,210 L949.0,223.0 L936.0,236 L923.0,223.0" fill="#000000" />
+<text x="926.3333333333334" y="195" font-size="10" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">v.1.1</text>
+<rect x="494" y="238" width="189" height="20" fill="#D9D9D9" />
+<text x="551.5" y="242.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Showcase #1</text>
+<rect x="758" y="238" width="189" height="20" fill="#D9D9D9" />
+<text x="815.5" y="242.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Showcase #2</text>
+<rect x="30" y="295" width="268.0" height="25" fill="#000000" />
+<text x="45" y="301.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Mobility Work Stream</text>
+<rect x="406" y="295" width="946" height="20" fill="#D9D9D9" />
+<text x="809.5" y="298.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Mobile App Development</text>
+<text x="622.0" y="390" font-size="13" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">Generated by Roadmapper</text>
+</svg>

@@ -24,7 +24,7 @@ from datetime import datetime
 from dataclasses import dataclass, field
 import time
 
-from .painter import Painter
+from .painter import PainterFactory
 from .title import Title
 from .subtitle import SubTitle
 from .footer import Footer
@@ -44,6 +44,7 @@ class Roadmap:
     auto_height: bool = field(default=True, init=True)
     colour_theme: str = field(default="DEFAULT", init=True)
     show_marker: bool = field(default=True, init=True)
+    painter_type: str = field(default="png", init=True)
 
     _title: Title = field(default=None, init=False)
     _subtitle: SubTitle = field(default=None, init=False)
@@ -57,7 +58,8 @@ class Roadmap:
     def __post_init__(self):
         """This method is called after __init__() is called"""
         self.start_time = time.time()
-        self._painter = Painter(self.width, self.height)
+        factory = PainterFactory()
+        self._painter = factory.get_painter(self.painter_type, self.width, self.height)
         self._set_colour_theme(self.colour_theme)
         self._groups = []
         if self.show_marker == True:
@@ -66,6 +68,11 @@ class Roadmap:
     def _set_colour_theme(self, palette: str) -> None:
         """This method sets the colour palette"""
         self._painter.set_colour_theme(palette)
+        
+    def set_background_colour(self, colour: str) -> None:
+        """This method sets the background colour"""
+        self._painter.background_colour = colour
+        self._painter.set_background_colour()
 
     def _create_marker(
         self,

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="800" height="588" viewBox="0 0 800 588">
+<defs>
+</defs>
+<rect x="0" y="0" width="800" height="700" fill="#FFFFFF" />
+<text x="250.5" y="30" font-size="26" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">戦略的ロードマップ 2023</text>
+<text x="247.0" y="68" font-size="18" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">マタリッチサンテクノロジー株式会社</text>
+<rect x="198.0" y="132" width="574.5" height="20" fill="#4C5B5C" />
+<text x="460.25" y="132.5" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">2023 年</text>
+<rect x="198.0" y="155" width="142.5" height="20" fill="#4C5B5C" />
+<text x="240.75" y="157.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">第1 四半期</text>
+<rect x="342.0" y="155" width="142.5" height="20" fill="#4C5B5C" />
+<text x="384.25" y="157.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">第2 四半期</text>
+<rect x="486.0" y="155" width="142.5" height="20" fill="#4C5B5C" />
+<text x="528.25" y="157.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">第3 四半期</text>
+<rect x="630.0" y="155" width="142.5" height="20" fill="#4C5B5C" />
+<text x="672.25" y="157.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">第4 四半期</text>
+<path d="M341.0,175 L341.0,481" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M485.0,175 L485.0,481" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M629.0,175 L629.0,481" width="1" fill="(230, 230, 230, 12750)" />
+<rect x="30" y="213" width="148.0" height="52" fill="#FCA311" />
+<text x="62.0" y="229.5" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">人事プロセス</text>
+<rect x="198" y="213" width="187" height="20" fill="#8FBC94" />
+<text x="201.5" y="215.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">インクルージョン戦略を策定する</text>
+<rect x="389" y="213" width="377" height="20" fill="#8FBC94" />
+<text x="493.5" y="215.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">多様性、公平性、包括性の促進</text>
+<rect x="292" y="238" width="425" height="20" fill="#8FBC94" />
+<text x="432.5" y="240.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">持続可能な開発計画の実施</text>
+<rect x="30" y="280" width="148.0" height="82" fill="#FCA311" />
+<text x="76.0" y="311.0" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">作業過程</text>
+<rect x="247" y="280" width="469" height="20" fill="#8FBC94" />
+<text x="427.5" y="282.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">業務改善計画の実施</text>
+<rect x="486" y="320" width="282" height="20" fill="#8FBC94" />
+<text x="567.0" y="322.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">自動化されたプロセス</text>
+<path d="M536.5439560439561,317 L549.5439560439561,330.0 L536.5439560439561,343 L523.5439560439561,330.0" fill="#3D6642" />
+<text x="514.2106227106227" y="302" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">30%自動化</text>
+<path d="M727.521978021978,317 L740.521978021978,330.0 L727.521978021978,343 L714.521978021978,330.0" fill="#3D6642" />
+<text x="705.1886446886447" y="302" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">60%自動化</text>
+<rect x="30" y="377" width="148.0" height="94" fill="#FCA311" />
+<text x="62.0" y="414.5" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">ツールフロー</text>
+<rect x="198" y="377" width="187" height="20" fill="#8FBC94" />
+<text x="219.5" y="379.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">ツール選択戦略を実装する</text>
+<rect x="247" y="402" width="327" height="20" fill="#8FBC94" />
+<text x="374.5" y="404.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">ツールの選択</text>
+<rect x="342" y="442" width="377" height="20" fill="#8FBC94" />
+<text x="488.5" y="444.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">集中ツール管理</text>
+<path d="M727.521978021978,439 L740.521978021978,452.0 L727.521978021978,465 L714.521978021978,452.0" fill="#3D6642" />
+<text x="693.521978021978" y="424" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">システムは集中型</text>
+<text x="493.5274725274725" y="188" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">▼</text>
+<path d="M498.5274725274725,202.0 L498.5274725274725,212.0" stroke="#000000" />
+<path d="M498.5274725274725,216.68421052631578 L498.5274725274725,226.68421052631578" stroke="#000000" />
+<path d="M498.5274725274725,231.3684210526316 L498.5274725274725,241.3684210526316" stroke="#000000" />
+<path d="M498.5274725274725,246.05263157894737 L498.5274725274725,256.0526315789474" stroke="#000000" />
+<path d="M498.5274725274725,260.7368421052632 L498.5274725274725,270.7368421052632" stroke="#000000" />
+<path d="M498.5274725274725,275.42105263157896 L498.5274725274725,285.42105263157896" stroke="#000000" />
+<path d="M498.5274725274725,290.10526315789474 L498.5274725274725,300.10526315789474" stroke="#000000" />
+<path d="M498.5274725274725,304.7894736842105 L498.5274725274725,314.7894736842105" stroke="#000000" />
+<path d="M498.5274725274725,319.4736842105263 L498.5274725274725,329.4736842105263" stroke="#000000" />
+<path d="M498.5274725274725,334.1578947368421 L498.5274725274725,344.1578947368421" stroke="#000000" />
+<path d="M498.5274725274725,348.8421052631579 L498.5274725274725,358.8421052631579" stroke="#000000" />
+<path d="M498.5274725274725,363.52631578947364 L498.5274725274725,373.52631578947364" stroke="#000000" />
+<path d="M498.5274725274725,378.2105263157895 L498.5274725274725,388.2105263157895" stroke="#000000" />
+<path d="M498.5274725274725,392.89473684210526 L498.5274725274725,402.89473684210526" stroke="#000000" />
+<path d="M498.5274725274725,407.57894736842104 L498.5274725274725,417.57894736842104" stroke="#000000" />
+<path d="M498.5274725274725,422.2631578947369 L498.5274725274725,432.2631578947369" stroke="#000000" />
+<path d="M498.5274725274725,436.9473684210526 L498.5274725274725,446.9473684210526" stroke="#000000" />
+<path d="M498.5274725274725,451.63157894736844 L498.5274725274725,461.63157894736844" stroke="#000000" />
+<path d="M498.5274725274725,466.3157894736842 L498.5274725274725,476.3157894736842" stroke="#000000" />
+<path d="M498.5274725274725,481.0 L498.5274725274725,491.0" stroke="#000000" />
+<text x="322.0" y="542" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">ロードマッパーによって生成</text>
+</svg>

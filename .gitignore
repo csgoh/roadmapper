@@ -49,6 +49,7 @@ try*.py
 tempCode*.py
 generated_roadmaps/
 diffs_of_generated_roadmaps/
+release_note.md
 
 
 # C extensions

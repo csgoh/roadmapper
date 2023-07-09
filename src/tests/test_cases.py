@@ -1326,3 +1326,55 @@ def test_with_context_manager():
                 )
         my_roadmap.draw()
         my_roadmap.save("../../images/with_context_manager.png")
+        
+def test_black_blackground():
+    with Roadmap(
+        1200, 500, show_marker=False, auto_height=True, colour_theme="ORANGEPEEL"
+    ) as my_roadmap:
+        my_roadmap.set_background_colour("black")
+        my_roadmap.set_title("Black Background Test Roadmap")
+        my_roadmap.set_timeline(TimelineMode.MONTHLY, start="2023-01-01")
+        with my_roadmap.add_group("Workstream 1") as group1:
+            with group1.add_task(
+                "Task 1-A",
+                "2023-01-01",
+                "2023-04-30",
+            ) as task1:
+                with task1.add_parallel_task(
+                    "Task 2-B",
+                    "2023-05-15",
+                    "2023-08-30",
+                ) as parallel_task1:
+                    parallel_task1.add_milestone("Milestone 2", "2023-08-10")
+                task1.add_milestone(
+                    "Milestone 1",
+                    "2023-04-01",
+                )
+        my_roadmap.draw()
+        my_roadmap.save("../../images/black_roadmap.png")
+        
+def test_transparent_blackground():
+    with Roadmap(
+        1200, 500, show_marker=False, auto_height=True, colour_theme="ORANGEPEEL"
+    ) as my_roadmap:
+        my_roadmap.set_background_colour("transparent")
+        my_roadmap.set_title("Transparent Background Test Roadmap")
+        my_roadmap.set_timeline(TimelineMode.MONTHLY, start="2023-01-01")
+        with my_roadmap.add_group("Workstream 1") as group1:
+            with group1.add_task(
+                "Task 1-A",
+                "2023-01-01",
+                "2023-04-30",
+            ) as task1:
+                with task1.add_parallel_task(
+                    "Task 2-B",
+                    "2023-05-15",
+                    "2023-08-30",
+                ) as parallel_task1:
+                    parallel_task1.add_milestone("Milestone 2", "2023-08-10")
+                task1.add_milestone(
+                    "Milestone 1",
+                    "2023-04-01",
+                )
+        my_roadmap.draw()
+        my_roadmap.save("../../images/transparent_roadmap.png")
