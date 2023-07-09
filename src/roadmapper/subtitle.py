@@ -68,6 +68,7 @@ class SubTitle:
         Args:
             painter (Painter): Pillow wrapper class instance
         """
+
         painter.draw_text(
             self.x, self.y, self.text, self.font, self.font_size, self.font_colour
         )
