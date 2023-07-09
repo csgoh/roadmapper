@@ -14,7 +14,7 @@ def colour_theme_demo_without_locale(
 ) -> None:
     roadmap = Roadmap(
         1200,
-        405,
+        1000,
         auto_height=True,
         colour_theme=colour_theme,
         show_marker=True,
