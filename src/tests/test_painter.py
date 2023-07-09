@@ -1,15 +1,15 @@
-from src.roadmapper.painter import PillowPainter
+from src.roadmapper.painter import PNGPainter
 
 
 class TestPainter:
     def test_init(self):
-        painter = PillowPainter(800, 600)
+        painter = PNGPainter(800, 600)
         assert painter.width == 800
         assert painter.height == 600
 
     # Tests that the colour theme is correctly set and that subsequent shapes and text are drawn with the correct colours.
     def test_set_colour_theme(self):
-        painter = PillowPainter(500, 500)
+        painter = PNGPainter(500, 500)
         painter.set_colour_theme("ORANGEPEEL")
         assert painter.title_font == "Arial"
         assert painter.title_font_size == 26
@@ -48,7 +48,7 @@ class TestPainter:
 
     # Tests that the get_text_dimension() method correctly calculates the dimensions of text for different fonts and font sizes.
     def test_get_text_dimension(self):
-        painter = PillowPainter(100, 100)
+        painter = PNGPainter(100, 100)
         text = "Hello World"
         font = "Arial"
         font_size = 12
@@ -57,7 +57,7 @@ class TestPainter:
         assert height > 0
 
     def test_get_text_dimension2(self):
-        painter = PillowPainter(800, 600)
+        painter = PNGPainter(800, 600)
         text_width, text_height = painter.get_text_dimension("Hello World", "Arial", 12)
         print(f"text_width: {text_width}, text_height: {text_height}")
         # Linux returns different text width
