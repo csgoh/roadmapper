@@ -772,47 +772,30 @@ class SVGPainter(Painter):
             height (int): Height of the surface
         """
         super().__init__(width, height)
-        self.__cr = dw.Drawing(width, height)
+        self.__cr = None
+        self.elements = []
 
     def draw_box(
         self, x: int, y: int, width: int, height: int, box_fill_colour: str
     ) -> None:
-        """Draw a rectagle
-
-        Args:
-            x (int): X coordinate
-            y (int): Y coordinate
-            width (int): Rectangle width
-            height (int): Rectangle height
-            box_fill_colour (str: HTML colour name or hex code. Eg. #FFFFFF or LightGreen)
-        """
+        """Draw a rectagle"""
 
         # Create a rectangle shape
         rectangle = dw.Rectangle(x, y, width, height, fill=box_fill_colour)
 
-        # Add the rectangle to the drawing
-        self.__cr.append(rectangle)
+        self.elements.append(rectangle)
 
     def draw_rounded_box(
         self, x: int, y: int, width: int, height: int, box_fill_colour: str
     ) -> None:
-        """Draw a rounded rectagle
-
-        Args:
-            x (int): X coordinate
-            y (int): Y coordinate
-            width (int): Rectangle width
-            height (int): Rectangle height
-            box_fill_colour (str: HTML colour name or hex code. Eg. #FFFFFF or LightGreen)
-        """
+        """Draw a rounded rectagle"""
         shape = super().draw_rounded_box(x, y, width, height, box_fill_colour)
         radius = 20
         rectangle = dw.Rectangle(
             x, y, width, height, rx=radius, ry=radius, fill=box_fill_colour
         )
 
-        # Add the rectangle to the drawing
-        self.__cr.append(rectangle)
+        self.elements.append(rectangle)
 
     def draw_arrowhead_box(
         self, x: int, y: int, width: int, height: int, box_fill_colour: str
@@ -824,12 +807,11 @@ class SVGPainter(Painter):
 
         # Draw the rectangle
         rectangle = dw.Rectangle(x, y, width, height, fill=box_fill_colour)
-        self.__cr.append(rectangle)
 
         # Draw the arrowhead
-
         poly = dw.Lines(arrowhead_shape, fill=box_fill_colour)
-        self.__cr.append(poly)
+        self.elements.append(rectangle)
+        self.elements.append(poly)
 
     def draw_box_with_text(
         self,
@@ -921,18 +903,17 @@ class SVGPainter(Painter):
                 + ((single_line_height * i) + (pad * i))
             )
 
-            self.__cr.append(
-                dw.Text(
-                    line,
-                    x=x,
-                    y=y,
-                    font_size=text_font_size,
-                    stroke=text_font_colour,
-                    text_anchor="start",
-                    dominant_baseline="hanging",
-                    font_family=text_font,
-                ),
+            txt = dw.Text(
+                line,
+                x=x,
+                y=y,
+                font_size=text_font_size,
+                stroke=text_font_colour,
+                text_anchor="start",
+                dominant_baseline="hanging",
+                font_family=text_font,
             )
+            self.elements.append(txt)
 
     def draw_diamond(
         self, x: int, y: int, width: int, height: int, fill_colour: str
@@ -947,24 +928,30 @@ class SVGPainter(Painter):
         x2, y2 = points[1]
         x3, y3 = points[2]
         x4, y4 = points[3]
-        self.__cr.append(dw.Lines(x1, y1, x2, y2, x3, y3, x4, y4, fill=fill_colour))
+        diamond = dw.Lines(x1, y1, x2, y2, x3, y3, x4, y4, fill=fill_colour)
+        self.elements.append(diamond)
 
     def draw_text(
-        self, x: int, y: int, text: str, font: str, font_size: int, font_colour: str
+        self,
+        x: int,
+        y: int,
+        text: str,
+        font: str,
+        font_size: int,
+        font_colour: str,
     ) -> None:
         """Draw text"""
-        self.__cr.append(
-            dw.Text(
-                text,
-                x=x,
-                y=y,
-                font_size=font_size,
-                text_anchor="middle",
-                dominant_baseline="middle",
-                font_family=font,
-                stroke=font_colour,
-            )
+        txt = dw.Text(
+            text,
+            x=x,
+            y=y,
+            font_size=font_size,
+            text_anchor="start",
+            dominant_baseline="middle",
+            font_family=font,
+            stroke=font_colour,
         )
+        self.elements.append(txt)
 
     def draw_line(
         self,
@@ -989,16 +976,15 @@ class SVGPainter(Painter):
                 yield start + h * i
 
         if line_style == "solid":
-            self.__cr.append(
-                dw.Line(
-                    x1,
-                    y1,
-                    x2,
-                    y2,
-                    width=line_width,
-                    fill=(r, g, b, int(255 * line_transparency)),
-                )
+            line = dw.Line(
+                x1,
+                y1,
+                x2,
+                y2,
+                width=line_width,
+                fill=(r, g, b, int(255 * line_transparency)),
             )
+            self.elements.append(line)
         elif line_style == "dashed":
             # given a line between x1, y1 and x2, y2, divide it into multiple shorter lines
             # and draw them with a gap in between.
@@ -1013,36 +999,28 @@ class SVGPainter(Painter):
                 )
             ):
                 if i % 2 == 0:
-                    self.__cr.append(dw.Line(x, y, x, y + 10, stroke=line_colour))
+                    line = dw.Line(x, y, x, y + 10, stroke=line_colour)
+                    self.elements.append(line)
 
     def draw_cross_on_box(
         self, x1: int, y1: int, x2: int, y2: int, colour: str
     ) -> None:
         """Draw a cross (vertical and horizontal lines) on a box"""
-        self.__cr.line(
-            (
-                x1,
-                y1 + (y2 - y1) / 2,
-                x2,
-                y2 - (y2 - y1) / 2,
-            ),
-            fill="red",
+
+        cross = dw.Line(
+            x1 + ((x2 - x1) / 2), y1, x1 + ((x2 - x1) / 2), y2, stroke="red"
         )
-        self.__cr.append(
-            dw.Line(x1 + ((x2 - x1) / 2), y1, x1 + ((x2 - x1) / 2), y2, stroke="red")
-        )
+        self.elements.append(cross)
 
     def draw_logo(self, image: str, x: int, y: int, width: int, height: int) -> None:
         """Draw a logo"""
         logo = Image.open(image)
         logo = logo.resize((width, height))
         logo = logo.convert("RGBA")
-        # mask = Image.new("L", logo.size, 0)
-        # mask.paste(255, (0, 0, logo.size[0], logo.size[1]), logo)
-        # logo.putalpha(mask)
 
-        # self.__surface.paste(logo, (x, y))
-        self.__cr.append(dw.Image(x, y, width, height, image, embed=True))
+        logo_image = dw.Image(x, y, width, height, image, embed=True)
+        # self.__cr.apped(logo_image)
+        self.elements.append(logo_image)
 
     def get_text_dimension(self, text: str, font: str, font_size: int) -> tuple:
         """Get text dimension"""
@@ -1059,20 +1037,22 @@ class SVGPainter(Painter):
         """Set surface background colour"""
         if self.background_colour == "transparent":
             # Set transparent background
-            self.__cr.append(dw.Rectangle(0, 0, self.width, self.height, fill="white"))
+            bg = dw.Rectangle(0, 0, self.width, self.height, fill="white")
         else:
-            self.__cr.append(
-                dw.Rectangle(0, 0, self.width, self.height, fill=self.background_colour)
+            bg = dw.Rectangle(
+                0, 0, self.width, self.height, fill=self.background_colour
             )
+
+        # self.__cr.append(bg)
+        self.elements.append(bg)
 
     def set_surface_size(self, width: int, height: int) -> None:
         """Set surface size"""
         left, top, right, bottom = super().set_surface_size(width, height)
-        # self.__surface = self.__surface.crop((left, top, right, bottom))
-        # resize drawsvg drawing
 
-        self.__cr.width = width
-        self.__cr.height = height
+        self.__cr = dw.Drawing(right, bottom)
+        for element in self.elements:
+            self.__cr.append(element)
 
     def get_image_size(self, image: str) -> tuple:
         """Get image size"""
