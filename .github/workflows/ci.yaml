@@ -39,7 +39,7 @@ jobs:
         echo "LANG=en_US" >> $GITHUB_ENV
         echo "LANGUAGE=en_US" >> $GITHUB_ENV
 
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
