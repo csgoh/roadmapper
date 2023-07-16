@@ -39,6 +39,4 @@ markers = [
     "unit: Unit tests which are not dependent on environment",
     "ubuntu: Tests which only apply to Ubuntu environment",
     "macos: Tests which only apply to macOS environment",
-    "windows: Tests which only apply to Windows environment",
-    "genimage: To generate test image",
 ]
