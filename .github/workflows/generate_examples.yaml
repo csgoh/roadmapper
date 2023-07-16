@@ -10,12 +10,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, ubuntu-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
         python-version: ["3.10"]
 
     steps:
 
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
@@ -28,11 +28,24 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Generate roadmaps
+    - name: Generate roadmaps (non-Windows)
+      if: matrix.os != 'windows-latest'
       run: |
+        # Get only part before `-` of matrix.os
         os=$(echo "${{ matrix.os }}" | cut -d- -f1)
+        # Capitalise first letter of os
         os="$(tr '[:lower:]' '[:upper:]' <<< ${os:0:1})${os:1}"
         mkdir "examples"
+        python -m src.tests.roadmap_generators.roadmap_generator --operating-system $os --target-directory examples
+
+    - name: Generate roadmaps (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        # Get only part before `-` of matrix.os
+        $os = "${{ matrix.os }}" -split "-" | Select-Object -First 1
+        # Capitalise first letter of os
+        $os = $os.Substring(0, 1).ToUpper() + $os.Substring(1)
+        mkdir examples
         python -m src.tests.roadmap_generators.roadmap_generator --operating-system $os --target-directory examples
 
     - name: Upload generated roadmaps

@@ -88,3 +88,8 @@ class TestCompareGeneratedRoadmaps:
     @pytest.mark.parametrize("roadmap_class_to_test", [ColourThemeExtensive, ColourTheme])
     def test_compare_generated_roadmaps_on_macos(self, roadmap_class_to_test, operating_system_macos):
         generate_and_compare_roadmap_for_specific_platform(operating_system_macos, roadmap_class_to_test)
+
+    @pytest.mark.windows
+    @pytest.mark.parametrize("roadmap_class_to_test", [ColourThemeExtensive, ColourTheme])
+    def test_compare_generated_roadmaps_on_windows(self, roadmap_class_to_test, operating_system_windows):
+        generate_and_compare_roadmap_for_specific_platform(operating_system_windows, roadmap_class_to_test)
