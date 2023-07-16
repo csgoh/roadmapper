@@ -72,3 +72,8 @@ jobs:
       if: matrix.os == 'macos-latest'
       run: |
         pytest -m 'macos'
+
+    - name: Tests with marker 'windows'
+      if: matrix.os == 'windows-latest'
+      run: |
+        pytest -m 'windows'
