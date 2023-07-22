@@ -412,10 +412,10 @@ class Roadmap:
             )
 
     def save(self, filename: str) -> None:
-        """Save surface to PNG file
+        """Save surface to file. The file type is determined by the Painter being used.
 
         Args:
-            filename (str): PNG file name
+            filename (str): result file name
         """
         self._painter.save_surface(filename)
 

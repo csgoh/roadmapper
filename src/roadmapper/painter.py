@@ -1060,7 +1060,7 @@ class SVGPainter(Painter):
             return img.size
 
     def save_surface(self, filename: str) -> None:
-        """Save surface to PNG file"""
+        """Save surface to SVG file"""
 
         if self.__cr is not None:
             self.__cr.save_svg(filename)
