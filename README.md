@@ -1,3 +1,7 @@
+<p align="center">
+<img src="images/logo/roadmapper-logo.png"  width="300">
+</p>
+
 ![Banner](https://github.com/csgoh/roadmapper/blob/main/images/roadmapper-banner.png?raw=true)
 
 [![license](https://img.shields.io/badge/license-mit-brightgreen.svg?style=plastic)](https://en.wikipedia.org/wiki/MIT_License)
@@ -10,9 +14,7 @@
 ![python version](https://img.shields.io/pypi/pyversions/roadmapper?style=plastic)
 ![CI](https://github.com/csgoh/roadmapper/actions/workflows/ci.yaml/badge.svg)
 
-<p align="center">
-<img src="images/logo/roadmapper-logo.png"  width="300">
-</p>
+
 
 # Roadmaper - an open source Roadmap as Code (RaC) python package
 
