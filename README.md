@@ -23,9 +23,6 @@ The purpose of roadmapper python library is used to draw roadmap by using python
 
 With git repository like GitHub or Bitbucket, roadmaps created using RaC can be version controlled, track changes and can be easily shared with others.
 
-### Latest version
-![release](https://img.shields.io/pypi/v/roadmapper)
-
 :book: For usage documentation, how-to guide and code examples, refer to [Roadmapper Wiki](https://github.com/csgoh/roadmap-generator/wiki).
 
 View the [Change Logs](https://github.com/csgoh/roadmapper/wiki/Change-Logs) to find out the latest updates and additions in the most recent version.
