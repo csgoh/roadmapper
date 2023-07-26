@@ -66,7 +66,7 @@ Please refer to [Roadmapper Wiki](https://github.com/csgoh/roadmap-generator/wik
 <hr>
 
 ## Code Example
-:point_right: Note: In order for the following code to work, you will need to download the `matariki-tech-logo.png` file to your local storage. The png file can be downloaded in the `\images\logo\` folder.
+:point_right: Note: In order for the following code to work, you will need to download the `matariki-tech-logo.png` file to your local storage. The png file can be downloaded from the `\images\logo\` folder.
 
 ```python 
 from roadmapper.roadmap import Roadmap
