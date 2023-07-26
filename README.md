@@ -16,7 +16,7 @@
 
 
 
-# Roadmaper - an open source Roadmap as Code (RaC) python package
+# Roadmaper - an open source Roadmap as Code (RaC) python library
 
 ## Purpose
 The purpose of roadmapper python library is used to draw roadmap by using python code. This is the first Roadmap as Code (RaC) library. RaC helps to create and edit roadmap in a more efficient way without having to use any graphical tools that are not always easy to use to create or update a roadmap.
