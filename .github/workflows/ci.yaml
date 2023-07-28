@@ -72,3 +72,14 @@ jobs:
       if: matrix.os == 'windows-latest'
       run: |
         pytest -m 'windows'
+
+    - run: |
+        pwd
+        ls
+
+    - name: Upload image diffs when tests failed
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        name: diffs-of-generated-roadmaps-${{ matrix.os }}
+        path: src/tests/diffs_of_generated_roadmaps/
