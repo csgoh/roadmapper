@@ -36,7 +36,8 @@ def get_diff_file_path_for(roadmap_class: Type[RoadmapABC], operating_system: st
 
 def handle_difference(diff, roadmap_class: Type[RoadmapABC], operating_system: str):
     print("The generated roadmap looks different from the example.")
-    print("Run the test locally to see the generated difference.")
+    print("In case of a run with GitHub Actions, you can download the generated roadmaps and the diffs under the "
+          "artifacts of this workflow run.")
     diff_file_path = get_diff_file_path_for(roadmap_class, operating_system)
     diff.save(diff_file_path)
 
@@ -69,7 +70,6 @@ def compare_generated_roadmap_to_example(example_roadmap, generated_roadmap, ope
 
 
 def generate_and_compare_roadmap_for_specific_platform(operating_system, roadmap_class_to_test):
-
     roadmap_generator.generate_and_save_roadmap(roadmap_class_to_test, operating_system, dir_for_generated)
     generated_roadmap = get_generated_roadmap_image_for(roadmap_class_to_test, operating_system)
     example_roadmap = get_example_roadmap_image_for(roadmap_class_to_test, operating_system)
