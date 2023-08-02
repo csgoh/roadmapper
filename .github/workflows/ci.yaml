@@ -42,6 +42,12 @@ jobs:
         echo "LANGUAGE=en_US" >> $GITHUB_ENV
 
     - uses: actions/checkout@v3
+      with:
+        sparse-checkout: |
+          .github
+          src
+          pyproject.toml
+          requirements.txt
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
