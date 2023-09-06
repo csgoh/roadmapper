@@ -80,7 +80,7 @@ class Group:
         Return:
             Task: Task instance to be used in with statement
         """
-            
+
         font = font or self.painter.task_font
         font_size = font_size or self.painter.task_font_size
         font_colour = font_colour or self.painter.task_font_colour
@@ -115,7 +115,8 @@ class Group:
         # Calculate number of milestones in group
         milestone_count = 0
         for task in self.tasks:
-            milestone_count += len(task.milestones)
+            # milestone_count += len(task.milestones)
+            milestone_count += 1  ### Fixed in v1.3.1
             if len(task.milestones) == 0:
                 for parallel_task in task.tasks:
                     milestone_count += len(parallel_task.milestones)

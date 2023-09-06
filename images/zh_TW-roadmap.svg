@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-     width="800" height="590" viewBox="0 0 800 590">
+     width="800" height="650" viewBox="0 0 800 650">
 <defs>
 </defs>
 <rect x="0" y="0" width="800" height="700" fill="#FFFFFF" />
@@ -16,57 +16,61 @@
 <text x="535.75" y="157.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">第3季度</text>
 <rect x="630.0" y="155" width="142.5" height="20" fill="#4C5B5C" />
 <text x="679.75" y="157.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">第4季度</text>
-<path d="M341.0,175 L341.0,481" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M485.0,175 L485.0,481" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M629.0,175 L629.0,481" width="1" fill="(230, 230, 230, 12750)" />
-<rect x="30" y="213" width="148.0" height="52" fill="#FCA311" />
-<text x="76.0" y="229.0" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">人員流程</text>
+<path d="M341.0,175 L341.0,541" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M485.0,175 L485.0,541" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M629.0,175 L629.0,541" width="1" fill="(230, 230, 230, 12750)" />
+<rect x="30" y="213" width="148.0" height="82" fill="#FCA311" />
+<text x="76.0" y="244.0" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">人員流程</text>
 <rect x="198" y="213" width="187" height="20" fill="#8FBC94" />
 <text x="255.5" y="215.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">制定包容戰略</text>
 <rect x="389" y="213" width="377" height="20" fill="#8FBC94" />
 <text x="499.5" y="215.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">促進多樣性、公平性和包容性</text>
 <rect x="292" y="238" width="425" height="20" fill="#8FBC94" />
 <text x="450.5" y="240.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">實施可持續發展計劃</text>
-<rect x="30" y="280" width="148.0" height="82" fill="#FCA311" />
-<text x="76.0" y="311.0" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">工作流程</text>
-<rect x="247" y="280" width="469" height="20" fill="#8FBC94" />
-<text x="433.5" y="282.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">實施業務改進計劃</text>
-<rect x="486" y="320" width="282" height="20" fill="#8FBC94" />
-<text x="597.0" y="322.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">自動化流程</text>
-<path d="M536.5439560439561,317 L549.5439560439561,330.0 L536.5439560439561,343 L523.5439560439561,330.0" fill="#3D6642" />
-<text x="513.2106227106227" y="302" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">30%自動化 </text>
-<path d="M727.521978021978,317 L740.521978021978,330.0 L727.521978021978,343 L714.521978021978,330.0" fill="#3D6642" />
-<text x="704.1886446886447" y="302" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">60%自動化 </text>
-<rect x="30" y="377" width="148.0" height="94" fill="#FCA311" />
-<text x="76.0" y="413.5" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">工具流程</text>
-<rect x="198" y="377" width="187" height="20" fill="#8FBC94" />
-<text x="243.5" y="379.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">實施工具選擇策略</text>
-<rect x="247" y="402" width="327" height="20" fill="#8FBC94" />
-<text x="386.5" y="404.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">工具選擇</text>
-<rect x="342" y="442" width="377" height="20" fill="#8FBC94" />
-<text x="494.5" y="444.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">集中工具管理</text>
-<path d="M727.521978021978,439 L740.521978021978,452.0 L727.521978021978,465 L714.521978021978,452.0" fill="#3D6642" />
-<text x="701.521978021978" y="424" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">系統集中完成</text>
-<text x="493.5274725274725" y="188" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">▼</text>
-<path d="M498.5274725274725,202.0 L498.5274725274725,212.0" stroke="#000000" />
-<path d="M498.5274725274725,216.68421052631578 L498.5274725274725,226.68421052631578" stroke="#000000" />
-<path d="M498.5274725274725,231.3684210526316 L498.5274725274725,241.3684210526316" stroke="#000000" />
-<path d="M498.5274725274725,246.05263157894737 L498.5274725274725,256.0526315789474" stroke="#000000" />
-<path d="M498.5274725274725,260.7368421052632 L498.5274725274725,270.7368421052632" stroke="#000000" />
-<path d="M498.5274725274725,275.42105263157896 L498.5274725274725,285.42105263157896" stroke="#000000" />
-<path d="M498.5274725274725,290.10526315789474 L498.5274725274725,300.10526315789474" stroke="#000000" />
-<path d="M498.5274725274725,304.7894736842105 L498.5274725274725,314.7894736842105" stroke="#000000" />
-<path d="M498.5274725274725,319.4736842105263 L498.5274725274725,329.4736842105263" stroke="#000000" />
-<path d="M498.5274725274725,334.1578947368421 L498.5274725274725,344.1578947368421" stroke="#000000" />
-<path d="M498.5274725274725,348.8421052631579 L498.5274725274725,358.8421052631579" stroke="#000000" />
-<path d="M498.5274725274725,363.52631578947364 L498.5274725274725,373.52631578947364" stroke="#000000" />
-<path d="M498.5274725274725,378.2105263157895 L498.5274725274725,388.2105263157895" stroke="#000000" />
-<path d="M498.5274725274725,392.89473684210526 L498.5274725274725,402.89473684210526" stroke="#000000" />
-<path d="M498.5274725274725,407.57894736842104 L498.5274725274725,417.57894736842104" stroke="#000000" />
-<path d="M498.5274725274725,422.2631578947369 L498.5274725274725,432.2631578947369" stroke="#000000" />
-<path d="M498.5274725274725,436.9473684210526 L498.5274725274725,446.9473684210526" stroke="#000000" />
-<path d="M498.5274725274725,451.63157894736844 L498.5274725274725,461.63157894736844" stroke="#000000" />
-<path d="M498.5274725274725,466.3157894736842 L498.5274725274725,476.3157894736842" stroke="#000000" />
-<path d="M498.5274725274725,481.0 L498.5274725274725,491.0" stroke="#000000" />
-<text x="339.5" y="543" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">由 Roadmapper 生成</text>
+<rect x="30" y="310" width="148.0" height="82" fill="#FCA311" />
+<text x="76.0" y="341.0" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">工作流程</text>
+<rect x="247" y="310" width="469" height="20" fill="#8FBC94" />
+<text x="433.5" y="312.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">實施業務改進計劃</text>
+<rect x="486" y="350" width="282" height="20" fill="#8FBC94" />
+<text x="597.0" y="352.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">自動化流程</text>
+<path d="M536.5439560439561,347 L549.5439560439561,360.0 L536.5439560439561,373 L523.5439560439561,360.0" fill="#3D6642" />
+<text x="513.2106227106227" y="332" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">30%自動化 </text>
+<path d="M727.521978021978,347 L740.521978021978,360.0 L727.521978021978,373 L714.521978021978,360.0" fill="#3D6642" />
+<text x="704.1886446886447" y="332" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">60%自動化 </text>
+<rect x="30" y="407" width="148.0" height="124" fill="#FCA311" />
+<text x="76.0" y="458.5" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">工具流程</text>
+<rect x="198" y="407" width="187" height="20" fill="#8FBC94" />
+<text x="243.5" y="409.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">實施工具選擇策略</text>
+<rect x="247" y="432" width="327" height="20" fill="#8FBC94" />
+<text x="386.5" y="434.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">工具選擇</text>
+<rect x="342" y="472" width="377" height="20" fill="#8FBC94" />
+<text x="494.5" y="474.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">集中工具管理</text>
+<path d="M727.521978021978,469 L740.521978021978,482.0 L727.521978021978,495 L714.521978021978,482.0" fill="#3D6642" />
+<text x="701.521978021978" y="454" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">系統集中完成</text>
+<text x="582.7857142857143" y="188" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">▼</text>
+<path d="M587.7857142857143,202.0 L587.7857142857143,212.0" stroke="#000000" />
+<path d="M587.7857142857143,216.4255319148936 L587.7857142857143,226.4255319148936" stroke="#000000" />
+<path d="M587.7857142857143,230.85106382978722 L587.7857142857143,240.85106382978722" stroke="#000000" />
+<path d="M587.7857142857143,245.27659574468083 L587.7857142857143,255.27659574468083" stroke="#000000" />
+<path d="M587.7857142857143,259.70212765957444 L587.7857142857143,269.70212765957444" stroke="#000000" />
+<path d="M587.7857142857143,274.1276595744681 L587.7857142857143,284.1276595744681" stroke="#000000" />
+<path d="M587.7857142857143,288.55319148936167 L587.7857142857143,298.55319148936167" stroke="#000000" />
+<path d="M587.7857142857143,302.97872340425533 L587.7857142857143,312.97872340425533" stroke="#000000" />
+<path d="M587.7857142857143,317.40425531914894 L587.7857142857143,327.40425531914894" stroke="#000000" />
+<path d="M587.7857142857143,331.82978723404256 L587.7857142857143,341.82978723404256" stroke="#000000" />
+<path d="M587.7857142857143,346.25531914893617 L587.7857142857143,356.25531914893617" stroke="#000000" />
+<path d="M587.7857142857143,360.6808510638298 L587.7857142857143,370.6808510638298" stroke="#000000" />
+<path d="M587.7857142857143,375.1063829787234 L587.7857142857143,385.1063829787234" stroke="#000000" />
+<path d="M587.7857142857143,389.531914893617 L587.7857142857143,399.531914893617" stroke="#000000" />
+<path d="M587.7857142857143,403.95744680851067 L587.7857142857143,413.95744680851067" stroke="#000000" />
+<path d="M587.7857142857143,418.3829787234042 L587.7857142857143,428.3829787234042" stroke="#000000" />
+<path d="M587.7857142857143,432.8085106382979 L587.7857142857143,442.8085106382979" stroke="#000000" />
+<path d="M587.7857142857143,447.23404255319144 L587.7857142857143,457.23404255319144" stroke="#000000" />
+<path d="M587.7857142857143,461.6595744680851 L587.7857142857143,471.6595744680851" stroke="#000000" />
+<path d="M587.7857142857143,476.0851063829787 L587.7857142857143,486.0851063829787" stroke="#000000" />
+<path d="M587.7857142857143,490.51063829787233 L587.7857142857143,500.51063829787233" stroke="#000000" />
+<path d="M587.7857142857143,504.93617021276594 L587.7857142857143,514.936170212766" stroke="#000000" />
+<path d="M587.7857142857143,519.3617021276596 L587.7857142857143,529.3617021276596" stroke="#000000" />
+<path d="M587.7857142857143,533.7872340425531 L587.7857142857143,543.7872340425531" stroke="#000000" />
+<text x="339.5" y="603" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">由 Roadmapper 生成</text>
 </svg>
