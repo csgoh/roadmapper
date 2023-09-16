@@ -115,8 +115,11 @@ class Group:
         # Calculate number of milestones in group
         milestone_count = 0
         for task in self.tasks:
+            ### Fixed in v1.3.2
+            if len(task.milestones) > 0:
+                milestone_count += 1
             # milestone_count += len(task.milestones)
-            milestone_count += 1  ### Fixed in v1.3.1
+            # milestone_count += 1  ### Fixed in v1.3.1
             if len(task.milestones) == 0:
                 for parallel_task in task.tasks:
                     milestone_count += len(parallel_task.milestones)
@@ -130,6 +133,10 @@ class Group:
             + (5 * task_count)
             + (2 * (task_count - 1))
         )
+        # print(f"{'-' * 20} Group height: {self.box_height}")
+        # print(f"{'-' * 20} Task count: {task_count}")
+        # print(f"{'-' * 20} Milestone count: {milestone_count}")
+
         self.box_width = (
             painter.width - (painter.left_margin + painter.right_margin)
         ) * painter.group_box_width_percentage
