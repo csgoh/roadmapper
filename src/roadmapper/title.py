@@ -39,7 +39,7 @@ class Title:
     height: int = field(init=False, default=0)
 
     # CONSTANT
-    __TITLE_Y_POS = 0
+    TITLE_Y_POS = 0
 
     def __calculate_draw_position(self, painter: Painter) -> tuple:
         """Calculate the draw position of the title

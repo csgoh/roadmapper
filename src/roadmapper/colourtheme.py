@@ -349,25 +349,22 @@ class ColourTheme:
 
         # check if colour_theme_name is a json file
         if colour_theme_name.endswith(".json"):
-            if os.path.isfile(colour_theme_name):
-                with open(colour_theme_name, "r") as f:
-                    colour_theme_json = json.load(f)
-                if "theme" in colour_theme_json:
-                    colour_theme_json["theme"] = colour_theme_name
-                    ColourThemesSettings.append(colour_theme_json)
-                else:
-                    raise ValueError(
-                        f"Colour theme {colour_theme_name} not recognised."
-                    )
-            else:
+            if not os.path.isfile(colour_theme_name):
                 raise ValueError(f"Colour theme {colour_theme_name} not recognised.")
+            with open(colour_theme_name, "r") as f:
+                colour_theme_json = json.load(f)
+            if "theme" not in colour_theme_json:
+                raise ValueError(
+                    f"Colour theme {colour_theme_name} not recognised."
+                )
+            colour_theme_json["theme"] = colour_theme_name
+            ColourThemesSettings.append(colour_theme_json)
         else:
-            built_in_font_found = False
-            for theme in ColourThemesSettings:
-                if theme["theme"] == colour_theme_name:
-                    built_in_font_found = True
-
-            if built_in_font_found == False:
+            built_in_font_found = any(
+                theme["theme"] == colour_theme_name
+                for theme in ColourThemesSettings
+            )
+            if not built_in_font_found:
                 raise ValueError(f"Colour theme {colour_theme_name} not recognised.")
 
         self._colour_theme_name = colour_theme_name
@@ -424,7 +421,7 @@ class ColourTheme:
 
         colour_settings = None
 
-        for _, value in enumerate(ColourThemesSettings):
+        for value in ColourThemesSettings:
             if value["theme"] == self._colour_theme_name:
                 colour_settings = value["settings"]
 

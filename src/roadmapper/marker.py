@@ -55,7 +55,7 @@ class Marker:
             painter (Painter): Pillow wrapper class instance
             timeline (Timeline): Timeline instance
         """
-        current_date = datetime.today()
+        current_date = datetime.now()
         current_date = current_date.replace(hour=0, minute=0, second=0, microsecond=0)
         label_pos_percentage = 0
         correct_timeline = False
@@ -98,7 +98,7 @@ class Marker:
         Args:
             painter (Painter): Pillow wrapper class instance
         """
-        if self.not_in_timeline_range == False:
+        if self.not_in_timeline_range is False:
             painter.draw_text(
                 self.label_x,
                 self.label_y + 5,

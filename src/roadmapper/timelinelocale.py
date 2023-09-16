@@ -84,23 +84,17 @@ class TimelineLocale:
 
         # check if colour_theme_name is a json file
         if locale_name.endswith(".json"):
-            if os.path.isfile(locale_name):
-                with open(locale_name, "r", encoding="utf8") as f:
-                    timeline_locale_json = json.load(f)
-                if "locale" in timeline_locale_json:
-                    locale_name = timeline_locale_json["locale"]
-                    TimelineLocaleSettings.append(timeline_locale_json)
-                else:
-                    raise ValueError(f"Locale {locale_name} not recognised.")
-            else:
+            if not os.path.isfile(locale_name):
                 raise ValueError(f"Locale {locale_name} not recognised.")
 
-            self._timeline_locale_name = locale_name
-            locale.setlocale(locale.LC_ALL, locale_name)
-        else:
-            ## v1.1.1 accept all non-json locale names
-            self._timeline_locale_name = locale_name
-            locale.setlocale(locale.LC_ALL, locale_name)
+            with open(locale_name, "r", encoding="utf8") as f:
+                timeline_locale_json = json.load(f)
+            if "locale" not in timeline_locale_json:
+                raise ValueError(f"Locale {locale_name} not recognised.")
+            locale_name = timeline_locale_json["locale"]
+            TimelineLocaleSettings.append(timeline_locale_json)
+        self._timeline_locale_name = locale_name
+        locale.setlocale(locale.LC_ALL, locale_name)
 
     def get_timeline_locale_settings(self, timeline_mode: str) -> tuple:
         """ "Get the timeline locale settings for the specified timeline mode.
@@ -114,7 +108,7 @@ class TimelineLocale:
         """
         locale_settings = None
 
-        for _, value in enumerate(TimelineLocaleSettings):
+        for value in TimelineLocaleSettings:
             if value["locale"] == self._timeline_locale_name:
                 locale_settings = value["settings"]
                 break
