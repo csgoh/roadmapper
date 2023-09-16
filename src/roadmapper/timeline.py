@@ -147,7 +147,7 @@ class Timeline:
         ### Calculate timelineitemgroup positions
         year_groups = {}
 
-        for index in range(0, self.number_of_items):
+        for index in range(self.number_of_items):
             index_year = self.__get_timeline_item_value(index)[0:4]
             (
                 timelineitemgroup_start,
@@ -237,7 +237,7 @@ class Timeline:
         timelineitem_y = painter.next_y_pos
         timelineitem_height = painter.timeline_height
 
-        for index in range(0, self.number_of_items):
+        for index in range(self.number_of_items):
             timelineitem_x = (
                 self.x
                 + (index * timelineitem_width)
@@ -269,8 +269,7 @@ class Timeline:
         painter.next_y_pos = timelineitem_y + timelineitem_height
 
     def __get_monday_from_calendar_week(self, year, calendar_week):
-        monday = datetime.strptime(f"{year}-{calendar_week}-1", "%Y-%W-%w").date()
-        return monday
+        return datetime.strptime(f"{year}-{calendar_week}-1", "%Y-%W-%w").date()
 
     def __get_timeline_item_text(self, index: int) -> str:
         """Get the text of the timeline item
@@ -283,8 +282,8 @@ class Timeline:
         """
         timeline_text = ""
         if self.mode == TimelineMode.WEEKLY:
-            if self.show_generic_dates == False:
-                if self.show_first_day_of_week == False:
+            if self.show_generic_dates is False:
+                if self.show_first_day_of_week is False:
                     this_week = self.__find_first_day_of_week(
                         self.start
                     ) + relativedelta(weeks=+index)
@@ -314,7 +313,7 @@ class Timeline:
                 timeline_text = self.week_generic_text_format.format(this_week)
 
         elif self.mode == TimelineMode.MONTHLY:
-            if self.show_generic_dates == False:
+            if self.show_generic_dates is False:
                 this_month = self.start + relativedelta(months=+index)
                 # timeline_text = f"{this_month.strftime('%b')}"
                 timeline_text = self.month_text_format.format(this_month.strftime("%b"))
@@ -323,7 +322,7 @@ class Timeline:
                 # timeline_text = f"Month {this_month}"
                 timeline_text = self.month_generic_text_format.format(this_month)
         elif self.mode == TimelineMode.QUARTERLY:
-            if self.show_generic_dates == False:
+            if self.show_generic_dates is False:
                 this_month = self.start + relativedelta(months=+(index * 3))
                 this_quarter = (this_month.month - 1) // 3 + 1
                 # timeline_text = f"Q{this_quarter}"
@@ -333,7 +332,7 @@ class Timeline:
                 # timeline_text = f"Quarter {this_quarter}"
             timeline_text = self.quarter_text_format.format(this_quarter)
         elif self.mode == TimelineMode.HALF_YEARLY:
-            if self.show_generic_dates == False:
+            if self.show_generic_dates is False:
                 this_month = self.start + relativedelta(months=+(index * 6))
                 this_halfyear = (this_month.month - 1) // 6 + 1
                 # timeline_text = f"H{this_halfyear}"
@@ -343,7 +342,7 @@ class Timeline:
                 # timeline_text = f"H{this_halfyear}"
             timeline_text = self.half_year_text_format.format(this_halfyear)
         elif self.mode == TimelineMode.YEARLY:
-            if self.show_generic_dates == False:
+            if self.show_generic_dates is False:
                 this_month = self.start + relativedelta(months=+(index * 12))
                 # timeline_text = f"{this_month.year}"
                 timeline_text = self.year_text_format.format(this_month.year)
@@ -357,8 +356,7 @@ class Timeline:
 
     def __find_first_day_of_week(self, this_date: datetime) -> datetime:
         _, _, day_of_week = this_date.isocalendar()
-        first_day_of_week = this_date - timedelta(days=day_of_week - 1)
-        return first_day_of_week
+        return this_date - timedelta(days=day_of_week - 1)
 
     def __get_timeline_item_value(self, index: int) -> str:
         """Get the value of the timeline item
@@ -386,9 +384,9 @@ class Timeline:
             #     f"start: {self.start}, this_week: {this_week}, week_value: {week_value}"
             # )
             if week_value > 52:
-                week_value = week_value % 52
+                week_value %= 52
             timeline_value = f"{this_week.year}{week_value}"
-            # print(f"V:{index} = {this_week}, {week_value}")
+                # print(f"V:{index} = {this_week}, {week_value}")
         elif self.mode == TimelineMode.MONTHLY:
             this_month = self.start + relativedelta(months=+index)
             timeline_value = f"{this_month.year}{this_month.strftime('%m')}"
@@ -492,7 +490,7 @@ class Timeline:
         #     if index > 0:
         #         timelinegroup.draw_vertical_line(painter)
 
-        for i in range(0, self.number_of_items):
+        for i in range(self.number_of_items):
             timelineitem = self.timeline_items[i]
             timelineitem.draw(painter)
 
@@ -502,7 +500,7 @@ class Timeline:
         Args:
             painter (Painter): Pillow wrapper class instance
         """
-        for i in range(0, self.number_of_items):
+        for i in range(self.number_of_items):
             if i > 0:
                 timelineitem = self.timeline_items[i]
                 timelineitem.draw_vertical_line(painter)

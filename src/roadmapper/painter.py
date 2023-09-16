@@ -378,9 +378,6 @@ class Painter:
     def draw_logo(self, image: str, x: int, y: int, width: int, height: int) -> None:
         raise NotImplementedError
 
-    def get_text_dimension(self, text: str, font: str, font_size: int) -> tuple:
-        raise NotImplementedError
-
     def set_background_colour(self) -> None:
         raise NotImplementedError
 

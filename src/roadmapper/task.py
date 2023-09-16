@@ -127,12 +127,11 @@ class Task:
 
         if self.painter is None:
             print("Painter is None")
-            
+
         font = font or self.painter.milestone_font
         font_size = font_size or self.painter.milestone_font_size
         font_colour = font_colour or self.painter.milestone_font_colour
         fill_colour = fill_colour or self.painter.milestone_fill_colour
-        
 
         self.milestones.append(
             Milestone(
@@ -421,13 +420,19 @@ class Task:
                     task_start_period,
                     task_end_period,
                 )
-                == True
+                is True
             ):
-                (_, start_pos_percentage,) = timeline_item.get_timeline_pos_percentage(
+                (
+                    _,
+                    start_pos_percentage,
+                ) = timeline_item.get_timeline_pos_percentage(
                     timeline.mode,
                     task_start_period,
                 )
-                (_, end_pos_percentage,) = timeline_item.get_timeline_pos_percentage(
+                (
+                    _,
+                    end_pos_percentage,
+                ) = timeline_item.get_timeline_pos_percentage(
                     timeline.mode, task_end_period
                 )
                 row_match += 1
@@ -440,7 +445,7 @@ class Task:
                         task_start_period,
                         task_end_period,
                     )
-                    == True
+                    is True
                 ):
                     self.box_x = timeline_item.box_x + (
                         timeline_item.box_width * start_pos_percentage
@@ -458,7 +463,7 @@ class Task:
                         task_start_period,
                         task_end_period,
                     )
-                    == True
+                    is True
                 ):
                     self.box_x = timeline_item.box_x
                     if bar_start_x_pos == 0:
@@ -473,7 +478,7 @@ class Task:
                         task_start_period,
                         task_end_period,
                     )
-                    == True
+                    is True
                 ):
                     self.box_x = timeline_item.box_x + (
                         timeline_item.box_width * start_pos_percentage
@@ -491,7 +496,7 @@ class Task:
                         task_start_period,
                         task_end_period,
                     )
-                    == True
+                    is True
                 ):
                     self.box_x = timeline_item.box_x
                     self.box_width = timeline_item.box_width
@@ -541,8 +546,15 @@ class Task:
             if i == 0:
                 box_x = box[0]
                 box_y = box[1]
-            width += int(box[2])
+            ### Fix for [69] - factored in gap spaces width
+            width += int(box[2]) + 2
+            ###
             height = box[3]
+
+        ### Fix for [69] - ignore the last gap space
+        if width >= 2:
+            width -= 2
+        ###
 
         box_width, box_height = (
             width,

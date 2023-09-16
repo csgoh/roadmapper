@@ -62,13 +62,13 @@ class Roadmap:
         self._painter = factory.get_painter(self.painter_type, self.width, self.height)
         self._set_colour_theme(self.colour_theme)
         self._groups = []
-        if self.show_marker == True:
+        if self.show_marker is True:
             self._create_marker()
 
     def _set_colour_theme(self, palette: str) -> None:
         """This method sets the colour palette"""
         self._painter.set_colour_theme(palette)
-        
+
     def set_background_colour(self, colour: str) -> None:
         """This method sets the background colour"""
         self._painter.background_colour = colour
@@ -98,7 +98,6 @@ class Roadmap:
         label_text_colour = label_text_colour or self._painter.marker_font_colour
         line_colour = line_colour or self._painter.marker_line_colour
 
-
         self._marker = Marker(
             font=label_text_font,
             font_size=label_text_size,
@@ -127,7 +126,7 @@ class Roadmap:
             line_width (int, optional): Line width. Defaults to 2.
             line_style (str, optional): Line style. Defaults to "solid". Options are "solid", "dashed"
         """
-            
+
         label_text_font = label_text_font or self._painter.marker_font
         label_text_size = label_text_size or self._painter.marker_font_size
         label_text_colour = label_text_colour or self._painter.marker_font_colour
@@ -155,11 +154,10 @@ class Roadmap:
             font_size (int, optional): Title font size. Defaults to 18.
             font_colour (str, optional): Title font colour. Defaults to "Black".
         """
-            
+
         font = font or self._painter.title_font
         font_size = font_size or self._painter.title_font_size
         font_colour = font_colour or self._painter.title_font_colour
-        
 
         self._title = Title(
             text=text, font=font, font_size=font_size, font_colour=font_colour
@@ -183,7 +181,7 @@ class Roadmap:
             font_size (int, optional): Title font size. Defaults to 18.
             font_colour (str, optional): Title font colour. Defaults to "Black".
         """
-            
+
         font = font or self._painter.subtitle_font
         font_size = font_size or self._painter.subtitle_font_size
         font_colour = font_colour or self._painter.subtitle_font_colour
@@ -210,7 +208,7 @@ class Roadmap:
             font_size (int, optional): Footer font size. Defaults to 18.
             font_colour (str, optional): Footer font colour. Defaults to "Black".
         """
-            
+
         font = font or self._painter.footer_font
         font_size = font_size or self._painter.footer_font_size
         font_colour = font_colour or self._painter.footer_font_colour
@@ -261,12 +259,12 @@ class Roadmap:
             font_colour (str, optional): Timeline font colour. Defaults to "DEFAULT" colour theme.
             fill_colour (str, optional): Timeline fill colour. Defaults to "DEFAULT" colour theme.
         """
-            
+
         year_font = year_font or self._painter.timeline_year_font
         year_font_size = year_font_size or self._painter.timeline_year_font_size
         year_font_colour = year_font_colour or self._painter.timeline_year_font_colour
         year_fill_colour = year_fill_colour or self._painter.timeline_year_fill_colour
-        
+
         item_font = item_font or self._painter.timeline_item_font
         item_font_size = item_font_size or self._painter.timeline_item_font_size
         item_font_colour = item_font_colour or self._painter.timeline_item_font_colour
@@ -291,7 +289,7 @@ class Roadmap:
             item_fill_colour=item_fill_colour,
         )
         self._timeline.set_draw_position(self._painter)
-        if self._marker != None:
+        if self._marker is not None:
             self._marker.set_label_draw_position(self._painter, self._timeline)
 
     def add_logo(
@@ -311,10 +309,8 @@ class Roadmap:
             height (int, optional): Logo height. Defaults to image height.
         """
         self._logo = Logo(image=image, position=position, width=width, height=height)
-        if self._logo != None:
-            ### If logo is positioned at top-centre, it x, y position has to be calculated first before Title.
-            if self._logo.position[:10] == "top-centre":
-                self._logo.set_draw_position(self._painter, self.auto_height)
+        if self._logo is not None and self._logo.position[:10] == "top-centre":
+            self._logo.set_draw_position(self._painter, self.auto_height)
 
     def add_group(
         self,
@@ -362,16 +358,16 @@ class Roadmap:
         self._painter.set_background_colour()
 
         ### Draw the roadmap title
-        if self._title == None:
+        if self._title is None:
             raise ValueError("Title is not set. Please call set_title() to set title.")
         self._title.draw(self._painter)
 
         ### Draw the roadmap subtitle
-        if self._subtitle != None:
+        if self._subtitle is not None:
             self._subtitle.draw(self._painter)
 
         ### Draw the roadmap timeline
-        if self._timeline == None:
+        if self._timeline is None:
             raise ValueError(
                 "Timeline is not set. Please call set_timeline() to set timeline."
             )
@@ -389,24 +385,24 @@ class Roadmap:
             group.draw(self._painter)
 
         ### Draw the roadmap marker
-        if self._marker != None and self._show_generic_dates == False:
+        if self._marker is not None and self._show_generic_dates is False:
             self._marker.set_line_draw_position(self._painter)
             self._marker.draw(self._painter)
 
         ### Draw the roadmap footer
-        if self._footer != None:
+        if self._footer is not None:
             self._footer.set_draw_position(self._painter)
             self._footer.draw(self._painter)
 
         ### Draw logo
 
-        if self._logo != None:
+        if self._logo is not None:
             if self._logo.position[:10] != "top-centre":
                 self._logo.set_draw_position(self._painter, self.auto_height)
             self._logo.draw(self._painter)
 
         ### Auto adjust the surface height
-        if self.auto_height == True:
+        if self.auto_height is True:
             self._painter.set_surface_size(
                 self._painter.width, int(self._painter.next_y_pos)
             )

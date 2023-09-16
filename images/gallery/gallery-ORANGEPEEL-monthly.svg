@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-     width="1200" height="450" viewBox="0 0 1200 450">
+     width="1200" height="420" viewBox="0 0 1200 420">
 <defs>
 </defs>
 <rect x="0" y="0" width="1200" height="1000" fill="#FFFFFF" />
@@ -32,46 +32,44 @@
 <text x="1043.25" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Nov</text>
 <rect x="1092.0" y="143" width="72.5" height="20" fill="#B45F06" />
 <text x="1117.25" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Dec</text>
-<path d="M351.0,163 L351.0,345" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M425.0,163 L425.0,345" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M499.0,163 L499.0,345" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M573.0,163 L573.0,345" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M647.0,163 L647.0,345" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M721.0,163 L721.0,345" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M795.0,163 L795.0,345" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M869.0,163 L869.0,345" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M943.0,163 L943.0,345" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M1017.0,163 L1017.0,345" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M1091.0,163 L1091.0,345" width="1" fill="(230, 230, 230, 12750)" />
-<rect x="30" y="198" width="228.0" height="82" fill="#B45F06" />
-<text x="45" y="233.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Core Product Work Stream</text>
-<rect x="278" y="213" width="720" height="20" fill="#F6B26B" />
-<text x="588.0" y="216.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Base Functionality</text>
-<rect x="1054" y="213" width="108" height="20" fill="#F6B26B" />
-<text x="1067.0" y="217.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Enhancements</text>
+<path d="M351.0,163 L351.0,315" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M425.0,163 L425.0,315" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M499.0,163 L499.0,315" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M573.0,163 L573.0,315" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M647.0,163 L647.0,315" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M721.0,163 L721.0,315" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M795.0,163 L795.0,315" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M869.0,163 L869.0,315" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M943.0,163 L943.0,315" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M1017.0,163 L1017.0,315" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M1091.0,163 L1091.0,315" width="1" fill="(230, 230, 230, 12750)" />
+<rect x="30" y="198" width="228.0" height="67" fill="#B45F06" />
+<text x="45" y="226.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Core Product Work Stream</text>
+<rect x="278" y="213" width="738" height="20" fill="#F6B26B" />
+<text x="597.0" y="216.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Base Functionality</text>
+<rect x="1054" y="213" width="110" height="20" fill="#F6B26B" />
+<text x="1068.0" y="217.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Enhancements</text>
 <path d="M390.25,210 L403.25,223.0 L390.25,236 L377.25,223.0" fill="#B45F06" />
 <text x="380.5833333333333" y="195" font-size="10" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#B45F06">v.1.0</text>
 <path d="M798.0,210 L811.0,223.0 L798.0,236 L785.0,223.0" fill="#B45F06" />
 <text x="788.3333333333334" y="195" font-size="10" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#B45F06">v.1.1</text>
-<rect x="426" y="238" width="158" height="20" fill="#F6B26B" />
-<text x="468.0" y="242.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Showcase #1</text>
-<rect x="648" y="238" width="158" height="20" fill="#F6B26B" />
-<text x="690.0" y="242.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Showcase #2</text>
-<rect x="30" y="295" width="228.0" height="40" fill="#B45F06" />
-<text x="45" y="308.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Mobility Work Stream</text>
-<rect x="352" y="295" width="792" height="20" fill="#F6B26B" />
-<text x="678.5" y="298.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Mobile App Development</text>
-<text x="872.25" y="176" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#B45F06">▼</text>
-<path d="M877.25,187.0 L877.25,197.0" stroke="#B45F06" />
-<path d="M877.25,202.04761904761904 L877.25,212.04761904761904" stroke="#B45F06" />
-<path d="M877.25,217.0952380952381 L877.25,227.0952380952381" stroke="#B45F06" />
-<path d="M877.25,232.14285714285714 L877.25,242.14285714285714" stroke="#B45F06" />
-<path d="M877.25,247.1904761904762 L877.25,257.1904761904762" stroke="#B45F06" />
-<path d="M877.25,262.23809523809524 L877.25,272.23809523809524" stroke="#B45F06" />
-<path d="M877.25,277.2857142857143 L877.25,287.2857142857143" stroke="#B45F06" />
-<path d="M877.25,292.3333333333333 L877.25,302.3333333333333" stroke="#B45F06" />
-<path d="M877.25,307.3809523809524 L877.25,317.3809523809524" stroke="#B45F06" />
-<path d="M877.25,322.42857142857144 L877.25,332.42857142857144" stroke="#B45F06" />
-<path d="M877.25,337.4761904761905 L877.25,347.4761904761905" stroke="#B45F06" />
-<text x="522.0" y="405" font-size="13" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#B45F06">Generated by Roadmapper</text>
+<rect x="426" y="238" width="162" height="20" fill="#F6B26B" />
+<text x="470.0" y="242.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Showcase #1</text>
+<rect x="648" y="238" width="162" height="20" fill="#F6B26B" />
+<text x="692.0" y="242.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Showcase #2</text>
+<rect x="30" y="280" width="228.0" height="25" fill="#B45F06" />
+<text x="45" y="286.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Mobility Work Stream</text>
+<rect x="352" y="280" width="812" height="20" fill="#F6B26B" />
+<text x="688.5" y="283.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Mobile App Development</text>
+<text x="908.5" y="176" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#B45F06">▼</text>
+<path d="M913.5,187.0 L913.5,197.0" stroke="#B45F06" />
+<path d="M913.5,202.05882352941177 L913.5,212.05882352941177" stroke="#B45F06" />
+<path d="M913.5,217.11764705882354 L913.5,227.11764705882354" stroke="#B45F06" />
+<path d="M913.5,232.1764705882353 L913.5,242.1764705882353" stroke="#B45F06" />
+<path d="M913.5,247.23529411764707 L913.5,257.2352941176471" stroke="#B45F06" />
+<path d="M913.5,262.29411764705884 L913.5,272.29411764705884" stroke="#B45F06" />
+<path d="M913.5,277.3529411764706 L913.5,287.3529411764706" stroke="#B45F06" />
+<path d="M913.5,292.4117647058823 L913.5,302.4117647058823" stroke="#B45F06" />
+<path d="M913.5,307.47058823529414 L913.5,317.47058823529414" stroke="#B45F06" />
+<text x="522.0" y="375" font-size="13" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#B45F06">Generated by Roadmapper</text>
 </svg>

@@ -66,7 +66,7 @@ class Logo:
                 self.x = painter.left_margin
                 self.y = (
                     painter.next_y_pos + logo_offset
-                    if auto_height == True
+                    if auto_height
                     else painter.height - self.height - painter.bottom_margin
                 )
                 painter.next_y_pos = self.y + self.height
@@ -74,7 +74,7 @@ class Logo:
                 self.x = int((painter.width - self.width) / 2)
                 self.y = (
                     painter.next_y_pos + logo_offset
-                    if auto_height == True
+                    if auto_height
                     else painter.height - self.height - painter.bottom_margin
                 )
                 painter.next_y_pos = self.y + self.height
@@ -82,7 +82,7 @@ class Logo:
                 self.x = painter.width - self.width - painter.right_margin
                 self.y = (
                     painter.next_y_pos + logo_offset
-                    if auto_height == True
+                    if auto_height
                     else painter.height - self.height - painter.bottom_margin
                 )
                 painter.next_y_pos = self.y + self.height
