@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-     width="800" height="632" viewBox="0 0 800 632">
+     width="800" height="557" viewBox="0 0 800 557">
 <defs>
 </defs>
 <rect x="0" y="0" width="800" height="700" fill="#FFFFFF" />
@@ -16,61 +16,56 @@
 <text x="549.25" y="152.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Q3</text>
 <rect x="630.0" y="148" width="142.5" height="20" fill="#4C5B5C" />
 <text x="693.25" y="152.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Q4</text>
-<path d="M341.0,168 L341.0,531" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M485.0,168 L485.0,531" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M629.0,168 L629.0,531" width="1" fill="(230, 230, 230, 12750)" />
-<rect x="30" y="203" width="148.0" height="82" fill="#FCA311" />
-<text x="63.5" y="237.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">People Stream</text>
-<rect x="198" y="203" width="187" height="20" fill="#8FBC94" />
-<text x="218.5" y="206.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Develop Inclusion Strategy</text>
-<rect x="389" y="203" width="377" height="20" fill="#8FBC94" />
-<text x="471.5" y="206.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Promote diversity, equity, and inclusion</text>
-<rect x="292" y="228" width="425" height="20" fill="#8FBC94" />
-<text x="401.0" y="231.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Implement a sustainability programme</text>
-<rect x="30" y="300" width="148.0" height="82" fill="#FCA311" />
-<text x="61.0" y="335.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Process Stream</text>
-<rect x="247" y="300" width="469" height="20" fill="#8FBC94" />
-<text x="356.0" y="303.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Implement Business Improvement Programme</text>
-<rect x="486" y="340" width="282" height="20" fill="#8FBC94" />
-<text x="571.5" y="343.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Automate processes</text>
-<path d="M536.5439560439561,337 L549.5439560439561,350.0 L536.5439560439561,363 L523.5439560439561,350.0" fill="#3D6642" />
-<text x="504.5439560439561" y="322" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">30% Automated </text>
-<path d="M727.521978021978,337 L740.521978021978,350.0 L727.521978021978,363 L714.521978021978,350.0" fill="#3D6642" />
-<text x="695.521978021978" y="322" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">60% Automated </text>
-<rect x="30" y="397" width="148.0" height="124" fill="#FCA311" />
-<text x="71.0" y="453.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Tool Stream</text>
-<rect x="198" y="397" width="187" height="20" fill="#8FBC94" />
-<text x="240.0" y="400.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Implement strategy</text>
-<rect x="247" y="422" width="327" height="20" fill="#8FBC94" />
-<text x="368.5" y="426.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Tools Selection</text>
-<rect x="342" y="462" width="377" height="20" fill="#8FBC94" />
-<text x="445.0" y="466.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Centralized Tool Administration</text>
-<path d="M727.521978021978,459 L740.521978021978,472.0 L727.521978021978,485 L714.521978021978,472.0" fill="#3D6642" />
-<text x="691.8553113553114" y="444" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">Admin Centralised</text>
-<text x="582.7857142857143" y="181" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">▼</text>
-<path d="M587.7857142857143,192.0 L587.7857142857143,202.0" stroke="#000000" />
-<path d="M587.7857142857143,206.4255319148936 L587.7857142857143,216.4255319148936" stroke="#000000" />
-<path d="M587.7857142857143,220.85106382978722 L587.7857142857143,230.85106382978722" stroke="#000000" />
-<path d="M587.7857142857143,235.27659574468083 L587.7857142857143,245.27659574468083" stroke="#000000" />
-<path d="M587.7857142857143,249.70212765957447 L587.7857142857143,259.70212765957444" stroke="#000000" />
-<path d="M587.7857142857143,264.1276595744681 L587.7857142857143,274.1276595744681" stroke="#000000" />
-<path d="M587.7857142857143,278.55319148936167 L587.7857142857143,288.55319148936167" stroke="#000000" />
-<path d="M587.7857142857143,292.97872340425533 L587.7857142857143,302.97872340425533" stroke="#000000" />
-<path d="M587.7857142857143,307.40425531914894 L587.7857142857143,317.40425531914894" stroke="#000000" />
-<path d="M587.7857142857143,321.82978723404256 L587.7857142857143,331.82978723404256" stroke="#000000" />
-<path d="M587.7857142857143,336.25531914893617 L587.7857142857143,346.25531914893617" stroke="#000000" />
-<path d="M587.7857142857143,350.6808510638298 L587.7857142857143,360.6808510638298" stroke="#000000" />
-<path d="M587.7857142857143,365.1063829787234 L587.7857142857143,375.1063829787234" stroke="#000000" />
-<path d="M587.7857142857143,379.531914893617 L587.7857142857143,389.531914893617" stroke="#000000" />
-<path d="M587.7857142857143,393.95744680851067 L587.7857142857143,403.95744680851067" stroke="#000000" />
-<path d="M587.7857142857143,408.3829787234042 L587.7857142857143,418.3829787234042" stroke="#000000" />
-<path d="M587.7857142857143,422.8085106382979 L587.7857142857143,432.8085106382979" stroke="#000000" />
-<path d="M587.7857142857143,437.23404255319144 L587.7857142857143,447.23404255319144" stroke="#000000" />
-<path d="M587.7857142857143,451.6595744680851 L587.7857142857143,461.6595744680851" stroke="#000000" />
-<path d="M587.7857142857143,466.0851063829787 L587.7857142857143,476.0851063829787" stroke="#000000" />
-<path d="M587.7857142857143,480.51063829787233 L587.7857142857143,490.51063829787233" stroke="#000000" />
-<path d="M587.7857142857143,494.93617021276594 L587.7857142857143,504.93617021276594" stroke="#000000" />
-<path d="M587.7857142857143,509.36170212765956 L587.7857142857143,519.3617021276596" stroke="#000000" />
-<path d="M587.7857142857143,523.7872340425531 L587.7857142857143,533.7872340425531" stroke="#000000" />
-<text x="325.0" y="589" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">Generated by Roadmapper</text>
+<path d="M341.0,168 L341.0,456" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M485.0,168 L485.0,456" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M629.0,168 L629.0,456" width="1" fill="(230, 230, 230, 12750)" />
+<rect x="30" y="203" width="148.0" height="52" fill="#FCA311" />
+<text x="63.5" y="222.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">People Stream</text>
+<rect x="198" y="203" width="189" height="20" fill="#8FBC94" />
+<text x="219.5" y="206.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Develop Inclusion Strategy</text>
+<rect x="389" y="203" width="381" height="20" fill="#8FBC94" />
+<text x="473.5" y="206.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Promote diversity, equity, and inclusion</text>
+<rect x="292" y="228" width="431" height="20" fill="#8FBC94" />
+<text x="404.0" y="231.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Implement a sustainability programme</text>
+<rect x="30" y="270" width="148.0" height="67" fill="#FCA311" />
+<text x="61.0" y="298.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Process Stream</text>
+<rect x="247" y="270" width="475" height="20" fill="#8FBC94" />
+<text x="359.0" y="273.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Implement Business Improvement Programme</text>
+<rect x="486" y="310" width="284" height="20" fill="#8FBC94" />
+<text x="572.5" y="313.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Automate processes</text>
+<path d="M536.5439560439561,307 L549.5439560439561,320.0 L536.5439560439561,333 L523.5439560439561,320.0" fill="#3D6642" />
+<text x="504.5439560439561" y="292" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">30% Automated </text>
+<path d="M727.521978021978,307 L740.521978021978,320.0 L727.521978021978,333 L714.521978021978,320.0" fill="#3D6642" />
+<text x="695.521978021978" y="292" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">60% Automated </text>
+<rect x="30" y="352" width="148.0" height="94" fill="#FCA311" />
+<text x="71.0" y="393.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Tool Stream</text>
+<rect x="198" y="352" width="189" height="20" fill="#8FBC94" />
+<text x="241.0" y="355.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Implement strategy</text>
+<rect x="247" y="377" width="331" height="20" fill="#8FBC94" />
+<text x="370.5" y="381.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Tools Selection</text>
+<rect x="342" y="417" width="381" height="20" fill="#8FBC94" />
+<text x="447.0" y="421.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Centralized Tool Administration</text>
+<path d="M727.521978021978,414 L740.521978021978,427.0 L727.521978021978,440 L714.521978021978,427.0" fill="#3D6642" />
+<text x="691.8553113553114" y="399" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">Admin Centralised</text>
+<text x="603.1428571428571" y="181" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">▼</text>
+<path d="M608.1428571428571,192.0 L608.1428571428571,202.0" stroke="#000000" />
+<path d="M608.1428571428571,206.66666666666666 L608.1428571428571,216.66666666666666" stroke="#000000" />
+<path d="M608.1428571428571,221.33333333333334 L608.1428571428571,231.33333333333334" stroke="#000000" />
+<path d="M608.1428571428571,236.0 L608.1428571428571,246.0" stroke="#000000" />
+<path d="M608.1428571428571,250.66666666666666 L608.1428571428571,260.66666666666663" stroke="#000000" />
+<path d="M608.1428571428571,265.3333333333333 L608.1428571428571,275.3333333333333" stroke="#000000" />
+<path d="M608.1428571428571,280.0 L608.1428571428571,290.0" stroke="#000000" />
+<path d="M608.1428571428571,294.66666666666663 L608.1428571428571,304.66666666666663" stroke="#000000" />
+<path d="M608.1428571428571,309.3333333333333 L608.1428571428571,319.3333333333333" stroke="#000000" />
+<path d="M608.1428571428571,324.0 L608.1428571428571,334.0" stroke="#000000" />
+<path d="M608.1428571428571,338.66666666666663 L608.1428571428571,348.66666666666663" stroke="#000000" />
+<path d="M608.1428571428571,353.3333333333333 L608.1428571428571,363.3333333333333" stroke="#000000" />
+<path d="M608.1428571428571,368.0 L608.1428571428571,378.0" stroke="#000000" />
+<path d="M608.1428571428571,382.66666666666663 L608.1428571428571,392.66666666666663" stroke="#000000" />
+<path d="M608.1428571428571,397.3333333333333 L608.1428571428571,407.3333333333333" stroke="#000000" />
+<path d="M608.1428571428571,412.0 L608.1428571428571,422.0" stroke="#000000" />
+<path d="M608.1428571428571,426.66666666666663 L608.1428571428571,436.66666666666663" stroke="#000000" />
+<path d="M608.1428571428571,441.3333333333333 L608.1428571428571,451.3333333333333" stroke="#000000" />
+<path d="M608.1428571428571,456.0 L608.1428571428571,466.0" stroke="#000000" />
+<text x="325.0" y="514" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">Generated by Roadmapper</text>
 </svg>
