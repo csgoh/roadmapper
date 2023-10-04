@@ -786,7 +786,7 @@ class SVGPainter(Painter):
         self, x: int, y: int, width: int, height: int, box_fill_colour: str
     ) -> None:
         """Draw a rounded rectagle"""
-        shape = super().draw_rounded_box(x, y, width, height, box_fill_colour)
+        super().draw_rounded_box(x, y, width, height, box_fill_colour)
         radius = 20
         rectangle = dw.Rectangle(
             x, y, width, height, rx=radius, ry=radius, fill=box_fill_colour

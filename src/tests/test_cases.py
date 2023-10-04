@@ -3,7 +3,6 @@ from datetime import datetime
 from src.roadmapper.roadmap import Roadmap
 from src.roadmapper.timelinemode import TimelineMode
 
-import pytest
 
 ### Roadmap Tests ###
 

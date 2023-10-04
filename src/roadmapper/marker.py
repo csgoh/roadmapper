@@ -68,7 +68,7 @@ class Marker:
                 ) = timeline_item.get_timeline_pos_percentage(
                     timeline.mode, current_date
                 )
-                if correct_timeline == True:
+                if correct_timeline is True:
                     break
 
         self.not_in_timeline_range = not correct_timeline
