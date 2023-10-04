@@ -1,5 +1,14 @@
 # Dev Guide
 
+## Linting
+
+Opening or changing a PR to the `main` branch automatically triggers checks of the linter Ruff. The configuration of the
+linter can be found in the [`pyproject.toml](./pyproject.toml).
+
+The linter is installed on your machine when you satisfy the specified dependencies with
+`pip install -r requirements.txt`. You can run the linter locally with executing `ruff check .` in the root directory of
+the repo. Some rule violations can be fixed by running `ruff check . --fix`.
+
 ## Automated Tests
 
 Before merging any PR into our `main` branch, we run automated tests on your modified source code. Besides some platform
