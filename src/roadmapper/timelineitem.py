@@ -205,7 +205,7 @@ class TimelineItem:
         if mode == TimelineMode.QUARTERLY:
             this_period = self.value
             this_year = int(this_period[0:4])
-            this_quarter = int(this_period[4:])
+            int(this_period[4:])
 
             if this_period[-1] == "1":
                 date_of_first_day_of_quarter = datetime(this_year, 1, 1)

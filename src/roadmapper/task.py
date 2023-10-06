@@ -171,8 +171,8 @@ class Task:
                 if len(task.milestones) > 0:
                     milestone_in_tasks = True
 
-        if milestone_exists_in_parent == False:
-            if milestone_in_tasks == True:
+        if milestone_exists_in_parent is False:
+            if milestone_in_tasks is True:
                 self.box_y = task_y + painter.additional_height_for_milestone
             else:
                 self.box_y = task_y

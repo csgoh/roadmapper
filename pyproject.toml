@@ -41,3 +41,11 @@ markers = [
     "macos: Tests which only apply to macOS environment",
     "windows: Tests which only apply to Windows environment",
 ]
+
+[tool.ruff]
+
+# Lint only dir `src`
+src = ["src"]
+
+# Ignore line length limitation
+ignore = ["E501"]

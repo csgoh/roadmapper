@@ -154,7 +154,7 @@ class Timeline:
                 timelineitemgroup_end,
             ) = self.__get_timeline_item_dates(index)
 
-            if self.show_generic_dates == False:
+            if self.show_generic_dates is False:
                 if index_year in year_groups:
                     year_groups[index_year] += 1
                 else:
@@ -209,7 +209,7 @@ class Timeline:
                 timelinetimegroup = TimelineYear(
                     # text="Year " + str(year),
                     text=self.year_text_format.format(year)
-                    if self.show_generic_dates == False
+                    if self.show_generic_dates is False
                     else self.year_generic_text_format.format(year),
                     value=year,
                     start=timelineitemgroup_start,

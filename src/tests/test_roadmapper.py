@@ -276,9 +276,9 @@ def singleton_demo(
 
     group = roadmap.add_group("Showcase Task Styles")
 
-    task = group.add_task("Rectangle Style", "2023-01-15", "2023-02-15")
-    task = group.add_task("Rounded Style", "2023-01-15", "2023-02-15", style="rounded")
-    task = group.add_task(
+    group.add_task("Rectangle Style", "2023-01-15", "2023-02-15")
+    group.add_task("Rounded Style", "2023-01-15", "2023-02-15", style="rounded")
+    group.add_task(
         "Arrowhead Style", "2023-01-15", "2023-02-15", style="arrowhead"
     )
 
@@ -321,7 +321,7 @@ def logo_demo(
 
     text = "I love Python"
     # emojized_text = emojize(text)
-    task = group.add_task(text, "2023-01-15", "2023-02-15")
+    group.add_task(text, "2023-01-15", "2023-02-15")
 
     roadmap.set_footer("Author: CS Goh " + datetime.now().strftime("%Y-%m-%d"))
     roadmap.draw()

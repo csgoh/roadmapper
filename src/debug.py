@@ -1,4 +1,3 @@
-import os
 from datetime import datetime
 from roadmapper.roadmap import Roadmap
 from roadmapper.timelinemode import TimelineMode
@@ -80,7 +79,7 @@ def debug02(
 
     group = roadmap.add_group("Group")
 
-    task = group.add_task("Task", "2023-01-01", "2024-12-31", fill_colour="#00FF00")
+    group.add_task("Task", "2023-01-01", "2024-12-31", fill_colour="#00FF00")
 
     roadmap.draw()
 
