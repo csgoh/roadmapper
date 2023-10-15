@@ -32,17 +32,17 @@
 <text x="1230.25" y="147.5" font-size="12" stroke="white" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Nov</text>
 <rect x="1286.0" y="143" width="86.5" height="20" fill="#404040" />
 <text x="1318.25" y="147.5" font-size="12" stroke="white" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Dec</text>
-<path d="M405.0,163 L405.0,531" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M493.0,163 L493.0,531" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M581.0,163 L581.0,531" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M669.0,163 L669.0,531" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M757.0,163 L757.0,531" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M845.0,163 L845.0,531" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M933.0,163 L933.0,531" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M1021.0,163 L1021.0,531" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M1109.0,163 L1109.0,531" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M1197.0,163 L1197.0,531" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M1285.0,163 L1285.0,531" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M405.0,163 L405.0,531" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M493.0,163 L493.0,531" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M581.0,163 L581.0,531" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M669.0,163 L669.0,531" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M757.0,163 L757.0,531" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M845.0,163 L845.0,531" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M933.0,163 L933.0,531" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M1021.0,163 L1021.0,531" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M1109.0,163 L1109.0,531" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M1197.0,163 L1197.0,531" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M1285.0,163 L1285.0,531" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
 <rect x="30" y="178" width="268.0" height="52" fill="#FFC000" />
 <text x="139.5" y="197.5" font-size="12" stroke="black" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Planning</text>
 <rect x="318" y="178" width="262" height="20" fill="#FFC000" />

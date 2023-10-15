@@ -16,9 +16,9 @@
 <text x="534.25" y="158.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">第3 분기</text>
 <rect x="630.0" y="156" width="142.5" height="20" fill="#4C5B5C" />
 <text x="678.25" y="158.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">第4 분기</text>
-<path d="M341.0,176 L341.0,467" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M485.0,176 L485.0,467" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M629.0,176 L629.0,467" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M341.0,176 L341.0,467" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M485.0,176 L485.0,467" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M629.0,176 L629.0,467" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
 <rect x="30" y="214" width="148.0" height="52" fill="#FCA311" />
 <text x="60.0" y="230.0" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">인사 프로세스</text>
 <rect x="198" y="214" width="189" height="20" fill="#8FBC94" />
@@ -47,25 +47,25 @@
 <text x="474.0" y="430.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">중앙 집중식 도구 관리</text>
 <path d="M727.521978021978,425 L740.521978021978,438.0 L727.521978021978,451 L714.521978021978,438.0" fill="#3D6642" />
 <text x="687.521978021978" y="410" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">시스템은 중앙 집중식</text>
-<text x="603.1428571428571" y="189" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">▼</text>
-<path d="M608.1428571428571,203.0 L608.1428571428571,213.0" stroke="#000000" />
-<path d="M608.1428571428571,217.66666666666666 L608.1428571428571,227.66666666666666" stroke="#000000" />
-<path d="M608.1428571428571,232.33333333333334 L608.1428571428571,242.33333333333334" stroke="#000000" />
-<path d="M608.1428571428571,247.0 L608.1428571428571,257.0" stroke="#000000" />
-<path d="M608.1428571428571,261.6666666666667 L608.1428571428571,271.6666666666667" stroke="#000000" />
-<path d="M608.1428571428571,276.3333333333333 L608.1428571428571,286.3333333333333" stroke="#000000" />
-<path d="M608.1428571428571,291.0 L608.1428571428571,301.0" stroke="#000000" />
-<path d="M608.1428571428571,305.66666666666663 L608.1428571428571,315.66666666666663" stroke="#000000" />
-<path d="M608.1428571428571,320.3333333333333 L608.1428571428571,330.3333333333333" stroke="#000000" />
-<path d="M608.1428571428571,335.0 L608.1428571428571,345.0" stroke="#000000" />
-<path d="M608.1428571428571,349.66666666666663 L608.1428571428571,359.66666666666663" stroke="#000000" />
-<path d="M608.1428571428571,364.3333333333333 L608.1428571428571,374.3333333333333" stroke="#000000" />
-<path d="M608.1428571428571,379.0 L608.1428571428571,389.0" stroke="#000000" />
-<path d="M608.1428571428571,393.66666666666663 L608.1428571428571,403.66666666666663" stroke="#000000" />
-<path d="M608.1428571428571,408.3333333333333 L608.1428571428571,418.3333333333333" stroke="#000000" />
-<path d="M608.1428571428571,423.0 L608.1428571428571,433.0" stroke="#000000" />
-<path d="M608.1428571428571,437.66666666666663 L608.1428571428571,447.66666666666663" stroke="#000000" />
-<path d="M608.1428571428571,452.3333333333333 L608.1428571428571,462.3333333333333" stroke="#000000" />
-<path d="M608.1428571428571,467.0 L608.1428571428571,477.0" stroke="#000000" />
+<text x="646.9230769230769" y="189" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">▼</text>
+<path d="M651.9230769230769,203.0 L651.9230769230769,213.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,217.66666666666666 L651.9230769230769,227.66666666666666" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,232.33333333333334 L651.9230769230769,242.33333333333334" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,247.0 L651.9230769230769,257.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,261.6666666666667 L651.9230769230769,271.6666666666667" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,276.3333333333333 L651.9230769230769,286.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,291.0 L651.9230769230769,301.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,305.66666666666663 L651.9230769230769,315.66666666666663" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,320.3333333333333 L651.9230769230769,330.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,335.0 L651.9230769230769,345.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,349.66666666666663 L651.9230769230769,359.66666666666663" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,364.3333333333333 L651.9230769230769,374.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,379.0 L651.9230769230769,389.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,393.66666666666663 L651.9230769230769,403.66666666666663" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,408.3333333333333 L651.9230769230769,418.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,423.0 L651.9230769230769,433.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,437.66666666666663 L651.9230769230769,447.66666666666663" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,452.3333333333333 L651.9230769230769,462.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,467.0 L651.9230769230769,477.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
 <text x="350.5" y="528" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">로드매퍼에서 생성</text>
 </svg>
