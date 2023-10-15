@@ -32,17 +32,17 @@
 <text x="1215.75" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 11</text>
 <rect x="1286.0" y="143" width="86.5" height="20" fill="#000000" />
 <text x="1303.75" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 12</text>
-<path d="M405.0,163 L405.0,315" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M493.0,163 L493.0,315" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M581.0,163 L581.0,315" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M669.0,163 L669.0,315" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M757.0,163 L757.0,315" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M845.0,163 L845.0,315" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M933.0,163 L933.0,315" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M1021.0,163 L1021.0,315" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M1109.0,163 L1109.0,315" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M1197.0,163 L1197.0,315" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M1285.0,163 L1285.0,315" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M405.0,163 L405.0,315" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M493.0,163 L493.0,315" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M581.0,163 L581.0,315" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M669.0,163 L669.0,315" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M757.0,163 L757.0,315" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M845.0,163 L845.0,315" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M933.0,163 L933.0,315" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M1021.0,163 L1021.0,315" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M1109.0,163 L1109.0,315" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M1197.0,163 L1197.0,315" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M1285.0,163 L1285.0,315" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
 <rect x="30" y="198" width="268.0" height="67" fill="#000000" />
 <text x="45" y="226.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Core Product Work Stream</text>
 <rect x="318" y="213" width="878" height="20" fill="#D9D9D9" />

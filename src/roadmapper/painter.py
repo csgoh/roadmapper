@@ -978,8 +978,10 @@ class SVGPainter(Painter):
                 y1,
                 x2,
                 y2,
-                width=line_width,
-                fill=(r, g, b, int(255 * line_transparency)),
+                ### Fix for v1.3.3
+                stroke=line_colour,
+                stroke_opacity=line_transparency,
+                stroke_width=line_width,
             )
             self.elements.append(line)
         elif line_style == "dashed":
@@ -996,7 +998,16 @@ class SVGPainter(Painter):
                 )
             ):
                 if i % 2 == 0:
-                    line = dw.Line(x, y, x, y + 10, stroke=line_colour)
+                    line = dw.Line(
+                        x,
+                        y,
+                        x,
+                        y + 10,
+                        ### Fix for v1.3.3
+                        stroke=line_colour,
+                        stroke_opacity=line_transparency,
+                        stroke_width=line_width,
+                    )
                     self.elements.append(line)
 
     def draw_cross_on_box(

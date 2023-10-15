@@ -16,9 +16,9 @@
 <text x="549.25" y="152.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Q3</text>
 <rect x="630.0" y="148" width="142.5" height="20" fill="#4C5B5C" />
 <text x="693.25" y="152.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Q4</text>
-<path d="M341.0,168 L341.0,456" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M485.0,168 L485.0,456" width="1" fill="(230, 230, 230, 12750)" />
-<path d="M629.0,168 L629.0,456" width="1" fill="(230, 230, 230, 12750)" />
+<path d="M341.0,168 L341.0,456" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M485.0,168 L485.0,456" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
+<path d="M629.0,168 L629.0,456" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
 <rect x="30" y="203" width="148.0" height="52" fill="#FCA311" />
 <text x="63.5" y="222.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">People Stream</text>
 <rect x="198" y="203" width="189" height="20" fill="#8FBC94" />
@@ -47,25 +47,25 @@
 <text x="447.0" y="421.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Centralized Tool Administration</text>
 <path d="M727.521978021978,414 L740.521978021978,427.0 L727.521978021978,440 L714.521978021978,427.0" fill="#3D6642" />
 <text x="691.8553113553114" y="399" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">Admin Centralised</text>
-<text x="603.1428571428571" y="181" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">▼</text>
-<path d="M608.1428571428571,192.0 L608.1428571428571,202.0" stroke="#000000" />
-<path d="M608.1428571428571,206.66666666666666 L608.1428571428571,216.66666666666666" stroke="#000000" />
-<path d="M608.1428571428571,221.33333333333334 L608.1428571428571,231.33333333333334" stroke="#000000" />
-<path d="M608.1428571428571,236.0 L608.1428571428571,246.0" stroke="#000000" />
-<path d="M608.1428571428571,250.66666666666666 L608.1428571428571,260.66666666666663" stroke="#000000" />
-<path d="M608.1428571428571,265.3333333333333 L608.1428571428571,275.3333333333333" stroke="#000000" />
-<path d="M608.1428571428571,280.0 L608.1428571428571,290.0" stroke="#000000" />
-<path d="M608.1428571428571,294.66666666666663 L608.1428571428571,304.66666666666663" stroke="#000000" />
-<path d="M608.1428571428571,309.3333333333333 L608.1428571428571,319.3333333333333" stroke="#000000" />
-<path d="M608.1428571428571,324.0 L608.1428571428571,334.0" stroke="#000000" />
-<path d="M608.1428571428571,338.66666666666663 L608.1428571428571,348.66666666666663" stroke="#000000" />
-<path d="M608.1428571428571,353.3333333333333 L608.1428571428571,363.3333333333333" stroke="#000000" />
-<path d="M608.1428571428571,368.0 L608.1428571428571,378.0" stroke="#000000" />
-<path d="M608.1428571428571,382.66666666666663 L608.1428571428571,392.66666666666663" stroke="#000000" />
-<path d="M608.1428571428571,397.3333333333333 L608.1428571428571,407.3333333333333" stroke="#000000" />
-<path d="M608.1428571428571,412.0 L608.1428571428571,422.0" stroke="#000000" />
-<path d="M608.1428571428571,426.66666666666663 L608.1428571428571,436.66666666666663" stroke="#000000" />
-<path d="M608.1428571428571,441.3333333333333 L608.1428571428571,451.3333333333333" stroke="#000000" />
-<path d="M608.1428571428571,456.0 L608.1428571428571,466.0" stroke="#000000" />
+<text x="646.9230769230769" y="181" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">▼</text>
+<path d="M651.9230769230769,192.0 L651.9230769230769,202.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,206.66666666666666 L651.9230769230769,216.66666666666666" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,221.33333333333334 L651.9230769230769,231.33333333333334" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,236.0 L651.9230769230769,246.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,250.66666666666666 L651.9230769230769,260.66666666666663" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,265.3333333333333 L651.9230769230769,275.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,280.0 L651.9230769230769,290.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,294.66666666666663 L651.9230769230769,304.66666666666663" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,309.3333333333333 L651.9230769230769,319.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,324.0 L651.9230769230769,334.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,338.66666666666663 L651.9230769230769,348.66666666666663" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,353.3333333333333 L651.9230769230769,363.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,368.0 L651.9230769230769,378.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,382.66666666666663 L651.9230769230769,392.66666666666663" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,397.3333333333333 L651.9230769230769,407.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,412.0 L651.9230769230769,422.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,426.66666666666663 L651.9230769230769,436.66666666666663" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,441.3333333333333 L651.9230769230769,451.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M651.9230769230769,456.0 L651.9230769230769,466.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
 <text x="325.0" y="514" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">Generated by Roadmapper</text>
 </svg>
