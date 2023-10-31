@@ -41,7 +41,7 @@ jobs:
         echo "LANG=en_US" >> $GITHUB_ENV
         echo "LANGUAGE=en_US" >> $GITHUB_ENV
 
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         sparse-checkout: |
           .github
