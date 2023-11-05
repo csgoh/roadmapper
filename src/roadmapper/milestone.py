@@ -61,7 +61,6 @@ class Milestone:
             )
 
         text_width, _ = painter.get_text_dimension(text=self.text, font=self.font, font_size=self.font_size)
-        width = text_width * 2
 
         # Text is already "centered" if we change nothing
         # For "left" and "right", move text_x by 1/2 text_width.
