@@ -59,6 +59,17 @@ class Milestone:
                 self.diamond_height,
                 self.fill_colour,
             )
+
+        text_width, _ = painter.get_text_dimension(text=self.text, font=self.font, font_size=self.font_size)
+        width = text_width * 2
+
+        # Text is already "centered" if we change nothing
+        # For "left" and "right", move text_x by 1/2 text_width.
+        if self.text_alignment == "right":
+            self.text_x = self.text_x + (text_width/2)
+        elif self.text_alignment == "left":
+            self.text_x = self.text_x - (text_width/2)
+
         if (self.text_x != 0) and (self.text_y != 0):
             painter.draw_text(
                 self.text_x,
