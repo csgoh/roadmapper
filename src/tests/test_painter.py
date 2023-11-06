@@ -1,6 +1,9 @@
+import pytest
+
 from src.roadmapper.painter import PNGPainter
 
 
+@pytest.mark.unit
 class TestPainter:
     def test_init(self):
         painter = PNGPainter(800, 600)
