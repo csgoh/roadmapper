@@ -66,14 +66,14 @@ class MilestoneTextAlignment(RoadmapABC):
         )
 
         # Group containing each version of none align milestone text
-        center_task = group.add_task(
+        centre_task = group.add_task(
             "Center align", start_date, "2023-12-31"
         )
-        center_task.add_milestone(
-            "not specified (center)", "2023-02-15"
+        centre_task.add_milestone(
+            "not specified (centre)", "2023-02-15"
         )
-        center_task.add_milestone(
-            "percent right", "2023-02-15", text_alignment="center"
+        centre_task.add_milestone(
+            "percent right", "2023-02-15", text_alignment="centre"
         )
 
 

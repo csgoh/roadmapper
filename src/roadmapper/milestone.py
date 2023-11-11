@@ -63,8 +63,8 @@ class Milestone:
             self.text_alignment.lower() if self.text_alignment is not None else None
         )
 
-        if alignment is None or alignment == "center":
-            pass  # Text is already "center" if we change nothing
+        if alignment is None or alignment == "centre":
+            pass  # Text is already "centre" if we change nothing
         elif "left" in alignment or "right" in alignment:  # Handle left/right
             text_width, _ = painter.get_text_dimension(
                 text=self.text, font=self.font, font_size=self.font_size
@@ -86,7 +86,7 @@ class Milestone:
                 self.text_x -= offset
         else:
             raise ValueError(
-                'text_alignment must be: "center", "left", "right" or None.'
+                'text_alignment must be: "centre", "left", "right" or None.'
                 f"\n\tGot {self.text_alignment=}"
             )
 

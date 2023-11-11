@@ -45,7 +45,7 @@ def milestone():
         font_size=12,
         font_colour="black",
         fill_colour="white",
-        text_alignment="center",
+        text_alignment="centre",
     )
     milestone.diamond_x = 200
     milestone.diamond_y = 200
@@ -61,8 +61,8 @@ def painter():
 
 
 # Text test cases
-@pytest.mark.parametrize("text_alignment", [None, "center"])
-def test_draw_milestone_center_alignment(milestone, painter, text_alignment):
+@pytest.mark.parametrize("text_alignment", [None, "centre"])
+def test_draw_milestone_centre_alignment(milestone, painter, text_alignment):
     milestone.text_alignment = text_alignment
     milestone.draw(painter)
     assert painter.text_count > 0
