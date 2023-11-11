@@ -73,7 +73,7 @@ class MilestoneTextAlignment(RoadmapABC):
             "not specified (centre)", "2023-02-15"
         )
         centre_task.add_milestone(
-            "percent right", "2023-02-15", text_alignment="centre"
+            "percent right", "2023-08-01", text_alignment="centre"
         )
 
 
