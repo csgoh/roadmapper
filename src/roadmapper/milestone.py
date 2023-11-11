@@ -44,7 +44,6 @@ class Milestone:
     text_x: int = field(init=False, default=0)
     text_y: int = field(init=False, default=0)
 
-
     def draw(self, painter: Painter) -> None:
         """Draw milestone
 
@@ -60,14 +59,36 @@ class Milestone:
                 self.fill_colour,
             )
 
-        text_width, _ = painter.get_text_dimension(text=self.text, font=self.font, font_size=self.font_size)
+        alignment = (
+            self.text_alignment.lower() if self.text_alignment is not None else None
+        )
 
-        # Text is already "centered" if we change nothing
-        # For "left" and "right", move text_x by 1/2 text_width.
-        if self.text_alignment == "right":
-            self.text_x = self.text_x + (text_width/2)
-        elif self.text_alignment == "left":
-            self.text_x = self.text_x - (text_width/2)
+        if alignment is None or alignment == "center":
+            pass  # Text is already "center" if we change nothing
+        elif "left" in alignment or "right" in alignment:  # Handle left/right
+            text_width, _ = painter.get_text_dimension(
+                text=self.text, font=self.font, font_size=self.font_size
+            )
+
+            if ":" in alignment:  # Split if ":" in str
+                alignment, modifier = alignment.split(":")
+
+                if "%" in modifier:  # If "%" treat as percent of text_width
+                    offset = (int(modifier.strip("%")) / 100) * text_width
+                else:  # Treat as units
+                    offset = int(modifier)
+            else:  # If no ":", default to half of text width
+                offset = 0.5 * text_width
+
+            if alignment == "right":
+                self.text_x += offset
+            elif alignment == "left":
+                self.text_x -= offset
+        else:
+            raise ValueError(
+                'text_alignment must be: "center", "left", "right" or None.'
+                f"\n\tGot {self.text_alignment=}"
+            )
 
         if (self.text_x != 0) and (self.text_y != 0):
             painter.draw_text(
