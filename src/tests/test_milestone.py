@@ -1,5 +1,7 @@
-import pytest
 from datetime import datetime
+
+import pytest
+
 from src.roadmapper.milestone import Milestone
 
 
@@ -60,7 +62,6 @@ def painter():
     return MockPainter()
 
 
-# Text test cases
 @pytest.mark.parametrize("text_alignment", [None, "centre"])
 def test_draw_milestone_centre_alignment(milestone, painter, text_alignment):
     milestone.text_alignment = text_alignment
