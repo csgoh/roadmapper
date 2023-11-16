@@ -98,6 +98,16 @@ def test_invalid_type():
     with pytest.raises(ValueError):
         Alignment.from_value(1)
 
+@pytest.mark.unit
+def test_invalid_center_with_offset():
+    with pytest.raises(ValueError):
+        Alignment(direction=AlignmentDirection.CENTER, offset=100)
+
+@pytest.mark.unit
+def test_invalid_center_with_offset_from_string():
+    with pytest.raises(ValueError):
+        Alignment.from_string("center:80%")
+
 
 @pytest.mark.unit
 def test_str_method():

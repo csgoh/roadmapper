@@ -30,6 +30,9 @@ class Alignment:
     offset_type: Optional[OffsetType] = None
     offset: Optional[Union[int, float]] = None
 
+    def __post_init__(self):
+        self.validate()
+
     @classmethod
     def from_value(
         cls,
@@ -68,6 +71,7 @@ class Alignment:
     ) -> "Alignment":
         new = cls(offset_type=default_offset_type, offset=default_offset)
         new.update_from_alignment_string(alignment)
+        new.validate()
         return new
 
     @staticmethod
@@ -101,6 +105,12 @@ class Alignment:
             raise ValueError("Cannot return percent_of when offset_type != 'PERCENT'")
         return whole * self.offset
 
+    def validate(self) -> None:
+        if self.direction == AlignmentDirection.CENTER and self.offset:
+            raise ValueError(
+                "An offset amount cannot be specified when the direction is set to 'center'. {self}"
+            )
+
     def __str__(self):
         offset_str = ""
         if self.offset is not None:
@@ -111,20 +121,3 @@ class Alignment:
                 else str(self.offset)
             )
         return f"{self.direction.name.lower()}{offset_str}"
-
-
-if __name__ == "__main__":
-    result1 = Alignment.from_value("left:50%")
-    print(result1)
-
-    result2 = Alignment.from_value(result1)
-    print(result2.as_tuple())
-
-    result3 = Alignment.from_value("Center")
-    print(result3)
-
-    # expect ValueError about type of argument.
-    Alignment.from_value(1)
-
-    # Expect ValueError about alignment direction.
-    Alignment.from_value("widdershins:50")
