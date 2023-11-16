@@ -69,8 +69,11 @@ class Alignment:
         default_offset_type: Optional[OffsetType] = None,
         default_offset: Optional[float] = None,
     ) -> "Alignment":
-        new = cls(offset_type=default_offset_type, offset=default_offset)
+        new = cls()
         new.update_from_alignment_string(alignment)
+        if new.direction != AlignmentDirection.CENTER:
+            new.offset_type = new.offset_type or default_offset_type
+            new.offset = new.offset or default_offset
         new.validate()
         return new
 
