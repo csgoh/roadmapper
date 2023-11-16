@@ -92,7 +92,7 @@ class Milestone:
                         )
             offset = alignment.percent_of(text_width)
         
-        if direction == AlignmentDirection.RIGHT:
+        if direction == AlignmentDirection.RIGHT and offset:
             self.text_x += offset
-        elif alignment == AlignmentDirection.LEFT:
+        elif alignment == AlignmentDirection.LEFT and offset:
             self.text_x -= offset
