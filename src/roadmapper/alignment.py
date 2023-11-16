@@ -42,7 +42,11 @@ class Alignment:
         if isinstance(alignment, Alignment):
             return cls.from_alignment(alignment)
         if isinstance(alignment, str):
-            return cls.from_string(alignment)
+            return cls.from_string(
+                alignment,
+                default_offset_type=default_offset_type,
+                default_offset=default_offset,
+            )
         else:
             raise ValueError(
                 'Invalid argument "alignment": expected None, str, or Alignment instance,'
@@ -56,8 +60,13 @@ class Alignment:
         return new
 
     @classmethod
-    def from_string(cls, alignment: str) -> "Alignment":
-        new = cls()
+    def from_string(
+        cls,
+        alignment: str,
+        default_offset_type: Optional[OffsetType] = None,
+        default_offset: Optional[float] = None,
+    ) -> "Alignment":
+        new = cls(offset_type=default_offset_type, offset=default_offset)
         new.update_from_alignment_string(alignment)
         return new
 

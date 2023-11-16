@@ -82,7 +82,6 @@ class Milestone:
 
     def apply_offset(self, alignment: Alignment, painter: Painter) -> None:
         direction, offset_type, offset = alignment.as_tuple()
-
         if direction is None or direction == AlignmentDirection.CENTER:
             return  # Center does not require an offset
 
@@ -91,8 +90,8 @@ class Milestone:
                             text=self.text, font=self.font, font_size=self.font_size
                         )
             offset = alignment.percent_of(text_width)
-        
+
         if direction == AlignmentDirection.RIGHT and offset:
             self.text_x += offset
-        elif alignment == AlignmentDirection.LEFT and offset:
+        elif direction == AlignmentDirection.LEFT and offset:
             self.text_x -= offset
