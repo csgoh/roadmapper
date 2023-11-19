@@ -47,25 +47,25 @@
 <text x="474.0" y="430.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">중앙 집중식 도구 관리</text>
 <path d="M727.521978021978,425 L740.521978021978,438.0 L727.521978021978,451 L714.521978021978,438.0" fill="#3D6642" />
 <text x="687.521978021978" y="410" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">시스템은 중앙 집중식</text>
-<text x="646.9230769230769" y="189" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">▼</text>
-<path d="M651.9230769230769,203.0 L651.9230769230769,213.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M651.9230769230769,217.66666666666666 L651.9230769230769,227.66666666666666" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M651.9230769230769,232.33333333333334 L651.9230769230769,242.33333333333334" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M651.9230769230769,247.0 L651.9230769230769,257.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M651.9230769230769,261.6666666666667 L651.9230769230769,271.6666666666667" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M651.9230769230769,276.3333333333333 L651.9230769230769,286.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M651.9230769230769,291.0 L651.9230769230769,301.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M651.9230769230769,305.66666666666663 L651.9230769230769,315.66666666666663" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M651.9230769230769,320.3333333333333 L651.9230769230769,330.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M651.9230769230769,335.0 L651.9230769230769,345.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M651.9230769230769,349.66666666666663 L651.9230769230769,359.66666666666663" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M651.9230769230769,364.3333333333333 L651.9230769230769,374.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M651.9230769230769,379.0 L651.9230769230769,389.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M651.9230769230769,393.66666666666663 L651.9230769230769,403.66666666666663" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M651.9230769230769,408.3333333333333 L651.9230769230769,418.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M651.9230769230769,423.0 L651.9230769230769,433.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M651.9230769230769,437.66666666666663 L651.9230769230769,447.66666666666663" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M651.9230769230769,452.3333333333333 L651.9230769230769,462.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M651.9230769230769,467.0 L651.9230769230769,477.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<text x="703.2967032967033" y="189" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">▼</text>
+<path d="M708.2967032967033,203.0 L708.2967032967033,213.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M708.2967032967033,217.66666666666666 L708.2967032967033,227.66666666666666" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M708.2967032967033,232.33333333333334 L708.2967032967033,242.33333333333334" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M708.2967032967033,247.0 L708.2967032967033,257.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M708.2967032967033,261.6666666666667 L708.2967032967033,271.6666666666667" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M708.2967032967033,276.3333333333333 L708.2967032967033,286.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M708.2967032967033,291.0 L708.2967032967033,301.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M708.2967032967033,305.66666666666663 L708.2967032967033,315.66666666666663" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M708.2967032967033,320.3333333333333 L708.2967032967033,330.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M708.2967032967033,335.0 L708.2967032967033,345.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M708.2967032967033,349.66666666666663 L708.2967032967033,359.66666666666663" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M708.2967032967033,364.3333333333333 L708.2967032967033,374.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M708.2967032967033,379.0 L708.2967032967033,389.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M708.2967032967033,393.66666666666663 L708.2967032967033,403.66666666666663" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M708.2967032967033,408.3333333333333 L708.2967032967033,418.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M708.2967032967033,423.0 L708.2967032967033,433.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M708.2967032967033,437.66666666666663 L708.2967032967033,447.66666666666663" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M708.2967032967033,452.3333333333333 L708.2967032967033,462.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
+<path d="M708.2967032967033,467.0 L708.2967032967033,477.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
 <text x="350.5" y="528" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">로드매퍼에서 생성</text>
 </svg>
