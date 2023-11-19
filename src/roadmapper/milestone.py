@@ -20,8 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from datetime import datetime
 from dataclasses import dataclass, field
+from datetime import datetime
+from typing import Union
+
+from .alignment import Alignment, AlignmentDirection, OffsetType
 from .painter import Painter
 
 
@@ -35,7 +38,7 @@ class Milestone:
     font_size: int = field(init=True, default=None)
     font_colour: str = field(init=True, default=None)
     fill_colour: str = field(init=True, default=None)
-    text_alignment: str = field(init=True, default=None)
+    text_alignment: Union[str, Alignment] = field(init=True, default=None)
 
     diamond_x: int = field(init=False, default=0)
     diamond_y: int = field(init=False, default=0)
@@ -43,7 +46,6 @@ class Milestone:
     diamond_height: int = field(init=False, default=0)
     text_x: int = field(init=False, default=0)
     text_y: int = field(init=False, default=0)
-
 
     def draw(self, painter: Painter) -> None:
         """Draw milestone
@@ -59,6 +61,15 @@ class Milestone:
                 self.diamond_height,
                 self.fill_colour,
             )
+
+        alignment = Alignment.from_value(
+            alignment=self.text_alignment,
+            default_offset_type=OffsetType.PERCENT,
+            default_offset=0.5,
+        )
+
+        self.apply_offset(alignment=alignment, painter=painter)
+
         if (self.text_x != 0) and (self.text_y != 0):
             painter.draw_text(
                 self.text_x,
@@ -68,3 +79,19 @@ class Milestone:
                 self.font_size,
                 self.font_colour,
             )
+
+    def apply_offset(self, alignment: Alignment, painter: Painter) -> None:
+        direction, offset_type, offset = alignment.as_tuple()
+        if direction is None or direction == AlignmentDirection.CENTER:
+            return  # Center does not require an offset
+
+        if offset_type == OffsetType.PERCENT:
+            text_width, _ = painter.get_text_dimension(
+                            text=self.text, font=self.font, font_size=self.font_size
+                        )
+            offset = alignment.percent_of(text_width)
+
+        if direction == AlignmentDirection.RIGHT and offset:
+            self.text_x += offset
+        elif direction == AlignmentDirection.LEFT and offset:
+            self.text_x -= offset
