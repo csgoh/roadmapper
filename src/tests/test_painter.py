@@ -1,6 +1,9 @@
+import pytest
+
 from src.roadmapper.painter import PNGPainter
 
 
+@pytest.mark.unit
 class TestPainter:
     def test_init(self):
         painter = PNGPainter(800, 600)
@@ -50,7 +53,7 @@ class TestPainter:
     def test_get_text_dimension(self):
         painter = PNGPainter(100, 100)
         text = "Hello World"
-        font = "Arial"
+        font = "../fonts/SourceHanSerifTC-Regular.otf"
         font_size = 12
         width, height = painter.get_text_dimension(text, font, font_size)
         assert width > 0
@@ -58,8 +61,12 @@ class TestPainter:
 
     def test_get_text_dimension2(self):
         painter = PNGPainter(800, 600)
-        text_width, text_height = painter.get_text_dimension("Hello World", "Arial", 12)
+        text_width, text_height = painter.get_text_dimension(
+            "Hello World",
+            "../fonts/SourceHanSerifTC-Regular.otf",
+            12,
+        )
         print(f"text_width: {text_width}, text_height: {text_height}")
         # Linux returns different text width
-        assert text_width in [62, 64]
-        assert text_height == 11
+        assert text_width in [71, 73]
+        assert text_height == 14
