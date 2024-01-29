@@ -55,7 +55,7 @@ jobs:
         python -m src.tests.roadmap_generators.roadmap_generator --operating-system $os --target-directory examples
 
     - name: Upload generated roadmaps
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
           name: example-roadmaps-${{ matrix.os }}
           path: examples/

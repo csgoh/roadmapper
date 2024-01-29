@@ -81,7 +81,7 @@ jobs:
 
     - name: Upload image diffs when tests failed
       if: failure()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: diffs-of-generated-roadmaps-${{ matrix.os }}-${{ matrix.python-version }}
         path: |
