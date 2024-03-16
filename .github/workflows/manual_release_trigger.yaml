@@ -1,0 +1,69 @@
+name: Prepare release manually
+
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'Type of release'
+        required: true
+        type: choice
+        options:
+          - 'MAJOR'
+          - 'MINOR'
+          - 'PATCH'
+        default: 'PATCH'
+
+jobs:
+  bump-versions:
+
+    name: Bump versions and tag
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          sparse-checkout: |
+            .github
+            ci
+            src
+            pyproject.toml
+            requirements.txt
+
+      - name: Determine new versions
+        run: |
+          echo "release_version=$(./ci/version_determiner.py release-version $release_type)" >> "$GITHUB_ENV"
+          echo "version_tag=$(./ci/version_determiner.py version-tag $release_type)" >> "$GITHUB_ENV"
+          echo "snapshot_version=$(./ci/version_determiner.py snapshot-version $release_type)" >> "$GITHUB_ENV"
+        env:
+          release_type: ${{ inputs.release }}
+
+      - name: Print new versions
+        run: |
+          echo "Release version: $release_version"
+          echo "Version tag: $version_tag"
+          echo "Snapshot version: $snapshot_version"
+
+      - name: Configure Git user
+        run: |
+          git config user.email "actions+bumper@users.noreply.github.com"
+          git config user.name "GitHub Actions Bumper"
+
+      - name: Bump to release version and tag
+        run: |
+          ./ci/version_writer.py $release_version
+          git commit --all --message "Bump version to $release_version"
+          git tag --annotate --message "Release $version_tag" $version_tag
+
+      - name: Bump to snapshot version
+        run: |
+          ./ci/version_writer.py $snapshot_version
+          git commit --all --message "Bump version to $snapshot_version"
+
+      - name: Push version changes and tag
+        uses: ad-m/github-push-action@master
+        with:
+          tags: true
