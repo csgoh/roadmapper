@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "roadmapper"
+dynamic = ["version"]
+authors = [{ name = "CS Goh" }]
+description = "Roadmapper. A Roadmap-as-Code (RaC) python library for generating a roadmap by using python code"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3.10",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = ['Pillow>=10.0.0', 'python-dateutil>=2.8.2', 'drawsvg>=2.2.0']
+
+[project.urls]
+"Homepage" = "https://github.com/csgoh/roadmapper"
+"Bug Tracker" = "https://github.com/csgoh/roadmapper/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"] # list of folders that contain the packages (["."] by default)
+exclude = [
+    "demo",
+    "generate_gallery",
+    "test_cases",
+    "tempCodeRunnerFile",
+] # exclude packages matching these glob patterns (empty by default)
+
+[tool.setuptools.dynamic]
+version = { attr = "roadmapper.version.__version__" }
+readme = { file = ["README.md"] }
+
+[tool.pytest.ini_options]
+addopts = "-v"
+markers = [
+    "unit: Unit tests which are not dependent on environment",
+    "ubuntu: Tests which only apply to Ubuntu environment",
+    "macos: Tests which only apply to macOS environment",
+    "windows: Tests which only apply to Windows environment",
+]
+
+[tool.ruff]
+
+# Lint only dir `src`
+src = ["src"]
+
+# Ignore line length limitation
+ignore = ["E501"]
