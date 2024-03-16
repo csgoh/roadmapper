@@ -1,0 +1,19 @@
+{
+    "locale": "de_DE.UTF-8",
+    "settings": {
+        "year": {
+            "text": "Jahr {0}",
+            "generic_text": "Jahr {0}"
+        },
+        "half_year": {"text": "H{0}"},
+        "quarter": {"text": "Q{0}"},
+        "month": {
+            "text": "{0}",
+            "generic_text": "Monat {0}"
+        },
+        "week": {
+            "text": "{0} {1}",
+            "generic_text": "W{0}"
+        }
+    }
+}
