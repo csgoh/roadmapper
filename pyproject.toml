@@ -23,6 +23,7 @@ dependencies = ['Pillow>=10.0.0', 'python-dateutil>=2.8.2', 'drawsvg>=2.2.0']
 [tool.setuptools.packages.find]
 where = ["src"] # list of folders that contain the packages (["."] by default)
 exclude = [
+    "ci",
     "demo",
     "generate_gallery",
     "test_cases",
