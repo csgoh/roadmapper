@@ -29,6 +29,7 @@ jobs:
       with:
         sparse-checkout: |
           .github
+          ci
           src
           pyproject.toml
           requirements.txt
