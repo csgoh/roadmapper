@@ -49,4 +49,4 @@ markers = [
 src = ["src"]
 
 # Ignore line length limitation
-ignore = ["E501"]
+lint.ignore = ["E501"]
