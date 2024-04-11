@@ -45,8 +45,8 @@ markers = [
 
 [tool.ruff]
 
-# Lint only dir `src`
-src = ["src"]
+# Lint only mentioned dirs
+src = ["src", "ci"]
 
 # Ignore line length limitation
-ignore = ["E501"]
+lint.ignore = ["E501"]
