@@ -331,6 +331,22 @@ class Painter:
             box_y + box_height,
         )
 
+    def draw_text_on_box(
+        self,
+        box_x: int,
+        box_y: int,
+        box_width: int,
+        box_height: int,
+        box_fill_colour: int,
+        text: str,
+        text_alignment: str,
+        text_font: str,
+        text_font_size: int,
+        text_font_colour: str,
+        style: str = "rectangle",
+    ) -> None:
+        raise NotImplementedError
+
     def draw_diamond(
         self, x: int, y: int, width: int, height: int, fill_colour: str
     ) -> list:
@@ -521,13 +537,86 @@ class PNGPainter(Painter):
         multi_lines = []
         wrap_lines = []
 
-        ### Make '\n' work
+        # ** Make '\n' work
         multi_lines = text.splitlines()
 
         left, _, right, _ = font.getbbox("a")
         single_char_width = right - left
 
-        ### wrap text
+        # ** wrap text
+        for line in multi_lines:
+            wrap_lines.extend(textwrap.wrap(line, int(box_width / single_char_width)))
+
+        pad = 4
+        line_count = len(wrap_lines)
+
+        for i, line in enumerate(wrap_lines):
+            font_width, font_height = self.get_text_dimension(
+                line, text_font, text_font_size
+            )
+
+            match text_alignment:
+                case "centre":
+                    x = box_x1 + (box_width - font_width) / 2
+                case "left":
+                    x = box_x1 + 15
+                case "right":
+                    x = box_x2 - font_width - 15
+                case _:
+                    x = box_x1 + (box_width - font_width) / 2
+
+            total_line_height = (font_height * line_count) + (pad * (line_count - 1))
+
+            single_line_height = font_height
+
+            y = (
+                box_y1
+                + ((box_height - total_line_height) / 2)
+                + ((single_line_height * i) + (pad * i))
+            )
+
+            self.__cr.text((x, y), line, fill=text_font_colour, anchor="la", font=font)
+
+    def draw_text_on_box(
+        self,
+        box_x: int,
+        box_y: int,
+        box_width: int,
+        box_height: int,
+        box_fill_colour: int,
+        text: str,
+        text_alignment: str,
+        text_font: str,
+        text_font_size: int,
+        text_font_colour: str,
+        style: str = "rectangle",
+    ) -> None:
+        box_x1, box_y1, box_x2, box_y2 = super().draw_box_with_text(
+            box_x,
+            box_y,
+            box_width,
+            box_height,
+            box_fill_colour,
+            text,
+            text_alignment,
+            text_font,
+            text_font_size,
+            text_font_colour,
+            style,
+        )
+
+        font = ImageFont.truetype(self.get_font_path(text_font), size=text_font_size)
+
+        multi_lines = []
+        wrap_lines = []
+
+        # ** Make '\n' work
+        multi_lines = text.splitlines()
+
+        left, _, right, _ = font.getbbox("a")
+        single_char_width = right - left
+
+        # ** wrap text
         for line in multi_lines:
             wrap_lines.extend(textwrap.wrap(line, int(box_width / single_char_width)))
 
@@ -579,6 +668,7 @@ class PNGPainter(Painter):
 
         # Use Pillow's ImageDraw module to draw a polygon with the given points and fill color.
         self.__cr.polygon(points, fill=fill_colour)
+        # self.__cr.polygon(points, outline=fill_colour, width=2)
 
     def draw_text(
         self, x: int, y: int, text: str, font: str, font_size: int, font_colour: str
@@ -869,6 +959,89 @@ class SVGPainter(Painter):
         single_char_width = right - left
 
         ### wrap text
+        for line in multi_lines:
+            wrap_lines.extend(textwrap.wrap(line, int(box_width / single_char_width)))
+
+        pad = 4
+        line_count = len(wrap_lines)
+
+        for i, line in enumerate(wrap_lines):
+            font_width, font_height = self.get_text_dimension(
+                line, text_font, text_font_size
+            )
+
+            match text_alignment:
+                case "centre":
+                    x = box_x1 + (box_width - font_width) / 2
+                case "left":
+                    x = box_x1 + 15
+                case "right":
+                    x = box_x2 - font_width - 15
+                case _:
+                    x = box_x1 + (box_width - font_width) / 2
+
+            total_line_height = (font_height * line_count) + (pad * (line_count - 1))
+
+            single_line_height = font_height
+
+            y = (
+                box_y1
+                + ((box_height - total_line_height) / 2)
+                + ((single_line_height * i) + (pad * i))
+            )
+
+            txt = dw.Text(
+                line,
+                x=x,
+                y=y,
+                font_size=text_font_size,
+                stroke=text_font_colour,
+                text_anchor="start",
+                dominant_baseline="hanging",
+                font_family=text_font,
+            )
+            self.elements.append(txt)
+
+    def draw_text_on_box(
+        self,
+        box_x: int,
+        box_y: int,
+        box_width: int,
+        box_height: int,
+        box_fill_colour: int,
+        text: str,
+        text_alignment: str,
+        text_font: str,
+        text_font_size: int,
+        text_font_colour: str,
+        style: str = "rectangle",
+    ) -> None:
+        box_x1, box_y1, box_x2, box_y2 = super().draw_box_with_text(
+            box_x,
+            box_y,
+            box_width,
+            box_height,
+            box_fill_colour,
+            text,
+            text_alignment,
+            text_font,
+            text_font_size,
+            text_font_colour,
+            style,
+        )
+
+        font = ImageFont.truetype(self.get_font_path(text_font), size=text_font_size)
+
+        multi_lines = []
+        wrap_lines = []
+
+        # ** Make '\n' work
+        multi_lines = text.splitlines()
+
+        left, _, right, _ = font.getbbox("a")
+        single_char_width = right - left
+
+        # ** wrap text
         for line in multi_lines:
             wrap_lines.extend(textwrap.wrap(line, int(box_width / single_char_width)))
 
