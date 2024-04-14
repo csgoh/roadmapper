@@ -4,12 +4,12 @@
 <defs>
 </defs>
 <rect x="0" y="0" width="1400" height="1000" fill="#FFFFFF" />
-<text x="516.0" y="30" font-size="26" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">SAMPLE ROADMAP 2022/2023</text>
+<text x="513.0" y="30" font-size="26" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">SAMPLE ROADMAP 2022/2023</text>
 <text x="613.0" y="59" font-size="18" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">GodZone Corporation</text>
 <rect x="318.0" y="120" width="1054.5" height="20" fill="#000000" />
-<text x="827.25" y="124.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Year 1</text>
+<text x="828.25" y="124.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Year 1</text>
 <rect x="318.0" y="143" width="86.5" height="20" fill="#000000" />
-<text x="339.25" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 1</text>
+<text x="339.75" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 1</text>
 <rect x="406.0" y="143" width="86.5" height="20" fill="#000000" />
 <text x="427.25" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 2</text>
 <rect x="494.0" y="143" width="86.5" height="20" fill="#000000" />
@@ -27,11 +27,11 @@
 <rect x="1022.0" y="143" width="86.5" height="20" fill="#000000" />
 <text x="1043.25" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 9</text>
 <rect x="1110.0" y="143" width="86.5" height="20" fill="#000000" />
-<text x="1127.75" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 10</text>
+<text x="1128.25" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 10</text>
 <rect x="1198.0" y="143" width="86.5" height="20" fill="#000000" />
-<text x="1215.75" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 11</text>
+<text x="1216.75" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 11</text>
 <rect x="1286.0" y="143" width="86.5" height="20" fill="#000000" />
-<text x="1303.75" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 12</text>
+<text x="1304.25" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Month 12</text>
 <path d="M405.0,163 L405.0,315" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
 <path d="M493.0,163 L493.0,315" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
 <path d="M581.0,163 L581.0,315" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
@@ -46,20 +46,20 @@
 <rect x="30" y="198" width="268.0" height="67" fill="#000000" />
 <text x="45" y="226.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Core Product Work Stream</text>
 <rect x="318" y="213" width="878" height="20" fill="#D9D9D9" />
-<text x="707.0" y="216.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Base Functionality</text>
 <rect x="1241" y="213" width="131" height="20" fill="#D9D9D9" />
-<text x="1265.5" y="217.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Enhancements</text>
+<text x="1266.5" y="217.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Enhancements</text>
 <path d="M451.25,210 L464.25,223.0 L451.25,236 L438.25,223.0" fill="#000000" />
-<text x="441.5833333333333" y="195" font-size="10" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">v.1.0</text>
+<text x="442.25" y="195" font-size="10" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">v.1.0</text>
 <path d="M936.0,210 L949.0,223.0 L936.0,236 L923.0,223.0" fill="#000000" />
-<text x="926.3333333333334" y="195" font-size="10" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">v.1.1</text>
+<text x="927.0" y="195" font-size="10" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">v.1.1</text>
+<text x="708.0" y="216.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Base Functionality</text>
 <rect x="494" y="238" width="193" height="20" fill="#D9D9D9" />
-<text x="553.5" y="242.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Showcase #1</text>
 <rect x="758" y="238" width="193" height="20" fill="#D9D9D9" />
-<text x="817.5" y="242.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Showcase #2</text>
+<text x="818.5" y="242.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Showcase #2</text>
+<text x="554.5" y="242.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Showcase #1</text>
 <rect x="30" y="280" width="268.0" height="25" fill="#000000" />
 <text x="45" y="286.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Mobility Work Stream</text>
 <rect x="406" y="280" width="966" height="20" fill="#D9D9D9" />
-<text x="819.5" y="283.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Mobile App Development</text>
-<text x="622.0" y="375" font-size="13" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">Generated by Roadmapper</text>
+<text x="822.0" y="283.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Mobile App Development</text>
+<text x="621.0" y="375" font-size="13" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">Generated by Roadmapper</text>
 </svg>

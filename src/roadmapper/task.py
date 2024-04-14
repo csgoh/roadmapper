@@ -546,23 +546,32 @@ class Task:
             if i == 0:
                 box_x = box[0]
                 box_y = box[1]
-            ### Fix for [69] - factored in gap spaces width
+            # ** Fix for [69] - factored in gap spaces width
             width += int(box[2]) + 2
-            ###
+            # **
             height = box[3]
 
-        ### Fix for [69] - ignore the last gap space
+        # ** Fix for [69] - ignore the last gap space
         if width >= 2:
             width -= 2
-        ###
+        # **
 
         box_width, box_height = (
             width,
             height,
         )
 
-        if box_x != 0 or box_y != 0 or box_width != 0 or box_height != 0:
-            painter.draw_box_with_text(
+        if box_x != 0 and box_y != 0 and box_width > 0 and box_height != 0:
+            painter.draw_box(box_x, box_y, box_width, box_height, self.fill_colour)
+
+            # ** Fix for v1.4.1 - Draw milestone first before task text
+            for task in self.tasks:
+                task.draw(painter)
+
+            for milestone in self.milestones:
+                milestone.draw(painter)
+
+            painter.draw_text_on_box(
                 box_x,
                 box_y,
                 box_width,
@@ -575,12 +584,7 @@ class Task:
                 self.font_colour,
                 style=self.style,
             )
-
-            for task in self.tasks:
-                task.draw(painter)
-
-            for milestone in self.milestones:
-                milestone.draw(painter)
+            # **
 
     def __enter__(self):
         """This method is called when the 'with' statement is used"""

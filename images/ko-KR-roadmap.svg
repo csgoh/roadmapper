@@ -5,67 +5,47 @@
 </defs>
 <rect x="0" y="0" width="800" height="700" fill="#FFFFFF" />
 <text x="301.5" y="30" font-size="26" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">전략 로드맵 2023</text>
-<text x="312.5" y="69" font-size="18" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">마타리키 테크놀로지스</text>
+<text x="310.5" y="69" font-size="18" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">마타리키 테크놀로지스</text>
 <rect x="198.0" y="133" width="574.5" height="20" fill="#4C5B5C" />
-<text x="460.25" y="133.5" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">2023 년</text>
+<text x="461.25" y="133.5" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">2023 년</text>
 <rect x="198.0" y="156" width="142.5" height="20" fill="#4C5B5C" />
-<text x="246.75" y="158.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">第1 분기</text>
+<text x="247.25" y="158.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">第1 분기</text>
 <rect x="342.0" y="156" width="142.5" height="20" fill="#4C5B5C" />
-<text x="390.25" y="158.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">第2 분기</text>
+<text x="390.75" y="158.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">第2 분기</text>
 <rect x="486.0" y="156" width="142.5" height="20" fill="#4C5B5C" />
-<text x="534.25" y="158.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">第3 분기</text>
+<text x="534.75" y="158.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">第3 분기</text>
 <rect x="630.0" y="156" width="142.5" height="20" fill="#4C5B5C" />
-<text x="678.25" y="158.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">第4 분기</text>
+<text x="678.75" y="158.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">第4 분기</text>
 <path d="M341.0,176 L341.0,467" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
 <path d="M485.0,176 L485.0,467" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
 <path d="M629.0,176 L629.0,467" stroke="#e6e6e6" stroke-opacity="50" stroke-width="1" />
 <rect x="30" y="214" width="148.0" height="52" fill="#FCA311" />
-<text x="60.0" y="230.0" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">인사 프로세스</text>
+<text x="61.5" y="230.0" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">인사 프로세스</text>
 <rect x="198" y="214" width="189" height="20" fill="#8FBC94" />
-<text x="247.5" y="216.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">포함 전략을 수립</text>
 <rect x="389" y="214" width="381" height="20" fill="#8FBC94" />
-<text x="505.0" y="216.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">다양성, 공정성, 포괄성 촉진</text>
+<text x="507.0" y="216.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">다양성, 공정성, 포괄성 촉진</text>
+<text x="249.0" y="216.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">포함 전략을 수립</text>
 <rect x="292" y="239" width="431" height="20" fill="#8FBC94" />
-<text x="435.5" y="241.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">지속 가능한 개발 계획 실시</text>
+<text x="437.5" y="241.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">지속 가능한 개발 계획 실시</text>
 <rect x="30" y="281" width="148.0" height="67" fill="#FCA311" />
-<text x="74.0" y="304.5" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">작업 과정</text>
+<text x="75.0" y="304.5" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">작업 과정</text>
 <rect x="247" y="281" width="475" height="20" fill="#8FBC94" />
-<text x="432.0" y="283.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">업무 개선 계획 실시</text>
+<text x="433.5" y="283.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">업무 개선 계획 실시</text>
 <rect x="486" y="321" width="284" height="20" fill="#8FBC94" />
-<text x="578.5" y="323.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">자동화된 프로세스</text>
 <path d="M536.5439560439561,318 L549.5439560439561,331.0 L536.5439560439561,344 L523.5439560439561,331.0" fill="#3D6642" />
-<text x="513.2106227106227" y="303" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">30% 자동화</text>
+<text x="513.5439560439561" y="303" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">30% 자동화</text>
 <path d="M727.521978021978,318 L740.521978021978,331.0 L727.521978021978,344 L714.521978021978,331.0" fill="#3D6642" />
-<text x="704.1886446886447" y="303" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">60% 자동화</text>
+<text x="704.521978021978" y="303" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">60% 자동화</text>
+<text x="580.0" y="323.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">자동화된 프로세스</text>
 <rect x="30" y="363" width="148.0" height="94" fill="#FCA311" />
-<text x="74.0" y="400.0" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">공구 흐름</text>
+<text x="75.0" y="400.0" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">공구 흐름</text>
 <rect x="198" y="363" width="189" height="20" fill="#8FBC94" />
-<text x="240.0" y="365.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">도구 선택 전략 구현</text>
+<text x="241.5" y="365.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">도구 선택 전략 구현</text>
 <rect x="247" y="388" width="331" height="20" fill="#8FBC94" />
-<text x="387.0" y="390.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">도구 선택</text>
+<text x="388.0" y="390.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">도구 선택</text>
 <rect x="342" y="428" width="381" height="20" fill="#8FBC94" />
-<text x="474.0" y="430.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">중앙 집중식 도구 관리</text>
 <path d="M727.521978021978,425 L740.521978021978,438.0 L727.521978021978,451 L714.521978021978,438.0" fill="#3D6642" />
-<text x="687.521978021978" y="410" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">시스템은 중앙 집중식</text>
-<text x="703.2967032967033" y="189" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">▼</text>
-<path d="M708.2967032967033,203.0 L708.2967032967033,213.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M708.2967032967033,217.66666666666666 L708.2967032967033,227.66666666666666" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M708.2967032967033,232.33333333333334 L708.2967032967033,242.33333333333334" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M708.2967032967033,247.0 L708.2967032967033,257.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M708.2967032967033,261.6666666666667 L708.2967032967033,271.6666666666667" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M708.2967032967033,276.3333333333333 L708.2967032967033,286.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M708.2967032967033,291.0 L708.2967032967033,301.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M708.2967032967033,305.66666666666663 L708.2967032967033,315.66666666666663" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M708.2967032967033,320.3333333333333 L708.2967032967033,330.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M708.2967032967033,335.0 L708.2967032967033,345.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M708.2967032967033,349.66666666666663 L708.2967032967033,359.66666666666663" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M708.2967032967033,364.3333333333333 L708.2967032967033,374.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M708.2967032967033,379.0 L708.2967032967033,389.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M708.2967032967033,393.66666666666663 L708.2967032967033,403.66666666666663" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M708.2967032967033,408.3333333333333 L708.2967032967033,418.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M708.2967032967033,423.0 L708.2967032967033,433.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M708.2967032967033,437.66666666666663 L708.2967032967033,447.66666666666663" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M708.2967032967033,452.3333333333333 L708.2967032967033,462.3333333333333" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<path d="M708.2967032967033,467.0 L708.2967032967033,477.0" stroke="#000000" stroke-opacity="0.9" stroke-width="2" />
-<text x="350.5" y="528" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">로드매퍼에서 생성</text>
+<text x="688.521978021978" y="410" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">시스템은 중앙 집중식</text>
+<text x="475.5" y="430.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">중앙 집중식 도구 관리</text>
+<text x="352.0" y="528" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">로드매퍼에서 생성</text>
 </svg>
