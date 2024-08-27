@@ -78,19 +78,17 @@ def generate_and_compare_roadmap_for_specific_platform(operating_system, roadmap
     compare_generated_roadmap_to_example(example_roadmap, generated_roadmap, operating_system, roadmap_class_to_test)
 
 
+@pytest.mark.parametrize("roadmap_class_to_test", [ColourThemeExtensive, ColourTheme, MilestoneTextAlignment])
 class TestCompareGeneratedRoadmaps:
 
     @pytest.mark.ubuntu
-    @pytest.mark.parametrize("roadmap_class_to_test", [ColourThemeExtensive, ColourTheme, MilestoneTextAlignment])
     def test_compare_generated_roadmaps_on_ubuntu(self, roadmap_class_to_test, operating_system_ubuntu):
         generate_and_compare_roadmap_for_specific_platform(operating_system_ubuntu, roadmap_class_to_test)
 
     @pytest.mark.macos
-    @pytest.mark.parametrize("roadmap_class_to_test", [ColourThemeExtensive, ColourTheme, MilestoneTextAlignment])
     def test_compare_generated_roadmaps_on_macos(self, roadmap_class_to_test, operating_system_macos):
         generate_and_compare_roadmap_for_specific_platform(operating_system_macos, roadmap_class_to_test)
 
     @pytest.mark.windows
-    @pytest.mark.parametrize("roadmap_class_to_test", [ColourThemeExtensive, ColourTheme, MilestoneTextAlignment])
     def test_compare_generated_roadmaps_on_windows(self, roadmap_class_to_test, operating_system_windows):
         generate_and_compare_roadmap_for_specific_platform(operating_system_windows, roadmap_class_to_test)
