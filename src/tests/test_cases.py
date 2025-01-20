@@ -741,7 +741,7 @@ def readme_roadmap():
     roadmap = Roadmap(1200, 400, colour_theme="BLUEMOUNTAIN")
     roadmap.set_title("My Demo Roadmap")
     roadmap.set_subtitle("Matariki Technologies Ltd")
-    roadmap.set_timeline(TimelineMode.MONTHLY, start="2025-01-01", number_of_items=12)
+    roadmap.set_timeline(TimelineMode.MONTHLY, start="2025-01-01", number_of_items=18)
     roadmap.add_logo(
         "../../images/logo/matariki-tech-logo.png",
         position="top-right",
@@ -755,8 +755,8 @@ def readme_roadmap():
     task.add_milestone("v.1.0", "2025-02-15")
     task.add_milestone("v.1.1", "2025-08-01")
 
-    parellel_task = task.add_parallel_task("Enhancements", "2025-11-15", "2025-03-31")
-    parellel_task.add_milestone("v.2.0", "2025-03-30")
+    parellel_task = task.add_parallel_task("Enhancements", "2025-11-15", "2026-03-31")
+    parellel_task.add_milestone("v.2.0", "2026-03-30")
 
     task = group.add_task("Showcase #1", "2025-03-01", "2025-05-07")
     task.add_parallel_task("Showcase #2", "2025-06-01", "2025-08-07")
