@@ -2,8 +2,8 @@ import pytest
 
 # sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from roadmapper.roadmap import Roadmap
-from roadmapper.timelinemode import TimelineMode
+from src.roadmapper.roadmap import Roadmap
+from src.roadmapper.timelinemode import TimelineMode
 
 
 @pytest.mark.unit
