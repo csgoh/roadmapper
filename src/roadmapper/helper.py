@@ -38,6 +38,21 @@ class Helper:
     show_timeline = True
 
     @staticmethod
+    def should_show_message(show_level: str) -> bool:
+        return (
+            (show_level == "group" and Helper.show_group)
+            or (show_level == "task" and Helper.show_task)
+            or (show_level == "parallel_task" and Helper.show_parallel_task)
+            or (show_level == "milestone" and Helper.show_milestone)
+            or (show_level == "marker" and Helper.show_marker)
+            or (show_level == "title" and Helper.show_title)
+            or (show_level == "header" and Helper.show_header)
+            or (show_level == "footer" and Helper.show_footer)
+            or (show_level == "logo" and Helper.show_logo)
+            or (show_level == "timeline" and Helper.show_timeline)
+        )
+
+    @staticmethod
     def printc(
         message: str,
         color: str = "30",
@@ -50,17 +65,9 @@ class Helper:
 
         root_logger = logging.getLogger()
 
-        if root_logger.getEffectiveLevel() == logging.DEBUG and (
-            (show_level == "group" and Helper.show_group)
-            or (show_level == "task" and Helper.show_task)
-            or (show_level == "parallel_task" and Helper.show_parallel_task)
-            or (show_level == "milestone" and Helper.show_milestone)
-            or (show_level == "marker" and Helper.show_marker)
-            or (show_level == "title" and Helper.show_title)
-            or (show_level == "header" and Helper.show_header)
-            or (show_level == "footer" and Helper.show_footer)
-            or (show_level == "logo" and Helper.show_logo)
-            or (show_level == "timeline" and Helper.show_timeline)
+        if (
+            root_logger.getEffectiveLevel() == logging.DEBUG
+            and Helper.should_show_message(show_level)
         ):
             console = Console()
             if rich_type == "text":
