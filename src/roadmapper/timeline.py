@@ -243,9 +243,6 @@ class Timeline:
         timelineitem_y = painter.next_y_pos
         timelineitem_height = painter.timeline_height
 
-        previous_start = None
-        previous_end = None
-
         for index in range(self.number_of_items):
             timelineitem_x = (
                 self.x
