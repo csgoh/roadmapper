@@ -127,15 +127,6 @@ class Timeline:
             self.week_generic_text_format,
         ) = self.locale_settings.get_timeline_locale_settings("week")
 
-        # print(f"year_text_format: {self.year_text_format}")
-        # print(f"year_generic_text_format: {self.year_generic_text_format}")
-        # print(f"half_year_text_format: {self.half_year_text_format}")
-        # print(f"quarter_text_format: {self.quarter_text_format}")
-        # print(f"month_text_format: {self.month_text_format}")
-        # print(f"month_generic_text_format: {self.month_generic_text_format}")
-        # print(f"week_text_format: {self.week_text_format}")
-        # print(f"week_generic_text_format: {self.week_generic_text_format}")
-
     def set_draw_position(self, painter: Painter) -> None:
         """Set the draw position of the timeline
 
@@ -161,29 +152,10 @@ class Timeline:
                 timelineitemgroup_end,
             ) = self.__get_timeline_item_dates(index)
 
-            # --- Fix for #106 (start) ---
-            if (
-                timelineitemgroup_start == previous_start
-                and timelineitemgroup_end == previous_end
-            ):
-                (
-                    timelineitemgroup_start,
-                    timelineitemgroup_end,
-                ) = self.__get_timeline_item_dates(index + 1)
-
-            previous_start = timelineitemgroup_start
-            previous_end = timelineitemgroup_end
-            # --- Fix for #106 (end) ---
-
             Helper.printc(
                 f"Step 1 =>{timelineitemgroup_start=}, {timelineitemgroup_end=}",
                 show_level="timeline1",
             )
-
-            # check if timelineitemgroup_start date is in the previous year, if so, skip the loop
-
-            # if timelineitemgroup_start.year < timelineitemgroup_end.year:
-            #     continue
 
             if self.show_generic_dates is False:
                 if index_year in year_groups:
@@ -281,28 +253,12 @@ class Timeline:
                 + (index * (painter.gap_between_timeline_item / 2))
             )
             timelineitem_text = self.__get_timeline_item_text(index)
-            # Helper.print_info(f"\t\t\t{timelineitem_text=}")
             timelineitem_value = self.__get_timeline_item_value(index)
-            # Helper.print_info(f"\t\t\t{timelineitem_value=}")
             Helper.printc(
                 f"Step 2 A => {timelineitem_text=}, {timelineitem_value=}, {timelineitem_text=}, {timelineitem_value=}",
                 show_level="timeline",
             )
             timelineitem_start, timelineitem_end = self.__get_timeline_item_dates(index)
-
-            # --- Fix for #106 (start) ---
-            if (
-                timelineitem_start == previous_start
-                and timelineitem_start == previous_end
-            ):
-                (
-                    timelineitem_start,
-                    timelineitem_end,
-                ) = self.__get_timeline_item_dates(index + 1)
-
-            previous_start = timelineitem_start
-            previous_end = timelineitem_start
-            # --- Fix for #106 (end) ---
 
             Helper.printc(
                 f"Step 2 B => {timelineitem_text=}, {timelineitem_value=}, {timelineitem_start=}, {timelineitem_end=}",
@@ -350,7 +306,7 @@ class Timeline:
                         self.start
                     ) + relativedelta(weeks=+index)
                     this_week_number = int(this_week.strftime("%W"))
-                    # timeline_text = f"W{this_week_number}"
+
                     timeline_text = self.week_generic_text_format.format(
                         this_week_number
                     )
@@ -358,18 +314,13 @@ class Timeline:
                     this_week = self.__find_first_day_of_week(
                         self.start
                     ) + relativedelta(weeks=+index)
-                    # Helper.print_info(f"        =>{this_week=}")
+
                     this_week_number = int(this_week.strftime("%W"))
                     first_day_of_week = self.__get_monday_from_calendar_week(
                         this_week.year, this_week_number
                     )
                     this_day = first_day_of_week.strftime("%d")
                     this_month = first_day_of_week.strftime("%b")
-                    # Helper.print_info(
-                    #     f"            =>{this_week_number=}, {first_day_of_week=}, {this_day=}, {this_month=}",
-                    #     color="31",
-                    # )
-                    # timeline_text = f"{this_day} {this_month}"
                     timeline_text = self.week_text_format.format(this_day, this_month)
 
             else:
@@ -423,8 +374,9 @@ class Timeline:
 
     def __find_first_day_of_week(self, this_date: datetime) -> datetime:
         _, _, day_of_week = this_date.isocalendar()
-        Helper.print_info(
-            f"__find_first_day_of_week\t\t\t=={this_date=}, {day_of_week=}, return: {this_date - timedelta(days=day_of_week - 1)}"
+        Helper.printc(
+            f"__find_first_day_of_week\t\t\t=={this_date=}, {day_of_week=}, return: {this_date - timedelta(days=day_of_week - 1)}",
+            show_level="timeline",
         )
         return this_date - timedelta(days=day_of_week - 1)
 
@@ -451,26 +403,21 @@ class Timeline:
 
             week_value = int(this_week.strftime("%W"))  # + 1
 
-            # if week_value == 1:
-            #     # If the last day of the year is in the first week of the next year, get the week number of the previous week
-            #     year = this_week.year
-
-            #     # Helper.print_info(f"{year=}, {datetime.strptime(last_day_of_year, '%Y-%m-%d')=}")
-            #     last_day_of_year = datetime.strptime(f"{year}-12-31", "%Y-%m-%d")
-            #     week_value = (
-            #         last_day_of_year - timedelta(days=7)
-            #     ).isocalendar()[1] + 1
-
-            Helper.print_info(
-                f"__get_timeline_item_value\t\t\t{self.start=}, {this_week=}, {week_value=}"
+            Helper.printc(
+                f"__get_timeline_item_value\t\t\t{self.start=}, {this_week=}, {week_value=}",
+                show_level="timeline",
             )
             # calculate number of weeks for the year
 
-            # if week_value > 52:
-            #     week_value %= 52
-            timeline_value = f"{this_week.year}{week_value}"
-            Helper.print_info(
-                f"__get_timeline_item_value\t\t\t{index} = {this_week=}, {week_value=}, {timeline_value=}"
+            if week_value > 52:
+                week_value = 1
+                year_value = this_week.year + 1
+            else:
+                year_value = this_week.year
+            timeline_value = f"{year_value}{week_value}"
+            Helper.printc(
+                f"__get_timeline_item_value\t\t\t{index} = {this_week=}, {week_value=}, {timeline_value=}",
+                show_level="timeline",
             )
         elif self.mode == TimelineMode.MONTHLY:
             this_month = self.start + relativedelta(months=+index)
@@ -506,24 +453,10 @@ class Timeline:
             this_year = timeline_period[0:4]  ### First 4 characters
             this_week = timeline_period[4:]  ### Last 2 characters
 
-            # timeline_start_period = datetime.combine(
-            #     date.fromisocalendar(int(this_year), int(this_week), 1),
-            #     datetime.min.time(),
-            # )
-            # timeline_start_period = timeline_start_period.replace(
-            #     hour=0, minute=0, second=0, microsecond=0
-            # )
             timeline_start_period = datetime.strptime(
                 f"{this_year} {this_week} 1", "%G %V %u"
             )
 
-            # timeline_end_period = datetime.combine(
-            #     date.fromisocalendar(int(this_year), int(this_week), 7),
-            #     datetime.min.time(),
-            # )
-            # timeline_end_period = timeline_end_period.replace(
-            #     hour=0, minute=0, second=0, microsecond=0
-            # )
             timeline_end_period = datetime.strptime(
                 f"{this_year} {this_week} 7", "%G %V %u"
             )
