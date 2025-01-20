@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from datetime import datetime, date, timedelta
+from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from dataclasses import dataclass, field
 import calendar
@@ -488,10 +488,6 @@ class Timeline:
             timeline_value = f"{this_month.year}"
 
         return timeline_value
-
-    def is_not_first_day_of_week(date):
-        # Check if the date is not Monday (first day of the week)
-        return date.weekday() != 0
 
     def __get_timeline_item_dates(self, index: int) -> tuple[datetime, datetime]:
         """Get the start and end dates of the timeline item
