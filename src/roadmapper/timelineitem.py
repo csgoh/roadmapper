@@ -22,7 +22,7 @@
 
 import calendar
 from dataclasses import dataclass, field
-from datetime import datetime, date, timedelta
+from datetime import datetime, timedelta
 
 from .painter import Painter
 from .timelinemode import TimelineMode
@@ -310,7 +310,7 @@ class TimelineItem:
 
         return (correct_timeline, pos_percentage)
 
-    def __get_quarter_from_date(self, date: datetime) -> int:
+    def __get_quarter_from_date(self, this_date: datetime) -> int:
         """Returns the quarter of a given date
 
         Args:
@@ -319,9 +319,9 @@ class TimelineItem:
         Returns:
             int: quarter
         """
-        return (date.month - 1) // 3 + 1
+        return (this_date.month - 1) // 3 + 1
 
-    def __get_halfyear_from_date(self, date: datetime) -> int:
+    def __get_halfyear_from_date(self, this_date: datetime) -> int:
         """Returns the halfyear of a given date
 
         Args:
@@ -330,7 +330,7 @@ class TimelineItem:
         Returns:
             int: halfyear
         """
-        return (date.month - 1) // 6 + 1
+        return (this_date.month - 1) // 6 + 1
 
     def draw(self, painter: Painter) -> None:
         """Draws the timeline
