@@ -26,6 +26,7 @@ from datetime import datetime
 from .milestone import Milestone
 from .painter import Painter
 from .timeline import Timeline
+from .helper import Helper
 
 
 @dataclass(kw_only=True)
@@ -216,7 +217,7 @@ class Task:
             (
                 timeline_start_period,
                 timeline_end_period,
-            ) = timeline_item.get_timeline_period(timeline.mode)
+            ) = timeline_item.get_timeline_period(timeline.mode, None, None)
 
             bar_x_pos = timeline_item.box_x
             for milestone in self.milestones:
@@ -404,13 +405,27 @@ class Task:
         self.box_x = 0
         row_match = 0
         bar_start_x_pos = 0
+        timeline_start_period = None
+        timeline_end_period = None
+        previous_start = None
+        previous_end = None
 
         for timeline_item in timeline.timeline_items:
             ### Get the start and end period of the timeline item
             (
                 timeline_start_period,
                 timeline_end_period,
-            ) = timeline_item.get_timeline_period(timeline.mode)
+            ) = timeline_item.get_timeline_period(
+                timeline.mode, timeline_start_period, timeline_end_period
+            )
+
+            previous_start = timeline_start_period
+            previous_end = timeline_end_period
+
+            Helper.printc(
+                f"timeline ({timeline_start_period}, {timeline_end_period}), task ({task_start_period}, {task_end_period})",
+                show_level="task",
+            )
 
             ### Check if the task is within the timeline period
             if (
@@ -422,6 +437,7 @@ class Task:
                 )
                 is True
             ):
+                Helper.printc("\tIn range...", show_level="task")
                 (
                     _,
                     start_pos_percentage,
@@ -447,6 +463,7 @@ class Task:
                     )
                     is True
                 ):
+                    Helper.printc("Task begins here ends here...", show_level="task")
                     self.box_x = timeline_item.box_x + (
                         timeline_item.box_width * start_pos_percentage
                     )
@@ -465,6 +482,7 @@ class Task:
                     )
                     is True
                 ):
+                    Helper.printc("is_task_begins_past_ends_here...", show_level="task")
                     self.box_x = timeline_item.box_x
                     if bar_start_x_pos == 0:
                         bar_start_x_pos = self.box_x
@@ -480,6 +498,9 @@ class Task:
                     )
                     is True
                 ):
+                    Helper.printc(
+                        "is_task_begins_here_ends_future...", show_level="task"
+                    )
                     self.box_x = timeline_item.box_x + (
                         timeline_item.box_width * start_pos_percentage
                     )
@@ -498,6 +519,9 @@ class Task:
                     )
                     is True
                 ):
+                    Helper.printc(
+                        "is_task_begins_past_ends_future...", show_level="task"
+                    )
                     self.box_x = timeline_item.box_x
                     self.box_width = timeline_item.box_width
 
