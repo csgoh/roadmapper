@@ -416,7 +416,7 @@ class Task:
                 timeline_start_period,
                 timeline_end_period,
             ) = timeline_item.get_timeline_period(
-                timeline.mode, timeline_start_period, timeline_end_period
+                timeline.mode, previous_start, previous_end
             )
 
             previous_start = timeline_start_period
