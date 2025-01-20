@@ -1,8 +1,12 @@
+import sys
 import os
 from datetime import datetime
 
-from src.roadmapper.roadmap import Roadmap
-from src.roadmapper.timelinemode import TimelineMode
+
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+
+from roadmapper.roadmap import Roadmap
+from roadmapper.timelinemode import TimelineMode
 import inspect
 
 
@@ -49,7 +53,7 @@ def colour_theme_demo(
 
 def colour_theme_demo_without_locale(
     timelinemode: TimelineMode = TimelineMode.MONTHLY,
-    start_date: str = "2023-12-01",
+    start_date: str = "2024-12-01",
     number_of_items: int = 12,
     show_generic_dates: bool = False,
     file_name: str = "demo01.png",
@@ -58,7 +62,7 @@ def colour_theme_demo_without_locale(
     roadmap = Roadmap(
         1200, 1000, auto_height=True, colour_theme=colour_theme, show_marker=True
     )
-    roadmap.set_title("SAMPLE ROADMAP 2023/2024")
+    roadmap.set_title("SAMPLE ROADMAP 2024/2025")
     roadmap.set_subtitle("ABC Corporation")
     roadmap.set_timeline(
         timelinemode,
@@ -68,17 +72,17 @@ def colour_theme_demo_without_locale(
     )
 
     group = roadmap.add_group("Core Product Work Stream", text_alignment="left")
-    task = group.add_task("Base Functionality", "2023-11-01", "2024-10-31")
-    task.add_milestone("v.1.0", "2024-02-15")
-    task.add_milestone("v.1.1", "2024-08-01")
-    parellel_task = task.add_parallel_task("Enhancements", "2024-11-15", "2025-03-31")
-    parellel_task.add_milestone("v.2.0", "2025-03-30")
+    task = group.add_task("Base Functionality", "2024-11-01", "2025-10-31")
+    task.add_milestone("v.1.0", "2025-02-15")
+    task.add_milestone("v.1.1", "2025-08-01")
+    parellel_task = task.add_parallel_task("Enhancements", "2025-11-15", "2026-03-31")
+    parellel_task.add_milestone("v.2.0", "2026-03-30")
 
-    task = group.add_task("Showcase #1", "2024-03-01", "2024-05-07")
-    task.add_parallel_task("Showcase #2", "2024-06-01", "2024-08-07")
+    task = group.add_task("Showcase #1", "2025-03-01", "2025-05-07")
+    task.add_parallel_task("Showcase #2", "2025-06-01", "2025-08-07")
 
     group = roadmap.add_group("Mobility Work Stream", text_alignment="left")
-    group.add_task("Mobile App Development", "2024-02-01", "2025-12-07")
+    group.add_task("Mobile App Development", "2025-02-01", "2026-12-07")
 
     roadmap.set_footer("Updated on " + datetime.now().strftime("%Y-%m-%d"))
     roadmap.draw()
@@ -374,11 +378,11 @@ def test_dev():
     assert os.path.exists(output_file)
 
 
-# # check if calling from main
-# if __name__ == "__main__":
-#     output_file = "../../images/test/colour_theme_demo_without_locale.png"
-#     colour_theme_demo_without_locale(
-#         file_name=output_file,
-#         timelinemode=TimelineMode.MONTHLY,
-#         number_of_items=14,
-#     )
+# check if calling from main
+if __name__ == "__main__":
+    output_file = "images/test/colour_theme_demo_without_locale.png"
+    colour_theme_demo_without_locale(
+        file_name=output_file,
+        timelinemode=TimelineMode.MONTHLY,
+        number_of_items=14,
+    )
