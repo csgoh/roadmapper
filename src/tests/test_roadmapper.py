@@ -331,8 +331,8 @@ def logo_demo(
 
 
 def test_dev():
-    if not os.path.exists("images"):
-        os.mkdir("images")
+    if not os.path.exists("../../images"):
+        os.mkdir("../../images")
 
     if not os.path.exists("../../images/test"):
         os.mkdir("../../images/test")
