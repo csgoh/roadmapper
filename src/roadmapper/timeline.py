@@ -30,6 +30,7 @@ from .timelineitem import TimelineItem
 from .timelineitemyear import TimelineYear
 from .timelinemode import TimelineMode
 from .timelinelocale import TimelineLocale
+from .helper import Helper
 
 
 @dataclass(kw_only=True)
@@ -146,13 +147,43 @@ class Timeline:
 
         ### Calculate timelineitemgroup positions
         year_groups = {}
+        previous_start = None
+        previous_end = None
 
         for index in range(self.number_of_items):
-            index_year = self.__get_timeline_item_value(index)[0:4]
+            index_year = self.__get_timeline_item_value(index)[:4]
+            Helper.printc(
+                f"=>{index=}, {index_year=}",
+                show_level="timeline1",
+            )
             (
                 timelineitemgroup_start,
                 timelineitemgroup_end,
             ) = self.__get_timeline_item_dates(index)
+
+            # --- Fix for #106 (start) ---
+            if (
+                timelineitemgroup_start == previous_start
+                and timelineitemgroup_end == previous_end
+            ):
+                (
+                    timelineitemgroup_start,
+                    timelineitemgroup_end,
+                ) = self.__get_timeline_item_dates(index + 1)
+
+            previous_start = timelineitemgroup_start
+            previous_end = timelineitemgroup_end
+            # --- Fix for #106 (end) ---
+
+            Helper.printc(
+                f"Step 1 =>{timelineitemgroup_start=}, {timelineitemgroup_end=}",
+                show_level="timeline1",
+            )
+
+            # check if timelineitemgroup_start date is in the previous year, if so, skip the loop
+
+            # if timelineitemgroup_start.year < timelineitemgroup_end.year:
+            #     continue
 
             if self.show_generic_dates is False:
                 if index_year in year_groups:
@@ -186,6 +217,7 @@ class Timeline:
             painter.gap_between_timeline_item / 2
         )
 
+        # -- Get drawing positions for timeline items --
         if self.mode != TimelineMode.YEARLY:
             timelineitemgroup_y = self.y + painter.timeline_height
             timelineitemgroup_height = painter.timeline_height
@@ -208,9 +240,11 @@ class Timeline:
 
                 timelinetimegroup = TimelineYear(
                     # text="Year " + str(year),
-                    text=self.year_text_format.format(year)
-                    if self.show_generic_dates is False
-                    else self.year_generic_text_format.format(year),
+                    text=(
+                        self.year_text_format.format(year)
+                        if self.show_generic_dates is False
+                        else self.year_generic_text_format.format(year)
+                    ),
                     value=year,
                     start=timelineitemgroup_start,
                     end=timelineitemgroup_end,
@@ -237,6 +271,9 @@ class Timeline:
         timelineitem_y = painter.next_y_pos
         timelineitem_height = painter.timeline_height
 
+        previous_start = None
+        previous_end = None
+
         for index in range(self.number_of_items):
             timelineitem_x = (
                 self.x
@@ -244,8 +281,33 @@ class Timeline:
                 + (index * (painter.gap_between_timeline_item / 2))
             )
             timelineitem_text = self.__get_timeline_item_text(index)
+            # Helper.print_info(f"\t\t\t{timelineitem_text=}")
             timelineitem_value = self.__get_timeline_item_value(index)
+            # Helper.print_info(f"\t\t\t{timelineitem_value=}")
+            Helper.printc(
+                f"Step 2 A => {timelineitem_text=}, {timelineitem_value=}, {timelineitem_text=}, {timelineitem_value=}",
+                show_level="timeline",
+            )
             timelineitem_start, timelineitem_end = self.__get_timeline_item_dates(index)
+
+            # --- Fix for #106 (start) ---
+            if (
+                timelineitem_start == previous_start
+                and timelineitem_start == previous_end
+            ):
+                (
+                    timelineitem_start,
+                    timelineitem_end,
+                ) = self.__get_timeline_item_dates(index + 1)
+
+            previous_start = timelineitem_start
+            previous_end = timelineitem_start
+            # --- Fix for #106 (end) ---
+
+            Helper.printc(
+                f"Step 2 B => {timelineitem_text=}, {timelineitem_value=}, {timelineitem_start=}, {timelineitem_end=}",
+                show_level="timeline",
+            )
 
             timelineitem = TimelineItem(
                 text=timelineitem_text,
@@ -296,12 +358,17 @@ class Timeline:
                     this_week = self.__find_first_day_of_week(
                         self.start
                     ) + relativedelta(weeks=+index)
+                    # Helper.print_info(f"        =>{this_week=}")
                     this_week_number = int(this_week.strftime("%W"))
                     first_day_of_week = self.__get_monday_from_calendar_week(
                         this_week.year, this_week_number
                     )
                     this_day = first_day_of_week.strftime("%d")
                     this_month = first_day_of_week.strftime("%b")
+                    # Helper.print_info(
+                    #     f"            =>{this_week_number=}, {first_day_of_week=}, {this_day=}, {this_month=}",
+                    #     color="31",
+                    # )
                     # timeline_text = f"{this_day} {this_month}"
                     timeline_text = self.week_text_format.format(this_day, this_month)
 
@@ -356,6 +423,9 @@ class Timeline:
 
     def __find_first_day_of_week(self, this_date: datetime) -> datetime:
         _, _, day_of_week = this_date.isocalendar()
+        Helper.print_info(
+            f"__find_first_day_of_week\t\t\t=={this_date=}, {day_of_week=}, return: {this_date - timedelta(days=day_of_week - 1)}"
+        )
         return this_date - timedelta(days=day_of_week - 1)
 
     def __get_timeline_item_value(self, index: int) -> str:
@@ -380,13 +450,28 @@ class Timeline:
             )
 
             week_value = int(this_week.strftime("%W"))  # + 1
-            # print(
-            #     f"start: {self.start}, this_week: {this_week}, week_value: {week_value}"
-            # )
-            if week_value > 52:
-                week_value %= 52
+
+            # if week_value == 1:
+            #     # If the last day of the year is in the first week of the next year, get the week number of the previous week
+            #     year = this_week.year
+
+            #     # Helper.print_info(f"{year=}, {datetime.strptime(last_day_of_year, '%Y-%m-%d')=}")
+            #     last_day_of_year = datetime.strptime(f"{year}-12-31", "%Y-%m-%d")
+            #     week_value = (
+            #         last_day_of_year - timedelta(days=7)
+            #     ).isocalendar()[1] + 1
+
+            Helper.print_info(
+                f"__get_timeline_item_value\t\t\t{self.start=}, {this_week=}, {week_value=}"
+            )
+            # calculate number of weeks for the year
+
+            # if week_value > 52:
+            #     week_value %= 52
             timeline_value = f"{this_week.year}{week_value}"
-                # print(f"V:{index} = {this_week}, {week_value}")
+            Helper.print_info(
+                f"__get_timeline_item_value\t\t\t{index} = {this_week=}, {week_value=}, {timeline_value=}"
+            )
         elif self.mode == TimelineMode.MONTHLY:
             this_month = self.start + relativedelta(months=+index)
             timeline_value = f"{this_month.year}{this_month.strftime('%m')}"
@@ -404,6 +489,10 @@ class Timeline:
 
         return timeline_value
 
+    def is_not_first_day_of_week(date):
+        # Check if the date is not Monday (first day of the week)
+        return date.weekday() != 0
+
     def __get_timeline_item_dates(self, index: int) -> tuple[datetime, datetime]:
         """Get the start and end dates of the timeline item
 
@@ -420,20 +509,31 @@ class Timeline:
             ### timeline_period is in the format YYYYWW
             this_year = timeline_period[0:4]  ### First 4 characters
             this_week = timeline_period[4:]  ### Last 2 characters
-            # print(f"this_year: {this_year}, this_week: {this_week}")
-            timeline_start_period = datetime.combine(
-                date.fromisocalendar(int(this_year), int(this_week), 1),
-                datetime.min.time(),
+
+            # timeline_start_period = datetime.combine(
+            #     date.fromisocalendar(int(this_year), int(this_week), 1),
+            #     datetime.min.time(),
+            # )
+            # timeline_start_period = timeline_start_period.replace(
+            #     hour=0, minute=0, second=0, microsecond=0
+            # )
+            timeline_start_period = datetime.strptime(
+                f"{this_year} {this_week} 1", "%G %V %u"
             )
-            timeline_start_period = timeline_start_period.replace(
-                hour=0, minute=0, second=0, microsecond=0
+
+            # timeline_end_period = datetime.combine(
+            #     date.fromisocalendar(int(this_year), int(this_week), 7),
+            #     datetime.min.time(),
+            # )
+            # timeline_end_period = timeline_end_period.replace(
+            #     hour=0, minute=0, second=0, microsecond=0
+            # )
+            timeline_end_period = datetime.strptime(
+                f"{this_year} {this_week} 7", "%G %V %u"
             )
-            timeline_end_period = datetime.combine(
-                date.fromisocalendar(int(this_year), int(this_week), 7),
-                datetime.min.time(),
-            )
-            timeline_end_period = timeline_end_period.replace(
-                hour=0, minute=0, second=0, microsecond=0
+            Helper.printc(
+                f"\t#{this_week=}, {timeline_start_period=}, {timeline_end_period=}",
+                show_level="timeline1",
             )
         elif self.mode == TimelineMode.MONTHLY:
             this_month = (self.start + relativedelta(months=+index)).month
