@@ -138,8 +138,6 @@ class Timeline:
 
         ### Calculate timelineitemgroup positions
         year_groups = {}
-        previous_start = None
-        previous_end = None
 
         for index in range(self.number_of_items):
             index_year = self.__get_timeline_item_value(index)[:4]
