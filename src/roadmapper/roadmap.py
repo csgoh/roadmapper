@@ -422,7 +422,12 @@ class Roadmap:
         Args:
             filename (str): result file name
         """
-        self._painter.save_surface(filename)
+
+        try:
+            self._painter.save_surface(filename)
+        except Exception as e:
+            print(f"Error saving roadmap to file...[{filename}]")
+            print(f"Error: {e}")
 
         elapsed_time = (time.time() - self.start_time) * 1000
         print(f"Took [{elapsed_time:.2f}ms] to generate '{filename}' roadmap")
