@@ -22,10 +22,11 @@
 
 import calendar
 from dataclasses import dataclass, field
-from datetime import datetime, date, timedelta
+from datetime import datetime, timedelta
 
 from .painter import Painter
 from .timelinemode import TimelineMode
+from .helper import Helper
 
 
 @dataclass(kw_only=True)
@@ -93,7 +94,9 @@ class TimelineItem:
         self.text_x, self.text_y = self.__calculate_text_draw_position(painter)
         painter.next_y_pos = self.box_y
 
-    def get_timeline_period(self, mode: TimelineMode) -> tuple:
+    def get_timeline_period(
+        self, mode: TimelineMode, previous_start, previous_end
+    ) -> tuple:
         """Get the timeline period based on the timeline mode
 
         Args:
@@ -104,33 +107,42 @@ class TimelineItem:
         """
 
         if mode == TimelineMode.WEEKLY:
-            this_year = self.value[0:4]
+            this_year = self.value[:4]
             this_week = self.value[4:]
-            timeline_start_period = datetime.combine(
-                date.fromisocalendar(int(this_year), int(this_week), 1),
-                datetime.min.time(),
+
+            # --- FIX for #106 (Start) ---
+
+            Helper.printc(f"\t{this_year=}, {this_week=}", show_level="task")
+            timeline_start_period = datetime.strptime(
+                f"{this_year} {this_week} 1", "%G %V %u"
             )
-            timeline_start_period = timeline_start_period.replace(
-                hour=0, minute=0, second=0, microsecond=0
+            timeline_end_period = datetime.strptime(
+                f"{this_year} {this_week} 7", "%G %V %u"
             )
-            timeline_end_period = datetime.combine(
-                date.fromisocalendar(int(this_year), int(this_week), 7),
-                datetime.min.time(),
-            )
-            timeline_end_period = timeline_end_period.replace(
-                hour=0, minute=0, second=0, microsecond=0
-            )
+
+            if (
+                timeline_start_period == previous_start
+                and timeline_end_period == previous_end
+            ):
+                this_week = int(this_week) + 1
+                timeline_start_period = datetime.strptime(
+                    f"{this_year} {this_week} 1", "%G %V %u"
+                )
+                timeline_end_period = datetime.strptime(
+                    f"{this_year} {this_week} 7", "%G %V %u"
+                )
+            # --- FIX for #106 (End) ---
 
         if mode == TimelineMode.MONTHLY:
 
-            this_year = int(self.value[0:4])
+            this_year = int(self.value[:4])
             this_month = int(self.value[4:])
             _, month_end_day = calendar.monthrange(this_year, this_month)
             timeline_start_period = datetime(this_year, this_month, 1)
             timeline_end_period = datetime(this_year, this_month, month_end_day)
 
         if mode == TimelineMode.QUARTERLY:
-            this_year = int(self.value[0:4])
+            this_year = int(self.value[:4])
             this_quarter = int(self.value[4:])
             if this_quarter == 1:
                 this_month = 1
@@ -149,7 +161,7 @@ class TimelineItem:
             ) + timedelta(days=-1)
 
         if mode == TimelineMode.HALF_YEARLY:
-            this_year = int(self.value[0:4])
+            this_year = int(self.value[:4])
             this_half = int(self.value[4:])
             if this_half == 1:
                 timeline_start_period = datetime(this_year, 1, 1)
@@ -178,10 +190,18 @@ class TimelineItem:
         """
         correct_timeline = False
         pos_percentage = 0
-        timeline_start_period, timeline_end_period = self.get_timeline_period(mode)
+        timeline_start_period, timeline_end_period = self.get_timeline_period(
+            mode, None, None
+        )
+
+        Helper.printc(
+            f"\tMode: {mode}, {task_or_milestone_date=}, weekday {task_or_milestone_date.weekday()}",
+            show_level="task",
+        )
 
         if mode == TimelineMode.WEEKLY:
             pos_percentage = task_or_milestone_date.weekday() / 7
+            Helper.printc(f"\t{pos_percentage=}", show_level="task")
             milestone_period = (
                 f"{task_or_milestone_date.year}{task_or_milestone_date.strftime('%W')}"
             )
@@ -204,7 +224,7 @@ class TimelineItem:
 
         if mode == TimelineMode.QUARTERLY:
             this_period = self.value
-            this_year = int(this_period[0:4])
+            this_year = int(this_period[:4])
             int(this_period[4:])
 
             if this_period[-1] == "1":
@@ -246,7 +266,7 @@ class TimelineItem:
 
         if mode == TimelineMode.HALF_YEARLY:
             this_period = self.value
-            this_year = int(this_period[0:4])
+            this_year = int(this_period[:4])
 
             if this_period[-1] == "1":
                 date_of_first_day_of_halfyear = datetime(this_year, 1, 1)
@@ -274,7 +294,7 @@ class TimelineItem:
 
         if mode == TimelineMode.YEARLY:
             this_period = self.value
-            this_year = int(this_period[0:4])
+            this_year = int(this_period[:4])
             date_of_first_day_of_year = datetime(this_year, 1, 1)
             date_of_last_day_of_year = datetime(
                 this_year, 12, calendar.monthrange(this_year, 12)[1]
@@ -291,7 +311,7 @@ class TimelineItem:
 
         return (correct_timeline, pos_percentage)
 
-    def __get_quarter_from_date(self, date: datetime) -> int:
+    def __get_quarter_from_date(self, this_date: datetime) -> int:
         """Returns the quarter of a given date
 
         Args:
@@ -300,9 +320,9 @@ class TimelineItem:
         Returns:
             int: quarter
         """
-        return (date.month - 1) // 3 + 1
+        return (this_date.month - 1) // 3 + 1
 
-    def __get_halfyear_from_date(self, date: datetime) -> int:
+    def __get_halfyear_from_date(self, this_date: datetime) -> int:
         """Returns the halfyear of a given date
 
         Args:
@@ -311,7 +331,7 @@ class TimelineItem:
         Returns:
             int: halfyear
         """
-        return (date.month - 1) // 6 + 1
+        return (this_date.month - 1) // 6 + 1
 
     def draw(self, painter: Painter) -> None:
         """Draws the timeline

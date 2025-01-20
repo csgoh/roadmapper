@@ -34,6 +34,8 @@ from .group import Group
 from .marker import Marker
 from .logo import Logo
 
+import logging
+
 
 @dataclass()
 class Roadmap:
@@ -57,6 +59,13 @@ class Roadmap:
 
     def __post_init__(self):
         """This method is called after __init__() is called"""
+        logging.basicConfig(
+            # filename="roadmapper.log",
+            level=logging.DEBUG,
+            format="%(asctime)s [%(levelname)s] : %(message)s",
+            datefmt="%Y-%m-%d %H:%M:%S",
+        )
+
         self.start_time = time.time()
         factory = PainterFactory()
         self._painter = factory.get_painter(self.painter_type, self.width, self.height)
@@ -413,7 +422,12 @@ class Roadmap:
         Args:
             filename (str): result file name
         """
-        self._painter.save_surface(filename)
+
+        try:
+            self._painter.save_surface(filename)
+        except Exception as e:
+            print(f"Error saving roadmap to file...[{filename}]")
+            print(f"Error: {e}")
 
         elapsed_time = (time.time() - self.start_time) * 1000
         print(f"Took [{elapsed_time:.2f}ms] to generate '{filename}' roadmap")
