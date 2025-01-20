@@ -112,6 +112,7 @@ class TimelineItem:
 
             # --- FIX for #106 (Start) ---
 
+            Helper.printc(f"\t{this_year=}, {this_week=}", show_level="task")
             timeline_start_period = datetime.strptime(
                 f"{this_year} {this_week} 1", "%G %V %u"
             )
