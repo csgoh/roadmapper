@@ -34,6 +34,8 @@ from .group import Group
 from .marker import Marker
 from .logo import Logo
 
+import logging
+
 
 @dataclass()
 class Roadmap:
@@ -57,6 +59,13 @@ class Roadmap:
 
     def __post_init__(self):
         """This method is called after __init__() is called"""
+        logging.basicConfig(
+            # filename="roadmapper.log",
+            level=logging.DEBUG,
+            format="%(asctime)s [%(levelname)s] : %(message)s",
+            datefmt="%Y-%m-%d %H:%M:%S",
+        )
+
         self.start_time = time.time()
         factory = PainterFactory()
         self._painter = factory.get_painter(self.painter_type, self.width, self.height)
