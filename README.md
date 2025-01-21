@@ -36,6 +36,9 @@ View the [Change Logs](https://github.com/csgoh/roadmapper/wiki/Change-Logs) to 
 * python-dateutil >= 2.8.2
 * Pillow >= 10.3.0
 * drawsvg >= 2.3.0
+* rich >= 13.7.1
+* ruff >= 0.2.1
+
 
 
 Any feedback or suggestions are welcome. Please feel free to create an issue or pull request.
