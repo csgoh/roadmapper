@@ -61,7 +61,7 @@ class Roadmap:
         """This method is called after __init__() is called"""
         logging.basicConfig(
             # filename="roadmapper.log",
-            level=logging.DEBUG,
+            level=logging.INFO,
             format="%(asctime)s [%(levelname)s] : %(message)s",
             datefmt="%Y-%m-%d %H:%M:%S",
         )
