@@ -94,6 +94,11 @@ class TimelineItem:
         self.text_x, self.text_y = self.__calculate_text_draw_position(painter)
         painter.next_y_pos = self.box_y
 
+        # Helper.printc(
+        #     f"      [{self.text}] {self.box_x=}, {self.box_width=}",
+        #     show_level="marker",
+        # )
+
     def get_timeline_period(
         self, mode: TimelineMode, previous_start, previous_end
     ) -> tuple:
@@ -208,6 +213,10 @@ class TimelineItem:
             this_period = (
                 f"{timeline_start_period.year}{timeline_start_period.strftime('%W')}"
             )
+            # Helper.printc(
+            #     f"      == {milestone_period=}, {this_period=}",
+            #     show_level="marker",
+            # )
             if milestone_period == this_period:
                 correct_timeline = True
 
