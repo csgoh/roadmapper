@@ -133,27 +133,37 @@ class Timeline:
         Args:
             painter (Painter): Pillow wrapper class instance
         """
+        Helper.printc(
+            "### set_draw_position ###",
+            show_level="timeline",
+        )
         self.set_locale(self.locale_name)
         self.x, self.y, self.width = self.__calculate_draw_position(painter)
 
         ### Calculate timelineitemgroup positions
         year_groups = {}
+        previous_start = None
+        previous_end = None
 
         for index in range(self.number_of_items):
+            Helper.printc(
+                f"=>{index=}",
+                show_level="timeline",
+            )
             index_year = self.__get_timeline_item_value(index)[:4]
             Helper.printc(
                 f"=>{index=}, {index_year=}",
-                show_level="timeline1",
+                show_level="timeline",
             )
             (
                 timelineitemgroup_start,
                 timelineitemgroup_end,
-            ) = self.__get_timeline_item_dates(index)
+            ) = self.__get_timeline_item_dates(index, previous_start, previous_end)
 
-            Helper.printc(
-                f"Step 1 =>{timelineitemgroup_start=}, {timelineitemgroup_end=}",
-                show_level="timeline1",
-            )
+            # --- FIX for #106 (Start) missing marker ---
+            previous_start = timelineitemgroup_start
+            previous_end = timelineitemgroup_end
+            # --- FIX for #106 (End) ---
 
             if self.show_generic_dates is False:
                 if index_year in year_groups:
@@ -249,16 +259,15 @@ class Timeline:
             )
             timelineitem_text = self.__get_timeline_item_text(index)
             timelineitem_value = self.__get_timeline_item_value(index)
-            Helper.printc(
-                f"Step 2 A => {timelineitem_text=}, {timelineitem_value=}, {timelineitem_text=}, {timelineitem_value=}",
-                show_level="timeline",
-            )
-            timelineitem_start, timelineitem_end = self.__get_timeline_item_dates(index)
 
-            Helper.printc(
-                f"Step 2 B => {timelineitem_text=}, {timelineitem_value=}, {timelineitem_start=}, {timelineitem_end=}",
-                show_level="timeline",
+            timelineitem_start, timelineitem_end = self.__get_timeline_item_dates(
+                index, previous_start, previous_end
             )
+
+            # --- FIX for #106 (Start) missing marker ---
+            previous_start = timelineitem_start
+            previous_end = timelineitem_end
+            # --- FIX for #106 (End) ---
 
             timelineitem = TimelineItem(
                 text=timelineitem_text,
@@ -328,51 +337,43 @@ class Timeline:
         elif self.mode == TimelineMode.MONTHLY:
             if self.show_generic_dates is False:
                 this_month = self.start + relativedelta(months=+index)
-                # timeline_text = f"{this_month.strftime('%b')}"
                 timeline_text = self.month_text_format.format(this_month.strftime("%b"))
             else:
                 this_month = index + 1
-                # timeline_text = f"Month {this_month}"
                 timeline_text = self.month_generic_text_format.format(this_month)
         elif self.mode == TimelineMode.QUARTERLY:
             if self.show_generic_dates is False:
                 this_month = self.start + relativedelta(months=+(index * 3))
                 this_quarter = (this_month.month - 1) // 3 + 1
-                # timeline_text = f"Q{this_quarter}"
             else:
                 this_month = index * 3 + 1
                 this_quarter = (this_month - 1) // 3 + 1
-                # timeline_text = f"Quarter {this_quarter}"
             timeline_text = self.quarter_text_format.format(this_quarter)
         elif self.mode == TimelineMode.HALF_YEARLY:
             if self.show_generic_dates is False:
                 this_month = self.start + relativedelta(months=+(index * 6))
                 this_halfyear = (this_month.month - 1) // 6 + 1
-                # timeline_text = f"H{this_halfyear}"
             else:
                 this_month = index * 6 + 1
                 this_halfyear = (this_month - 1) // 6 + 1
-                # timeline_text = f"H{this_halfyear}"
             timeline_text = self.half_year_text_format.format(this_halfyear)
         elif self.mode == TimelineMode.YEARLY:
             if self.show_generic_dates is False:
                 this_month = self.start + relativedelta(months=+(index * 12))
-                # timeline_text = f"{this_month.year}"
                 timeline_text = self.year_text_format.format(this_month.year)
             else:
                 this_month = index * 12 + 1
                 this_year = (this_month - 1) // 12 + 1
-                # timeline_text = f"Year {this_year}"
                 timeline_text = self.year_generic_text_format.format(this_year)
 
         return timeline_text
 
     def __find_first_day_of_week(self, this_date: datetime) -> datetime:
         _, _, day_of_week = this_date.isocalendar()
-        Helper.printc(
-            f"__find_first_day_of_week\t\t\t=={this_date=}, {day_of_week=}, return: {this_date - timedelta(days=day_of_week - 1)}",
-            show_level="timeline",
-        )
+        # Helper.printc(
+        #     f"__find_first_day_of_week\t\t\t=={this_date=}, {day_of_week=}, return: {this_date - timedelta(days=day_of_week - 1)}",
+        #     show_level="timeline",
+        # )
         return this_date - timedelta(days=day_of_week - 1)
 
     def __get_timeline_item_value(self, index: int) -> str:
@@ -396,10 +397,11 @@ class Timeline:
                 weeks=+index
             )
 
+            year_value = 0
             week_value = int(this_week.strftime("%W"))  # + 1
 
             Helper.printc(
-                f"__get_timeline_item_value\t\t\t{self.start=}, {this_week=}, {week_value=}",
+                f"__get_timeline_item_value\t\t\t before {index=}, {this_week=}, {year_value=} {week_value=}",
                 show_level="timeline",
             )
             # calculate number of weeks for the year
@@ -411,7 +413,7 @@ class Timeline:
                 year_value = this_week.year
             timeline_value = f"{year_value}{week_value}"
             Helper.printc(
-                f"__get_timeline_item_value\t\t\t{index} = {this_week=}, {week_value=}, {timeline_value=}",
+                f"__get_timeline_item_value\t\t\t after {index=}, {this_week=}, {year_value=} {week_value=}",
                 show_level="timeline",
             )
         elif self.mode == TimelineMode.MONTHLY:
@@ -431,7 +433,9 @@ class Timeline:
 
         return timeline_value
 
-    def __get_timeline_item_dates(self, index: int) -> tuple[datetime, datetime]:
+    def __get_timeline_item_dates(
+        self, index: int, previous_start, previous_end
+    ) -> tuple[datetime, datetime]:
         """Get the start and end dates of the timeline item
 
         Args:
@@ -455,10 +459,19 @@ class Timeline:
             timeline_end_period = datetime.strptime(
                 f"{this_year} {this_week} 7", "%G %V %u"
             )
-            Helper.printc(
-                f"\t#{this_week=}, {timeline_start_period=}, {timeline_end_period=}",
-                show_level="timeline1",
-            )
+
+            if (
+                timeline_start_period == previous_start
+                and timeline_end_period == previous_end
+            ):
+                this_week = int(this_week) + 1
+                timeline_start_period = datetime.strptime(
+                    f"{this_year} {this_week} 1", "%G %V %u"
+                )
+                timeline_end_period = datetime.strptime(
+                    f"{this_year} {this_week} 7", "%G %V %u"
+                )
+
         elif self.mode == TimelineMode.MONTHLY:
             this_month = (self.start + relativedelta(months=+index)).month
             this_year = (self.start + relativedelta(months=+index)).year
