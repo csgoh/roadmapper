@@ -24,6 +24,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 
 from .painter import Painter
+from .helper import Helper
 
 
 @dataclass(kw_only=True)
@@ -85,6 +86,7 @@ class TimelineYear:
             height (int): height of the box
         """
         self.box_x = x
+        Helper.printc(f"Timeline Group {self.text} xpos={self.box_x}", show_level="marker")
         self.box_y = y
         self.box_width = width
         self.box_height = height
