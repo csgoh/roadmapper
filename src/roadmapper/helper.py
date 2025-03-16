@@ -27,7 +27,7 @@ from rich.panel import Panel
 
 class Helper:
     show_group = False
-    show_task = True
+    show_task = False
     show_parallel_task = False
     show_milestone = False
     show_marker = False
@@ -35,7 +35,7 @@ class Helper:
     show_header = False
     show_footer = False
     show_logo = False
-    show_timeline = True
+    show_timeline = False
 
     @staticmethod
     def should_show_message(show_level: str) -> bool:
@@ -60,6 +60,7 @@ class Helper:
         end: str = "\n",
         rich_type: str = "text",
         show_level: str = "general",
+        true_condition: bool = True,
     ):
         """Print text in color"""
 
@@ -68,11 +69,14 @@ class Helper:
         if (
             root_logger.getEffectiveLevel() == logging.DEBUG
             and Helper.should_show_message(show_level)
+            and true_condition
         ):
             console = Console()
             if rich_type == "text":
                 style_attribute = "reverse" if reverse else ""
-                console.print(message, end=end, style=style_attribute)
+                console.print(
+                    f"{show_level}: {message}", end=end, style=style_attribute
+                )
             elif rich_type == "panel":
                 console.print(Panel(message), style="blue")
 
