@@ -24,6 +24,7 @@ from datetime import datetime
 from dataclasses import dataclass, field
 from .painter import Painter
 from .timeline import Timeline
+from .helper import Helper
 
 
 @dataclass(kw_only=True)
@@ -56,19 +57,40 @@ class Marker:
             timeline (Timeline): Timeline instance
         """
         current_date = datetime.now()
+        Helper.printc(f"current_date: {current_date}")
+
         current_date = current_date.replace(hour=0, minute=0, second=0, microsecond=0)
         label_pos_percentage = 0
         correct_timeline = False
         for timeline_item in timeline.timeline_items:
+            Helper.printc(
+                f"  {timeline_item.start=}, {current_date=}, {timeline_item.end=}, {timeline_item.box_x=}",
+                show_level="marker",
+            )
             if timeline_item.start <= current_date <= timeline_item.end:
+                Helper.printc(
+                    "      >> current_date is within timeline_item range",
+                    show_level="marker",
+                )
                 # calc label position
+                # --- FIX for #106 Missing marker (Start) ---
+                # Ignore correct_time. Always set to True
                 (
-                    correct_timeline,
+                    _,
                     label_pos_percentage,
                 ) = timeline_item.get_timeline_pos_percentage(
                     timeline.mode, current_date
                 )
-                if correct_timeline is True:
+
+                # If the current date is the same as the start date of the timeline item,
+                # then the marker should be displayed at the start of the timeline item.
+                correct_timeline = True
+                # --- FIX for #106 Missing marker (End) ---
+                Helper.printc(
+                    f"      >> {correct_timeline=}, {label_pos_percentage}",
+                    show_level="marker",
+                )
+                if correct_timeline:
                     break
 
         self.not_in_timeline_range = not correct_timeline
@@ -81,6 +103,10 @@ class Marker:
         )
         self.label_x = self.line_from_x - (self.label_width / 2) + 1
         self.line_from_y = self.label_y + self.label_height + 4
+        Helper.printc(
+            f"      >>>> {timeline_item.box_x=}, {timeline_item.box_width=}, {label_pos_percentage=}, {self.line_from_x=}",
+            show_level="marker",
+        )
         painter.next_y_pos = self.label_y + self.label_height
 
     def set_line_draw_position(self, painter: Painter) -> None:
