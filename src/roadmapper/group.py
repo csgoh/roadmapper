@@ -25,7 +25,7 @@ from datetime import datetime
 from .painter import Painter
 from .timeline import Timeline
 from .task import Task
-
+from .helper import Helper
 
 @dataclass
 class Group:
@@ -133,9 +133,6 @@ class Group:
             + (5 * task_count)
             + (2 * (task_count - 1))
         )
-        # print(f"{'-' * 20} Group height: {self.box_height}")
-        # print(f"{'-' * 20} Task count: {task_count}")
-        # print(f"{'-' * 20} Milestone count: {milestone_count}")
 
         self.box_width = (
             painter.width - (painter.left_margin + painter.right_margin)
@@ -156,9 +153,17 @@ class Group:
             self.font_size,
         )
 
+        Helper.printc(
+            f"Group: [{self.text}], x: {self.box_x}, y: {self.box_y}, width: {self.box_width}, height: {self.box_height}",
+            show_level="group",
+        )
+
         painter.next_y_pos = self.box_y
         for task in self.tasks:
             task.set_draw_position(painter, self.box_x, painter.next_y_pos, timeline)
+            Helper.printc(
+                f"\tTask: [{task.text}], x: {task.box_x}, y: {task.box_y}, width: {task.box_width}, height: {task.box_height}",
+                show_level="task",)
 
         painter.next_y_pos = self.box_y + self.box_height
 
