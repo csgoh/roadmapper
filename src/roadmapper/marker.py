@@ -48,6 +48,7 @@ class Marker:
     line_to_x: int = field(init=False, default=0)
     line_to_y: int = field(init=False, default=0)
     not_in_timeline_range: bool = field(init=False, default=False)
+    current_date: datetime = field(init=False, default=None)
 
     def set_label_draw_position(self, painter: Painter, timeline: Timeline) -> None:
         """Set marker label draw position
@@ -56,22 +57,14 @@ class Marker:
             painter (Painter): Pillow wrapper class instance
             timeline (Timeline): Timeline instance
         """
-        current_date = datetime.now()
-        Helper.printc(f"current_date: {current_date}")
+        self.current_date = datetime.now()
 
-        current_date = current_date.replace(hour=0, minute=0, second=0, microsecond=0)
+
+        current_date = self.current_date.replace(hour=0, minute=0, second=0, microsecond=0)
         label_pos_percentage = 0
         correct_timeline = False
         for timeline_item in timeline.timeline_items:
-            Helper.printc(
-                f"  {timeline_item.start=}, {current_date=}, {timeline_item.end=}, {timeline_item.box_x=}",
-                show_level="marker",
-            )
-            if timeline_item.start <= current_date <= timeline_item.end:
-                Helper.printc(
-                    "      >> current_date is within timeline_item range",
-                    show_level="marker",
-                )
+            if timeline_item.start <= self.current_date <= timeline_item.end:
                 # calc label position
                 # --- FIX for #106 Missing marker (Start) ---
                 # Ignore correct_time. Always set to True
@@ -86,10 +79,6 @@ class Marker:
                 # then the marker should be displayed at the start of the timeline item.
                 correct_timeline = True
                 # --- FIX for #106 Missing marker (End) ---
-                Helper.printc(
-                    f"      >> {correct_timeline=}, {label_pos_percentage}",
-                    show_level="marker",
-                )
                 if correct_timeline:
                     break
 
@@ -103,10 +92,7 @@ class Marker:
         )
         self.label_x = self.line_from_x - (self.label_width / 2) + 1
         self.line_from_y = self.label_y + self.label_height + 4
-        Helper.printc(
-            f"      >>>> {timeline_item.box_x=}, {timeline_item.box_width=}, {label_pos_percentage=}, {self.line_from_x=}",
-            show_level="marker",
-        )
+
         painter.next_y_pos = self.label_y + self.label_height
 
     def set_line_draw_position(self, painter: Painter) -> None:
@@ -124,6 +110,19 @@ class Marker:
         Args:
             painter (Painter): Pillow wrapper class instance
         """
+        Helper.printc(
+            f"Marker current date: {self.current_date}",
+            show_level="marker",
+        )
+        Helper.printc(
+            f"Marker label: x: {self.label_x}, y: {self.label_y}, width: {self.label_width}, height: {self.label_height}",
+            show_level="marker",
+        )
+        Helper.printc(
+            f"Marker line: x: {self.line_from_x}, y: {self.line_from_y}, line_to_x: {self.line_to_x}, line_to_y: {self.line_to_y}",
+            show_level="marker",
+        )
+
         if self.not_in_timeline_range is False:
             painter.draw_text(
                 self.label_x,
