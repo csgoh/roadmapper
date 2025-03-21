@@ -422,11 +422,6 @@ class Task:
             previous_start = timeline_start_period
             previous_end = timeline_end_period
 
-            Helper.printc(
-                f"timeline ({timeline_start_period}, {timeline_end_period}), task ({task_start_period}, {task_end_period})",
-                show_level="task",
-            )
-
             ### Check if the task is within the timeline period
             if (
                 self.is_task_in_range(
@@ -437,7 +432,6 @@ class Task:
                 )
                 is True
             ):
-                Helper.printc("\tIn range...", show_level="task")
                 (
                     _,
                     start_pos_percentage,
@@ -463,7 +457,6 @@ class Task:
                     )
                     is True
                 ):
-                    Helper.printc("Task begins here ends here...", show_level="task")
                     self.box_x = timeline_item.box_x + (
                         timeline_item.box_width * start_pos_percentage
                     )
@@ -482,7 +475,6 @@ class Task:
                     )
                     is True
                 ):
-                    Helper.printc("is_task_begins_past_ends_here...", show_level="task")
                     self.box_x = timeline_item.box_x
                     if bar_start_x_pos == 0:
                         bar_start_x_pos = self.box_x
@@ -498,9 +490,6 @@ class Task:
                     )
                     is True
                 ):
-                    Helper.printc(
-                        "is_task_begins_here_ends_future...", show_level="task"
-                    )
                     self.box_x = timeline_item.box_x + (
                         timeline_item.box_width * start_pos_percentage
                     )
@@ -519,9 +508,6 @@ class Task:
                     )
                     is True
                 ):
-                    Helper.printc(
-                        "is_task_begins_past_ends_future...", show_level="task"
-                    )
                     self.box_x = timeline_item.box_x
                     self.box_width = timeline_item.box_width
 
