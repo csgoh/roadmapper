@@ -9,12 +9,14 @@ authors = [{ name = "CS Goh" }]
 description = "Roadmapper. A Roadmap-as-Code (RaC) python library for generating a roadmap by using python code"
 readme = "README.md"
 requires-python = ">=3.10"
+license = { file = "LICENSE.md" }
 classifiers = [
     "Programming Language :: Python :: 3.10",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
 dependencies = ['Pillow>=10.0.0', 'python-dateutil>=2.8.2', 'drawsvg>=2.2.0']
+
 
 [project.urls]
 "Homepage" = "https://github.com/csgoh/roadmapper"
@@ -32,7 +34,6 @@ exclude = [
 
 [tool.setuptools.dynamic]
 version = { attr = "roadmapper.version.__version__" }
-readme = { file = ["README.md"] }
 
 [tool.pytest.ini_options]
 addopts = "-v"
