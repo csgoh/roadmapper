@@ -26,7 +26,6 @@ from datetime import datetime
 from .milestone import Milestone
 from .painter import Painter
 from .timeline import Timeline
-from .helper import Helper
 
 
 @dataclass(kw_only=True)

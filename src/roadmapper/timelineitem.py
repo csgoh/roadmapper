@@ -26,7 +26,6 @@ from datetime import datetime, timedelta
 
 from .painter import Painter
 from .timelinemode import TimelineMode
-from .helper import Helper
 
 
 @dataclass(kw_only=True)
