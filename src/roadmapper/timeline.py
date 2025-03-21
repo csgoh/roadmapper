@@ -146,15 +146,9 @@ class Timeline:
         previous_end = None
 
         for index in range(self.number_of_items):
-            Helper.printc(
-                f"=>{index=}",
-                show_level="timeline",
-            )
+
             index_year = self.__get_timeline_item_value(index)[:4]
-            Helper.printc(
-                f"=>{index=}, {index_year=}",
-                show_level="timeline",
-            )
+
             (
                 timelineitemgroup_start,
                 timelineitemgroup_end,
@@ -290,6 +284,22 @@ class Timeline:
             self.timeline_items.append(timelineitem)
         painter.next_y_pos = timelineitem_y + timelineitem_height
 
+        Helper.printc("Timeline Groups", show_level="timeline")
+
+        for years in self.timeline_years:
+            Helper.printc(
+                f"text='{years.text}', value={years.value}, {years.start}-{years.end}",
+                show_level="timeline",
+            )
+
+        Helper.printc("Timeline Items", show_level="timeline")
+
+        for item in self.timeline_items:
+            Helper.printc(
+                f"text='{item.text}', value={item.value}, {item.start}-{item.end}",
+                show_level="timeline",
+            )
+
     def __get_monday_from_calendar_week(self, year, calendar_week):
         return datetime.strptime(f"{year}-{calendar_week}-1", "%Y-%W-%w").date()
 
@@ -400,10 +410,10 @@ class Timeline:
             year_value = 0
             week_value = int(this_week.strftime("%W"))  # + 1
 
-            Helper.printc(
-                f"__get_timeline_item_value\t\t\t before {index=}, {this_week=}, {year_value=} {week_value=}",
-                show_level="timeline",
-            )
+            # Helper.printc(
+            #     f"before {index=}, {this_week=}, {year_value=} {week_value=}",
+            #     show_level="timeline",
+            # )
             # calculate number of weeks for the year
 
             if week_value > 52:
@@ -412,10 +422,10 @@ class Timeline:
             else:
                 year_value = this_week.year
             timeline_value = f"{year_value}{week_value}"
-            Helper.printc(
-                f"__get_timeline_item_value\t\t\t after {index=}, {this_week=}, {year_value=} {week_value=}",
-                show_level="timeline",
-            )
+            # Helper.printc(
+            #     f"after {index=}, {this_week=}, {year_value=} {week_value=}",
+            #     show_level="timeline",
+            # )
         elif self.mode == TimelineMode.MONTHLY:
             this_month = self.start + relativedelta(months=+index)
             timeline_value = f"{this_month.year}{this_month.strftime('%m')}"
