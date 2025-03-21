@@ -26,7 +26,6 @@ from datetime import datetime, timedelta
 
 from .painter import Painter
 from .timelinemode import TimelineMode
-from .helper import Helper
 
 
 @dataclass(kw_only=True)
@@ -94,6 +93,11 @@ class TimelineItem:
         self.text_x, self.text_y = self.__calculate_text_draw_position(painter)
         painter.next_y_pos = self.box_y
 
+        # Helper.printc(
+        #     f"      [{self.text}] {self.box_x=}, {self.box_width=}",
+        #     show_level="marker",
+        # )
+
     def get_timeline_period(
         self, mode: TimelineMode, previous_start, previous_end
     ) -> tuple:
@@ -111,8 +115,6 @@ class TimelineItem:
             this_week = self.value[4:]
 
             # --- FIX for #106 (Start) ---
-
-            Helper.printc(f"\t{this_year=}, {this_week=}", show_level="task")
             timeline_start_period = datetime.strptime(
                 f"{this_year} {this_week} 1", "%G %V %u"
             )
@@ -194,14 +196,8 @@ class TimelineItem:
             mode, None, None
         )
 
-        Helper.printc(
-            f"\tMode: {mode}, {task_or_milestone_date=}, weekday {task_or_milestone_date.weekday()}",
-            show_level="task",
-        )
-
         if mode == TimelineMode.WEEKLY:
             pos_percentage = task_or_milestone_date.weekday() / 7
-            Helper.printc(f"\t{pos_percentage=}", show_level="task")
             milestone_period = (
                 f"{task_or_milestone_date.year}{task_or_milestone_date.strftime('%W')}"
             )

@@ -19,6 +19,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+import inspect
 import logging
 import uuid
 from rich.console import Console
@@ -26,8 +27,9 @@ from rich.panel import Panel
 
 
 class Helper:
+    show_timeline = False
     show_group = False
-    show_task = True
+    show_task = False
     show_parallel_task = False
     show_milestone = False
     show_marker = False
@@ -35,7 +37,6 @@ class Helper:
     show_header = False
     show_footer = False
     show_logo = False
-    show_timeline = True
 
     @staticmethod
     def should_show_message(show_level: str) -> bool:
@@ -60,19 +61,41 @@ class Helper:
         end: str = "\n",
         rich_type: str = "text",
         show_level: str = "general",
+        true_condition: bool = True,
     ):
         """Print text in color"""
 
         root_logger = logging.getLogger()
 
+        call_depth = len(inspect.stack())
+
+        if call_depth < 5:
+            call_depth = 0
+        else:
+            call_depth -= 5
+
+        caller = inspect.stack()[1].function
+
+        # determine the caller class name
+        if "self" in inspect.stack()[1].frame.f_locals:
+            caller_class = inspect.stack()[1].frame.f_locals["self"].__class__.__name__
+
+        # add \t tab to the print message if for each level of call depth
+        message = "\t" * call_depth + message
+
         if (
             root_logger.getEffectiveLevel() == logging.DEBUG
             and Helper.should_show_message(show_level)
+            and true_condition
         ):
             console = Console()
             if rich_type == "text":
                 style_attribute = "reverse" if reverse else ""
-                console.print(message, end=end, style=style_attribute)
+                console.print(
+                    f"{caller_class}.{caller}(): {message}",
+                    end=end,
+                    style=style_attribute,
+                )
             elif rich_type == "panel":
                 console.print(Panel(message), style="blue")
 
