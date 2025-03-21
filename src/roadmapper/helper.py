@@ -27,11 +27,11 @@ from rich.panel import Panel
 
 
 class Helper:
-    show_timeline = False
+    show_timeline = True
     show_group = False
-    show_task = False
+    show_task = True
     show_parallel_task = False
-    show_milestone = False
+    show_milestone = True
     show_marker = False
     show_title = False
     show_header = False
