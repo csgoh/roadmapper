@@ -26,6 +26,7 @@ from datetime import datetime
 from .milestone import Milestone
 from .painter import Painter
 from .timeline import Timeline
+from .helper import Helper
 
 
 @dataclass(kw_only=True)
@@ -212,13 +213,28 @@ class Task:
             task_start_period (datetime): Task start date
             task_end_period (datetime): Task end date
         """
+        # --- FIX for #106 (Start) milestone wrong position ---
+        previous_start = None
+        previous_end = None
+        # --- FIX for #106 (End) ---
         for timeline_item in timeline.timeline_items:
+            # --- FIX for #106 (Start) milestone wrong position ---
             (
                 timeline_start_period,
                 timeline_end_period,
-            ) = timeline_item.get_timeline_period(timeline.mode, None, None)
+            ) = timeline_item.get_timeline_period(
+                timeline.mode, previous_start, previous_end
+            )
+            # --- FIX for #106 (End) ---
+            Helper.printc(
+                f"Timeline start: {timeline_start_period}, Timeline end: {timeline_end_period}",
+                show_level="task",
+            )
+            previous_start = timeline_start_period
+            previous_end = timeline_end_period
 
             bar_x_pos = timeline_item.box_x
+
             for milestone in self.milestones:
                 milestone_date = datetime.strptime(milestone.date, "%Y-%m-%d")
                 (
@@ -229,6 +245,10 @@ class Task:
                 )
 
                 if timeline_start_period <= milestone_date <= timeline_end_period:
+                    Helper.printc(
+                        f"{milestone_date=}",
+                        show_level="task",
+                    )
                     milestone.diamond_x = (
                         bar_x_pos
                         + (timeline_item.box_width * milestone_pos_percentage)
