@@ -68,7 +68,7 @@ def test_defect_113():
     roadmap.set_title("ROADMAP EXAMPLE")
     roadmap.set_subtitle("This is a subtitle")
     roadmap.set_timeline(
-        TimelineMode=TimelineMode.MONTHLY,
+        TimelineMode.MONTHLY,
         start="2025-06-01",
         number_of_items=12,
         show_generic_dates=False,
