@@ -25,7 +25,7 @@
 <rect x="796.0" y="122" width="72.5" height="20" fill="#B45F06" />
 <text x="821.75" y="125.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Aug</text>
 <rect x="870.0" y="122" width="72.5" height="20" fill="#B45F06" />
-<text x="895.25" y="125.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Sep</text>
+<text x="893.75" y="125.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Sept</text>
 <rect x="944.0" y="122" width="72.5" height="20" fill="#B45F06" />
 <text x="970.75" y="126.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Oct</text>
 <rect x="1018.0" y="122" width="72.5" height="20" fill="#B45F06" />
@@ -46,11 +46,11 @@
 <rect x="30" y="157" width="228.0" height="40" fill="#B45F06" />
 <text x="107.0" y="171.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Workstream 1</text>
 <rect x="278" y="172" width="294" height="20" fill="#F6B26B" />
+<text x="401.0" y="176.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Task 1-A</text>
 <rect x="610" y="172" width="258" height="20" fill="#F6B26B" />
+<text x="715.5" y="176.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Task 2-B</text>
 <path d="M819.75,169 L832.75,182.0 L819.75,195 L806.75,182.0" fill="#B45F06" />
 <text x="800.4166666666666" y="154" font-size="10" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#B45F06">Milestone 2</text>
-<text x="715.5" y="176.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Task 2-B</text>
 <path d="M502.0,169 L515.0,182.0 L502.0,195 L489.0,182.0" fill="#B45F06" />
 <text x="483.0" y="154" font-size="10" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#B45F06">Milestone 1</text>
-<text x="401.0" y="176.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Task 1-A</text>
 </svg>

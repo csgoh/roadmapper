@@ -22,9 +22,9 @@
 <rect x="30" y="213" width="148.0" height="52" fill="#FCA311" />
 <text x="76.0" y="229.0" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">人員流程</text>
 <rect x="198" y="213" width="189" height="20" fill="#8FBC94" />
+<text x="256.5" y="215.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">制定包容戰略</text>
 <rect x="389" y="213" width="381" height="20" fill="#8FBC94" />
 <text x="501.5" y="215.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">促進多樣性、公平性和包容性</text>
-<text x="256.5" y="215.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">制定包容戰略</text>
 <rect x="292" y="238" width="431" height="20" fill="#8FBC94" />
 <text x="453.5" y="240.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">實施可持續發展計劃</text>
 <rect x="30" y="280" width="148.0" height="67" fill="#FCA311" />
@@ -32,11 +32,11 @@
 <rect x="247" y="280" width="475" height="20" fill="#8FBC94" />
 <text x="436.5" y="282.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">實施業務改進計劃</text>
 <rect x="486" y="320" width="284" height="20" fill="#8FBC94" />
+<text x="598.0" y="322.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">自動化流程</text>
 <path d="M536.5439560439561,317 L549.5439560439561,330.0 L536.5439560439561,343 L523.5439560439561,330.0" fill="#3D6642" />
 <text x="513.2106227106227" y="302" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">30%自動化 </text>
 <path d="M727.521978021978,317 L740.521978021978,330.0 L727.521978021978,343 L714.521978021978,330.0" fill="#3D6642" />
 <text x="704.1886446886447" y="302" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">60%自動化 </text>
-<text x="598.0" y="322.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">自動化流程</text>
 <rect x="30" y="362" width="148.0" height="94" fill="#FCA311" />
 <text x="76.0" y="398.5" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">工具流程</text>
 <rect x="198" y="362" width="189" height="20" fill="#8FBC94" />
@@ -44,8 +44,8 @@
 <rect x="247" y="387" width="331" height="20" fill="#8FBC94" />
 <text x="388.5" y="389.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">工具選擇</text>
 <rect x="342" y="427" width="381" height="20" fill="#8FBC94" />
+<text x="496.5" y="429.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">集中工具管理</text>
 <path d="M727.521978021978,424 L740.521978021978,437.0 L727.521978021978,450 L714.521978021978,437.0" fill="#3D6642" />
 <text x="701.521978021978" y="409" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">系統集中完成</text>
-<text x="496.5" y="429.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">集中工具管理</text>
 <text x="341.5" y="528" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">由 Roadmapper 生成</text>
 </svg>

@@ -22,9 +22,9 @@
 <rect x="30" y="214" width="148.0" height="52" fill="#FCA311" />
 <text x="61.5" y="230.0" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">인사 프로세스</text>
 <rect x="198" y="214" width="189" height="20" fill="#8FBC94" />
+<text x="249.0" y="216.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">포함 전략을 수립</text>
 <rect x="389" y="214" width="381" height="20" fill="#8FBC94" />
 <text x="507.0" y="216.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">다양성, 공정성, 포괄성 촉진</text>
-<text x="249.0" y="216.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">포함 전략을 수립</text>
 <rect x="292" y="239" width="431" height="20" fill="#8FBC94" />
 <text x="437.5" y="241.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">지속 가능한 개발 계획 실시</text>
 <rect x="30" y="281" width="148.0" height="67" fill="#FCA311" />
@@ -32,11 +32,11 @@
 <rect x="247" y="281" width="475" height="20" fill="#8FBC94" />
 <text x="433.5" y="283.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">업무 개선 계획 실시</text>
 <rect x="486" y="321" width="284" height="20" fill="#8FBC94" />
+<text x="580.0" y="323.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">자동화된 프로세스</text>
 <path d="M536.5439560439561,318 L549.5439560439561,331.0 L536.5439560439561,344 L523.5439560439561,331.0" fill="#3D6642" />
 <text x="513.5439560439561" y="303" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">30% 자동화</text>
 <path d="M727.521978021978,318 L740.521978021978,331.0 L727.521978021978,344 L714.521978021978,331.0" fill="#3D6642" />
 <text x="704.521978021978" y="303" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">60% 자동화</text>
-<text x="580.0" y="323.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">자동화된 프로세스</text>
 <rect x="30" y="363" width="148.0" height="94" fill="#FCA311" />
 <text x="75.0" y="400.0" font-size="14" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Bold.otf">공구 흐름</text>
 <rect x="198" y="363" width="189" height="20" fill="#8FBC94" />
@@ -44,8 +44,8 @@
 <rect x="247" y="388" width="331" height="20" fill="#8FBC94" />
 <text x="388.0" y="390.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">도구 선택</text>
 <rect x="342" y="428" width="381" height="20" fill="#8FBC94" />
+<text x="475.5" y="430.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">중앙 집중식 도구 관리</text>
 <path d="M727.521978021978,425 L740.521978021978,438.0 L727.521978021978,451 L714.521978021978,438.0" fill="#3D6642" />
 <text x="688.521978021978" y="410" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">시스템은 중앙 집중식</text>
-<text x="475.5" y="430.0" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="../fonts/SourceHanSerifTC-Regular.otf">중앙 집중식 도구 관리</text>
 <text x="352.0" y="528" font-size="12" text-anchor="start" dominant-baseline="middle" font-family="../fonts/SourceHanSerifTC-Regular.otf" stroke="#000000">로드매퍼에서 생성</text>
 </svg>

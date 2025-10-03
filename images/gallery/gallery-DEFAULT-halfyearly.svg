@@ -24,19 +24,19 @@
 <rect x="30" y="198" width="268.0" height="67" fill="#000000" />
 <text x="45" y="226.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Core Product Work Stream</text>
 <rect x="318" y="213" width="439" height="20" fill="#D9D9D9" />
+<text x="488.5" y="216.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Base Functionality</text>
 <rect x="778" y="213" width="197" height="20" fill="#D9D9D9" />
+<text x="836.5" y="217.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Enhancements</text>
 <path d="M977.0745856353591,210 L990.0745856353591,223.0 L977.0745856353591,236 L964.0745856353591,223.0" fill="#000000" />
 <text x="968.0745856353591" y="195" font-size="10" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">v.2.0</text>
-<text x="836.5" y="217.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Enhancements</text>
 <path d="M385.625,210 L398.625,223.0 L385.625,236 L372.625,223.0" fill="#000000" />
 <text x="376.625" y="195" font-size="10" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">v.1.0</text>
 <path d="M628.4672131147541,210 L641.4672131147541,223.0 L628.4672131147541,236 L615.4672131147541,223.0" fill="#000000" />
 <text x="619.4672131147541" y="195" font-size="10" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">v.1.1</text>
-<text x="488.5" y="216.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Base Functionality</text>
 <rect x="404" y="238" width="97" height="20" fill="#D9D9D9" />
+<text x="416.5" y="242.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Showcase #1</text>
 <rect x="538" y="238" width="97" height="20" fill="#D9D9D9" />
 <text x="550.5" y="242.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Showcase #2</text>
-<text x="416.5" y="242.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Showcase #1</text>
 <rect x="30" y="280" width="268.0" height="25" fill="#000000" />
 <text x="45" y="286.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Mobility Work Stream</text>
 <rect x="363" y="280" width="975" height="20" fill="#D9D9D9" />

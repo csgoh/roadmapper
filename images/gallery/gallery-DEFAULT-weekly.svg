@@ -169,17 +169,17 @@
 <rect x="30" y="198" width="468.0" height="67" fill="#000000" />
 <text x="45" y="226.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Core Product Work Stream</text>
 <rect x="518" y="213" width="1544" height="20" fill="#D9D9D9" />
+<text x="1241.0" y="216.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Base Functionality</text>
 <rect x="2137" y="213" width="198" height="20" fill="#D9D9D9" />
 <text x="2196.0" y="217.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Enhancements</text>
 <path d="M774.5714285714286,210 L787.5714285714286,223.0 L774.5714285714286,236 L761.5714285714286,223.0" fill="#000000" />
 <text x="765.5714285714286" y="195" font-size="10" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">v.1.0</text>
 <path d="M1609.7857142857142,210 L1622.7857142857142,223.0 L1609.7857142857142,236 L1596.7857142857142,223.0" fill="#000000" />
 <text x="1600.7857142857142" y="195" font-size="10" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#000000">v.1.1</text>
-<text x="1241.0" y="216.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Base Functionality</text>
 <rect x="842" y="238" width="333" height="20" fill="#D9D9D9" />
+<text x="972.5" y="242.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Showcase #1</text>
 <rect x="1302" y="238" width="336" height="20" fill="#D9D9D9" />
 <text x="1434.0" y="242.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Showcase #2</text>
-<text x="972.5" y="242.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Showcase #1</text>
 <rect x="30" y="280" width="468.0" height="25" fill="#000000" />
 <text x="45" y="286.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Mobility Work Stream</text>
 <rect x="702" y="280" width="1633" height="20" fill="#D9D9D9" />

@@ -25,7 +25,7 @@
 <rect x="796.0" y="143" width="72.5" height="20" fill="#38761D" />
 <text x="821.75" y="146.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Aug</text>
 <rect x="870.0" y="143" width="72.5" height="20" fill="#38761D" />
-<text x="895.25" y="146.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Sep</text>
+<text x="893.75" y="146.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Sept</text>
 <rect x="944.0" y="143" width="72.5" height="20" fill="#38761D" />
 <text x="970.75" y="147.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Oct</text>
 <rect x="1018.0" y="143" width="72.5" height="20" fill="#38761D" />
@@ -46,17 +46,17 @@
 <rect x="30" y="198" width="228.0" height="67" fill="#38761D" />
 <text x="45" y="226.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Core Product Work Stream</text>
 <rect x="278" y="213" width="738" height="20" fill="#93C47D" />
+<text x="598.0" y="216.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Base Functionality</text>
 <rect x="1054" y="213" width="110" height="20" fill="#93C47D" />
 <text x="1069.0" y="217.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Enhancements</text>
 <path d="M390.25,210 L403.25,223.0 L390.25,236 L377.25,223.0" fill="#38761D" />
 <text x="381.25" y="195" font-size="10" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#38761D">v.1.0</text>
 <path d="M798.0,210 L811.0,223.0 L798.0,236 L785.0,223.0" fill="#38761D" />
 <text x="789.0" y="195" font-size="10" text-anchor="start" dominant-baseline="middle" font-family="Arial" stroke="#38761D">v.1.1</text>
-<text x="598.0" y="216.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Base Functionality</text>
 <rect x="426" y="238" width="162" height="20" fill="#93C47D" />
+<text x="471.0" y="242.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Showcase #1</text>
 <rect x="648" y="238" width="162" height="20" fill="#93C47D" />
 <text x="693.0" y="242.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Showcase #2</text>
-<text x="471.0" y="242.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Showcase #1</text>
 <rect x="30" y="280" width="228.0" height="25" fill="#38761D" />
 <text x="45" y="286.0" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Mobility Work Stream</text>
 <rect x="352" y="280" width="812" height="20" fill="#93C47D" />

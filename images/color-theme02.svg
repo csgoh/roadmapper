@@ -21,9 +21,9 @@
 <rect x="30" y="177" width="108.0" height="52" fill="#666666" />
 <text x="47.0" y="197.5" font-size="12" stroke="#FFFFFF" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Workstream 1</text>
 <rect x="158" y="177" width="137" height="20" fill="#D9D9D9" />
+<text x="202.5" y="181.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Task 1-A</text>
 <rect x="312" y="177" width="121" height="20" fill="#D9D9D9" />
 <text x="349.0" y="181.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Task 2-B</text>
-<text x="202.5" y="181.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Task 1-A</text>
 <rect x="262" y="202" width="102" height="20" fill="#D9D9D9" />
 <text x="289.0" y="206.5" font-size="12" stroke="#000000" text-anchor="start" dominant-baseline="hanging" font-family="Arial">Task 3-C</text>
 <rect x="30" y="244" width="108.0" height="79" fill="#666666" />
