@@ -461,7 +461,13 @@ class PNGPainter(Painter):
         """
         shape = super().draw_rounded_box(x, y, width, height, box_fill_colour)
         radius = 20
-        self.__cr.rounded_rectangle(shape, radius, fill=box_fill_colour)
+        self.__cr.rounded_rectangle(
+            shape,
+            radius=radius,
+            fill=box_fill_colour,
+            # width=1,
+            corners=(1, 1, 1, 1),
+        )
 
     def draw_arrowhead_box(
         self, x: int, y: int, width: int, height: int, box_fill_colour: str
