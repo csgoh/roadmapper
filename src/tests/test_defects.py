@@ -57,6 +57,39 @@ def test_defect_106b():
     roadmap.save("images/defects/issue-106b.png")
 
 
+@pytest.mark.unit
+def test_defect_113():
+    roadmap = Roadmap(
+        1000,
+        612,
+        auto_height=True,
+        colour_theme="BLUEMOUNTAIN",
+    )
+    roadmap.set_title("ROADMAP EXAMPLE")
+    roadmap.set_subtitle("This is a subtitle")
+    roadmap.set_timeline(
+        TimelineMode=TimelineMode.MONTHLY,
+        start="2025-06-01",
+        number_of_items=12,
+        show_generic_dates=False,
+    )
+
+    group = roadmap.add_group("Showcase Task Styles")
+
+    task = group.add_task("Rectangle Style", "2025-10-15", "2025-11-20")
+    task.add_milestone("v.1.0", "2025-11-01")
+    task = group.add_task("Rounded Style", "2025-11-05", "2025-12-20", style="rounded")
+    task.add_milestone("v.A", "2025-12-01")
+    task = group.add_task(
+        "Arrowhead Style", "2025-10-15", "2026-01-20", style="arrowhead"
+    )
+    task.add_milestone("v.2.0", "2025-10-18")
+
+    # roadmap.set_footer("Author: CS Goh " + datetime.now().strftime("%Y-%m-%d"))
+    roadmap.draw()
+    roadmap.save("images/defects/issue-113.png")
+
+
 if not os.path.exists("images"):
     os.mkdir("images")
 
