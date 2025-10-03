@@ -34,7 +34,7 @@ View the [Change Logs](https://github.com/csgoh/roadmapper/wiki/Change-Logs) to 
 
 ### Library Dependencies
 * python-dateutil >= 2.8.2
-* Pillow >= 10.3.0
+* Pillow >= 11.3.0
 * drawsvg >= 2.3.0
 * rich >= 13.7.1
 * ruff >= 0.2.1
