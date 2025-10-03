@@ -591,16 +591,8 @@ class Task:
         )
 
         if box_x != 0 and box_y != 0 and box_width > 0 and box_height != 0:
-            painter.draw_box(box_x, box_y, box_width, box_height, self.fill_colour)
-
-            # ** Fix for v1.4.1 - Draw milestone first before task text
-            for task in self.tasks:
-                task.draw(painter)
-
-            for milestone in self.milestones:
-                milestone.draw(painter)
-
-            painter.draw_text_on_box(
+            # painter.draw_box(box_x, box_y, box_width, box_height, self.fill_colour)
+            painter.draw_box_with_text(
                 box_x,
                 box_y,
                 box_width,
@@ -613,7 +605,30 @@ class Task:
                 self.font_colour,
                 style=self.style,
             )
-            # **
+
+            # ** Fix for v1.4.1 - Draw milestone first before task text
+            for task in self.tasks:
+                task.draw(painter)
+
+            for milestone in self.milestones:
+                milestone.draw(painter)
+
+            # # painter.draw_text_on_box(
+            # print(f"Draw {self.text}, style={self.style}")
+            # painter.draw_box_with_text(
+            #     box_x,
+            #     box_y,
+            #     box_width,
+            #     box_height,
+            #     self.fill_colour,
+            #     self.text,
+            #     self.text_alignment,
+            #     self.font,
+            #     self.font_size,
+            #     self.font_colour,
+            #     style=self.style,
+            # )
+            # # **
 
     def __enter__(self):
         """This method is called when the 'with' statement is used"""
