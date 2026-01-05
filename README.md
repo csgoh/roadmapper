@@ -38,10 +38,35 @@ View the [Change Logs](https://github.com/csgoh/roadmapper/wiki/Change-Logs) to 
 * drawsvg >= 2.3.0
 * rich >= 13.7.1
 * ruff >= 0.2.1
+* openai >= 1.0.0
 
 
 
 Any feedback or suggestions are welcome. Please feel free to create an issue or pull request.
+<br/>
+<hr>
+
+## AI Roadmap Generation
+You can now generate roadmap code from natural language descriptions using the `generate_roadmap_code` function.
+
+```python
+from roadmapper import generate_roadmap_code
+
+description = """
+Create a roadmap for a new product launch.
+The timeline should be monthly starting from 2024-01-01.
+Add a group for 'Development'.
+Add a task 'MVP' from 2024-01-01 to 2024-04-01 with a milestone 'Alpha Release' on 2024-03-01.
+Add a task 'Beta' from 2024-04-01 to 2024-06-01 with a milestone 'Public Beta' on 2024-05-15.
+"""
+
+api_key = "your-openai-api-key"
+code = generate_roadmap_code(description, api_key=api_key)
+print(code)
+
+# You can then execute the code:
+exec(code)
+```
 <br/>
 <hr>
 
